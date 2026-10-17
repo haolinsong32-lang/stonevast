@@ -61,6 +61,27 @@
   .dlbtn b{font-size:15px;display:block;}
   .dlbtn small{display:block;font-size:12px;color:var(--sub);font-weight:400;margin-top:2px;}
   .dlbtn.demo small{color:#0d1016cc;}
+.mrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:8px;margin-bottom:4px;}
+.mrow label{display:block;font-size:12px;color:var(--sub);margin-bottom:4px;}
+.mrow input,.mrow select{width:100%;background:#10141b;border:1px solid var(--line);color:var(--txt);border-radius:9px;padding:9px 11px;font-size:14px;}
+.mrow input:focus,.mrow select:focus{outline:none;border-color:var(--acc);}
+.mbtn{display:inline-block;background:var(--acc2);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;}
+.mbtn:hover{opacity:.85;}
+.mbtn.acc{background:linear-gradient(135deg,var(--acc),var(--warn));color:#0d1016;}
+.mout{margin-top:12px;background:#10141b;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.9;display:none;}
+.mout.show{display:block;}
+.mout b{color:var(--ok);}
+.mlink{color:var(--acc2);text-decoration:none;}
+.mlink:hover{text-decoration:underline;}
+.wherewrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+.whbox{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.9;}
+.whbox h3{font-size:13px;margin-bottom:6px;}
+.whbox.ok h3{color:var(--ok);}
+.whbox.no h3{color:#ff5d6c;}
+@media(max-width:600px){.wherewrap{grid-template-columns:1fr;}}
+#estChart{width:100%;height:220px;background:#10141b;border:1px solid var(--line);border-radius:12px;margin-top:12px;}
+.tips{font-size:13px;color:var(--sub);line-height:2;margin-top:12px;}
+.tips b{color:var(--txt);}
 </style>
 </head>
 <body>
@@ -97,6 +118,39 @@
     <div class="updated" style="margin-top:12px" data-i18n="dlNote">Single file, MIT license — in the repo: index.html → right-click "Save as" to keep your own copy.</div>
   </div>
 
+  <!-- 一键启动挖矿 -->
+  <div class="card" id="start">
+    <h2 data-i18n="stTitle">🚀 START MINING IN 60 SECONDS</h2>
+    <div class="steps" data-i18n-html="stSteps">
+      <b>①</b> Get an IRON wallet address (Iron Fish CLI, or a Gate.io deposit address).<br>
+      <b>②</b> Download lolMiner and unzip it.<br>
+      <b>③</b> Paste your address below → download your ready-to-run <b>start.bat</b> into the lolMiner folder → double-click. Mining.
+    </div>
+    <div class="mrow">
+      <div style="grid-column:1/-1"><label data-i18n="stWallet">Your IRON wallet address</label><input id="mWallet" placeholder="b88f8b..." spellcheck="false"></div>
+      <div><label data-i18n="stWorker">Worker name (optional)</label><input id="mWorker" placeholder="myrig" spellcheck="false"></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+      <button class="mbtn acc" onclick="genBat()" data-i18n="stGen">⬇ Generate my start.bat</button>
+      <button class="mbtn" onclick="checkBalance()" data-i18n="stBal">💰 Check my pool balance</button>
+    </div>
+    <div class="mout" id="balOut"></div>
+    <div class="tips" data-i18n-html="stTips">
+      <b>Mine faster:</b> lock core clock (~1200MHz on RTX laptops) · use off-peak power · compare coins on WhatToMine but verify live exchange prices first.<br>
+      <b>Our red line:</b> if daily net turns negative, our rig auto-stops. Yours should too.
+    </div>
+    <div class="wherewrap">
+      <div class="whbox ok">
+        <h3 data-i18n="stOkT">✅ Where you can play</h3>
+        <span data-i18n-html="stOkB">Pools: <a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners IRON</a> (plain port 1145) · f2pool (TLS)<br>Trade out: <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io</a> IRON/USDT<br>GPU: 4GB+ VRAM (FishHash algo)</span>
+      </div>
+      <div class="whbox no">
+        <h3 data-i18n="stNoT">⛔ Where you can't</h3>
+        <span data-i18n-html="stNoB">No mainland-China platforms/exchanges (compliance) · no "guaranteed return" schemes · never mine at a loss — power cost must stay below output.</span>
+      </div>
+    </div>
+  </div>
+
   <!-- 实时看板 -->
   <div class="card">
     <h2 data-i18n="dashTitle">📊 LIVE DASHBOARD · DAILY SNAPSHOT</h2>
@@ -107,6 +161,21 @@
       <div class="stat"><div class="v ok" id="vNet">--</div><div class="k" data-i18n="sNet">Net / day (after power)</div></div>
     </div>
     <div class="updated" id="vUpdated"></div>
+  </div>
+
+  <!-- 复利估算器 -->
+  <div class="card" id="est">
+    <h2 data-i18n="esTitle">📈 WHAT IF YOU RAN IT? · COMPOUND ESTIMATOR</h2>
+    <div class="mrow">
+      <div><label data-i18n="esHash">Hashrate (MH/s)</label><input id="eHash" type="number" value="20.43" step="any"></div>
+      <div><label data-i18n="esPower">Power (W)</label><input id="ePower" type="number" value="49" step="any"></div>
+      <div><label data-i18n="esElec">Power price (¥/kWh)</label><input id="eElec" type="number" value="0.55" step="any"></div>
+      <div><label data-i18n="esPrice">IRON price (¥)</label><input id="ePrice" type="number" value="0.80" step="any"></div>
+      <div><label data-i18n="esReinv">Reinvest into RTX 6000 Pro</label><select id="eReinv"><option value="0" data-i18n="esNo">No</option><option value="1" data-i18n="esYes">Yes — every ¥70,000 buys one (≈100 MH/s, 300W)</option></select></div>
+    </div>
+    <div class="mout show" id="estOut"></div>
+    <canvas id="estChart" width="760" height="220"></canvas>
+    <div class="hint" style="font-size:12px;color:var(--sub);margin-top:8px" data-i18n="esNote">Linear estimate from our live baseline (2.23 IRON/day @ 20.43 MH/s). Estimation only — not a promise of returns.</div>
   </div>
 
   <!-- 目标进度 -->
@@ -209,6 +278,17 @@ en:{
   dlNote:'Single file, MIT license — in the repo: index.html → right-click "Save as" to keep your own copy.',
   compTitle:'⚖ COMPLIANCE',
   compBody:'· No services offered within mainland China · One-level referral only, no pyramid structure<br>· No investment product, no promised returns; mining revenue shown is real and verifiable on the pool<br>· Nodes are responsible for their own local tax obligations · We reserve the right to remove abusive nodes',
+  stTitle:'🚀 START MINING IN 60 SECONDS',
+  stSteps:'<b>①</b> Get an IRON wallet address (Iron Fish CLI, or a Gate.io deposit address).<br><b>②</b> Download lolMiner and unzip it.<br><b>③</b> Paste your address below → download your ready-to-run <b>start.bat</b> into the lolMiner folder → double-click. Mining.',
+  stWallet:'Your IRON wallet address', stWorker:'Worker name (optional)',
+  stGen:'⬇ Generate my start.bat', stBal:'💰 Check my pool balance',
+  stTips:'<b>Mine faster:</b> lock core clock (~1200MHz on RTX laptops) · use off-peak power · compare coins on WhatToMine but verify live exchange prices first.<br><b>Our red line:</b> if daily net turns negative, our rig auto-stops. Yours should too.',
+  stOkT:'✅ Where you can play', stOkB:'Pools: <a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners IRON</a> (plain port 1145) · f2pool (TLS)<br>Trade out: <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io</a> IRON/USDT<br>GPU: 4GB+ VRAM (FishHash algo)',
+  stNoT:'⛔ Where you can\'t', stNoB:'No mainland-China platforms/exchanges (compliance) · no "guaranteed return" schemes · never mine at a loss — power cost must stay below output.',
+  esTitle:'📈 WHAT IF YOU RAN IT? · COMPOUND ESTIMATOR',
+  esHash:'Hashrate (MH/s)', esPower:'Power (W)', esElec:'Power price (¥/kWh)', esPrice:'IRON price (¥)', esReinv:'Reinvest into RTX 6000 Pro',
+  esNo:'No', esYes:'Yes — every ¥70,000 buys one (≈100 MH/s, 300W)',
+  esNote:'Linear estimate from our live baseline (2.23 IRON/day @ 20.43 MH/s). Estimation only — not a promise of returns.',
   footTag:'Small rig, honest numbers, compounding.', footNote:'Data snapshot updated daily · Not financial advice'
 },
 zh:{
@@ -240,6 +320,17 @@ zh:{
   dlNote:'单文件、MIT 协议——仓库内打开 index.html，右键"另存为"即可永久保存。',
   compTitle:'⚖ 合规声明',
   compBody:'· 不在中国大陆境内提供任何服务 · 仅一级推荐，无金字塔结构<br>· 非投资产品，不承诺收益；所展示挖矿收益真实、矿池可查<br>· 节点自行承担当地纳税义务 · 作弊节点将被移除',
+  stTitle:'🚀 60 秒一键启动挖矿',
+  stSteps:'<b>①</b> 准备一个 IRON 钱包地址（Iron Fish CLI，或 Gate.io 充值地址）。<br><b>②</b> 下载 lolMiner 并解压。<br><b>③</b> 在下方粘贴地址 → 下载专属 <b>start.bat</b> 放进 lolMiner 目录 → 双击运行，开挖。',
+  stWallet:'你的 IRON 钱包地址', stWorker:'矿机名（可选）',
+  stGen:'⬇ 生成我的 start.bat', stBal:'💰 查询我的矿池余额',
+  stTips:'<b>挖得更快：</b>锁定核心频率（RTX 本约 1200MHz）· 用谷电 · 上 WhatToMine 比价但先核对交易所实时价。<br><b>我们的红线：</b>日净收益一旦倒挂，矿机自动停机。你的也应该。',
+  stOkT:'✅ 哪里能玩', stOkB:'矿池：<a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners IRON</a>（明文 1145 端口）· f2pool（TLS）<br>变现：<a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io</a> IRON/USDT<br>显卡：4GB+ 显存（FishHash 算法）',
+  stNoT:'⛔ 哪里不能玩', stNoB:'不做中国大陆境内平台/交易所（合规）· 拒绝任何"保证收益"盘 · 永不亏本挖矿——电费必须低于产出。',
+  esTitle:'📈 如果你跑起来？· 复利估算器',
+  esHash:'算力 (MH/s)', esPower:'功耗 (W)', esElec:'电价 (¥/度)', esPrice:'IRON 价格 (¥)', esReinv:'复投买 RTX 6000 Pro',
+  esNo:'不复投', esYes:'复投 —— 每攒 ¥70,000 买一张（≈100 MH/s，300W）',
+  esNote:'按我们实测基线线性估算（2.23 IRON/天 @ 20.43 MH/s）。仅为估算——不构成收益承诺。',
   footTag:'小矿机，实数字，慢慢滚。', footNote:'数据每日快照更新 · 不构成投资建议'
 }};
 
@@ -270,7 +361,93 @@ function renderData(){
   $('vGoalNow').innerHTML = (en?'Saved: <b>':'已攒：<b>')+cny(D.savedCny??0)+' ≈ '+usd((D.savedCny??0)/rate)+'</b>';
   $('vGoalTarget').innerHTML = (en?'Target: <b>':'目标：<b>')+cny(D.targetCny??70000)+' ≈ '+usd((D.targetCny??70000)/rate)+'</b>';
   $('vGoalNote').textContent = (en?'Mining savings since ':'自 ')+(D.since||'2026-10-17')+(en?' · 96GB unlocks every PoW coin + AI workloads. Then: more cards, more hashrate.':' 起累计 · 96GB 显存解锁全部 PoW 币种 + AI 负载，然后：更多卡、更高算力。');
+  // 首次自动填充估算器（之后以用户输入为准）
+  if(!window._estInit){
+    window._estInit=1;
+    if(D.hashrate) $('eHash').value=(+D.hashrate).toFixed(2);
+    if(D.power) $('ePower').value=Math.round(+D.power);
+    if(D.priceUsd) $('ePrice').value=(+D.priceUsd*rate).toFixed(3);
+  }
+  est();
 }
+// ---- 一键启动挖矿 ----
+function genBat(){
+  const en=LANG==='en';
+  const w=($('mWallet').value||'').trim();
+  if(!w||w.length<20){ alert(en?'Paste your IRON wallet address first':'请先粘贴你的 IRON 钱包地址'); return; }
+  const wk=(($('mWorker').value||'myrig').trim().replace(/[^\w-]/g,'')||'myrig');
+  const bat='@echo off\r\nchcp 65001 >nul\r\nrem StoneVast one-click IRON miner (FishHash)\r\nrem Pool: HeroMiners plain port 1145\r\nset WALLET='+w+'\r\nset WORKER='+wk+'\r\nset POOL=ironfish.herominers.com:1145\r\ncd /d "%~dp0"\r\nlolMiner.exe --algo FISHHASH --pool %POOL% --user %WALLET%.%WORKER% --tls off --watchdog exit --apiport 4200\r\npause\r\n';
+  const b=new Blob([bat],{type:'text/plain'}); const a=document.createElement('a');
+  a.href=URL.createObjectURL(b); a.download='start-mining.bat'; a.click();
+}
+async function checkBalance(){
+  const en=LANG==='en';
+  const w=($('mWallet').value||'').trim();
+  const out=$('balOut');
+  if(!w||w.length<20){ alert(en?'Paste your IRON wallet address first':'请先粘贴你的 IRON 钱包地址'); return; }
+  out.className='mout show'; out.textContent=en?'Querying HeroMiners…':'正在查询 HeroMiners…';
+  try{
+    const r=await fetch('https://ironfish.herominers.com/api/v1/stats_address?address='+encodeURIComponent(w)+'&recentTicksAmount=6');
+    const j=await r.json();
+    const bal=(j.stats&&j.stats.balance!=null)?j.stats.balance:0;
+    const paid=(j.stats&&j.stats.paid!=null)?j.stats.paid:0;
+    out.innerHTML=(en?'Pool balance: <b>':'矿池余额：<b>')+bal+' IRON</b> · '+(en?'Total paid: <b>':'累计支付：<b>')+paid+' IRON</b><br>'+(en?'Estimate with your own numbers in the compound estimator below — hashrate beats wishes.':'用下方复利估算器代入你自己的数字——算力比愿望可靠。');
+  }catch(e){
+    out.innerHTML=(en?'Direct query blocked by browser — open your dashboard: ':'浏览器直连被拦，打开你的矿池面板：')+'<a class="mlink" target="_blank" rel="noopener" href="https://ironfish.herominers.com/?wallet='+encodeURIComponent(w)+'">HeroMiners dashboard →</a>';
+  }
+}
+// ---- 复利估算器 ----
+function est(){
+  const en=LANG==='en';
+  const D=window.SITE_DATA||{};
+  const H=parseFloat($('eHash').value)||0, Wp=parseFloat($('ePower').value)||0;
+  const EP=parseFloat($('eElec').value)||0, PP=parseFloat($('ePrice').value)||0;
+  const reinv=$('eReinv').value==='1';
+  if(H<=0||PP<=0){ $('estOut').innerHTML=''; drawEst([],0); return; }
+  const dayIron=2.23*H/20.43, elec=Wp*24/1000*EP, net=dayIron*PP-elec;
+  const goal=70000;
+  let html=(en?'Daily net: <b>':'日净收益：<b>')+(net>=0?'+':'')+'¥'+net.toFixed(2)+'</b> · '+(en?'Monthly ≈ <b>':'月净 ≈ <b>')+'¥'+(net*30).toFixed(0)+'</b>';
+  if(net>0){
+    html+='<br>'+(en?'Days to RTX 6000 Pro (¥70,000): <b>':'攒到 RTX 6000 Pro（¥7万）约需：<b>')+Math.ceil(goal/net)+(en?' days</b>':' 天</b>');
+  } else {
+    html+='<br><span style="color:#ff5d6c">'+(en?'Negative at these numbers — our rig would auto-stop. Adjust inputs.':'当前参数倒挂——我们的矿机会自动停机。请调整参数。')+'</span>';
+  }
+  const days=365; let bal=0, h=H, wp=Wp, cards=0; const ys=[];
+  let firstGoal=-1;
+  for(let i=1;i<=days;i++){
+    const dIron=2.23*h/20.43, dElec=wp*24/1000*EP, dNet=dIron*PP-dElec;
+    bal+=dNet; ys.push(bal);
+    if(firstGoal<0&&bal>=goal) firstGoal=i;
+    if(reinv&&bal>=goal){ bal-=goal; cards++; h+=100; wp+=300; }
+  }
+  if(reinv){
+    html+='<br>'+(en?'12-month projection with reinvestment: <b>':'复投模式 12 个月投影：<b>')+'¥'+Math.max(0,bal).toFixed(0)+'</b> + <b>'+cards+'</b> '+(en?'extra card(s) running (':'张额外显卡在跑（')+h.toFixed(0)+' MH/s)';
+  } else {
+    html+='<br>'+(en?'12-month cumulative: <b>':'12 个月累计：<b>')+'¥'+bal.toFixed(0)+'</b>';
+  }
+  if(firstGoal>0) html+='<br>'+(en?'First card reached on day <b>':'第一张卡在第 <b>')+firstGoal+(en?' </b>':' </b> 天达成');
+  $('estOut').innerHTML=html;
+  drawEst(ys, goal);
+}
+function drawEst(ys, goal){
+  const c=$('estChart'), x=c.getContext('2d');
+  const W=c.width, H=c.height; x.clearRect(0,0,W,H);
+  x.fillStyle='#10141b'; x.fillRect(0,0,W,H);
+  if(!ys.length){ return; }
+  const mn=Math.min(0,...ys), mx=Math.max(goal,...ys)*1.05;
+  const px=i=>30+(W-40)*i/(ys.length-1), py=v=>H-24-(H-40)*(v-mn)/(mx-mn||1);
+  x.strokeStyle='#f0a35e88'; x.setLineDash([5,4]); x.beginPath();
+  x.moveTo(px(0),py(goal)); x.lineTo(px(ys.length-1),py(goal)); x.stroke(); x.setLineDash([]);
+  x.fillStyle='#f0a35e'; x.font='11px sans-serif'; x.fillText('RTX 6000 Pro', 34, py(goal)-5);
+  x.strokeStyle='#2ecc8f'; x.lineWidth=2; x.beginPath();
+  ys.forEach((v,i)=>{ i?x.lineTo(px(i),py(v)):x.moveTo(px(i),py(v)); });
+  x.stroke();
+  x.lineTo(px(ys.length-1),py(mn)); x.lineTo(px(0),py(mn)); x.closePath();
+  x.fillStyle='#2ecc8f18'; x.fill();
+  x.fillStyle='#8b93a7'; x.font='11px sans-serif';
+  x.fillText('0',34,H-8); x.fillText('12mo',W-42,H-8);
+}
+['eHash','ePower','eElec','ePrice','eReinv'].forEach(id=>$(id).addEventListener('input',est));
 applyLang();
 </script>
 </body>
