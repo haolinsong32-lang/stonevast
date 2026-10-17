@@ -1,0 +1,1 @@
+window.SITE_DATA = {"updated":"2026-10-17 09:30:01 (UTC+8)","hashrate":20.44,"power":49,"priceUsd":0.075,"usdCny":7.12,"netDayCny":0.54,"savedCny":0.54,"targetCny":70000,"since":"2026-10-17"};
