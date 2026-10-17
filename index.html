@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StoneVast 石广 · Real Mining Revenue Workbench</title>
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;--warn:#ffb020;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px 80px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;}
+  .logo b{color:var(--acc);}
+  #langBtn{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer;}
+  #langBtn:hover{border-color:var(--acc);color:var(--txt);}
+  .hero{text-align:center;padding:56px 0 40px;}
+  .hero h1{font-size:clamp(30px,6vw,46px);font-weight:800;line-height:1.2;}
+  .hero h1 span{color:var(--acc);}
+  .hero p{color:var(--sub);margin-top:14px;font-size:15px;max-width:560px;margin-left:auto;margin-right:auto;}
+  .badge{display:inline-block;margin-top:18px;border:1px solid #2ecc8f55;color:var(--ok);border-radius:999px;padding:5px 14px;font-size:12px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;color:var(--acc);margin-bottom:14px;font-weight:700;letter-spacing:.5px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+  .stat{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;}
+  .stat .v{font-size:22px;font-weight:800;color:var(--txt);}
+  .stat .v.ok{color:var(--ok);}
+  .stat .k{font-size:12px;color:var(--sub);margin-top:4px;}
+  .updated{font-size:12px;color:var(--sub);margin-top:12px;text-align:right;}
+  .bar{height:14px;background:#10141b;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:10px 0 6px;}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--warn));border-radius:999px;}
+  .goalrow{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);}
+  .goalrow b{color:var(--txt);}
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;}
+  th{color:var(--sub);font-weight:600;font-size:12px;}
+  td b{color:var(--ok);}
+  .steps{font-size:14px;line-height:2.1;}
+  .steps b{color:var(--acc);}
+  .road{list-style:none;}
+  .road li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .road li:last-child{border-bottom:none;}
+  .road .dot{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--acc);color:var(--acc);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:2px;}
+  .road .done .dot{background:var(--ok);border-color:var(--ok);color:#0d1016;}
+  .tool{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  .tool a{flex:none;background:var(--acc2);color:#fff;text-decoration:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;}
+  .tool a:hover{opacity:.85;}
+  .compliance{font-size:12px;color:var(--sub);line-height:1.8;}
+  .foot{text-align:center;color:var(--sub);font-size:12px;margin-top:32px;line-height:2;}
+  .foot a{color:var(--acc2);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo"><b>⛏</b> <span data-i18n="brand">StoneVast 石广</span></div>
+    <button id="langBtn" onclick="switchLang()">中文</button>
+  </nav>
+
+  <div class="hero">
+    <h1 data-i18n-html="heroTitle">Real hardware. Real hashrate.<br><span>Real revenue.</span></h1>
+    <p data-i18n="heroSub">StoneVast is a transparent mining revenue workbench — every watt, every share and every cent is shown publicly, compounding toward an RTX 6000 Pro.</p>
+    <div class="badge" data-i18n="heroBadge">● Mining live · Positive net revenue</div>
+  </div>
+
+  <!-- 实时看板 -->
+  <div class="card">
+    <h2 data-i18n="dashTitle">📊 LIVE DASHBOARD · DAILY SNAPSHOT</h2>
+    <div class="grid">
+      <div class="stat"><div class="v">20.4 <small style="font-size:12px">MH/s</small></div><div class="k" data-i18n="sHash">Hashrate (IRON)</div></div>
+      <div class="stat"><div class="v">46 <small style="font-size:12px">W</small></div><div class="k" data-i18n="sPower">Power draw</div></div>
+      <div class="stat"><div class="v">$0.075</div><div class="k" data-i18n="sPrice">IRON price</div></div>
+      <div class="stat"><div class="v ok">+$0.08</div><div class="k" data-i18n="sNet">Net / day (after power)</div></div>
+    </div>
+    <div class="updated" data-i18n="sUpdated">Snapshot: 2026-10-17 09:30 (UTC+8) · Pool: HeroMiners · Auto-stop if revenue turns negative</div>
+  </div>
+
+  <!-- 目标进度 -->
+  <div class="card">
+    <h2 data-i18n="goalTitle">🎯 THE GOAL · RTX 6000 PRO (96GB)</h2>
+    <div class="bar"><i style="width:0.8%"></i></div>
+    <div class="goalrow"><span data-i18n-html="goalNow">Saved: <b>¥560 ≈ $78</b></span><span data-i18n-html="goalTarget">Target: <b>¥70,000 ≈ $10,000</b></span></div>
+    <div class="updated" data-i18n="goalNote">96GB unlocks every PoW coin + AI workloads. Then: more cards, more hashrate.</div>
+  </div>
+
+  <!-- 节点计划 -->
+  <div class="card">
+    <h2 data-i18n="nodeTitle">🌐 STONEVAST NODE PROGRAM</h2>
+    <div class="steps" data-i18n-html="nodeSteps">
+      Every user is a <b>Node</b> with a unique invite link.<br>
+      <b>① Genesis nodes (first 100):</b> 30% lifetime share of direct invites' paid revenue — locked during the free trial.<br>
+      <b>② Standard nodes:</b> 20% share.<br>
+      <b>③ Settlement:</b> monthly, ≥20 USDT, straight to your wallet, on-chain verifiable.<br>
+      <b>One level only.</b> No entry fee. No promised returns. Ever.
+    </div>
+    <table style="margin-top:14px">
+      <tr><th data-i18n="thTier">Tier</th><th data-i18n="thCond">Requirement</th><th data-i18n="thShare">Direct share</th></tr>
+      <tr><td data-i18n="tier1">Genesis (first 100)</td><td data-i18n="tier1c">Join in free trial + pass one challenge</td><td><b>30%</b></td></tr>
+      <tr><td data-i18n="tier2">Standard</td><td data-i18n="tier2c">After genesis quota</td><td>20%</td></tr>
+    </table>
+  </div>
+
+  <!-- 传递挑战 -->
+  <div class="card">
+    <h2 data-i18n="chTitle">🔥 THE PASS-IT-ON CHALLENGE</h2>
+    <div class="steps" data-i18n-html="chSteps">
+      ① Run one check with our free tool → ② Screenshot your "✅ passed" result → ③ Send it to one friend and invite them to continue.<br>
+      <b>Every new node = one more real rig.</b>
+    </div>
+  </div>
+
+  <!-- 路线图 -->
+  <div class="card">
+    <h2 data-i18n="roadTitle">🗺 ROADMAP</h2>
+    <ul class="road">
+      <li class="done"><span class="dot">✓</span><span data-i18n="r1">Mining live with positive net revenue (IRON, 20 MH/s)</span></li>
+      <li class="done"><span class="dot">✓</span><span data-i18n="r2">Public workbench website (this site) + free risk calculator tool</span></li>
+      <li><span class="dot">3</span><span data-i18n="r3">Free trial polish · daily auto-synced dashboard · node registry</span></li>
+      <li><span class="dot">4</span><span data-i18n="r4">Paid workbench edition · wallet-settled node shares</span></li>
+      <li><span class="dot">5</span><span data-i18n="r5">RTX 6000 Pro → more &amp; better cards · scale hashrate</span></li>
+    </ul>
+  </div>
+
+  <!-- 免费工具 -->
+  <div class="card">
+    <h2 data-i18n="toolTitle">🛠 FREE TOOL BY STONEVAST</h2>
+    <div class="tool">
+      <div>
+        <div style="font-weight:700" data-i18n="toolName">Perp Risk Guard — futures risk calculator</div>
+        <div style="font-size:13px;color:var(--sub)" data-i18n="toolDesc">20 seconds before every entry: liquidation, grid, scaled take-profit. Free forever, single file, bilingual.</div>
+      </div>
+      <a href="https://haolinsong32-lang.github.io/perp-risk-guard/" target="_blank" rel="noopener" data-i18n="toolBtn">Open free tool →</a>
+    </div>
+  </div>
+
+  <!-- 合规 -->
+  <div class="card">
+    <h2 data-i18n="compTitle">⚖ COMPLIANCE</h2>
+    <div class="compliance" data-i18n-html="compBody">
+      · No services offered within mainland China · One-level referral only, no pyramid structure<br>
+      · No investment product, no promised returns; mining revenue shown is real and verifiable on the pool<br>
+      · Nodes are responsible for their own local tax obligations · We reserve the right to remove abusive nodes
+    </div>
+  </div>
+
+  <div class="foot">
+    <div><b style="color:var(--acc)">StoneVast 石广</b> · <span data-i18n="footTag">Small rig, honest numbers, compounding.</span></div>
+    <div><a href="https://github.com/haolinsong32-lang/perp-risk-guard" target="_blank" rel="noopener">GitHub</a> · <span data-i18n="footNote">Data snapshot updated daily · Not financial advice</span></div>
+  </div>
+</div>
+
+<script>
+let LANG = localStorage.getItem('stonevast_lang') || '';
+const q = new URLSearchParams(location.search).get('lang');
+if(q==='en'||q==='zh') LANG=q;
+if(!LANG) LANG='en';
+localStorage.setItem('stonevast_lang',LANG);
+
+const I18N = {
+en:{
+  brand:'StoneVast 石广',
+  heroTitle:'Real hardware. Real hashrate.<br><span>Real revenue.</span>',
+  heroSub:'StoneVast is a transparent mining revenue workbench — every watt, every share and every cent is shown publicly, compounding toward an RTX 6000 Pro.',
+  heroBadge:'● Mining live · Positive net revenue',
+  dashTitle:'📊 LIVE DASHBOARD · DAILY SNAPSHOT',
+  sHash:'Hashrate (IRON)', sPower:'Power draw', sPrice:'IRON price', sNet:'Net / day (after power)',
+  sUpdated:'Snapshot: 2026-10-17 09:30 (UTC+8) · Pool: HeroMiners · Auto-stop if revenue turns negative',
+  goalTitle:'🎯 THE GOAL · RTX 6000 PRO (96GB)',
+  goalNow:'Saved: <b>¥560 ≈ $78</b>', goalTarget:'Target: <b>¥70,000 ≈ $10,000</b>',
+  goalNote:'96GB unlocks every PoW coin + AI workloads. Then: more cards, more hashrate.',
+  nodeTitle:'🌐 STONEVAST NODE PROGRAM',
+  nodeSteps:'Every user is a <b>Node</b> with a unique invite link.<br><b>① Genesis nodes (first 100):</b> 30% lifetime share of direct invites\' paid revenue — locked during the free trial.<br><b>② Standard nodes:</b> 20% share.<br><b>③ Settlement:</b> monthly, ≥20 USDT, straight to your wallet, on-chain verifiable.<br><b>One level only.</b> No entry fee. No promised returns. Ever.',
+  thTier:'Tier', thCond:'Requirement', thShare:'Direct share',
+  tier1:'Genesis (first 100)', tier1c:'Join in free trial + pass one challenge', tier2:'Standard', tier2c:'After genesis quota',
+  chTitle:'🔥 THE PASS-IT-ON CHALLENGE',
+  chSteps:'① Run one check with our free tool → ② Screenshot your "✅ passed" result → ③ Send it to one friend and invite them to continue.<br><b>Every new node = one more real rig.</b>',
+  roadTitle:'🗺 ROADMAP',
+  r1:'Mining live with positive net revenue (IRON, 20 MH/s)',
+  r2:'Public workbench website (this site) + free risk calculator tool',
+  r3:'Free trial polish · daily auto-synced dashboard · node registry',
+  r4:'Paid workbench edition · wallet-settled node shares',
+  r5:'RTX 6000 Pro → more & better cards · scale hashrate',
+  toolTitle:'🛠 FREE TOOL BY STONEVAST', toolName:'Perp Risk Guard — futures risk calculator',
+  toolDesc:'20 seconds before every entry: liquidation, grid, scaled take-profit. Free forever, single file, bilingual.',
+  toolBtn:'Open free tool →',
+  compTitle:'⚖ COMPLIANCE',
+  compBody:'· No services offered within mainland China · One-level referral only, no pyramid structure<br>· No investment product, no promised returns; mining revenue shown is real and verifiable on the pool<br>· Nodes are responsible for their own local tax obligations · We reserve the right to remove abusive nodes',
+  footTag:'Small rig, honest numbers, compounding.', footNote:'Data snapshot updated daily · Not financial advice'
+},
+zh:{
+  brand:'石广 StoneVast',
+  heroTitle:'真硬件 · 真算力<br><span>真收益</span>',
+  heroSub:'石广是一个全透明的挖矿收益工作台——每一瓦电、每一个份额、每一分钱都公开展示，复利滚向 RTX 6000 Pro。',
+  heroBadge:'● 挖矿进行中 · 净收益为正',
+  dashTitle:'📊 实时看板 · 每日快照',
+  sHash:'算力 (IRON)', sPower:'功耗', sPrice:'IRON 价格', sNet:'日净收益（扣电费）',
+  sUpdated:'快照：2026-10-17 09:30 (UTC+8) · 矿池 HeroMiners · 收益倒挂自动停机',
+  goalTitle:'🎯 目标 · RTX 6000 PRO（96GB）',
+  goalNow:'已攒：<b>¥560 ≈ $78</b>', goalTarget:'目标：<b>¥70,000 ≈ $10,000</b>',
+  goalNote:'96GB 显存解锁全部 PoW 币种 + AI 负载，然后：更多卡、更高算力。',
+  nodeTitle:'🌐 石广节点计划',
+  nodeSteps:'每个用户都是一个<b>节点</b>，拥有唯一邀请链接。<br><b>① 创世节点（前100名）：</b>直推付费收益 30% 永久锁定，免费期即可占位。<br><b>② 标准节点：</b>直推 20%。<br><b>③ 结算：</b>月度、满 20 USDT 起付、直达钱包、链上可查。<br><b>仅一级。</b>无入门费，永不承诺收益。',
+  thTier:'等级', thCond:'条件', thShare:'直推分成',
+  tier1:'创世节点（前100）', tier1c:'免费期加入 + 完成一次传递挑战', tier2:'标准节点', tier2c:'创世名额满后',
+  chTitle:'🔥 传递挑战',
+  chSteps:'① 用免费工具做一次自检 → ② 截图"✅ 通过"结果 → ③ 发给一位朋友接力。<br><b>每多一个节点，就多一台真实矿机。</b>',
+  roadTitle:'🗺 路线图',
+  r1:'挖矿上线，净收益为正（IRON，20 MH/s）',
+  r2:'公网工作台官网（本站）+ 免费风控计算器工具',
+  r3:'免费试用版打磨 · 看板每日自动同步 · 节点登记',
+  r4:'付费版工作台 · 节点分成钱包结算',
+  r5:'RTX 6000 Pro → 更多更好的卡 · 扩大算力',
+  toolTitle:'🛠 石广出品的免费工具', toolName:'Perp Risk Guard — 合约风控计算器',
+  toolDesc:'开仓前 20 秒：强平 / 网格 / 梯度止盈一次算清。永久免费、单文件、中英双语。',
+  toolBtn:'打开免费工具 →',
+  compTitle:'⚖ 合规声明',
+  compBody:'· 不在中国大陆境内提供任何服务 · 仅一级推荐，无金字塔结构<br>· 非投资产品，不承诺收益；所展示挖矿收益真实、矿池可查<br>· 节点自行承担当地纳税义务 · 作弊节点将被移除',
+  footTag:'小矿机，实数字，慢慢滚。', footNote:'数据每日快照更新 · 不构成投资建议'
+}};
+
+const T = k => I18N[LANG][k] || k;
+function switchLang(){ LANG = LANG==='en'?'zh':'en'; localStorage.setItem('stonevast_lang',LANG); applyLang(); }
+function applyLang(){
+  document.documentElement.lang = LANG==='en'?'en':'zh-CN';
+  document.title = LANG==='en' ? 'StoneVast 石广 · Real Mining Revenue Workbench' : '石广 StoneVast · 真实挖矿收益工作台';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = T(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{ el.innerHTML = T(el.dataset.i18nHtml); });
+  document.getElementById('langBtn').textContent = LANG==='en' ? '中文' : 'EN';
+}
+applyLang();
+</script>
+</body>
+</html>
