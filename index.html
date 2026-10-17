@@ -143,6 +143,10 @@
             ⚠️ OKX / MetaMask / X Layer addresses start with 0x — EVM chains cannot receive IRON. Mining to them = permanent loss.
           </div>
         </details>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="mbtn" style="background:#1c2128" onclick="genWalletBat()" data-i18n="addrGen">🔑 Create a real IRON wallet (local script)</button>
+          <a class="mbtn" style="background:#1c2128;text-decoration:none" href="https://ironfish.network" target="_blank" rel="noopener" data-i18n="addrOfficial">Official wallet site →</a>
+        </div>
       </div>
       <div><label for="mWorker" data-i18n="stWorker">Worker name (optional)</label><input id="mWorker" placeholder="myrig" spellcheck="false"></div>
     </div>
@@ -165,6 +169,7 @@
         <span data-i18n-html="stNoB">No mainland-China platforms/exchanges (compliance) · no "guaranteed return" schemes · never mine at a loss — power cost must stay below output.</span>
       </div>
     </div>
+    <div class="tips" data-i18n-html="addrCompat"><b>Address compatibility:</b> IRON mining needs an <b>Iron Fish</b> address (b88f8b… or a Gate.io IRON deposit address). OKX X Layer / MetaMask / Ethereum (0x…) ❌ · TRON ❌ · Bitcoin ❌ · Solana ❌ — different chains cannot receive each other's coins.</div>
   </div>
 
   <!-- 实时看板 -->
@@ -302,6 +307,8 @@ en:{
   addrDefault:'Iron Fish address (usually starts with b88f8b). An EVM address (0x…) cannot receive IRON.',
   addrHow:'No IRON address yet? 3 ways to get one →',
   addrHowBody:'<b>A. Easiest — exchange deposit address:</b> Gate.io → Deposit → search IRON → copy the address.<br><b>B. Desktop wallet:</b> ironfish.network → download → Create account → copy Address.<br><b>C. CLI:</b> npm i -g ironfish → ironfish wallet:create → ironfish wallet:address<br>⚠️ OKX / MetaMask / X Layer addresses start with 0x — EVM chains cannot receive IRON. Mining to them = permanent loss.',
+  addrGen:'🔑 Create a real IRON wallet (local script)', addrOfficial:'Official wallet site →',
+  addrCompat:'<b>Address compatibility:</b> IRON mining needs an <b>Iron Fish</b> address (b88f8b… or a Gate.io IRON deposit address). OKX X Layer / MetaMask / Ethereum (0x…) ❌ · TRON ❌ · Bitcoin ❌ · Solana ❌ — different chains cannot receive each other\'s coins.',
   stGen:'⬇ Generate my start.bat', stBal:'💰 Check my pool balance',
   stTips:'<b>Mine faster:</b> lock core clock (~1200MHz on RTX laptops) · use off-peak power · compare coins on WhatToMine but verify live exchange prices first.<br><b>Our red line:</b> if daily net turns negative, our rig auto-stops. Yours should too.',
   stOkT:'✅ Where you can play', stOkB:'Pools: <a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners IRON</a> (plain port 1145) · f2pool (TLS)<br>Trade out: <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io</a> IRON/USDT<br>GPU: 4GB+ VRAM (FishHash algo)',
@@ -349,6 +356,8 @@ zh:{
   addrDefault:'Iron Fish 地址（通常以 b88f8b 开头）。EVM 地址（0x…）收不到 IRON。',
   addrHow:'还没有 IRON 地址？三种获取方式 →',
   addrHowBody:'<b>A. 最省事——交易所充值地址：</b>Gate.io → 充值 → 搜 IRON → 复制地址。<br><b>B. 桌面钱包：</b>ironfish.network → 下载 → 创建账户 → 复制地址。<br><b>C. 命令行：</b>npm i -g ironfish → ironfish wallet:create → ironfish wallet:address<br>⚠️ OKX / MetaMask / X Layer 地址都是 0x 开头，属于 EVM 链，<b>无法接收 IRON</b>。挖到这类地址＝永久丢失。',
+  addrGen:'🔑 生成真实可用的 IRON 钱包（本地脚本）', addrOfficial:'官方钱包站点 →',
+  addrCompat:'<b>地址兼容性：</b>IRON 挖矿只认 <b>Iron Fish</b> 地址（b88f8b… 或 Gate.io 的 IRON 充值地址）。OKX X Layer / MetaMask / 以太坊（0x…）❌ · TRON ❌ · 比特币 ❌ · Solana ❌ —— 不同链之间无法互收。',
   stGen:'⬇ 生成我的 start.bat', stBal:'💰 查询我的矿池余额',
   stTips:'<b>挖得更快：</b>锁定核心频率（RTX 本约 1200MHz）· 用谷电 · 上 WhatToMine 比价但先核对交易所实时价。<br><b>我们的红线：</b>日净收益一旦倒挂，矿机自动停机。你的也应该。',
   stOkT:'✅ 哪里能玩', stOkB:'矿池：<a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners IRON</a>（明文 1145 端口）· f2pool（TLS）<br>变现：<a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io</a> IRON/USDT<br>显卡：4GB+ 显存（FishHash 算法）',
@@ -402,11 +411,47 @@ function addrCheck(w){
   const en=LANG==='en';
   const a=(w||'').trim();
   if(!a) return {ok:false,msg:en?'Paste your IRON wallet address first':'请先粘贴你的 IRON 钱包地址'};
-  if(/^0x[0-9a-fA-F]{40}$/.test(a)) return {ok:false,evm:true,msg:en?'❌ EVM address detected (OKX X Layer / Ethereum / BSC). IRON is a separate chain — mining to an EVM address means permanent loss. Use a Gate.io IRON deposit address or an Iron Fish wallet address.':'❌ 检测到 EVM 地址（OKX X Layer / 以太坊 / BSC）。IRON 是独立链，挖到 EVM 地址=收益永久丢失。请改用 Gate.io 的 IRON 充值地址或 Iron Fish 钱包地址。'};
-  if(/^0x/i.test(a)) return {ok:false,evm:true,msg:en?'❌ This looks like an EVM (0x…) address — IRON cannot be sent there.':'❌ 这看起来是 EVM（0x…）地址——IRON 无法转入。'};
-  if(/^b88f8b[0-9a-f]{40,}$/i.test(a)) return {ok:true,msg:en?'✅ Iron Fish address detected.':'✅ 已识别为 Iron Fish 地址。'};
-  if(/^[0-9a-f]{40,}$/i.test(a)) return {ok:true,msg:en?'⚠️ Raw hex address — make sure it came from an Iron Fish wallet or exchange deposit page.':'⚠️ 十六进制地址——请确认它来自 Iron Fish 钱包或交易所充值页。'};
-  return {ok:false,msg:en?'❌ Not an IRON address format. IRON addresses are long hex strings, usually starting with b88f8b.':'❌ 不是 IRON 地址格式。IRON 地址是很长的十六进制串，通常以 b88f8b 开头。'};
+  if(/^b88f8b[0-9a-f]{40,}$/i.test(a) || /^[0-9a-f]{40,}$/i.test(a))
+    return {ok:true,chain:'ironfish',msg:en?'✅ Iron Fish address detected — valid for IRON mining payouts.':'✅ 已识别为 Iron Fish 地址，可用于 IRON 挖矿收款。'};
+  if(/^0x[0-9a-fA-F]{40}$/.test(a))
+    return {ok:false,chain:'evm',msg:en?'❌ EVM address detected (OKX X Layer / Ethereum / BSC / Polygon). IRON runs on its own chain — mining to this address means permanent loss.':'❌ 检测到 EVM 地址（OKX X Layer / 以太坊 / BSC / Polygon）。IRON 是独立链，挖到该地址＝收益永久丢失。'};
+  if(/^0x/i.test(a))
+    return {ok:false,chain:'evm',msg:en?'❌ Looks like an EVM (0x…) address — IRON cannot be sent there.':'❌ 看起来是 EVM（0x…）地址——IRON 无法转入。'};
+  if(/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(a))
+    return {ok:false,chain:'tron',msg:en?'❌ TRON address detected — not compatible with IRON.':'❌ 检测到 TRON 地址——与 IRON 不兼容。'};
+  if(/^(bc1[a-z0-9]{25,62}|[13][1-9A-HJ-NP-Za-km-z]{25,34})$/.test(a))
+    return {ok:false,chain:'btc',msg:en?'❌ Bitcoin address detected — not compatible with IRON.':'❌ 检测到比特币地址——与 IRON 不兼容。'};
+  if(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(a))
+    return {ok:false,chain:'sol',msg:en?'❌ Looks like a Solana/base58 address — not compatible with IRON.':'❌ 看起来是 Solana/base58 地址——与 IRON 不兼容。'};
+  return {ok:false,chain:'other',msg:en?'❌ Not an IRON address format. IRON addresses are long hex strings, usually starting with b88f8b.':'❌ 不是 IRON 地址格式。IRON 地址是很长的十六进制串，通常以 b88f8b 开头。'};
+}
+function genWalletBat(){
+  const bat='@echo off\r\n'
+  +'chcp 65001 >nul\r\n'
+  +'title StoneVast - create a real Iron Fish wallet (keys stay on THIS machine)\r\n'
+  +'rem Keys are generated locally by the official CLI. Nothing is sent to us.\r\n'
+  +'where ironfish >nul 2>nul\r\n'
+  +'if errorlevel 1 (\r\n'
+  +'  echo.\r\n'
+  +'  echo [!] Iron Fish CLI not found.\r\n'
+  +'  echo     1^) Install Node.js 18+ from https://nodejs.org\r\n'
+  +'  echo     2^) Open a terminal and run:  npm i -g ironfish\r\n'
+  +'  echo     3^) Run this file again.\r\n'
+  +'  echo.\r\n'
+  +'  pause\r\n'
+  +'  exit /b 1\r\n'
+  +')\r\n'
+  +'echo Creating a new account. The keys are generated and stored on THIS machine.\r\n'
+  +'echo Follow the prompts ^(choose a name, write the mnemonic down offline^).\r\n'
+  +'ironfish wallet:create\r\n'
+  +'echo.\r\n'
+  +'echo === Your receiving address ===\r\n'
+  +'ironfish wallet:address\r\n'
+  +'echo.\r\n'
+  +'echo Keep the mnemonic offline. Never share it. Nobody legitimate will ask for it.\r\n'
+  +'pause\r\n';
+  const b=new Blob([bat],{type:'text/plain'}); const a=document.createElement('a');
+  a.href=URL.createObjectURL(b); a.download='创建IRON钱包.bat'; a.click();
 }
 function renderAddrHint(){
   const h=$('addrHint'); if(!h) return;
