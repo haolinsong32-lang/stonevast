@@ -48,19 +48,53 @@
   .compliance{font-size:12px;color:var(--sub);line-height:1.8;}
   .foot{text-align:center;color:var(--sub);font-size:12px;margin-top:32px;line-height:2;}
   .foot a{color:var(--acc2);text-decoration:none;}
+  .navlinks{display:flex;gap:10px;align-items:center;}
+  .ghlink{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;}
+  .ghlink:hover{border-color:var(--acc);}
+  .dlgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+  .dlbtn{display:flex;align-items:center;gap:12px;border-radius:14px;padding:16px 18px;text-decoration:none;color:var(--txt);border:1px solid var(--line);background:#10141b;transition:all .2s;}
+  .dlbtn:hover{transform:translateY(-2px);}
+  .dlbtn.gh{background:#1c2128;border-color:#444c56;}
+  .dlbtn.gh:hover{border-color:var(--acc);}
+  .dlbtn.demo{background:linear-gradient(135deg,var(--acc),var(--warn));color:#0d1016;border:none;font-weight:700;}
+  .dlbtn.demo:hover{opacity:.92;}
+  .dlbtn b{font-size:15px;display:block;}
+  .dlbtn small{display:block;font-size:12px;color:var(--sub);font-weight:400;margin-top:2px;}
+  .dlbtn.demo small{color:#0d1016cc;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav>
     <div class="logo"><b>⛏</b> <span data-i18n="brand">StoneVast 石广</span></div>
-    <button id="langBtn" onclick="switchLang()">中文</button>
+    <div class="navlinks">
+      <a class="ghlink" href="https://github.com/haolinsong32-lang/perp-risk-guard" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+      <button id="langBtn" onclick="switchLang()">中文</button>
+    </div>
   </nav>
 
   <div class="hero">
     <h1 data-i18n-html="heroTitle">Real hardware. Real hashrate.<br><span>Real revenue.</span></h1>
     <p data-i18n="heroSub">StoneVast is a transparent mining revenue workbench — every watt, every share and every cent is shown publicly, compounding toward an RTX 6000 Pro.</p>
     <div class="badge" data-i18n="heroBadge">● Mining live · Positive net revenue</div>
+  </div>
+
+  <!-- 下载入口 -->
+  <div class="card" id="download">
+    <h2 data-i18n="dlTitle">⬇ GET THE FREE TOOL</h2>
+    <div class="dlgrid">
+      <a class="dlbtn gh" href="https://github.com/haolinsong32-lang/perp-risk-guard" target="_blank" rel="noopener">
+        <svg width="28" height="28" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span><b data-i18n="dlRepo">GitHub Repository</b><small data-i18n="dlRepoSub">Star · Fork · Download the single-file app (index.html)</small></span>
+      </a>
+      <a class="dlbtn demo" href="https://haolinsong32-lang.github.io/perp-risk-guard/" target="_blank" rel="noopener">
+        <span><b data-i18n="dlDemo">Open Live Demo →</b><small data-i18n="dlDemoSub">No install · No signup · Works offline · 中文/EN</small></span>
+      </a>
+    </div>
+    <div class="updated" style="margin-top:12px" data-i18n="dlNote">Single file, MIT license — in the repo: index.html → right-click "Save as" to keep your own copy.</div>
   </div>
 
   <!-- 实时看板 -->
@@ -121,18 +155,6 @@
     </ul>
   </div>
 
-  <!-- 免费工具 -->
-  <div class="card">
-    <h2 data-i18n="toolTitle">🛠 FREE TOOL BY STONEVAST</h2>
-    <div class="tool">
-      <div>
-        <div style="font-weight:700" data-i18n="toolName">Perp Risk Guard — futures risk calculator</div>
-        <div style="font-size:13px;color:var(--sub)" data-i18n="toolDesc">20 seconds before every entry: liquidation, grid, scaled take-profit. Free forever, single file, bilingual.</div>
-      </div>
-      <a href="https://haolinsong32-lang.github.io/perp-risk-guard/" target="_blank" rel="noopener" data-i18n="toolBtn">Open free tool →</a>
-    </div>
-  </div>
-
   <!-- 合规 -->
   <div class="card">
     <h2 data-i18n="compTitle">⚖ COMPLIANCE</h2>
@@ -181,9 +203,10 @@ en:{
   r3:'Free trial polish · daily auto-synced dashboard · node registry',
   r4:'Paid workbench edition · wallet-settled node shares',
   r5:'RTX 6000 Pro → more & better cards · scale hashrate',
-  toolTitle:'🛠 FREE TOOL BY STONEVAST', toolName:'Perp Risk Guard — futures risk calculator',
-  toolDesc:'20 seconds before every entry: liquidation, grid, scaled take-profit. Free forever, single file, bilingual.',
-  toolBtn:'Open free tool →',
+  dlTitle:'⬇ GET THE FREE TOOL',
+  dlRepo:'GitHub Repository', dlRepoSub:'Star · Fork · Download the single-file app (index.html)',
+  dlDemo:'Open Live Demo →', dlDemoSub:'No install · No signup · Works offline · 中文/EN',
+  dlNote:'Single file, MIT license — in the repo: index.html → right-click "Save as" to keep your own copy.',
   compTitle:'⚖ COMPLIANCE',
   compBody:'· No services offered within mainland China · One-level referral only, no pyramid structure<br>· No investment product, no promised returns; mining revenue shown is real and verifiable on the pool<br>· Nodes are responsible for their own local tax obligations · We reserve the right to remove abusive nodes',
   footTag:'Small rig, honest numbers, compounding.', footNote:'Data snapshot updated daily · Not financial advice'
@@ -211,9 +234,10 @@ zh:{
   r3:'免费试用版打磨 · 看板每日自动同步 · 节点登记',
   r4:'付费版工作台 · 节点分成钱包结算',
   r5:'RTX 6000 Pro → 更多更好的卡 · 扩大算力',
-  toolTitle:'🛠 石广出品的免费工具', toolName:'Perp Risk Guard — 合约风控计算器',
-  toolDesc:'开仓前 20 秒：强平 / 网格 / 梯度止盈一次算清。永久免费、单文件、中英双语。',
-  toolBtn:'打开免费工具 →',
+  dlTitle:'⬇ 下载免费工具',
+  dlRepo:'GitHub 仓库', dlRepoSub:'Star · Fork · 下载单文件程序（index.html）',
+  dlDemo:'打开在线版 →', dlDemoSub:'免安装 · 免注册 · 离线可用 · 中英双语',
+  dlNote:'单文件、MIT 协议——仓库内打开 index.html，右键"另存为"即可永久保存。',
   compTitle:'⚖ 合规声明',
   compBody:'· 不在中国大陆境内提供任何服务 · 仅一级推荐，无金字塔结构<br>· 非投资产品，不承诺收益；所展示挖矿收益真实、矿池可查<br>· 节点自行承担当地纳税义务 · 作弊节点将被移除',
   footTag:'小矿机，实数字，慢慢滚。', footNote:'数据每日快照更新 · 不构成投资建议'
