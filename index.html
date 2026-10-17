@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StoneVast 石广 · Real Mining Revenue Workbench</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
 <style>
   :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;--warn:#ffb020;}
   *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
@@ -131,7 +132,7 @@
       <b>③</b> Paste your address below → download your ready-to-run <b>start.bat</b> into the lolMiner folder → double-click. Mining.
     </div>
     <div class="mrow">
-      <div style="grid-column:1/-1"><label data-i18n="stWallet">Your IRON wallet address</label><input id="mWallet" placeholder="b88f8b..." spellcheck="false">
+      <div style="grid-column:1/-1"><label for="mWallet" data-i18n="stWallet">Your IRON wallet address</label><input id="mWallet" placeholder="b88f8b..." spellcheck="false">
         <div id="addrHint" style="font-size:12px;color:var(--sub);margin-top:6px;line-height:1.7" data-i18n="addrDefault">Iron Fish address (usually starts with b88f8b). An EVM address (0x…) cannot receive IRON.</div>
         <details style="margin-top:8px;font-size:13px">
           <summary style="cursor:pointer;color:var(--acc2)" data-i18n="addrHow">No IRON address yet? 3 ways to get one →</summary>
@@ -143,7 +144,7 @@
           </div>
         </details>
       </div>
-      <div><label data-i18n="stWorker">Worker name (optional)</label><input id="mWorker" placeholder="myrig" spellcheck="false"></div>
+      <div><label for="mWorker" data-i18n="stWorker">Worker name (optional)</label><input id="mWorker" placeholder="myrig" spellcheck="false"></div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
       <button class="mbtn acc" onclick="genBat()" data-i18n="stGen">⬇ Generate my start.bat</button>
@@ -182,11 +183,11 @@
   <div class="card" id="est">
     <h2 data-i18n="esTitle">📈 WHAT IF YOU RAN IT? · COMPOUND ESTIMATOR</h2>
     <div class="mrow">
-      <div><label data-i18n="esHash">Hashrate (MH/s)</label><input id="eHash" type="number" value="20.43" step="any"></div>
-      <div><label data-i18n="esPower">Power (W)</label><input id="ePower" type="number" value="49" step="any"></div>
-      <div><label data-i18n="esElec">Power price (¥/kWh)</label><input id="eElec" type="number" value="0.55" step="any"></div>
-      <div><label data-i18n="esPrice">IRON price (¥)</label><input id="ePrice" type="number" value="0.80" step="any"></div>
-      <div><label data-i18n="esReinv">Reinvest into RTX 6000 Pro</label><select id="eReinv"><option value="0" data-i18n="esNo">No</option><option value="1" data-i18n="esYes">Yes — every ¥70,000 buys one (≈100 MH/s, 300W)</option></select></div>
+      <div><label for="eHash" data-i18n="esHash">Hashrate (MH/s)</label><input id="eHash" type="number" value="20.43" step="any"></div>
+      <div><label for="ePower" data-i18n="esPower">Power (W)</label><input id="ePower" type="number" value="49" step="any"></div>
+      <div><label for="eElec" data-i18n="esElec">Power price (¥/kWh)</label><input id="eElec" type="number" value="0.55" step="any"></div>
+      <div><label for="ePrice" data-i18n="esPrice">IRON price (¥)</label><input id="ePrice" type="number" value="0.80" step="any"></div>
+      <div><label for="eReinv" data-i18n="esReinv">Reinvest into RTX 6000 Pro</label><select id="eReinv"><option value="0" data-i18n="esNo">No</option><option value="1" data-i18n="esYes">Yes — every ¥70,000 buys one (≈100 MH/s, 300W)</option></select></div>
     </div>
     <div class="mout show" id="estOut"></div>
     <canvas id="estChart" width="760" height="220"></canvas>
@@ -456,7 +457,12 @@ function est(){
   const goal=70000;
   let html=(en?'Daily net: <b>':'日净收益：<b>')+(net>=0?'+':'')+'¥'+net.toFixed(2)+'</b> · '+(en?'Monthly ≈ <b>':'月净 ≈ <b>')+'¥'+(net*30).toFixed(0)+'</b>';
   if(net>0){
-    html+='<br>'+(en?'Days to RTX 6000 Pro (¥70,000): <b>':'攒到 RTX 6000 Pro（¥7万）约需：<b>')+Math.ceil(goal/net)+(en?' days</b>':' 天</b>');
+    const d=goal/net;
+    if(d<=3650){
+      html+='<br>'+(en?'Days to RTX 6000 Pro (¥70,000): <b>':'攒到 RTX 6000 Pro（¥7万）约需：<b>')+Math.ceil(d)+(en?' days</b>':' 天</b>');
+    } else {
+      html+='<br>'+(en?'Time to RTX 6000 Pro (¥70,000) at these numbers: <b>':'按当前参数攒到 RTX 6000 Pro（¥7万）需：<b>')+Math.round(d/365)+(en?' years</b> — add hashrate or cut power cost.':' 年</b> —— 需要加算力或降电价。');
+    }
   } else {
     html+='<br><span style="color:#ff5d6c">'+(en?'Negative at these numbers — our rig would auto-stop. Adjust inputs.':'当前参数倒挂——我们的矿机会自动停机。请调整参数。')+'</span>';
   }
