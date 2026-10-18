@@ -273,6 +273,30 @@
     <div class="hint" data-i18n="cvNote">Exchange rate is pulled from the same live feed as the dashboard. Small amounts are real too — 1.4786 IRON is what this rig has actually been paid.</div>
   </div>
 
+  <!-- AI 收益顾问 -->
+  <div class="card" id="ai">
+    <h2 data-i18n="aiTitle">🤖 YOUR AI MINING ADVISOR</h2>
+    <div class="hint" data-i18n="aiSub">Bring your own model. Your API key stays in this browser and is never sent to us.</div>
+    <div class="mrow">
+      <div><label for="aiProv" data-i18n="aiProvider">Provider</label>
+        <select id="aiProv">
+          <option value="deepseek">DeepSeek</option>
+          <option value="openai">OpenAI</option>
+          <option value="custom">Custom (OpenAI-compatible)</option>
+        </select>
+      </div>
+      <div><label for="aiKey" data-i18n="aiKey">API key (local only)</label><input id="aiKey" type="password" placeholder="sk-..." spellcheck="false"></div>
+      <div><label for="aiModel" data-i18n="aiModel">Model</label><input id="aiModel" placeholder="deepseek-chat" spellcheck="false"></div>
+      <div id="aiBaseWrap" style="display:none"><label for="aiBase" data-i18n="aiBase">Base URL</label><input id="aiBase" placeholder="https://api.example.com/v1" spellcheck="false"></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+      <button class="mbtn acc" onclick="aiAnalyze()" data-i18n="aiRun">Analyze my numbers</button>
+      <button class="mbtn" onclick="aiCopyPrompt()" data-i18n="aiCopy">Copy prompt instead</button>
+    </div>
+    <div class="mout" id="aiOut"></div>
+    <div class="hint" data-i18n="aiWarn">Use a read-only key with a spending limit. Never use a key that can withdraw funds.</div>
+  </div>
+
   <!-- 传递挑战 -->
   <div class="card">
     <h2 data-i18n="chTitle">🔥 THE PASS-IT-ON CHALLENGE</h2>
@@ -341,6 +365,11 @@ en:{
   f2t:'🔑 Your wallet', f2s:'Iron Fish address (b88f8b…), keys stay with you',
   f3t:'🔁 Gate.io', f3s:'Deposit on IRON mainnet, sell for USDT',
   f4t:'💵 Cash', f4s:'Withdraw USDT to your bank (KYC required)',
+  aiTitle:'🤖 YOUR AI MINING ADVISOR',
+  aiSub:'Bring your own model. Your API key stays in this browser and is never sent to us.',
+  aiProvider:'Provider', aiKey:'API key (local only)', aiModel:'Model', aiBase:'Base URL',
+  aiRun:'Analyze my numbers', aiCopy:'Copy prompt instead',
+  aiWarn:'Use a read-only key with a spending limit. Never use a key that can withdraw funds.',
   thTier:'Tier', thCond:'Requirement', thShare:'Direct share',
   tier1:'Genesis (first 100)', tier1c:'Join in free trial + pass one challenge', tier2:'Standard', tier2c:'After genesis quota',
   chTitle:'🔥 THE PASS-IT-ON CHALLENGE',
@@ -401,6 +430,11 @@ zh:{
   f2t:'🔑 你的钱包', f2s:'Iron Fish 地址（b88f8b…），私钥只在你手里',
   f3t:'🔁 Gate.io', f3s:'选择 IRON 主网充值，卖成 USDT',
   f4t:'💵 现金', f4s:'USDT 提现到银行卡（需 KYC）',
+  aiTitle:'🤖 你的 AI 挖矿顾问',
+  aiSub:'接入你自己的模型。API Key 只存在本浏览器，不会传给我们。',
+  aiProvider:'服务商', aiKey:'API Key（仅本地）', aiModel:'模型', aiBase:'接口地址',
+  aiRun:'分析我的数据', aiCopy:'改为复制提示词',
+  aiWarn:'请使用只读、有限额的 Key。不要使用带提现权限的 Key。',
   thTier:'等级', thCond:'条件', thShare:'直推分成',
   tier1:'创世节点（前100）', tier1c:'免费期加入 + 完成一次传递挑战', tier2:'标准节点', tier2c:'创世名额满后',
   chTitle:'🔥 传递挑战',
@@ -577,6 +611,68 @@ function conv(){
   const usd=n*(+D.priceUsd||0);
   $('cvOut').textContent='$'+usd.toFixed(4)+' ≈ ¥'+(usd*rate).toFixed(2);
 }
+// ---- AI 顾问（用户自带 Key，仅存本地）----
+const AI_PRESET={
+  deepseek:{base:'https://api.deepseek.com',model:'deepseek-chat'},
+  openai:{base:'https://api.openai.com/v1',model:'gpt-4o-mini'},
+  custom:{base:'',model:''}
+};
+function aiProviderChange(){
+  const p=$('aiProv').value, pre=AI_PRESET[p]||{};
+  $('aiBaseWrap').style.display = p==='custom'?'block':'none';
+  if(pre.model) $('aiModel').value=pre.model;
+  if(pre.base) $('aiBase').value=pre.base;
+  aiSave();
+}
+function aiSave(){
+  try{ localStorage.setItem('sv_ai', JSON.stringify({prov:$('aiProv').value,key:$('aiKey').value,model:$('aiModel').value,base:$('aiBase').value})); }catch(e){}
+}
+function aiLoad(){
+  try{
+    const s=JSON.parse(localStorage.getItem('sv_ai')||'{}');
+    if(s.prov) $('aiProv').value=s.prov;
+    if(s.key) $('aiKey').value=s.key;
+    if(s.model) $('aiModel').value=s.model;
+    if(s.base) $('aiBase').value=s.base;
+  }catch(e){}
+  aiProviderChange();
+}
+function aiPrompt(){
+  const D=window.SITE_DATA||{}, en=LANG==='en';
+  return en
+    ? `You are a mining profitability analyst. Live numbers from a real rig:\n- Hashrate: ${(+D.hashrate||0).toFixed(2)} MH/s\n- Power: ${D.power||49} W\n- Electricity: ¥0.55/kWh\n- IRON price: $${(+D.priceUsd||0).toFixed(4)}\n- Unpaid balance: ${(+D.balIron||0).toFixed(4)} IRON\n- Lifetime paid: ${(+D.paidIron||0).toFixed(4)} IRON\n- Daily net after power: ¥${(+D.netDayCny||0).toFixed(2)}\n- Goal: save ¥70,000 for an RTX 6000 Pro.\n\nAnswer in under 200 words, plain text:\n1) Should this rig keep mining at these numbers, and why.\n2) Three concrete ways to raise daily net.\n3) The break-even electricity price.\n4) A realistic time-to-goal and what must change.\nBe blunt. No promises, no hype.`
+    : `你是挖矿收益分析师。以下是真实矿机的实时数据：\n- 算力：${(+D.hashrate||0).toFixed(2)} MH/s\n- 功耗：${D.power||49} W\n- 电价：¥0.55/度\n- IRON 价格：$${(+D.priceUsd||0).toFixed(4)}\n- 未付余额：${(+D.balIron||0).toFixed(4)} IRON\n- 累计已付：${(+D.paidIron||0).toFixed(4)} IRON\n- 扣电费后日净：¥${(+D.netDayCny||0).toFixed(2)}\n- 目标：攒 ¥70,000 买 RTX 6000 Pro。\n\n请用中文、200 字以内、纯文本回答：\n1）这个数据下还应不应该继续挖，为什么。\n2）三个能提高日净收益的具体办法。\n3）盈亏平衡电价是多少。\n4）现实的目标达成时间，以及需要改变什么。\n直说，不承诺收益，不吹。`;
+}
+async function aiAnalyze(){
+  const en=LANG==='en', key=$('aiKey').value.trim(), out=$('aiOut');
+  out.className='mout show';
+  if(!key){ out.textContent=en?'Paste your API key first (or use "Copy prompt instead").':'请先填写 API Key（或点“改为复制提示词”）。'; return; }
+  aiSave();
+  const pre=AI_PRESET[$('aiProv').value]||{};
+  const base=($('aiBase').value.trim()||pre.base||'').replace(/\/+$/,'');
+  const model=$('aiModel').value.trim()||pre.model;
+  if(!base){ out.textContent=en?'Set a Base URL first.':'请先填写接口地址。'; return; }
+  out.textContent=en?'Thinking…':'正在分析…';
+  try{
+    const r=await fetch(base+'/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({model,temperature:0.4,max_tokens:600,messages:[{role:'user',content:aiPrompt()}]})
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const j=await r.json();
+    const txt=(j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content)||'';
+    out.textContent=txt||(en?'Empty response.':'模型返回为空。');
+  }catch(e){
+    out.innerHTML=(en?'Direct call blocked (CORS/network). Use "Copy prompt instead". ':'浏览器直连被拦截（CORS/网络）。请改用「复制提示词」。 ')+'<br><span style="color:#ff5d6c">'+String(e.message||e)+'</span>';
+  }
+}
+function aiCopyPrompt(){
+  navigator.clipboard.writeText(aiPrompt()).then(()=>{
+    const out=$('aiOut'); out.className='mout show';
+    out.textContent=LANG==='en'?'Prompt copied. Paste it into your own model.':'提示词已复制，粘贴到你自己的模型即可。';
+  });
+}
 // ---- 复利估算器 ----
 function est(){
   const en=LANG==='en';
@@ -636,7 +732,10 @@ function drawEst(ys, goal){
 ['eHash','ePower','eElec','ePrice','eReinv'].forEach(id=>$(id).addEventListener('input',est));
 $('mWallet').addEventListener('input',renderAddrHint);
 $('cvIron').addEventListener('input',conv);
+$('aiProv').addEventListener('change',aiProviderChange);
+['aiKey','aiModel','aiBase'].forEach(id=>$(id).addEventListener('input',aiSave));
 applyLang();
+aiLoad();
 </script>
 </body>
 </html>
