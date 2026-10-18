@@ -489,11 +489,17 @@ async function checkBalance(){
   const w=v;
   out.className='mout show'; out.textContent=en?'Querying HeroMiners…':'正在查询 HeroMiners…';
   try{
-    const resp=await fetch('https://ironfish.herominers.com/api/v1/stats_address?address='+encodeURIComponent(w)+'&recentTicksAmount=6');
+    const resp=await fetch('https://ironfish.herominers.com/api/stats_address?address='+encodeURIComponent(w));
     const j=await resp.json();
-    const bal=(j.stats&&j.stats.balance!=null)?j.stats.balance:0;
-    const paid=(j.stats&&j.stats.paid!=null)?j.stats.paid:0;
-    out.innerHTML=(en?'Pool balance: <b>':'矿池余额：<b>')+bal+' IRON</b> · '+(en?'Total paid: <b>':'累计支付：<b>')+paid+' IRON</b><br>'+(en?'Estimate with your own numbers in the compound estimator below — hashrate beats wishes.':'用下方复利估算器代入你自己的数字——算力比愿望可靠。');
+    const st=j.stats||{};
+    const bal=(+st.balance||0)/1e8;
+    const paid=(+st.paid||0)/1e8;
+    const hs=(+st.hashrate||0)/1e6;
+    const D=window.SITE_DATA||{};
+    const usd=bal*(+D.priceUsd||0);
+    out.innerHTML=(en?'Unpaid balance: <b>':'未付余额：<b>')+bal.toFixed(4)+' IRON</b> · '+(en?'Total paid: <b>':'累计已付：<b>')+paid.toFixed(4)+' IRON</b>'
+      +'<br>'+(en?'Current hashrate: <b>':'当前算力：<b>')+hs.toFixed(2)+' MH/s</b> · ≈ $'+usd.toFixed(4)
+      +'<br><a class="mlink" target="_blank" rel="noopener" href="https://ironfish.herominers.com/?wallet='+encodeURIComponent(w)+'">'+(en?'Verify on HeroMiners →':'在 HeroMiners 上核验 →')+'</a>';
   }catch(e){
     out.innerHTML=(en?'Direct query blocked by browser — open your dashboard: ':'浏览器直连被拦，打开你的矿池面板：')+'<a class="mlink" target="_blank" rel="noopener" href="https://ironfish.herominers.com/?wallet='+encodeURIComponent(w)+'">HeroMiners dashboard →</a>';
   }
