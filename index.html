@@ -30,6 +30,9 @@
   .hero h1 span{color:var(--acc);}
   .hero p{color:var(--sub);margin-top:14px;font-size:15px;max-width:560px;margin-left:auto;margin-right:auto;}
   .badge{display:inline-block;margin-top:18px;border:1px solid #2ecc8f55;color:var(--ok);border-radius:999px;padding:5px 14px;font-size:12px;}
+  .clock{font-variant-numeric:tabular-nums;font-size:30px;font-weight:800;color:var(--acc);margin-top:14px;letter-spacing:.5px;}
+  .clock small{font-size:13px;color:var(--sub);font-weight:500;margin-left:8px;letter-spacing:0;}
+  .clocklbl{font-size:11px;color:var(--sub);letter-spacing:2px;margin-top:2px;}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;transition:border-color .25s,box-shadow .25s;}
   .card:hover{border-color:#374054;box-shadow:0 6px 24px #00000033;}
   .card h2{font-size:15px;color:var(--acc);margin-bottom:14px;font-weight:700;letter-spacing:.5px;}
@@ -113,6 +116,7 @@
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
         GitHub
       </a>
+      <a class="ghlink" href="./guide.html" style="border-color:var(--acc);color:var(--acc)">📘 <span data-i18n="navGuide">说明 · Guide</span></a>
       <button id="langBtn" onclick="switchLang()">中文</button>
     </div>
   </nav>
@@ -121,6 +125,8 @@
     <h1 data-i18n-html="heroTitle">Real hardware. Real hashrate.<br><span>Real revenue.</span></h1>
     <p data-i18n="heroSub">StoneVast is a transparent mining revenue workbench — every watt, every share and every cent is shown publicly, compounding toward an RTX 6000 Pro.</p>
     <div class="badge" data-i18n="heroBadge">● Mining live · Positive net revenue</div>
+    <div class="clock"><span id="pcIron">0.000000</span> IRON <small id="pcCny">≈ ¥0.00</small></div>
+    <div class="clocklbl" data-i18n="clockLbl">TOTAL MINED · counting live</div>
   </div>
 
   <!-- 实时看板（首屏数据优先） -->
@@ -245,6 +251,15 @@
       <tr><td data-i18n="tier2">Standard</td><td data-i18n="tier2c">After genesis quota</td><td>20%</td></tr>
     </table>
     <div class="tips" data-i18n-html="nodePerks"><b>Node perks:</b> ① Genesis 100 → free Pro + 30% lifetime · ② Bring 1 real node → 50% off Pro · ③ Share an S-rank card → monthly Pro draw · ④ Submit your real rig data → featured on site + free Pro.</div>
+    <div style="display:flex;gap:16px;align-items:center;margin-top:14px;flex-wrap:wrap">
+      <a href="/assets/nft-001.svg" target="_blank" rel="noopener" style="flex:0 0 auto">
+        <img src="/assets/nft-001.svg" alt="StoneVast Genesis NFT #001" style="width:132px;height:132px;border-radius:12px;border:1px solid var(--line);display:block">
+      </a>
+      <div style="flex:1;min-width:240px">
+        <b data-i18n="nftTitle">🪨 Genesis NFT — identity, not investment</b>
+        <div class="hint" data-i18n-html="nftText" style="margin-top:6px">Each of the first 100 genesis nodes gets a <b>free</b> numbered NFT (#001–#100) minted on Polygon/Base — a verifiable on-chain proof of your node status. No price, no promised appreciation. Minting starts only after real nodes exist.</div>
+      </div>
+    </div>
   </div>
 
   <!-- 提现与核验路径 -->
@@ -298,6 +313,68 @@
     <div class="hint" data-i18n="aiWarn">Use a read-only key with a spending limit. Never use a key that can withdraw funds.</div>
   </div>
 
+  <!-- 锁核说明 -->
+  <div class="card" id="power">
+    <h2 data-i18n="pwTitle">⚙️ LOCKED CLOCK OR FULL POWER?</h2>
+    <div class="hint" data-i18n="pwSub">Pick your trade-off.</div>
+    <table>
+      <tr><th data-i18n="pwMode">Mode</th><th data-i18n="pwHash">Hashrate</th><th data-i18n="pwWatt">Power</th><th data-i18n="pwTemp">Temp</th><th data-i18n="pwNet">Net/day*</th></tr>
+      <tr><td data-i18n="pwA">Locked 1200 MHz</td><td>~14.5 MH/s</td><td>~40 W</td><td>~48°C</td><td>+¥0.31</td></tr>
+      <tr><td data-i18n="pwB">Balanced 1600 MHz</td><td>~15–18 MH/s</td><td>~46 W</td><td>~55°C</td><td>+¥0.45</td></tr>
+      <tr><td data-i18n="pwC">Full power</td><td>~20+ MH/s</td><td>~50–60 W</td><td>~60–68°C</td><td>+¥0.58</td></tr>
+    </table>
+    <div class="tips" data-i18n-html="pwTip">How to change.</div>
+    <div class="mrow" style="margin-top:14px">
+      <div><label for="fgpu" data-i18n="fitGpu">GPU preset</label>
+        <select id="fgpu" onchange="fitPreset()">
+          <option value="4090">RTX 4090 · 24GB · 28 MH/s · 80 W</option>
+          <option value="4080">RTX 4080 · 16GB · 22 MH/s · 55 W</option>
+          <option value="4070L">RTX 4070 Laptop · 8GB · 14.5 MH/s · 40 W</option>
+          <option value="4060">RTX 4060 · 8GB · 12 MH/s · 35 W</option>
+          <option value="3070">RTX 3070 · 8GB · 12 MH/s · 60 W</option>
+          <option value="3060">RTX 3060 · 12GB · 10 MH/s · 35 W</option>
+          <option value="2060">RTX 2060 · 6GB · 9 MH/s · 90 W</option>
+          <option value="1660">GTX 1660 · 6GB · 7 MH/s · 80 W</option>
+          <option value="1050">GTX 1050 Ti · 4GB · 4 MH/s · 75 W</option>
+          <option value="7900">RX 7900 XTX · 24GB · ~30 MH/s · 120 W*</option>
+          <option value="7900xt">RX 7900 XT · 20GB · ~26 MH/s · 100 W*</option>
+          <option value="7800">RX 7800 XT · 16GB · ~20 MH/s · 90 W*</option>
+          <option value="6800">RX 6800 XT · 16GB · ~19 MH/s · 100 W*</option>
+          <option value="6700">RX 6700 XT · 12GB · ~15 MH/s · 80 W*</option>
+          <option value="6600">RX 6600 · 8GB · ~10 MH/s · 60 W*</option>
+          <option value="580">RX 580 · 8GB · ~6 MH/s · 90 W*</option>
+          <option value="a100">A100 (datacenter) · 40GB · ~45 MH/s · 250 W*</option>
+          <option value="h100">H100 (datacenter) · 80GB · ~60 MH/s · 300 W*</option>
+          <option value="760">GTX 760 · 2GB · VRAM too small</option>
+          <option value="730">GT 730 · 2GB · VRAM too small</option>
+          <option value="custom" data-i18n="fitCustom">Custom</option>
+        </select>
+      </div>
+      <div><label for="fhash" data-i18n="fitHash">Hashrate (MH/s)</label><input id="fhash" type="number" step="any" value="14.5"></div>
+      <div><label for="fwatt" data-i18n="fitWatt">Power (W)</label><input id="fwatt" type="number" step="any" value="40"></div>
+      <div><label for="felec" data-i18n="fitElec">Electricity (¥/kWh)</label><input id="felec" type="number" step="any" value="0.55"></div>
+      <div><label for="fprice" data-i18n="fitPrice">IRON price (USDT)</label><input id="fprice" type="number" step="any" value="0.075"></div>
+    </div>
+    <button class="mbtn" onclick="fitCheck()" data-i18n="fitBtn">Check if it's worth running</button>
+    <div class="mout" id="fitOut"></div>
+  </div>
+
+  <!-- 节点协议 -->
+  <div class="card" id="agreement">
+    <h2 data-i18n="agTitle">📜 NODE AGREEMENT · READ BEFORE YOU JOIN</h2>
+    <div class="wherewrap">
+      <div class="whbox ok"><h3 data-i18n="agYesT">✅ What you can do</h3><div data-i18n-html="agYesB"></div></div>
+      <div class="whbox no"><h3 data-i18n="agNoT">⛔ What we never do</h3><div data-i18n-html="agNoB"></div></div>
+    </div>
+    <div class="steps" data-i18n-html="agTerms" style="margin-top:12px"></div>
+    <label for="agChk" style="display:flex;gap:8px;align-items:flex-start;margin-top:14px;font-size:13px;cursor:pointer">
+      <input type="checkbox" id="agChk" style="width:auto;margin-top:3px">
+      <span data-i18n="agCheck">I have read and agree.</span>
+    </label>
+    <button class="mbtn acc" style="margin-top:10px" onclick="agreeNode()" data-i18n="agBtn">Confirm</button>
+    <div class="mout" id="agOut"></div>
+  </div>
+
   <!-- 传递挑战 -->
   <div class="card">
     <h2 data-i18n="chTitle">🔥 THE PASS-IT-ON CHALLENGE</h2>
@@ -346,9 +423,11 @@ localStorage.setItem('stonevast_lang',LANG);
 const I18N = {
 en:{
   brand:'StoneVast 石广',
+  navGuide:'Guide',
   heroTitle:'Real hardware. Real hashrate.<br><span>Real revenue.</span>',
   heroSub:'StoneVast mines in public: real hashrate, pool-verified payouts and a pass-it-on node program. No promised returns — every number can be audited.',
   heroBadge:'● Mining live · Positive net revenue',
+  clockLbl:'TOTAL MINED · counting live',
   dashTitle:'📊 LIVE DASHBOARD · DAILY SNAPSHOT',
   sHash:'⚡ Hashrate (IRON)', sPower:'🔌 Power draw', sPrice:'💲 IRON price', sNet:'📈 Net / day (after power)', sPaid:'✅ Lifetime paid (pool-verified)',
   sUpdated:'Snapshot: 2026-10-17 09:30 (UTC+8) · Pool: HeroMiners · Auto-stop if revenue turns negative',
@@ -373,7 +452,9 @@ en:{
   aiWarn:'Use a read-only key with a spending limit. Never use a key that can withdraw funds.',
   thTier:'Tier', thCond:'Requirement', thShare:'Direct share',
   tier1:'Genesis (first 100)', tier1c:'Join in free trial + pass one challenge', tier2:'Standard', tier2c:'After genesis quota',
-  nodePerks:'<b>Node perks:</b> ① Genesis 100 → free Pro + 30% lifetime · ② Bring 1 real node → 50% off Pro · ③ Share an S-rank card → monthly Pro draw · ④ Submit your real rig data → featured on site + free Pro.',
+  nodePerks:'<b>Node perks:</b> ① Genesis 100 → free Pro + 30% lifetime · ② Bring 1 real node → 50% off Pro · ③ Share an S-rank card → monthly Pro draw · ④ Submit your real rig data → featured on site + free Pro · ⑤ Pro bought during pre-sale also counts toward node perks.',
+  nftTitle:'🪨 Genesis NFT — identity, not investment',
+  nftText:'Each of the first 100 genesis nodes gets a <b>free</b> numbered NFT (#001–#100) minted on Polygon/Base — a verifiable on-chain proof of your node status. No price, no promised appreciation. Minting starts only after real nodes exist.',
   chTitle:'🔥 THE PASS-IT-ON CHALLENGE',
   chSteps:'① Run one check with our free tool → ② Screenshot your "✅ passed" result → ③ Send it to one friend and invite them to continue.<br><b>Every new node = one more real rig.</b>',
   roadTitle:'🗺 ROADMAP',
@@ -392,6 +473,19 @@ en:{
   rankCtaBtn:'Generate my card →',
   compTitle:'⚖ COMPLIANCE',
   compBody:'· No services offered within mainland China · One-level referral only, no pyramid structure<br>· No investment product, no promised returns; mining revenue shown is real and verifiable on the pool<br>· Nodes are responsible for their own local tax obligations · We reserve the right to remove abusive nodes',
+  pwTitle:'⚙️ LOCKED CLOCK OR FULL POWER?',
+  pwSub:'Pick your trade-off: higher clocks = more hashrate = more heat and power.',
+  pwMode:'Mode', pwHash:'Hashrate', pwWatt:'Power', pwTemp:'Temp', pwNet:'Net/day*',
+  pwA:'Locked 1200 MHz', pwB:'Balanced 1600 MHz', pwC:'Full power',
+  pwTip:'<b>How to change:</b> edit <code>--cclk</code> in your start.bat (or remove it). Run 10 minutes and watch the temperature — above 75°C, go back. *Net = output minus electricity at live numbers; not a promise.',
+  agTitle:'📜 NODE AGREEMENT · READ BEFORE YOU JOIN',
+  agYesT:'✅ What you can do', agYesB:'Run your own rig · join one level of referral · get paid monthly to your wallet · publish your real numbers · ask us anything.',
+  agNoT:'⛔ What we never do', agNoB:'No entry fee · no multi-level pyramid · no guaranteed returns · no custody of your funds or keys · no promotion inside mainland China.',
+  agTerms:'<b>1. Payouts</b> — monthly, ≥20 USDT, straight to your wallet, on-chain verifiable.<br><b>2. Taxes</b> — you handle your own local tax; we do not withhold.<br><b>3. Data</b> — we only use your wallet address and referral stats; you may stay anonymous on the public wall.<br><b>4. Termination</b> — abusive or fake-volume nodes are removed.<br><b>5. Risk</b> — mining revenue depends on coin price and electricity; it can go to zero.',
+  agCheck:'I have read and agree: one level only, no guaranteed returns, I handle my own taxes, and I will not promote this in mainland China.',
+  agBtn:'Confirm & get my node checklist',
+  fitGpu:'GPU preset', fitCustom:'Custom', fitHash:'Hashrate (MH/s)', fitWatt:'Power (W)',
+  fitElec:'Electricity (¥/kWh)', fitPrice:'IRON price (USDT)', fitBtn:'Check if it is worth running',
   stTitle:'🚀 START MINING IN 60 SECONDS',
   stSteps:'<b>①</b> Get an IRON wallet address (Iron Fish CLI, or a Gate.io deposit address).<br><b>②</b> Download lolMiner and unzip it.<br><b>③</b> Paste your address below → download your ready-to-run <b>start.bat</b> into the lolMiner folder → double-click. Mining.',
   stWallet:'Your IRON wallet address', stWorker:'Worker name (optional)',
@@ -412,9 +506,11 @@ en:{
 },
 zh:{
   brand:'石广 StoneVast',
+  navGuide:'说明',
   heroTitle:'真硬件 · 真算力<br><span>真收益</span>',
   heroSub:'石广把挖矿放在阳光下：真实算力、矿池可查的收益、可传递的节点计划。不承诺收益，每个数字都能自己核验。',
   heroBadge:'● 挖矿进行中 · 净收益为正',
+  clockLbl:'累计产出 · 实时跳动',
   dashTitle:'📊 实时看板 · 每日快照',
   sHash:'⚡ 算力 (IRON)', sPower:'🔌 功耗', sPrice:'💲 IRON 价格', sNet:'📈 日净收益（扣电费）', sPaid:'✅ 累计已付（矿池可查）',
   sUpdated:'快照：2026-10-17 09:30 (UTC+8) · 矿池 HeroMiners · 收益倒挂自动停机',
@@ -439,7 +535,9 @@ zh:{
   aiWarn:'请使用只读、有限额的 Key。不要使用带提现权限的 Key。',
   thTier:'等级', thCond:'条件', thShare:'直推分成',
   tier1:'创世节点（前100）', tier1c:'免费期加入 + 完成一次传递挑战', tier2:'标准节点', tier2c:'创世名额满后',
-  nodePerks:'<b>节点权益：</b>① 创世前 100 → Pro 免费 + 30% 永久分成 · ② 带来 1 个真实节点 → Pro 五折 · ③ 分享 S 段位卡片 → 参与每月 Pro 抽奖 · ④ 提交你的真实矿机数据 → 官网展示 + Pro 免费。',
+  nodePerks:'<b>节点权益：</b>① 创世前 100 → Pro 免费 + 30% 永久分成 · ② 带来 1 个真实节点 → Pro 五折 · ③ 分享 S 段位卡片 → 参与每月 Pro 抽奖 · ④ 提交你的真实矿机数据 → 官网展示 + Pro 免费 · ⑤ 预售期购买 Pro 同样计入节点权益。',
+  nftTitle:'🪨 创世 NFT —— 身份凭证，不是投资品',
+  nftText:'前 100 名创世节点各获一枚<b>免费</b>编号 NFT（#001–#100），铸造于 Polygon/Base 链，作为节点身份的链上可验证凭证。零价格、不承诺升值。真实节点出现后才开始铸造。',
   chTitle:'🔥 传递挑战',
   chSteps:'① 用免费工具做一次自检 → ② 截图"✅ 通过"结果 → ③ 发给一位朋友接力。<br><b>每多一个节点，就多一台真实矿机。</b>',
   roadTitle:'🗺 路线图',
@@ -458,6 +556,19 @@ zh:{
   rankCtaBtn:'生成我的卡片 →',
   compTitle:'⚖ 合规声明',
   compBody:'· 不在中国大陆境内提供任何服务 · 仅一级推荐，无金字塔结构<br>· 非投资产品，不承诺收益；所展示挖矿收益真实、矿池可查<br>· 节点自行承担当地纳税义务 · 作弊节点将被移除',
+  pwTitle:'⚙️ 锁核还是满血？',
+  pwSub:'自己选权衡：频率越高 = 算力越高 = 更热更费电。',
+  pwMode:'模式', pwHash:'算力', pwWatt:'功耗', pwTemp:'温度', pwNet:'日净*',
+  pwA:'锁核 1200 MHz', pwB:'均衡 1600 MHz', pwC:'满血',
+  pwTip:'<b>怎么改：</b>编辑 start.bat 里的 <code>--cclk</code>（或直接删掉）。先跑 10 分钟看温度——超过 75°C 就退回去。*日净 = 产出减电费，按实时数据估算，不是收益承诺。',
+  agTitle:'📜 节点协议 · 加入前请读',
+  agYesT:'✅ 你可以做', agYesB:'运行自己的矿机 · 参与一级推荐 · 每月收款到钱包 · 公开你的真实数据 · 随时提问。',
+  agNoT:'⛔ 我们绝不做', agNoB:'不收门槛费 · 不做多级金字塔 · 不承诺收益 · 不托管你的资金或私钥 · 不在中国大陆境内推广。',
+  agTerms:'<b>1. 结算</b> —— 月结、满 20 USDT、直达钱包、链上可查。<br><b>2. 税务</b> —— 你自行申报当地税务，我们不代扣。<br><b>3. 数据</b> —— 我们只使用你的钱包地址与推荐统计；公开榜单可匿名。<br><b>4. 终止</b> —— 作弊或刷量的节点会被移除。<br><b>5. 风险</b> —— 挖矿收益取决于币价与电价，可能归零。',
+  agCheck:'我已阅读并同意：仅一级、不承诺收益、自行纳税、不在中国大陆境内推广。',
+  agBtn:'确认并领取节点清单',
+  fitGpu:'显卡预设', fitCustom:'自定义', fitHash:'算力 (MH/s)', fitWatt:'功耗 (W)',
+  fitElec:'电价 (¥/度)', fitPrice:'IRON 币价 (USDT)', fitBtn:'测算值不值得跑',
   stTitle:'🚀 60 秒一键启动挖矿',
   stSteps:'<b>①</b> 准备一个 IRON 钱包地址（Iron Fish CLI，或 Gate.io 充值地址）。<br><b>②</b> 下载 lolMiner 并解压。<br><b>③</b> 在下方粘贴地址 → 下载专属 <b>start.bat</b> 放进 lolMiner 目录 → 双击运行，开挖。',
   stWallet:'你的 IRON 钱包地址', stWorker:'矿机名（可选）',
@@ -643,8 +754,8 @@ function aiLoad(){
 function aiPrompt(){
   const D=window.SITE_DATA||{}, en=LANG==='en';
   return en
-    ? `You are a mining profitability analyst. Live numbers from a real rig:\n- Hashrate: ${(+D.hashrate||0).toFixed(2)} MH/s\n- Power: ${D.power||49} W\n- Electricity: ¥0.55/kWh\n- IRON price: $${(+D.priceUsd||0).toFixed(4)}\n- Unpaid balance: ${(+D.balIron||0).toFixed(4)} IRON\n- Lifetime paid: ${(+D.paidIron||0).toFixed(4)} IRON\n- Daily net after power: ¥${(+D.netDayCny||0).toFixed(2)}\n- Goal: save ¥70,000 for an RTX 6000 Pro.\n\nAnswer in under 200 words, plain text:\n1) Should this rig keep mining at these numbers, and why.\n2) Three concrete ways to raise daily net.\n3) The break-even electricity price.\n4) A realistic time-to-goal and what must change.\nBe blunt. No promises, no hype.`
-    : `你是挖矿收益分析师。以下是真实矿机的实时数据：\n- 算力：${(+D.hashrate||0).toFixed(2)} MH/s\n- 功耗：${D.power||49} W\n- 电价：¥0.55/度\n- IRON 价格：$${(+D.priceUsd||0).toFixed(4)}\n- 未付余额：${(+D.balIron||0).toFixed(4)} IRON\n- 累计已付：${(+D.paidIron||0).toFixed(4)} IRON\n- 扣电费后日净：¥${(+D.netDayCny||0).toFixed(2)}\n- 目标：攒 ¥70,000 买 RTX 6000 Pro。\n\n请用中文、200 字以内、纯文本回答：\n1）这个数据下还应不应该继续挖，为什么。\n2）三个能提高日净收益的具体办法。\n3）盈亏平衡电价是多少。\n4）现实的目标达成时间，以及需要改变什么。\n直说，不承诺收益，不吹。`;
+    ? `You are a mining profitability analyst. Live numbers from a real rig:\n- Hashrate: ${(+D.hashrate||0).toFixed(2)} MH/s\n- Power: ${D.power||49} W\n- Electricity: ¥${parseFloat($('felec').value)||0.55}/kWh\n- IRON price: $${(+D.priceUsd||0).toFixed(4)}\n- Unpaid balance: ${(+D.balIron||0).toFixed(4)} IRON\n- Lifetime paid: ${(+D.paidIron||0).toFixed(4)} IRON\n- Daily net after power: ¥${(+D.netDayCny||0).toFixed(2)}\n- Goal: save ¥70,000 for an RTX 6000 Pro.\n\nAnswer in under 200 words, plain text. Start with one line: RUN / MARGINAL / DO NOT RUN.\n1) Should this rig keep mining at these numbers, and why.\n2) Three concrete ways to raise daily net.\n3) The break-even electricity price.\n4) A realistic time-to-goal and what must change.\nBe blunt. No promises, no hype.`
+    : `你是挖矿收益分析师。以下是真实矿机的实时数据：\n- 算力：${(+D.hashrate||0).toFixed(2)} MH/s\n- 功耗：${D.power||49} W\n- 电价：¥${parseFloat($('felec').value)||0.55}/度\n- IRON 价格：$${(+D.priceUsd||0).toFixed(4)}\n- 未付余额：${(+D.balIron||0).toFixed(4)} IRON\n- 累计已付：${(+D.paidIron||0).toFixed(4)} IRON\n- 扣电费后日净：¥${(+D.netDayCny||0).toFixed(2)}\n- 目标：攒 ¥70,000 买 RTX 6000 Pro。\n\n请用中文、200 字以内、纯文本回答，第一行先给结论：继续挖 / 边缘 / 不要做。\n1）这个数据下还应不应该继续挖，为什么。\n2）三个能提高日净收益的具体办法。\n3）盈亏平衡电价是多少。\n4）现实的目标达成时间，以及需要改变什么。\n直说，不承诺收益，不吹。`;
 }
 async function aiAnalyze(){
   const en=LANG==='en', key=$('aiKey').value.trim(), out=$('aiOut');
@@ -737,8 +848,67 @@ $('mWallet').addEventListener('input',renderAddrHint);
 $('cvIron').addEventListener('input',conv);
 $('aiProv').addEventListener('change',aiProviderChange);
 ['aiKey','aiModel','aiBase'].forEach(id=>$(id).addEventListener('input',aiSave));
+function fitPreset(){
+  const M={'4090':[28,80,24],'4080':[22,55,16],'4070L':[14.5,40,8],'4060':[12,35,8],'3070':[12,60,8],'3060':[10,35,12],'2060':[9,90,6],'1660':[7,80,6],'1050':[4,75,4],'7900':[30,120,24],'7900xt':[26,100,20],'7800':[20,90,16],'6800':[19,100,16],'6700':[15,80,12],'6600':[10,60,8],'580':[6,90,8],'a100':[45,250,40],'h100':[60,300,80],'760':[0,0,2],'730':[0,0,2]};
+  const v=$('fgpu').value, m=M[v];
+  if(!m) return;
+  const out=$('fitOut');
+  if(m[2]<5){
+    out.className='mout show';
+    out.innerHTML=LANG==='en'?'⛔ VRAM too small: FishHash needs at least 4.6 GB. This card cannot mine IRON.':'⛔ 显存不足：FishHash 至少需要 4.6GB。这张卡无法挖 IRON。';
+    return;
+  }
+  $('fhash').value=m[0]; $('fwatt').value=m[1];
+  const isAmd=['7900','7900xt','7800','6800','6700','6600','580','a100','h100'].includes(v);
+  out.className=isAmd?'mout show':'mout';
+  out.innerHTML=isAmd?(LANG==='en'?'* Reference only — lolMiner support for AMD / datacenter cards must be verified on your own rig.':'* 参考值：lolMiner 对 AMD / 商用卡的支持需在你本机实测确认。'):'';
+}
+function fitCheck(){
+  const en=LANG==='en';
+  const H=parseFloat($('fhash').value)||0, W=parseFloat($('fwatt').value)||0;
+  const EP=parseFloat($('felec').value)||0, PP=parseFloat($('fprice').value)||0;
+  const out=$('fitOut'), rate=7.12;
+  if(H<=0||W<=0||EP<=0||PP<=0){ out.className='mout show'; out.textContent=en?'Fill in all fields.':'请填写完整参数。'; return; }
+  if(EP>1.2){ out.className='mout show'; out.innerHTML=en?'⛔ Electricity above ¥1.20/kWh — do NOT run. Power cost alone will eat the entire output.':'⛔ 电价高于 ¥1.20/kWh——不要做。仅电费就会吃掉全部产出。'; return; }
+  const ironDay=2.23*H/20.43;
+  const rev=ironDay*PP*rate, cost=W*24/1000*EP, net=rev-cost;
+  const bePrice=cost/(ironDay*rate), beElec=rev/(W*24/1000);
+  let verdict,color;
+  if(net>0.1){ verdict=en?'✅ Worth running at these numbers.':'✅ 按这组参数可以跑。'; color='#2ecc8f'; }
+  else if(net>0){ verdict=en?'⚠️ Marginal — under ¥0.10/day. Try cheaper power or a better coin.':'⚠️ 边缘：日净不足 ¥0.10，建议换谷电或更高收益币种。'; color='#ffb020'; }
+  else { verdict=en?'⛔ Do NOT run — you are losing money at these numbers.':'⛔ 不要做：按这组参数你在亏钱。'; color='#ff5d6c'; }
+  out.className='mout show';
+  out.innerHTML=(en
+    ? `Output <b>${ironDay.toFixed(2)} IRON/day</b> · Revenue <b>¥${rev.toFixed(2)}</b> · Power <b>¥${cost.toFixed(2)}</b> · Net <b>¥${net.toFixed(2)}/day</b><br>Break-even price <b>$${bePrice.toFixed(3)}</b> · Break-even electricity <b>¥${beElec.toFixed(2)}/kWh</b><br><b style="color:${color}">${verdict}</b>`
+    : `产出 <b>${ironDay.toFixed(2)} IRON/天</b> · 收入 <b>¥${rev.toFixed(2)}</b> · 电费 <b>¥${cost.toFixed(2)}</b> · 日净 <b>¥${net.toFixed(2)}</b><br>盈亏平衡币价 <b>$${bePrice.toFixed(3)}</b> · 盈亏平衡电价 <b>¥${beElec.toFixed(2)}/kWh</b><br><b style="color:${color}">${verdict}</b>`);
+}
+function agreeNode(){
+  const c=$('agChk'), out=$('agOut'), en=LANG==='en';
+  if(!c.checked){ out.className='mout show'; out.textContent=en?'Please read and tick the box first.':'请先阅读并勾选确认。'; return; }
+  localStorage.setItem('sv_node_agreed', new Date().toISOString());
+  out.className='mout show';
+  out.innerHTML=en
+    ? '✅ Agreement recorded in this browser (not sent to us).<br>Next: email <b>haolinsong32@gmail.com</b> with your IRON wallet address — you will get a node ID and your referral link.'
+    : '✅ 已在本浏览器记录你的确认（不会上传）。<br>下一步：把 IRON 钱包地址发到 <b>haolinsong32@gmail.com</b>，领取节点编号与专属邀请链接。';
+}
+let _pcBase=0,_pcRate=0,_pcT0=Date.now();
+function initClock(){
+  const D=window.SITE_DATA||{};
+  _pcBase=(+D.paidIron||0)+(+D.balIron||0);
+  _pcRate=2.23*((+D.hashrate||0)/20.43)/86400;
+  _pcT0=Date.now();
+  setInterval(tickClock,200); tickClock();
+}
+function tickClock(){
+  const el=$('pcIron'); if(!el) return;
+  const v=_pcBase+_pcRate*((Date.now()-_pcT0)/1000);
+  el.textContent=v.toFixed(6);
+  const D=window.SITE_DATA||{};
+  const c=$('pcCny'); if(c) c.textContent='≈ ¥'+(v*(+D.priceUsd||0)*(D.usdCny||7.12)).toFixed(2);
+}
 applyLang();
 aiLoad();
+initClock();
 </script>
 </body>
 </html>
