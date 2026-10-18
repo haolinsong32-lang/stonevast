@@ -188,6 +188,7 @@
       <div class="stat"><div class="v" id="vPower">--</div><div class="k" data-i18n="sPower">Power draw</div></div>
       <div class="stat"><div class="v" id="vPrice">--</div><div class="k" data-i18n="sPrice">IRON price</div></div>
       <div class="stat"><div class="v ok" id="vNet">--</div><div class="k" data-i18n="sNet">Net / day (after power)</div></div>
+      <div class="stat"><div class="v" id="vPaid">--</div><div class="k" data-i18n="sPaid">Lifetime paid (pool-verified)</div></div>
     </div>
     <div class="updated" id="vUpdated"></div>
   </div>
@@ -297,7 +298,7 @@ en:{
   heroSub:'StoneVast is a transparent mining revenue workbench — every watt, every share and every cent is shown publicly, compounding toward an RTX 6000 Pro.',
   heroBadge:'● Mining live · Positive net revenue',
   dashTitle:'📊 LIVE DASHBOARD · DAILY SNAPSHOT',
-  sHash:'Hashrate (IRON)', sPower:'Power draw', sPrice:'IRON price', sNet:'Net / day (after power)',
+  sHash:'Hashrate (IRON)', sPower:'Power draw', sPrice:'IRON price', sNet:'Net / day (after power)', sPaid:'Lifetime paid (pool-verified)',
   sUpdated:'Snapshot: 2026-10-17 09:30 (UTC+8) · Pool: HeroMiners · Auto-stop if revenue turns negative',
   goalTitle:'🎯 THE GOAL · RTX 6000 PRO (96GB)',
   goalNow:'Saved: <b>¥560 ≈ $78</b>', goalTarget:'Target: <b>¥70,000 ≈ $10,000</b>',
@@ -349,7 +350,7 @@ zh:{
   heroSub:'石广是一个全透明的挖矿收益工作台——每一瓦电、每一个份额、每一分钱都公开展示，复利滚向 RTX 6000 Pro。',
   heroBadge:'● 挖矿进行中 · 净收益为正',
   dashTitle:'📊 实时看板 · 每日快照',
-  sHash:'算力 (IRON)', sPower:'功耗', sPrice:'IRON 价格', sNet:'日净收益（扣电费）',
+  sHash:'算力 (IRON)', sPower:'功耗', sPrice:'IRON 价格', sNet:'日净收益（扣电费）', sPaid:'累计已付（矿池可查）',
   sUpdated:'快照：2026-10-17 09:30 (UTC+8) · 矿池 HeroMiners · 收益倒挂自动停机',
   goalTitle:'🎯 目标 · RTX 6000 PRO（96GB）',
   goalNow:'已攒：<b>¥560 ≈ $78</b>', goalTarget:'目标：<b>¥70,000 ≈ $10,000</b>',
@@ -418,6 +419,7 @@ function renderData(){
   $('vPower').innerHTML = Math.round(D.power??0)+' <small style="font-size:12px">W</small>';
   $('vPrice').textContent = '$'+(D.priceUsd??0).toFixed(3);
   $('vNet').textContent = en ? ('+'+usd((D.netDayCny??0)/rate)) : ('+¥'+(D.netDayCny??0).toFixed(2));
+  $('vPaid').textContent = (D.paidIron!=null && +D.paidIron>0) ? (+D.paidIron).toFixed(4)+' IRON' : '--';
   $('vUpdated').textContent = (en?'Snapshot: ':'快照：')+(D.updated||'--')+(en?' · Pool: HeroMiners · Auto-stop if revenue turns negative':' · 矿池 HeroMiners · 收益倒挂自动停机');
   const pct = Math.max(0.05, Math.min(100, (D.savedCny??0)/(D.targetCny||70000)*100));
   $('vBar').style.width = pct.toFixed(2)+'%';
