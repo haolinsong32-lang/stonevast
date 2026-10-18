@@ -91,6 +91,14 @@
 #estChart{width:100%;height:220px;background:#10141b;border:1px solid var(--line);border-radius:12px;margin-top:12px;}
 .tips{font-size:13px;color:var(--sub);line-height:2;margin-top:12px;}
 .tips b{color:var(--txt);}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:8px;align-items:stretch;margin:14px 0 4px;}
+.fnode{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:12px 10px;text-align:center;display:flex;flex-direction:column;justify-content:center;}
+.fnode b{display:block;font-size:13px;color:var(--txt);}
+.fnode small{display:block;font-size:11px;color:var(--sub);margin-top:4px;line-height:1.5;}
+.fnode.cash{border-color:#2ecc8f55;background:#2ecc8f10;}
+.fnode.cash b{color:var(--ok);}
+.farrow{display:flex;align-items:center;justify-content:center;color:var(--acc);font-size:18px;}
+@media(max-width:700px){.flow{grid-template-columns:1fr;}.farrow{transform:rotate(90deg);padding:2px 0;}}
 </style>
 </head>
 <body>
@@ -112,6 +120,19 @@
     <div class="badge" data-i18n="heroBadge">● Mining live · Positive net revenue</div>
   </div>
 
+  <!-- 实时看板（首屏数据优先） -->
+  <div class="card">
+    <h2 data-i18n="dashTitle">📊 LIVE DASHBOARD · DAILY SNAPSHOT</h2>
+    <div class="grid">
+      <div class="stat"><div class="v" id="vHash">--</div><div class="k" data-i18n="sHash">Hashrate (IRON)</div></div>
+      <div class="stat"><div class="v" id="vPower">--</div><div class="k" data-i18n="sPower">Power draw</div></div>
+      <div class="stat"><div class="v" id="vPrice">--</div><div class="k" data-i18n="sPrice">IRON price</div></div>
+      <div class="stat"><div class="v ok" id="vNet">--</div><div class="k" data-i18n="sNet">Net / day (after power)</div></div>
+      <div class="stat"><div class="v" id="vPaid">--</div><div class="k" data-i18n="sPaid">Lifetime paid (pool-verified)</div></div>
+    </div>
+    <div class="updated" id="vUpdated"></div>
+  </div>
+
   <!-- 下载入口 -->
   <div class="card" id="download">
     <h2 data-i18n="dlTitle">🧰 FREE SIDE TOOLS · RISK CALCULATOR</h2>
@@ -130,6 +151,7 @@
       <a class="mbtn acc" href="https://haolinsong32-lang.github.io/perp-risk-guard/" target="_blank" rel="noopener" data-i18n="rankCtaBtn">Generate my card →</a>
     </div>
     <div class="updated" style="margin-top:12px" data-i18n="dlNote">Single file, MIT license — in the repo: index.html → right-click "Save as" to keep your own copy.</div>
+    <div class="tips" style="margin-top:8px"><b data-i18n="dlPro">Need batch grid compare, plan archive and a trade journal?</b> <a class="mlink" href="https://pay.suka.net.cn" target="_blank" rel="noopener" data-i18n="dlProBtn">Pro edition — 9 USDT →</a></div>
   </div>
 
   <!-- 一键启动挖矿 -->
@@ -181,19 +203,6 @@
     <div class="tips" data-i18n-html="addrCompat"><b>Address compatibility:</b> IRON mining needs an <b>Iron Fish</b> address (b88f8b… or a Gate.io IRON deposit address). OKX X Layer / MetaMask / Ethereum (0x…) ❌ · TRON ❌ · Bitcoin ❌ · Solana ❌ — different chains cannot receive each other's coins.</div>
   </div>
 
-  <!-- 实时看板 -->
-  <div class="card">
-    <h2 data-i18n="dashTitle">📊 LIVE DASHBOARD · DAILY SNAPSHOT</h2>
-    <div class="grid">
-      <div class="stat"><div class="v" id="vHash">--</div><div class="k" data-i18n="sHash">Hashrate (IRON)</div></div>
-      <div class="stat"><div class="v" id="vPower">--</div><div class="k" data-i18n="sPower">Power draw</div></div>
-      <div class="stat"><div class="v" id="vPrice">--</div><div class="k" data-i18n="sPrice">IRON price</div></div>
-      <div class="stat"><div class="v ok" id="vNet">--</div><div class="k" data-i18n="sNet">Net / day (after power)</div></div>
-      <div class="stat"><div class="v" id="vPaid">--</div><div class="k" data-i18n="sPaid">Lifetime paid (pool-verified)</div></div>
-    </div>
-    <div class="updated" id="vUpdated"></div>
-  </div>
-
   <!-- 复利估算器 -->
   <div class="card" id="est">
     <h2 data-i18n="esTitle">📈 WHAT IF YOU RAN IT? · COMPOUND ESTIMATOR</h2>
@@ -237,6 +246,15 @@
   <!-- 提现与核验路径 -->
   <div class="card" id="withdraw">
     <h2 data-i18n="wdTitle">💸 HOW MONEY MOVES · WITHDRAWAL PATH</h2>
+    <div class="flow">
+      <div class="fnode"><b data-i18n="f1t">⛏ Pool</b><small data-i18n="f1s">HeroMiners pays out automatically when the threshold is reached</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><b data-i18n="f2t">🔑 Your wallet</b><small data-i18n="f2s">Iron Fish address (b88f8b…), keys stay with you</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode"><b data-i18n="f3t">🔁 Gate.io</b><small data-i18n="f3s">Deposit on IRON mainnet, sell for USDT</small></div>
+      <div class="farrow">→</div>
+      <div class="fnode cash"><b data-i18n="f4t">💵 Cash</b><small data-i18n="f4s">Withdraw USDT to your bank (KYC required)</small></div>
+    </div>
     <div class="steps" data-i18n-html="wdSteps">
       <b>① Pool → your wallet:</b> HeroMiners pays out automatically once the threshold is reached; every payout is listed on your pool dashboard.<br>
       <b>② Wallet → exchange:</b> Iron Fish wallet → Send → paste your Gate.io IRON deposit address → network <b>IRON mainnet</b>.<br>
@@ -245,6 +263,11 @@
       <b>We never hold your funds.</b> Always test with a small amount first.
     </div>
     <div class="tips" data-i18n-html="wdLinks"><b>Verify independently:</b> <a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners pool</a> · <a class="mlink" href="https://explorer.ironfish.network" target="_blank" rel="noopener">Iron Fish explorer</a> · <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io IRON/USDT</a></div>
+    <div class="mrow" style="margin-top:14px">
+      <div><label for="cvIron" data-i18n="cvIron">IRON amount to cash out</label><input id="cvIron" type="number" step="any" value="1.4786"></div>
+      <div><label data-i18n="cvLabel">Cash value (live Gate.io price)</label><div class="mout show" id="cvOut" style="margin-top:0">--</div></div>
+    </div>
+    <div class="hint" data-i18n="cvNote">Exchange rate is pulled from the same live feed as the dashboard. Small amounts are real too — 1.4786 IRON is what this rig has actually been paid.</div>
   </div>
 
   <!-- 传递挑战 -->
@@ -309,6 +332,12 @@ en:{
   wdTitle:'💸 HOW MONEY MOVES · WITHDRAWAL PATH',
   wdSteps:'<b>① Pool → your wallet:</b> HeroMiners pays out automatically once the threshold is reached; every payout is listed on your pool dashboard.<br><b>② Wallet → exchange:</b> Iron Fish wallet → Send → paste your Gate.io IRON deposit address → network <b>IRON mainnet</b>.<br><b>③ Exchange → cash:</b> sell IRON for USDT on Gate.io, then withdraw (KYC required).<br><b>④ Node share:</b> settled monthly, ≥20 USDT, paid straight to your wallet — on-chain verifiable.<br><b>We never hold your funds.</b> Always test with a small amount first.',
   wdLinks:'<b>Verify independently:</b> <a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners pool</a> · <a class="mlink" href="https://explorer.ironfish.network" target="_blank" rel="noopener">Iron Fish explorer</a> · <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io IRON/USDT</a>',
+  cvIron:'IRON amount to cash out', cvLabel:'Cash value (live Gate.io price)',
+  cvNote:'Exchange rate is pulled from the same live feed as the dashboard. Small amounts are real too — 1.4786 IRON is what this rig has actually been paid.',
+  f1t:'⛏ Pool', f1s:'HeroMiners pays out automatically when the threshold is reached',
+  f2t:'🔑 Your wallet', f2s:'Iron Fish address (b88f8b…), keys stay with you',
+  f3t:'🔁 Gate.io', f3s:'Deposit on IRON mainnet, sell for USDT',
+  f4t:'💵 Cash', f4s:'Withdraw USDT to your bank (KYC required)',
   thTier:'Tier', thCond:'Requirement', thShare:'Direct share',
   tier1:'Genesis (first 100)', tier1c:'Join in free trial + pass one challenge', tier2:'Standard', tier2c:'After genesis quota',
   chTitle:'🔥 THE PASS-IT-ON CHALLENGE',
@@ -324,6 +353,7 @@ en:{
   dlRepo:'GitHub Repository', dlRepoSub:'Star · Fork · Download the single-file app (index.html)',
   dlDemo:'Open Live Demo →', dlDemoSub:'No install · No signup · Works offline · 中文/EN',
   dlNote:'Single file, MIT license — in the repo: index.html → right-click "Save as" to keep your own copy.',
+  dlPro:'Need batch grid compare, plan archive and a trade journal?', dlProBtn:'Pro edition — 9 USDT →',
   rankCta:'🏆 Risk Rank Challenge — get your S/A/B/C discipline grade, then download a 1200×630 share card with a QR code.',
   rankCtaBtn:'Generate my card →',
   compTitle:'⚖ COMPLIANCE',
@@ -362,6 +392,12 @@ zh:{
   wdTitle:'💸 收益怎么走 · 提现路径',
   wdSteps:'<b>① 矿池 → 你的钱包：</b>达到起付额后 HeroMiners 自动打款，每次支付都能在矿池面板查到。<br><b>② 钱包 → 交易所：</b>Iron Fish 钱包 → 发送 → 粘贴 Gate.io 的 IRON 充值地址 → 网络选 <b>IRON 主网</b>。<br><b>③ 交易所 → 法币：</b>在 Gate.io 把 IRON 卖成 USDT 后提现（需 KYC）。<br><b>④ 节点分成：</b>月度结算、满 20 USDT、直达钱包、链上可查。<br><b>我们从不托管你的资金。</b>任何转账先用小额测试。',
   wdLinks:'<b>三方独立核验：</b><a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners 矿池</a> · <a class="mlink" href="https://explorer.ironfish.network" target="_blank" rel="noopener">Iron Fish 区块浏览器</a> · <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io IRON/USDT</a>',
+  cvIron:'要变现的 IRON 数量', cvLabel:'可换现金（Gate.io 实时价）',
+  cvNote:'汇率与看板同源，来自 Gate.io 实时行情。小额也是真实的——1.4786 IRON 就是这台机器实际收到的全部。',
+  f1t:'⛏ 矿池', f1s:'到达起付额后 HeroMiners 自动打款',
+  f2t:'🔑 你的钱包', f2s:'Iron Fish 地址（b88f8b…），私钥只在你手里',
+  f3t:'🔁 Gate.io', f3s:'选择 IRON 主网充值，卖成 USDT',
+  f4t:'💵 现金', f4s:'USDT 提现到银行卡（需 KYC）',
   thTier:'等级', thCond:'条件', thShare:'直推分成',
   tier1:'创世节点（前100）', tier1c:'免费期加入 + 完成一次传递挑战', tier2:'标准节点', tier2c:'创世名额满后',
   chTitle:'🔥 传递挑战',
@@ -377,6 +413,7 @@ zh:{
   dlRepo:'GitHub 仓库', dlRepoSub:'Star · Fork · 下载单文件程序（index.html）',
   dlDemo:'打开在线版 →', dlDemoSub:'免安装 · 免注册 · 离线可用 · 中英双语',
   dlNote:'单文件、MIT 协议——仓库内打开 index.html，右键"另存为"即可永久保存。',
+  dlPro:'需要批量网格对比、计划存档和交易复盘？', dlProBtn:'Pro 版 —— 9 USDT →',
   rankCta:'🏆 风控段位挑战——算出你的 S/A/B/C 纪律段位，一键下载 1200×630 分享卡片（自带二维码）。',
   rankCtaBtn:'生成我的卡片 →',
   compTitle:'⚖ 合规声明',
@@ -410,6 +447,7 @@ function applyLang(){
   document.getElementById('langBtn').textContent = LANG==='en' ? '中文' : 'EN';
   renderData();
   renderAddrHint();
+  conv();
 }
 const $ = id => document.getElementById(id);
 function renderData(){
@@ -528,6 +566,14 @@ async function checkBalance(){
     out.innerHTML=(en?'Direct query blocked by browser — open your dashboard: ':'浏览器直连被拦，打开你的矿池面板：')+'<a class="mlink" target="_blank" rel="noopener" href="https://ironfish.herominers.com/?wallet='+encodeURIComponent(w)+'">HeroMiners dashboard →</a>';
   }
 }
+// ---- 变现换算 ----
+function conv(){
+  const D=window.SITE_DATA||{};
+  const n=parseFloat($('cvIron').value)||0;
+  const rate=+D.usdCny||7.12;
+  const usd=n*(+D.priceUsd||0);
+  $('cvOut').textContent='$'+usd.toFixed(4)+' ≈ ¥'+(usd*rate).toFixed(2);
+}
 // ---- 复利估算器 ----
 function est(){
   const en=LANG==='en';
@@ -586,6 +632,7 @@ function drawEst(ys, goal){
 }
 ['eHash','ePower','eElec','ePrice','eReinv'].forEach(id=>$(id).addEventListener('input',est));
 $('mWallet').addEventListener('input',renderAddrHint);
+$('cvIron').addEventListener('input',conv);
 applyLang();
 </script>
 </body>
