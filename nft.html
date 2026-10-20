@@ -127,7 +127,13 @@
     wall.appendChild(a);
   }
 </script>
-<script async src="https://cn.vercount.one/js"></script>
-<div style="text-align:center;opacity:.6;font-size:13px;margin:24px 0 8px">本站总访问量 <span id="busuanzi_site_pv">…</span> 次 · 访客数 <span id="busuanzi_site_uv">…</span> 人</div>
+<script>
+(function(){var EP='https://47.236.149.136.nip.io/api/visit';
+function upd(d){if(!d)return;var a=document.getElementById('vPv'),b=document.getElementById('vUv');if(a)a.textContent=d.pv;if(b)b.textContent=d.uv;}
+fetch(EP+'?mode=hit').then(function(r){return r.json()}).then(upd).catch(function(){});
+setInterval(function(){fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})},60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})});
+})();</script>
+<div style="text-align:center;opacity:.6;font-size:13px;margin:24px 0 8px">本站总访问量 <span id="vPv">…</span> 次 · 今日访客 <span id="vUv">…</span> 人</div>
 </body>
 </html>

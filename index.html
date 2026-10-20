@@ -412,7 +412,7 @@
 
   <div class="foot">
     <div><b style="color:var(--acc)">StoneVast 石广</b> · <b style="color:var(--acc);letter-spacing:.5px">stonevast.com</b> · <span data-i18n="footTag">Small rig, honest numbers, compounding.</span></div>
-    <div><a href="https://github.com/haolinsong32-lang/perp-risk-guard" target="_blank" rel="noopener">GitHub</a> · <span data-i18n="footNote">Data snapshot updated daily · Not financial advice</span> · <span id="busuanzi_container_site_pv" style="opacity:.7">👁 <span id="busuanzi_value_site_pv">…</span> views · <span id="busuanzi_value_site_uv">…</span> visitors</span></div>
+    <div><a href="https://github.com/haolinsong32-lang/perp-risk-guard" target="_blank" rel="noopener">GitHub</a> · <span data-i18n="footNote">Data snapshot updated daily · Not financial advice</span> · <span style="opacity:.7">👁 <span id="vPv">…</span> views · <span id="vUv">…</span> visitors today</span></div>
   </div>
 </div>
 
@@ -916,6 +916,12 @@ applyLang();
 aiLoad();
 initClock();
 </script>
-<script async src="https://vercount.one/js"></script>
+<script>
+(function(){var EP='https://47.236.149.136.nip.io/api/visit';
+function upd(d){if(!d)return;var a=document.getElementById('vPv'),b=document.getElementById('vUv');if(a)a.textContent=d.pv;if(b)b.textContent=d.uv;}
+fetch(EP+'?mode=hit').then(function(r){return r.json()}).then(upd).catch(function(){});
+setInterval(function(){fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})},60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})});
+})();</script>
 </body>
 </html>
