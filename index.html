@@ -255,6 +255,16 @@
     <div class="mout show" id="estOut"></div>
     <canvas id="estChart" width="760" height="220"></canvas>
     <div class="hint" style="font-size:12px;color:var(--sub);margin-top:8px" data-i18n="esNote">Linear estimate from our live baseline (2.27 IRON/day @ 18.17 MH/s). Estimation only — not a promise of returns.</div>
+    <div style="border-top:1px solid var(--line);margin-top:16px;padding-top:14px">
+      <b data-i18n="lgTitle">🔗 NODE SHARE · REFERRAL LEDGER</b>
+      <div class="hint" data-i18n-html="lgNote" style="margin:6px 0 10px"></div>
+      <div class="mrow">
+        <div><label for="lgNodes" data-i18n="lgNodes">Direct nodes</label><input id="lgNodes" type="number" value="1" step="1" min="0"></div>
+        <div><label for="lgHash" data-i18n="lgHash">Hashrate per node (MH/s)</label><input id="lgHash" type="number" value="18.17" step="any"></div>
+        <div><label for="lgRate" data-i18n="lgRate">My referral rate (%)</label><input id="lgRate" type="number" value="5" step="1" min="0" max="100"></div>
+      </div>
+      <div class="mout show" id="lgOut"></div>
+    </div>
   </div>
 
   <!-- 目标进度 -->
@@ -558,6 +568,8 @@ en:{
   esHash:'Hashrate (MH/s)', esPower:'Power (W)', esElec:'Power price (¥/kWh)', esPrice:'IRON price (¥)', esReinv:'Reinvest into RTX 6000 Pro',
   esNo:'No', esYes:'Yes — every ¥70,000 buys one (≈100 MH/s, 300W)',
   esNote:'Linear estimate from our live baseline (2.27 IRON/day @ 18.17 MH/s). Estimation only — not a promise of returns.',
+  lgTitle:'🔗 NODE SHARE · REFERRAL LEDGER', lgNote:'<b>Estimate only.</b> Your direct nodes mine; you earn a share of their net output at your referral rate. Real settlement starts later — this is the ledger structure, not promised income.',
+  lgNodes:'Direct nodes', lgHash:'Hashrate per node (MH/s)', lgRate:'My referral rate (%)',
   footTag:'Small rig, honest numbers, compounding.', footNote:'Data snapshot updated daily · Not financial advice'
 },
 zh:{
@@ -651,6 +663,8 @@ zh:{
   esHash:'算力 (MH/s)', esPower:'功耗 (W)', esElec:'电价 (¥/度)', esPrice:'IRON 价格 (¥)', esReinv:'复投买 RTX 6000 Pro',
   esNo:'不复投', esYes:'复投 —— 每攒 ¥70,000 买一张（≈100 MH/s，300W）',
   esNote:'按我们实测基线线性估算（2.27 IRON/天 @ 18.17 MH/s）。仅为估算——不构成收益承诺。',
+  lgTitle:'🔗 节点分成 · 邀请账本', lgNote:'<b>仅为估算。</b>你的直推节点挖矿，你按分成比例获得其净产出的一部分。真实结算后续开启——这里展示的是账本结构，不构成收益承诺。',
+  lgNodes:'直推节点数', lgHash:'每节点算力 (MH/s)', lgRate:'我的分成比例 (%)',
   footTag:'小矿机，实数字，慢慢滚。', footNote:'数据每日快照更新 · 不构成投资建议'
 }};
 
@@ -910,7 +924,27 @@ function drawEst(ys, goal){
   x.fillStyle='#8b93a7'; x.font='11px sans-serif';
   x.fillText('0',34,H-8); x.fillText('12mo',W-42,H-8);
 }
+// ---- 节点分成估算器 ----
+function lg(){
+  const en=LANG==='en';
+  const nodes=parseInt($('lgNodes').value)||0;
+  const h=parseFloat($('lgHash').value)||0;
+  const ratePct=parseFloat($('lgRate').value)||0;
+  const PP=parseFloat($('ePrice').value)||0;
+  const EP=parseFloat($('eElec').value)||0;
+  const out=$('lgOut');
+  if(nodes<=0||h<=0){ out.innerHTML=(en?'Enter at least 1 direct node.':'至少输入 1 个直推节点。'); return; }
+  const ironDay=2.27*h/18.17;
+  const elec=(44*h/18.17)*24/1000*EP;
+  const netDay=ironDay*PP-elec;
+  if(netDay<=0){ out.innerHTML=(en?'Nodes mine at a loss here — net output is negative, so there is no share to settle.':'直推节点按这组参数倒挂，净产出为负，无可结算分成。'); return; }
+  const shareDay=netDay*nodes*ratePct/100;
+  out.innerHTML=(en
+    ? 'Per node: <b>¥'+netDay.toFixed(2)+'/day</b> net → my '+ratePct.toFixed(0)+'% share = <b>¥'+shareDay.toFixed(2)+'/day</b><br>Monthly referral estimate: <b>¥'+(shareDay*30).toFixed(0)+'</b> (structure only, no promise)'
+    : '每节点净 <b>¥'+netDay.toFixed(2)+'/天</b> × 我的 '+ratePct.toFixed(0)+'% 分成 = <b>¥'+shareDay.toFixed(2)+'/天</b><br>每月分成估算：<b>¥'+(shareDay*30).toFixed(0)+'</b>（仅结构演示，不承诺收益）');
+}
 ['eHash','ePower','eElec','ePrice','eReinv'].forEach(id=>$(id).addEventListener('input',est));
+['lgNodes','lgHash','lgRate'].forEach(id=>$(id).addEventListener('input',lg));
 $('mWallet').addEventListener('input',renderAddrHint);
 $('cvIron').addEventListener('input',conv);
 $('aiProv').addEventListener('change',aiProviderChange);
@@ -992,6 +1026,7 @@ function renderMyNode(u){
   const en=LANG==='en';
   const my=$('regMy');
   my.style.display='block';
+  const lr=$('lgRate'); if(lr) lr.value=(u.rate*100).toFixed(0);
   const url=location.origin+location.pathname+'?node='+u.invite_code;
   const w=u.wallet||'';
   const wLine=w
