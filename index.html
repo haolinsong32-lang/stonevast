@@ -106,6 +106,28 @@
 .fnode.cash b{color:var(--ok);}
 .farrow{display:flex;align-items:center;justify-content:center;color:var(--acc);font-size:18px;}
 @media(max-width:700px){.flow{grid-template-columns:1fr;}.farrow{transform:rotate(90deg);padding:2px 0;}}
+.mobile-only{display:none;}
+@media(max-width:600px){
+  .mobile-only{display:block;}
+  .wrap{padding:0 12px 64px;}
+  nav{flex-wrap:wrap;gap:10px;}
+  .navlinks{flex-wrap:wrap;gap:8px;width:100%;}
+  .ghlink{padding:9px 12px;font-size:12px;min-height:40px;}
+  #langBtn{padding:9px 16px;min-height:40px;}
+  .card{padding:16px;border-radius:14px;}
+  .hero{padding:40px 0 28px;}
+  .hero h1{font-size:27px;}
+  .grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .stat{padding:12px 8px;}
+  .stat .v{font-size:20px;}
+  .mbtn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;}
+  .mrow{grid-template-columns:1fr;}
+  table{font-size:13px;}
+  th,td{padding:9px 6px;}
+  .dlgrid{grid-template-columns:1fr;}
+  .fnode{padding:14px 10px;}
+  .dlbtn{min-height:52px;}
+}
 </style>
 </head>
 <body>
@@ -170,6 +192,10 @@
   <!-- 一键启动挖矿 -->
   <div class="card" id="start">
     <h2 data-i18n="stTitle">🚀 START MINING IN 60 SECONDS</h2>
+    <div class="mobile-only" style="background:#10141b;border:1px solid #f0a35e66;border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.8;margin-bottom:12px">
+      <b data-i18n="mGuideT">📱 On your phone?</b>
+      <div data-i18n-html="mGuideB"></div>
+    </div>
     <div class="steps" data-i18n-html="stSteps">
       <b>①</b> Get an IRON wallet address (Iron Fish CLI, or a Gate.io deposit address).<br>
       <b>②</b> Download lolMiner and unzip it.<br>
@@ -220,15 +246,15 @@
   <div class="card" id="est">
     <h2 data-i18n="esTitle">📈 WHAT IF YOU RAN IT? · COMPOUND ESTIMATOR</h2>
     <div class="mrow">
-      <div><label for="eHash" data-i18n="esHash">Hashrate (MH/s)</label><input id="eHash" type="number" value="20.43" step="any"></div>
-      <div><label for="ePower" data-i18n="esPower">Power (W)</label><input id="ePower" type="number" value="49" step="any"></div>
+      <div><label for="eHash" data-i18n="esHash">Hashrate (MH/s)</label><input id="eHash" type="number" value="18.17" step="any"></div>
+      <div><label for="ePower" data-i18n="esPower">Power (W)</label><input id="ePower" type="number" value="44" step="any"></div>
       <div><label for="eElec" data-i18n="esElec">Power price (¥/kWh)</label><input id="eElec" type="number" value="0.55" step="any"></div>
-      <div><label for="ePrice" data-i18n="esPrice">IRON price (¥)</label><input id="ePrice" type="number" value="0.80" step="any"></div>
+      <div><label for="ePrice" data-i18n="esPrice">IRON price (¥)</label><input id="ePrice" type="number" value="0.53" step="any"></div>
       <div><label for="eReinv" data-i18n="esReinv">Reinvest into RTX 6000 Pro</label><select id="eReinv"><option value="0" data-i18n="esNo">No</option><option value="1" data-i18n="esYes">Yes — every ¥70,000 buys one (≈100 MH/s, 300W)</option></select></div>
     </div>
     <div class="mout show" id="estOut"></div>
     <canvas id="estChart" width="760" height="220"></canvas>
-    <div class="hint" style="font-size:12px;color:var(--sub);margin-top:8px" data-i18n="esNote">Linear estimate from our live baseline (2.23 IRON/day @ 20.43 MH/s). Estimation only — not a promise of returns.</div>
+    <div class="hint" style="font-size:12px;color:var(--sub);margin-top:8px" data-i18n="esNote">Linear estimate from our live baseline (2.27 IRON/day @ 18.17 MH/s). Estimation only — not a promise of returns.</div>
   </div>
 
   <!-- 目标进度 -->
@@ -244,7 +270,7 @@
     <h2 data-i18n="nodeTitle">🌐 STONEVAST NODE PROGRAM</h2>
     <div class="steps" data-i18n-html="nodeSteps">
       Every user is a <b>Node</b> with a unique invite link.<br>
-      <b>① Genesis nodes (first 100):</b> 30% lifetime share of direct invites' paid revenue — locked during the free trial.<br>
+      <b>① Genesis nodes (first 100):</b> 30% share of direct invites' paid revenue — locked during the free trial.<br>
       <b>② Standard nodes:</b> 20% share.<br>
       <b>③ Settlement:</b> monthly, ≥20 USDT, straight to your wallet, on-chain verifiable.<br>
       <b>One level only.</b> No entry fee. No promised returns. Ever.
@@ -255,6 +281,22 @@
       <tr><td data-i18n="tier2">Standard</td><td data-i18n="tier2c">After genesis quota</td><td>20%</td></tr>
     </table>
     <div class="tips" data-i18n-html="nodePerks"><b>Node perks:</b> ① Genesis 100 → free Pro + 30% lifetime · ② Bring 1 real node → 50% off Pro · ③ Share an S-rank card → monthly Pro draw · ④ Submit your real rig data → featured on site + free Pro.</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center">
+      <button class="mbtn acc" onclick="copyShare()" data-i18n="shareBtn">📤 Copy invite text + link</button>
+      <span class="hint" style="font-size:12px;color:var(--sub)" data-i18n="shareHint">No computer? Earn as a referrer by sharing your node link.</span>
+    </div>
+    <div class="mout" id="shareOut"></div>
+    <div style="border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:14px;background:#10141b">
+      <b data-i18n="regTitle">🔑 内测注册 · Beta access</b>
+      <div class="hint" data-i18n-html="regHint" style="margin:6px 0 10px"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input id="regKey" data-i18n-ph="regKeyPh" spellcheck="false" style="flex:1;min-width:180px;background:#0d1016;border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--txt)">
+        <input id="regInvite" data-i18n-ph="regInvitePh" spellcheck="false" style="flex:1;min-width:180px;background:#0d1016;border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--txt)">
+        <button class="mbtn acc" onclick="nodeRegister()" data-i18n="regBtn">注册 / Register</button>
+      </div>
+      <div class="mout" id="regOut"></div>
+      <div id="regMy" style="display:none;margin-top:10px"></div>
+    </div>
     <div style="display:flex;gap:16px;align-items:center;margin-top:14px;flex-wrap:wrap">
       <a href="/assets/nft-001.svg" target="_blank" rel="noopener" style="flex:0 0 auto">
         <img src="/assets/nft-001.svg" alt="StoneVast Genesis NFT #001" style="width:132px;height:132px;border-radius:12px;border:1px solid var(--line);display:block">
@@ -287,10 +329,10 @@
     </div>
     <div class="tips" data-i18n-html="wdLinks"><b>Verify independently:</b> <a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners pool</a> · <a class="mlink" href="https://explorer.ironfish.network" target="_blank" rel="noopener">Iron Fish explorer</a> · <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io IRON/USDT</a></div>
     <div class="mrow" style="margin-top:14px">
-      <div><label for="cvIron" data-i18n="cvIron">IRON amount to cash out</label><input id="cvIron" type="number" step="any" value="1.4786"></div>
+      <div><label for="cvIron" data-i18n="cvIron">IRON amount to cash out</label><input id="cvIron" type="number" step="any" value="4.4496"></div>
       <div><label data-i18n="cvLabel">Cash value (live Gate.io price)</label><div class="mout show" id="cvOut" style="margin-top:0">--</div></div>
     </div>
-    <div class="hint" data-i18n="cvNote">Exchange rate is pulled from the same live feed as the dashboard. Small amounts are real too — 1.4786 IRON is what this rig has actually been paid.</div>
+    <div class="hint" data-i18n="cvNote">Exchange rate is pulled from the same live feed as the dashboard. Small amounts are real too — 4.4496 IRON is what this rig has actually been paid.</div>
   </div>
 
   <!-- AI 收益顾问 -->
@@ -323,9 +365,9 @@
     <div class="hint" data-i18n="pwSub">Pick your trade-off.</div>
     <table>
       <tr><th data-i18n="pwMode">Mode</th><th data-i18n="pwHash">Hashrate</th><th data-i18n="pwWatt">Power</th><th data-i18n="pwTemp">Temp</th><th data-i18n="pwNet">Net/day*</th></tr>
-      <tr><td data-i18n="pwA">Locked 1200 MHz</td><td>~14.5 MH/s</td><td>~40 W</td><td>~48°C</td><td>+¥0.31</td></tr>
-      <tr><td data-i18n="pwB">Balanced 1600 MHz</td><td>~15–18 MH/s</td><td>~46 W</td><td>~55°C</td><td>+¥0.45</td></tr>
-      <tr><td data-i18n="pwC">Full power</td><td>~20+ MH/s</td><td>~50–60 W</td><td>~60–68°C</td><td>+¥0.58</td></tr>
+      <tr><td data-i18n="pwA">Locked 1200 MHz</td><td>~18.17 MH/s</td><td>~44 W</td><td>~57°C</td><td>+¥0.62</td></tr>
+      <tr><td data-i18n="pwB">Balanced 1600 MHz</td><td colspan="4" style="color:#ff5d6c;font-size:12px">⛔ DAG build crash on FishHash · 会崩溃不可用</td></tr>
+      <tr><td data-i18n="pwC">Full power</td><td colspan="4" style="color:#ff5d6c;font-size:12px">⛔ DAG build crash on FishHash · 会崩溃不可用</td></tr>
     </table>
     <div class="tips" data-i18n-html="pwTip">How to change.</div>
     <div class="mrow" style="margin-top:14px">
@@ -333,7 +375,7 @@
         <select id="fgpu" onchange="fitPreset()">
           <option value="4090">RTX 4090 · 24GB · 28 MH/s · 80 W</option>
           <option value="4080">RTX 4080 · 16GB · 22 MH/s · 55 W</option>
-          <option value="4070L">RTX 4070 Laptop · 8GB · 14.5 MH/s · 40 W</option>
+          <option value="4070L">RTX 4070 Laptop · 8GB · 18.17 MH/s · 44 W</option>
           <option value="4060">RTX 4060 · 8GB · 12 MH/s · 35 W</option>
           <option value="3070">RTX 3070 · 8GB · 12 MH/s · 60 W</option>
           <option value="3060">RTX 3060 · 12GB · 10 MH/s · 35 W</option>
@@ -354,10 +396,10 @@
           <option value="custom" data-i18n="fitCustom">Custom</option>
         </select>
       </div>
-      <div><label for="fhash" data-i18n="fitHash">Hashrate (MH/s)</label><input id="fhash" type="number" step="any" value="14.5"></div>
-      <div><label for="fwatt" data-i18n="fitWatt">Power (W)</label><input id="fwatt" type="number" step="any" value="40"></div>
+      <div><label for="fhash" data-i18n="fitHash">Hashrate (MH/s)</label><input id="fhash" type="number" step="any" value="18.17"></div>
+      <div><label for="fwatt" data-i18n="fitWatt">Power (W)</label><input id="fwatt" type="number" step="any" value="44"></div>
       <div><label for="felec" data-i18n="fitElec">Electricity (¥/kWh)</label><input id="felec" type="number" step="any" value="0.55"></div>
-      <div><label for="fprice" data-i18n="fitPrice">IRON price (USDT)</label><input id="fprice" type="number" step="any" value="0.075"></div>
+      <div><label for="fprice" data-i18n="fitPrice">IRON price (USDT)</label><input id="fprice" type="number" step="any" value="0.074"></div>
     </div>
     <button class="mbtn" onclick="fitCheck()" data-i18n="fitBtn">Check if it's worth running</button>
     <div class="mout" id="fitOut"></div>
@@ -392,7 +434,7 @@
   <div class="card">
     <h2 data-i18n="roadTitle">🗺 ROADMAP</h2>
     <ul class="road">
-      <li class="done"><span class="dot">✓</span><span data-i18n="r1">Mining live with positive net revenue (IRON, 20 MH/s)</span></li>
+      <li class="done"><span class="dot">✓</span><span data-i18n="r1">Mining live with positive net revenue (IRON, 18 MH/s)</span></li>
       <li class="done"><span class="dot">✓</span><span data-i18n="r2">Public workbench website (this site) + free risk calculator tool</span></li>
       <li><span class="dot">3</span><span data-i18n="r3">Free trial polish · daily auto-synced dashboard · node registry</span></li>
       <li><span class="dot">4</span><span data-i18n="r4">Paid workbench edition · wallet-settled node shares</span></li>
@@ -445,7 +487,7 @@ en:{
   wdSteps:'<b>① Pool → your wallet:</b> HeroMiners pays out automatically once the threshold is reached; every payout is listed on your pool dashboard.<br><b>② Wallet → exchange:</b> Iron Fish wallet → Send → paste your Gate.io IRON deposit address → network <b>IRON mainnet</b>.<br><b>③ Exchange → cash:</b> sell IRON for USDT on Gate.io, then withdraw (KYC required).<br><b>④ Node share:</b> settled monthly, ≥20 USDT, paid straight to your wallet — on-chain verifiable.<br><b>We never hold your funds.</b> Always test with a small amount first.',
   wdLinks:'<b>Verify independently:</b> <a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners pool</a> · <a class="mlink" href="https://explorer.ironfish.network" target="_blank" rel="noopener">Iron Fish explorer</a> · <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io IRON/USDT</a>',
   cvIron:'IRON amount to cash out', cvLabel:'Cash value (live Gate.io price)',
-  cvNote:'Exchange rate is pulled from the same live feed as the dashboard. Small amounts are real too — 1.4786 IRON is what this rig has actually been paid.',
+  cvNote:'Exchange rate is pulled from the same live feed as the dashboard. Small amounts are real too — 4.4496 IRON is what this rig has actually been paid.',
   f1t:'⛏ Pool', f1s:'HeroMiners pays out automatically when the threshold is reached',
   f2t:'🔑 Your wallet', f2s:'Iron Fish address (b88f8b…), keys stay with you',
   f3t:'🔁 Gate.io', f3s:'Deposit on IRON mainnet, sell for USDT',
@@ -457,13 +499,20 @@ en:{
   aiWarn:'Use a read-only key with a spending limit. Never use a key that can withdraw funds.',
   thTier:'Tier', thCond:'Requirement', thShare:'Direct share',
   tier1:'Genesis (first 100)', tier1c:'Join in free trial + pass one challenge', tier2:'Standard', tier2c:'After genesis quota',
-  nodePerks:'<b>Node perks:</b> ① Genesis 100 → free Pro + 30% lifetime · ② Bring 1 real node → 50% off Pro · ③ Share an S-rank card → monthly Pro draw · ④ Submit your real rig data → featured on site + free Pro · ⑤ Pro bought during pre-sale also counts toward node perks.',
+  nodePerks:'<b>Node perks:</b> ① Genesis 100 → free Pro + 30% share · ② Bring 1 real node → 50% off Pro · ③ Share an S-rank card → monthly Pro draw · ④ Submit your real rig data → featured on site + free Pro · ⑤ Pro bought during pre-sale also counts toward node perks.',
+  shareBtn:'📤 Copy invite text + link',
+  shareHint:'No computer? You can still earn as a referrer — share your node link.',
+  regTitle:'🔑 Beta access · claim your node',
+  regHint:'Register with an official key (free during beta) to get your own invite code and one-level referral share. No pricing, no payment.',
+  regKeyPh:'Key (SV-XXXXXXXX)',
+  regInvitePh:'Invite code (optional)',
+  regBtn:'Register',
   nftTitle:'🪨 Genesis NFT — identity, not investment',
   nftText:'Each of the first 100 genesis nodes gets a <b>free</b> numbered NFT (#001–#100) minted on Polygon/Base — a verifiable on-chain proof of your node status. No price, no promised appreciation. Minting starts only after real nodes exist.',
   chTitle:'🔥 THE PASS-IT-ON CHALLENGE',
   chSteps:'① Run one check with our free tool → ② Screenshot your "✅ passed" result → ③ Send it to one friend and invite them to continue.<br><b>Every new node = one more real rig.</b>',
   roadTitle:'🗺 ROADMAP',
-  r1:'Mining live with positive net revenue (IRON, 20 MH/s)',
+  r1:'Mining live with positive net revenue (IRON, 18 MH/s)',
   r2:'Public workbench website (this site) + free risk calculator tool',
   r3:'Free trial polish · daily auto-synced dashboard · node registry',
   r4:'Paid workbench edition · wallet-settled node shares',
@@ -482,7 +531,7 @@ en:{
   pwSub:'Pick your trade-off: higher clocks = more hashrate = more heat and power.',
   pwMode:'Mode', pwHash:'Hashrate', pwWatt:'Power', pwTemp:'Temp', pwNet:'Net/day*',
   pwA:'Locked 1200 MHz', pwB:'Balanced 1600 MHz', pwC:'Full power',
-  pwTip:'<b>How to change:</b> edit <code>--cclk</code> in your start.bat (or remove it). Run 10 minutes and watch the temperature — above 75°C, go back. *Net = output minus electricity at live numbers; not a promise.',
+  pwTip:'<b>How to change:</b> edit <code>--cclk</code> in your start.bat (or remove it). On this RTX 4070 Laptop, FishHash only stays stable at 1200 MHz — 1600 MHz or unlocked crashes at DAG build. Run 10 minutes and watch the temperature — above 75°C, go back. *Net = output minus electricity at live numbers; not a promise.',
   agTitle:'📜 NODE AGREEMENT · READ BEFORE YOU JOIN',
   agYesT:'✅ What you can do', agYesB:'Run your own rig · join one level of referral · get paid monthly to your wallet · publish your real numbers · ask us anything.',
   agNoT:'⛔ What we never do', agNoB:'No entry fee · no multi-level pyramid · no guaranteed returns · no custody of your funds or keys · no promotion inside mainland China.',
@@ -492,6 +541,8 @@ en:{
   fitGpu:'GPU preset', fitCustom:'Custom', fitHash:'Hashrate (MH/s)', fitWatt:'Power (W)',
   fitElec:'Electricity (¥/kWh)', fitPrice:'IRON price (USDT)', fitBtn:'Check if it is worth running',
   stTitle:'🚀 START MINING IN 60 SECONDS',
+  mGuideT:'📱 On your phone?',
+  mGuideB:'Phones can\'t mine (you need a GPU PC), but you can get ready now:<br><b>①</b> Grab an IRON address the easy way — a <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io</a> IRON deposit address counts as a wallet.<br><b>②</b> Save it; when you\'re at a PC, paste it below to start.<br>No PC? Earn as a <b>referrer</b> instead — see the node program below.',
   stSteps:'<b>①</b> Get an IRON wallet address (Iron Fish CLI, or a Gate.io deposit address).<br><b>②</b> Download lolMiner and unzip it.<br><b>③</b> Paste your address below → download your ready-to-run <b>start.bat</b> into the lolMiner folder → double-click. Mining.',
   stWallet:'Your IRON wallet address', stWorker:'Worker name (optional)',
   addrDefault:'Iron Fish address (usually starts with b88f8b). An EVM address (0x…) cannot receive IRON.',
@@ -506,7 +557,7 @@ en:{
   esTitle:'📈 WHAT IF YOU RAN IT? · COMPOUND ESTIMATOR',
   esHash:'Hashrate (MH/s)', esPower:'Power (W)', esElec:'Power price (¥/kWh)', esPrice:'IRON price (¥)', esReinv:'Reinvest into RTX 6000 Pro',
   esNo:'No', esYes:'Yes — every ¥70,000 buys one (≈100 MH/s, 300W)',
-  esNote:'Linear estimate from our live baseline (2.23 IRON/day @ 20.43 MH/s). Estimation only — not a promise of returns.',
+  esNote:'Linear estimate from our live baseline (2.27 IRON/day @ 18.17 MH/s). Estimation only — not a promise of returns.',
   footTag:'Small rig, honest numbers, compounding.', footNote:'Data snapshot updated daily · Not financial advice'
 },
 zh:{
@@ -524,12 +575,12 @@ zh:{
   goalNow:'已攒：<b>¥560 ≈ $78</b>', goalTarget:'目标：<b>¥70,000 ≈ $10,000</b>',
   goalNote:'96GB 显存解锁全部 PoW 币种 + AI 负载，然后：更多卡、更高算力。',
   nodeTitle:'🌐 石广节点计划',
-  nodeSteps:'每个用户都是一个<b>节点</b>，拥有唯一邀请链接。<br><b>① 创世节点（前100名）：</b>直推付费收益 30% 永久锁定，免费期即可占位。<br><b>② 标准节点：</b>直推 20%。<br><b>③ 结算：</b>月度、满 20 USDT 起付、直达钱包、链上可查。<br><b>仅一级。</b>无入门费，永不承诺收益。',
+  nodeSteps:'每个用户都是一个<b>节点</b>，拥有唯一邀请链接。<br><b>① 创世节点（前100名）：</b>直推付费收益 30% 锁定，免费期即可占位。<br><b>② 标准节点：</b>直推 20%。<br><b>③ 结算：</b>月度、满 20 USDT 起付、直达钱包、链上可查。<br><b>仅一级。</b>无入门费，永不承诺收益。',
   wdTitle:'💸 收益怎么走 · 提现路径',
   wdSteps:'<b>① 矿池 → 你的钱包：</b>达到起付额后 HeroMiners 自动打款，每次支付都能在矿池面板查到。<br><b>② 钱包 → 交易所：</b>Iron Fish 钱包 → 发送 → 粘贴 Gate.io 的 IRON 充值地址 → 网络选 <b>IRON 主网</b>。<br><b>③ 交易所 → 法币：</b>在 Gate.io 把 IRON 卖成 USDT 后提现（需 KYC）。<br><b>④ 节点分成：</b>月度结算、满 20 USDT、直达钱包、链上可查。<br><b>我们从不托管你的资金。</b>任何转账先用小额测试。',
   wdLinks:'<b>三方独立核验：</b><a class="mlink" href="https://ironfish.herominers.com" target="_blank" rel="noopener">HeroMiners 矿池</a> · <a class="mlink" href="https://explorer.ironfish.network" target="_blank" rel="noopener">Iron Fish 区块浏览器</a> · <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io IRON/USDT</a>',
   cvIron:'要变现的 IRON 数量', cvLabel:'可换现金（Gate.io 实时价）',
-  cvNote:'汇率与看板同源，来自 Gate.io 实时行情。小额也是真实的——1.4786 IRON 就是这台机器实际收到的全部。',
+  cvNote:'汇率与看板同源，来自 Gate.io 实时行情。小额也是真实的——4.4496 IRON 就是这台机器实际收到的全部。',
   f1t:'⛏ 矿池', f1s:'到达起付额后 HeroMiners 自动打款',
   f2t:'🔑 你的钱包', f2s:'Iron Fish 地址（b88f8b…），私钥只在你手里',
   f3t:'🔁 Gate.io', f3s:'选择 IRON 主网充值，卖成 USDT',
@@ -541,13 +592,20 @@ zh:{
   aiWarn:'请使用只读、有限额的 Key。不要使用带提现权限的 Key。',
   thTier:'等级', thCond:'条件', thShare:'直推分成',
   tier1:'创世节点（前100）', tier1c:'免费期加入 + 完成一次传递挑战', tier2:'标准节点', tier2c:'创世名额满后',
-  nodePerks:'<b>节点权益：</b>① 创世前 100 → Pro 免费 + 30% 永久分成 · ② 带来 1 个真实节点 → Pro 五折 · ③ 分享 S 段位卡片 → 参与每月 Pro 抽奖 · ④ 提交你的真实矿机数据 → 官网展示 + Pro 免费 · ⑤ 预售期购买 Pro 同样计入节点权益。',
+  nodePerks:'<b>节点权益：</b>① 创世前 100 → Pro 免费 + 30% 分成 · ② 带来 1 个真实节点 → Pro 五折 · ③ 分享 S 段位卡片 → 参与每月 Pro 抽奖 · ④ 提交你的真实矿机数据 → 官网展示 + Pro 免费 · ⑤ 预售期购买 Pro 同样计入节点权益。',
+  shareBtn:'📤 复制推广文案 + 链接',
+  shareHint:'没有电脑？也能当推广者，分享你的节点链接赚分成。',
+  regTitle:'🔑 内测注册 · 领取你的节点',
+  regHint:'用官方发放的卡密注册（内测期免费），即可获得专属邀请码与一级推广分成。免定价、免收款。',
+  regKeyPh:'卡密（SV-XXXXXXXX）',
+  regInvitePh:'邀请码（可选）',
+  regBtn:'注册',
   nftTitle:'🪨 创世 NFT —— 身份凭证，不是投资品',
   nftText:'前 100 名创世节点各获一枚<b>免费</b>编号 NFT（#001–#100），铸造于 Polygon/Base 链，作为节点身份的链上可验证凭证。零价格、不承诺升值。真实节点出现后才开始铸造。',
   chTitle:'🔥 传递挑战',
   chSteps:'① 用免费工具做一次自检 → ② 截图"✅ 通过"结果 → ③ 发给一位朋友接力。<br><b>每多一个节点，就多一台真实矿机。</b>',
   roadTitle:'🗺 路线图',
-  r1:'挖矿上线，净收益为正（IRON，20 MH/s）',
+  r1:'挖矿上线，净收益为正（IRON，18 MH/s）',
   r2:'公网工作台官网（本站）+ 免费风控计算器工具',
   r3:'免费试用版打磨 · 看板每日自动同步 · 节点登记',
   r4:'付费版工作台 · 节点分成钱包结算',
@@ -566,7 +624,7 @@ zh:{
   pwSub:'自己选权衡：频率越高 = 算力越高 = 更热更费电。',
   pwMode:'模式', pwHash:'算力', pwWatt:'功耗', pwTemp:'温度', pwNet:'日净*',
   pwA:'锁核 1200 MHz', pwB:'均衡 1600 MHz', pwC:'满血',
-  pwTip:'<b>怎么改：</b>编辑 start.bat 里的 <code>--cclk</code>（或直接删掉）。先跑 10 分钟看温度——超过 75°C 就退回去。*日净 = 产出减电费，按实时数据估算，不是收益承诺。',
+  pwTip:'<b>怎么改：</b>编辑 start.bat 里的 <code>--cclk</code>（或直接删掉）。本机 RTX 4070 Laptop 上 FishHash 仅锁核 1200 稳定，1600 或不锁频会在 DAG 构建阶段崩溃。先跑 10 分钟看温度——超过 75°C 就退回去。*日净 = 产出减电费，按实时数据估算，不是收益承诺。',
   agTitle:'📜 节点协议 · 加入前请读',
   agYesT:'✅ 你可以做', agYesB:'运行自己的矿机 · 参与一级推荐 · 每月收款到钱包 · 公开你的真实数据 · 随时提问。',
   agNoT:'⛔ 我们绝不做', agNoB:'不收门槛费 · 不做多级金字塔 · 不承诺收益 · 不托管你的资金或私钥 · 不在中国大陆境内推广。',
@@ -576,6 +634,8 @@ zh:{
   fitGpu:'显卡预设', fitCustom:'自定义', fitHash:'算力 (MH/s)', fitWatt:'功耗 (W)',
   fitElec:'电价 (¥/度)', fitPrice:'IRON 币价 (USDT)', fitBtn:'测算值不值得跑',
   stTitle:'🚀 60 秒一键启动挖矿',
+  mGuideT:'📱 在手机上？',
+  mGuideB:'手机不能直接挖矿（需要 GPU 电脑），但你可以先准备好：<br><b>①</b> 最省事——拿一个 <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io</a> 的 IRON 充值地址即可当钱包。<br><b>②</b> 记下地址，等有电脑时在下方粘贴即可开挖。<br>没有电脑？也可以当<b>推广者</b>赚分成——见下方节点计划。',
   stSteps:'<b>①</b> 准备一个 IRON 钱包地址（Iron Fish CLI，或 Gate.io 充值地址）。<br><b>②</b> 下载 lolMiner 并解压。<br><b>③</b> 在下方粘贴地址 → 下载专属 <b>start.bat</b> 放进 lolMiner 目录 → 双击运行，开挖。',
   stWallet:'你的 IRON 钱包地址', stWorker:'矿机名（可选）',
   addrDefault:'Iron Fish 地址（通常以 b88f8b 开头）。EVM 地址（0x…）收不到 IRON。',
@@ -590,7 +650,7 @@ zh:{
   esTitle:'📈 如果你跑起来？· 复利估算器',
   esHash:'算力 (MH/s)', esPower:'功耗 (W)', esElec:'电价 (¥/度)', esPrice:'IRON 价格 (¥)', esReinv:'复投买 RTX 6000 Pro',
   esNo:'不复投', esYes:'复投 —— 每攒 ¥70,000 买一张（≈100 MH/s，300W）',
-  esNote:'按我们实测基线线性估算（2.23 IRON/天 @ 20.43 MH/s）。仅为估算——不构成收益承诺。',
+  esNote:'按我们实测基线线性估算（2.27 IRON/天 @ 18.17 MH/s）。仅为估算——不构成收益承诺。',
   footTag:'小矿机，实数字，慢慢滚。', footNote:'数据每日快照更新 · 不构成投资建议'
 }};
 
@@ -601,6 +661,7 @@ function applyLang(){
   document.title = LANG==='en' ? 'StoneVast 石广 · Real Mining Revenue Workbench' : '石广 StoneVast · 真实挖矿收益工作台';
   document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = T(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-html]').forEach(el=>{ el.innerHTML = T(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder = T(el.dataset.i18nPh); });
   document.getElementById('langBtn').textContent = LANG==='en' ? '中文' : 'EN';
   renderData();
   renderAddrHint();
@@ -801,7 +862,7 @@ function est(){
   const EP=parseFloat($('eElec').value)||0, PP=parseFloat($('ePrice').value)||0;
   const reinv=$('eReinv').value==='1';
   if(H<=0||PP<=0){ $('estOut').innerHTML=''; drawEst([],0); return; }
-  const dayIron=2.23*H/20.43, elec=Wp*24/1000*EP, net=dayIron*PP-elec;
+  const dayIron=2.27*H/18.17, elec=Wp*24/1000*EP, net=dayIron*PP-elec;
   const goal=70000;
   let html=(en?'Daily net: <b>':'日净收益：<b>')+(net>=0?'+':'')+'¥'+net.toFixed(2)+'</b> · '+(en?'Monthly ≈ <b>':'月净 ≈ <b>')+'¥'+(net*30).toFixed(0)+'</b>';
   if(net>0){
@@ -817,7 +878,7 @@ function est(){
   const days=365; let bal=0, h=H, wp=Wp, cards=0; const ys=[];
   let firstGoal=-1;
   for(let i=1;i<=days;i++){
-    const dIron=2.23*h/20.43, dElec=wp*24/1000*EP, dNet=dIron*PP-dElec;
+    const dIron=2.27*h/18.17, dElec=wp*24/1000*EP, dNet=dIron*PP-dElec;
     bal+=dNet; ys.push(bal);
     if(firstGoal<0&&bal>=goal) firstGoal=i;
     if(reinv&&bal>=goal){ bal-=goal; cards++; h+=100; wp+=300; }
@@ -855,7 +916,7 @@ $('cvIron').addEventListener('input',conv);
 $('aiProv').addEventListener('change',aiProviderChange);
 ['aiKey','aiModel','aiBase'].forEach(id=>$(id).addEventListener('input',aiSave));
 function fitPreset(){
-  const M={'4090':[28,80,24],'4080':[22,55,16],'4070L':[14.5,40,8],'4060':[12,35,8],'3070':[12,60,8],'3060':[10,35,12],'2060':[9,90,6],'1660':[7,80,6],'1050':[4,75,4],'7900':[30,120,24],'7900xt':[26,100,20],'7800':[20,90,16],'6800':[19,100,16],'6700':[15,80,12],'6600':[10,60,8],'580':[6,90,8],'a100':[45,250,40],'h100':[60,300,80],'760':[0,0,2],'730':[0,0,2]};
+  const M={'4090':[28,80,24],'4080':[22,55,16],'4070L':[18.17,44,8],'4060':[12,35,8],'3070':[12,60,8],'3060':[10,35,12],'2060':[9,90,6],'1660':[7,80,6],'1050':[4,75,4],'7900':[30,120,24],'7900xt':[26,100,20],'7800':[20,90,16],'6800':[19,100,16],'6700':[15,80,12],'6600':[10,60,8],'580':[6,90,8],'a100':[45,250,40],'h100':[60,300,80],'760':[0,0,2],'730':[0,0,2]};
   const v=$('fgpu').value, m=M[v];
   if(!m) return;
   const out=$('fitOut');
@@ -876,7 +937,7 @@ function fitCheck(){
   const out=$('fitOut'), rate=7.12;
   if(H<=0||W<=0||EP<=0||PP<=0){ out.className='mout show'; out.textContent=en?'Fill in all fields.':'请填写完整参数。'; return; }
   if(EP>1.2){ out.className='mout show'; out.innerHTML=en?'⛔ Electricity above ¥1.20/kWh — do NOT run. Power cost alone will eat the entire output.':'⛔ 电价高于 ¥1.20/kWh——不要做。仅电费就会吃掉全部产出。'; return; }
-  const ironDay=2.23*H/20.43;
+  const ironDay=2.27*H/18.17;
   const rev=ironDay*PP*rate, cost=W*24/1000*EP, net=rev-cost;
   const bePrice=cost/(ironDay*rate), beElec=rev/(W*24/1000);
   let verdict,color;
@@ -897,11 +958,93 @@ function agreeNode(){
     ? '✅ Agreement recorded in this browser (not sent to us).<br>Next: email <b>haolinsong32@gmail.com</b> with your IRON wallet address — you will get a node ID and your referral link.'
     : '✅ 已在本浏览器记录你的确认（不会上传）。<br>下一步：把 IRON 钱包地址发到 <b>haolinsong32@gmail.com</b>，领取节点编号与专属邀请链接。';
 }
+function copyShare(){
+  const en=LANG==='en';
+  const url=location.origin+location.pathname;
+  const txt=en
+    ? 'StoneVast — real GPU mining revenue in public. Real hashrate, pool-verifiable payouts, pass-it-on node program. Join a node: '+url
+    : '石广 StoneVast —— 真实挖矿收益公开透明。真实算力、矿池可查、可传递的节点计划。加入节点：'+url;
+  const out=$('shareOut');
+  if(!navigator.clipboard||!navigator.clipboard.writeText){ prompt(en?'Copy this:':'复制这段：',txt); return; }
+  navigator.clipboard.writeText(txt).then(()=>{
+    out.className='mout show';
+    out.textContent=en?'✅ Copied — paste it anywhere (WeChat / WhatsApp / X / Telegram).':'✅ 已复制——粘贴到任意平台即可（微信 / WhatsApp / X / Telegram）。';
+  }).catch(()=>{ prompt(en?'Copy this:':'复制这段：',txt); });
+}
+let _myNode=null;
+function nodeRegister(){
+  const en=LANG==='en';
+  const key=$('regKey').value.trim().toUpperCase();
+  const invite=$('regInvite').value.trim().toUpperCase();
+  const out=$('regOut');
+  if(!key){ out.className='mout show'; out.textContent=en?'Enter your key (SV-...).':'请输入卡密（SV-...）。'; return; }
+  out.className='mout show'; out.textContent=en?'Registering…':'注册中…';
+  fetch('/api/v1/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,invite_code:invite||undefined})})
+    .then(r=>r.json()).then(d=>{
+      if(!d.ok){ out.className='mout show'; out.textContent='❌ '+(d.err||'error'); return; }
+      localStorage.setItem('sv_uid',d.user.uid);
+      out.className='mout show'; out.textContent=en?'✅ Registered!':'✅ 注册成功！';
+      renderMyNode(d.user);
+    }).catch(()=>{ out.className='mout show'; out.textContent=en?'Network error.':'网络错误。'; });
+}
+function renderMyNode(u){
+  _myNode=u;
+  const en=LANG==='en';
+  const my=$('regMy');
+  my.style.display='block';
+  const url=location.origin+location.pathname+'?node='+u.invite_code;
+  const w=u.wallet||'';
+  const wLine=w
+    ? '<code style="word-break:break-all;font-size:12px">'+w+'</code>'
+    : (en?'<span style="color:var(--sub)">not bound</span>':'<span style="color:var(--sub)">未绑定</span>');
+  const wBlock='<div style="margin-top:12px;border-top:1px solid var(--line);padding-top:10px">'
+    +(en?'IRON wallet (for future share payouts)':'IRON 钱包地址（用于未来分成打款）')+': '+wLine
+    +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">'
+    +'<input id="walletInput" placeholder="'+(en?'Your IRON address (hex)':'你的 IRON 地址（十六进制）')+'" spellcheck="false" style="flex:1;min-width:200px;background:#0d1016;border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--txt);font-size:12px">'
+    +'<button class="mbtn" onclick="bindWallet()">'+(en?'Save':'保存')+'</button></div>'
+    +'<div style="font-size:12px;color:var(--sub);margin-top:8px;line-height:1.7">'
+    +(en
+      ?'Address only — no keys, no deposits, no custody. Re-bind anytime. Need an address? <a class="mlink" href="https://ironfish.network/use/node-app" target="_blank" rel="noopener">Iron Fish Node App (official desktop wallet)</a> · <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io IRON deposit</a>'
+      :'只记录地址——不要私钥、不代收款、可反复改绑。没有地址？<a class="mlink" href="https://ironfish.network/use/node-app" target="_blank" rel="noopener">Iron Fish Node App（官方桌面钱包）</a> · <a class="mlink" href="https://www.gate.io" target="_blank" rel="noopener">Gate.io IRON 充值地址</a>')
+    +'</div></div>';
+  my.innerHTML=(en
+    ? '<div style="background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:12px;line-height:1.9"><b>Your node</b><br>UID: <b>'+u.uid+'</b> · Share: <b>'+(u.rate*100).toFixed(0)+'%</b><br>Invite code: <b>'+u.invite_code+'</b><br>Invite link:<br><code style="word-break:break-all;font-size:12px">'+url+'</code><br><button class="mbtn acc" style="margin-top:8px" onclick="copyInvite()">📋 Copy invite link</button>'+wBlock+'</div>'
+    : '<div style="background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:12px;line-height:1.9"><b>你的节点</b><br>UID: <b>'+u.uid+'</b> · 分成: <b>'+(u.rate*100).toFixed(0)+'%</b><br>邀请码: <b>'+u.invite_code+'</b><br>邀请链接:<br><code style="word-break:break-all;font-size:12px">'+url+'</code><br><button class="mbtn acc" style="margin-top:8px" onclick="copyInvite()">📋 复制邀请链接</button>'+wBlock+'</div>');
+}
+function bindWallet(){
+  const en=LANG==='en';
+  const out=$('regOut');
+  const uid=localStorage.getItem('sv_uid');
+  const addr=(($('walletInput')||{}).value||'').trim();
+  if(!uid){ out.className='mout show'; out.textContent=en?'Register first.':'请先注册节点。'; return; }
+  if(!/^[0-9a-fA-F]{60,70}$/.test(addr)){ out.className='mout show'; out.textContent=en?'Invalid IRON address (hex string).':'IRON 地址格式不正确（十六进制串）。'; return; }
+  out.className='mout show'; out.textContent=en?'Saving…':'保存中…';
+  fetch('/api/v1/node/wallet',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uid:uid,address:addr})})
+    .then(r=>r.json()).then(d=>{
+      if(!d.ok){ out.className='mout show'; out.textContent='❌ '+(d.err||'error'); return; }
+      out.className='mout show'; out.textContent=en?'✅ Wallet bound.':'✅ 钱包地址已绑定。';
+      if(_myNode){ _myNode.wallet=d.wallet; renderMyNode(_myNode); }
+    }).catch(()=>{ out.className='mout show'; out.textContent=en?'Network error.':'网络错误。'; });
+}
+function copyInvite(){
+  if(!_myNode) return;
+  const en=LANG==='en';
+  const url=location.origin+location.pathname+'?node='+_myNode.invite_code;
+  const txt=en?'Join my StoneVast node: '+url:'加入我的石广节点：'+url;
+  const out=$('regOut');
+  if(!navigator.clipboard||!navigator.clipboard.writeText){ prompt(en?'Copy this:':'复制这段：',txt); return; }
+  navigator.clipboard.writeText(txt).then(()=>{ out.className='mout show'; out.textContent=en?'✅ Invite link copied.':'✅ 邀请链接已复制。'; }).catch(()=>{ prompt(en?'Copy this:':'复制这段：',txt); });
+}
+function loadMyNode(uid){
+  fetch('/api/v1/node/my?uid='+encodeURIComponent(uid)).then(r=>r.json()).then(d=>{
+    if(d.ok) renderMyNode(d.node);
+  }).catch(()=>{});
+}
 let _pcBase=0,_pcRate=0,_pcT0=Date.now();
 function initClock(){
   const D=window.SITE_DATA||{};
   _pcBase=(+D.paidIron||0)+(+D.balIron||0);
-  _pcRate=2.23*((+D.hashrate||0)/20.43)/86400;
+  _pcRate=2.27*((+D.hashrate||0)/18.17)/86400;
   _pcT0=Date.now();
   setInterval(tickClock,200); tickClock();
 }
@@ -915,6 +1058,12 @@ function tickClock(){
 applyLang();
 aiLoad();
 initClock();
+(function(){
+  const node = new URLSearchParams(location.search).get('node');
+  if(node){ const inv=$('regInvite'); if(inv) inv.value=node.toUpperCase(); }
+  const uid = localStorage.getItem('sv_uid');
+  if(uid) loadMyNode(uid);
+})();
 </script>
 <script>
 (function(){var EP='https://stonevast.com/api/visit';
