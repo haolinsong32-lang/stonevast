@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>算力租赁成本测算与硬件投入可行性 · 石广 StoneVast</title>
+<meta name="description" content="以官网实时数据为基准，测算挖矿收益能否覆盖硬件投入：自购硬件回本周期、租赁算力盈亏平衡线、币价敏感性分析与可行性判断。">
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--ok:#2ecc8f;--warn:#ffb020;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.7;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 16px 80px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;}
+  .navlinks a{color:var(--acc);text-decoration:none;margin-left:16px;font-size:14px;}
+  a{color:var(--acc);text-decoration:none;word-break:break-all;}
+  h1{font-size:26px;font-weight:800;margin:10px 0 6px;}
+  .sub{color:var(--sub);font-size:14px;margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;color:var(--acc);margin-bottom:12px;font-weight:700;letter-spacing:.5px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top;}
+  th{color:var(--sub);font-weight:600;font-size:12px;}
+  tr:last-child td{border-bottom:none;}
+  .ok{color:var(--ok);}
+  .warn{color:var(--warn);}
+  ol,ul{font-size:13.5px;line-height:2;padding-left:22px;}
+  .tip{font-size:13px;color:var(--sub);line-height:1.9;margin-top:10px;}
+  .box{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:10px;font-size:13px;line-height:1.9;font-family:ui-monospace,Consolas,monospace;}
+  .box.ok{border-color:#2ecc8f55;font-family:inherit;}
+  .box.warn{border-color:#ffb02055;font-family:inherit;}
+  .foot{color:var(--sub);font-size:12px;margin-top:20px;line-height:1.9;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">⛏ 石广 StoneVast</div>
+    <div class="navlinks">
+      <a href="./index.html">首页</a>
+      <a href="./withdrawals.html">提现实录</a>
+      <a href="./nft.html">创世 NFT</a>
+      <a href="./guide.html">节点说明</a>
+      <a href="./node-docs.html">发放流程</a>
+    </div>
+  </nav>
+
+  <h1>⚡ 算力租赁成本测算与硬件投入可行性</h1>
+  <div class="sub">数据基准：官网实时数据（2026-10-22 05:00 UTC+8）· 会随币价 / 难度波动</div>
+
+  <div class="card">
+    <div class="box warn" style="margin-top:0">
+      <b>合规提示：</b>阅读本页即表示知悉并同意 StoneVast《服务条例》。本文所有数字为基于公开数据的<b>测算框架</b>，不构成投资建议，不承诺任何收益。
+    </div>
+  </div>
+
+  <!-- 一 -->
+  <div class="card">
+    <h2>一、当前真实基线</h2>
+    <table>
+      <tr><th>指标</th><th>数值</th></tr>
+      <tr><td>算力</td><td>18.17 MH/s</td></tr>
+      <tr><td>功耗</td><td>44 W</td></tr>
+      <tr><td>IRON 价格</td><td>$0.074 ≈ ¥0.527</td></tr>
+      <tr><td>净日产</td><td class="ok">¥0.62 / 天</td></tr>
+      <tr><td>净年产</td><td>≈ ¥226 / 年</td></tr>
+    </table>
+    <div class="tip">净日产 = 挖矿产出 − 电费，来自官网实时数据。按 44W 整机估算，电费约 ¥0.5/度，日电费约 ¥0.53，毛产约 ¥1.15/天。</div>
+  </div>
+
+  <!-- 二 -->
+  <div class="card">
+    <h2>二、核心问题</h2>
+    <div class="tip" style="margin-top:0;font-size:14px;color:var(--txt)">「挖矿收益能否覆盖硬件投入？」—— 即买矿机的钱，靠挖矿多久能赚回来。</div>
+  </div>
+
+  <!-- 三 -->
+  <div class="card">
+    <h2>三、自购硬件路径测算</h2>
+    <div class="tip" style="margin-top:0">假设一台能跑 18.17 MH/s 的低功耗整机（44W），硬件成本分档估算：</div>
+    <table>
+      <tr><th>硬件成本档</th><th>回本周期</th><th>结论</th></tr>
+      <tr><td>¥1,000</td><td>≈ 4.4 年</td><td class="warn">偏长</td></tr>
+      <tr><td>¥2,000</td><td>≈ 8.8 年</td><td class="warn">很长</td></tr>
+      <tr><td>¥3,000</td><td>≈ 13 年</td><td class="warn">不现实</td></tr>
+    </table>
+    <div class="tip">回本周期 = 硬件成本 ÷ 净日产（¥0.62）。<b>结论：按当前币价与产出，纯靠挖矿覆盖硬件投入短期不可行，回本周期普遍超过 4 年。</b></div>
+  </div>
+
+  <!-- 四 -->
+  <div class="card">
+    <h2>四、租赁算力路径测算</h2>
+    <div class="tip" style="margin-top:0">「租赁算力」= 不买硬件，向供应商按算力付费挖矿。盈亏平衡公式：</div>
+    <div class="box">每 MH/s 日租金  &lt;  每 MH/s 日净产出  →  租赁才划算</div>
+    <div class="tip">当前每 MH/s 日净产出：</div>
+    <div class="box">¥0.62 ÷ 18.17 MH/s ≈ ¥0.034 / MH/s / 天</div>
+    <div class="tip">只有当你能以<b>低于 ¥0.034 / MH/s / 天</b>的价格租到算力，租赁挖矿才有正收益。目前市场云算力 / GPU 租赁价普遍高于此值，故<b>租赁挖矿当前大概率倒挂</b>。</div>
+  </div>
+
+  <!-- 五 -->
+  <div class="card">
+    <h2>五、敏感性分析（聚焦币价）</h2>
+    <div class="tip" style="margin-top:0">净产出对 <b>IRON 币价</b>最敏感：</div>
+    <table>
+      <tr><th>情景</th><th>IRON 价格</th><th>净日产（约）</th><th>回本（¥2,000 硬件）</th></tr>
+      <tr><td>基准</td><td>$0.074</td><td>¥0.62</td><td class="warn">≈ 8.8 年</td></tr>
+      <tr><td>币价 ×2</td><td>$0.148</td><td>≈ ¥1.2</td><td>≈ 4.4 年</td></tr>
+      <tr><td>币价 ×5</td><td>$0.37</td><td>≈ ¥3.1</td><td class="ok">≈ 1.8 年</td></tr>
+      <tr><td>币价 ×10</td><td>$0.74</td><td>≈ ¥6.2</td><td class="ok">≈ 0.9 年</td></tr>
+    </table>
+    <div class="tip"><b>关键结论：</b>当前瓶颈不在电费，而在 <b>IRON 币价过低 + 单机算力小</b>。</div>
+  </div>
+
+  <!-- 六 -->
+  <div class="card">
+    <h2>六、可行性判断</h2>
+    <ol>
+      <li><b>短期（币价不变）</b>：硬件投入不可行，租赁挖矿倒挂，不建议追加硬件。</li>
+      <li><b>中期（币价回暖 2～5 倍）</b>：自购低功耗整机进入可回本区间；租赁需持续比价。</li>
+      <li><b>长期</b>：若 IRON 生态兑现、币价回到历史中枢，挖矿 + 分成才有真实现金流价值。</li>
+    </ol>
+  </div>
+
+  <!-- 七 -->
+  <div class="card">
+    <h2>七、建议</h2>
+    <ol>
+      <li><b>当前阶段</b>：保持现有单机运行（锁频、低功耗），<b>不新增硬件投入</b>。</li>
+      <li><b>轻资产方向</b>：优先通过<b>邀请分成</b>（一级直推）获取他人算力的分成，而不是自己买机器。</li>
+      <li><b>待观察信号</b>：IRON 币价、全网难度、电费政策，三者之一明显改善再评估扩容。</li>
+      <li><b>若需精确租赁报价</b>：需按具体供应商实时询价，本文仅给盈亏平衡框架，不虚构具体报价。</li>
+    </ol>
+    <div class="box ok">
+      <b>一句话总结：</b>机器先跑着、别加钱；让别人的算力替你打工（一级直推分成）；币价信号来了再谈扩张。
+    </div>
+  </div>
+
+  <div class="foot">
+    测算文档 · 2026-10-22 · 数据以官网实时看板为准<br>
+    本页为测算框架演示，不构成投资建议，不承诺任何收益。
+  </div>
+</div>
+
+<script>
+(function(){var EP='https://stonevast.com/api/visit';
+function upd(d){if(!d)return;var a=document.getElementById('vPv'),b=document.getElementById('vUv');if(a)a.textContent=d.pv;if(b)b.textContent=d.uv;}
+fetch(EP+'?mode=hit').then(function(r){return r.json()}).then(upd).catch(function(){});
+setInterval(function(){fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})},60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})});
+})();</script>
+<div style="text-align:center;opacity:.6;font-size:13px;margin:24px 0 8px">本站总访问量 <span id="vPv">…</span> 次 · 今日访客 <span id="vUv">…</span> 人</div>
+</body>
+</html>
