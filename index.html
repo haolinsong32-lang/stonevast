@@ -153,7 +153,7 @@
     <p data-i18n="heroSub">StoneVast is a transparent mining revenue workbench — every watt, every share and every cent is shown publicly, compounding toward an RTX 6000 Pro.</p>
     <div class="badge" data-i18n="heroBadge">● Mining live · Positive net revenue</div>
     <p class="quixote" data-i18n="quixote">Honest like Don Quixote — charging at windmills, but every number is real.</p>
-    <div class="clock"><span id="pcIron">0.000000</span> IRON <small id="pcCny">≈ ¥0.00</small></div>
+    <div class="clock"><span id="pcIron">0.000000</span> IRON <small id="pcCny">≈ $0.0000</small></div>
     <div class="clocklbl" data-i18n="clockLbl">TOTAL MINED · counting live</div>
   </div>
 
@@ -1097,7 +1097,7 @@ function tickClock(){
   const v=_pcBase+_pcRate*((Date.now()-_pcT0)/1000);
   el.textContent=v.toFixed(6);
   const D=window.SITE_DATA||{};
-  const c=$('pcCny'); if(c) c.textContent='≈ ¥'+(v*(+D.priceUsd||0)*(D.usdCny||7.12)).toFixed(2);
+  const c=$('pcCny'); if(c) c.textContent='≈ $'+(v*(+D.priceUsd||0)).toFixed(4);
 }
 applyLang();
 aiLoad();

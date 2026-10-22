@@ -52,6 +52,14 @@
   .cta.free{background:transparent;border:1px solid var(--ok);color:var(--ok);}
   .cta.gen{background:linear-gradient(135deg,var(--acc),var(--warn));color:#0d1016;}
   .cta.tool{background:transparent;border:1px solid var(--acc2);color:var(--acc2);}
+  .pay{margin-top:16px;padding-top:14px;border-top:1px dashed #ffffff1a;}
+  .price{font-size:14px;color:var(--fg);margin-bottom:10px;line-height:1.6;}
+  .price b{color:var(--acc);font-size:16px;}
+  .price small{opacity:.75;font-size:12px;}
+  .paybtn{width:100%;background:#f0a35e1a;border:1px solid #f0a35e55;color:var(--acc);border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit;}
+  .paybtn:hover{background:#f0a35e33;}
+  .paybtn.ok{background:#5bff9e22;border-color:#5bff9e66;color:#5bff9e;}
+  .paynote{font-size:11px;opacity:.65;margin-top:8px;line-height:1.6;}
   .compare{margin-top:36px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 22px;}
   .compare h3{font-size:14px;color:var(--acc);letter-spacing:1px;margin-bottom:14px;font-weight:700;}
   table{width:100%;border-collapse:collapse;font-size:13.5px;}
@@ -69,6 +77,14 @@
   .foot{text-align:center;color:var(--sub);font-size:12px;margin-top:36px;line-height:2.1;}
   .foot a{color:var(--acc2);text-decoration:none;}
 </style>
+<script>
+const IRON_ADDR='f6313f7694e21a554995e6d425b9c2b3b929f57d23d6ab20551ed4a1bf7e6ec7';
+function copyIron(btn){
+  const done=()=>{btn.classList.add('ok');const old=btn.textContent;btn.textContent='✓ Copied · 已复制';setTimeout(()=>{btn.classList.remove('ok');btn.textContent=old;},2200);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(IRON_ADDR).then(done).catch(()=>fallback());}else{fallback();}
+  function fallback(){const ta=document.createElement('textarea');ta.value=IRON_ADDR;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){alert(IRON_ADDR);}document.body.removeChild(ta);}
+}
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -110,6 +126,11 @@
         <li>Early nodes take the cold-start risk — the weight matches<br>早期节点承担冷启动不确定性，高权重对应高风险</li>
       </ul>
       <a class="cta gen" href="./nft.html">Check Genesis availability · 查看创世凭证</a>
+      <div class="pay">
+        <div class="price"><b>199 IRON</b> <small>≈ $15 · one-time · 一次买断</small></div>
+        <button class="paybtn" onclick="copyIron(this)">📋 Pay with IRON · 复制收款地址</button>
+        <div class="paynote">Send exactly 199 IRON, then DM your txid on Telegram/Discord to claim your Genesis #.<br>转 199 IRON 后，把 txid 发给 Telegram/Discord 客服领取创世编号。</div>
+      </div>
     </div>
 
     <!-- Pro 节点 -->
@@ -124,6 +145,11 @@
         <li>Adjustable 0–100% self-set share display for your own books<br>自有账本分成展示 0–100% 可调，仅限自己的账</li>
       </ul>
       <a class="cta tool" href="./index.html#est">Try the free estimator · 先试试估算器</a>
+      <div class="pay">
+        <div class="price"><b>120 IRON</b> <small>≈ $9 / month · 月度订阅</small> &nbsp;·&nbsp; <b>1200 IRON</b> <small>≈ $90 / year · 年度</small></div>
+        <button class="paybtn" onclick="copyIron(this)">📋 Pay with IRON · 复制收款地址</button>
+        <div class="paynote">Send, then DM your txid + email to activate Pro within 24h.<br>转账后把 txid 和邮箱发给客服，24 小时内开通 Pro。</div>
+      </div>
     </div>
   </div>
 
