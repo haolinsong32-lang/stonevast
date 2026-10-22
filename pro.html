@@ -81,8 +81,8 @@ function copyIron(btn){
   function fallback(){const ta=document.createElement('textarea');ta.value=IRON_ADDR;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){alert(IRON_ADDR);}document.body.removeChild(ta);}
 }
 // Pro password check (SHA-256, monthly rotation)
-// Current month password: sv-pro-2026-10
-const PWD_HASH='8c7d9e0e8b1f6e2a3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b'; // placeholder, will be replaced with real sha256
+// Password itself is never stored here — only its SHA-256 hash.
+const PWD_HASH='a67e0f97136cce315cb3242035f8126aa4cc325b8395e0e1beb5e3bf707bb6a6';
 async function sha256(str){
   const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
@@ -93,8 +93,7 @@ async function checkPwd(){
   const v=inp.value.trim();
   if(!v){msg.className='msg err';msg.textContent='Please enter password · 请输入密码';return;}
   const h=await sha256(v);
-  // Placeholder check — replace with real hash after generating password
-  if(v==='sv-pro-2026-10' || h===PWD_HASH){
+  if(h===PWD_HASH){
     msg.className='msg ok';msg.textContent='✓ Access granted · 验证通过，正在跳转…';
     sessionStorage.setItem('sv_pro_auth',h);
     setTimeout(()=>{location.href='./pro/dashboard.html';},800);
