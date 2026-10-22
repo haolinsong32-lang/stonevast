@@ -468,7 +468,7 @@
 
   <div class="foot">
     <div><b style="color:var(--acc)">StoneVast 石广</b> · <b style="color:var(--acc);letter-spacing:.5px">stonevast.com</b> · <span data-i18n="footTag">Small rig, honest numbers, compounding.</span></div>
-    <div><a href="https://github.com/haolinsong32-lang/perp-risk-guard" target="_blank" rel="noopener">GitHub</a> · <span data-i18n="footNote">Data snapshot updated daily · Not financial advice</span> · <span style="opacity:.7">👁 <span id="vPv">…</span> views · <span id="vUv">…</span> visitors today</span></div>
+    <div><a href="https://github.com/haolinsong32-lang/perp-risk-guard" target="_blank" rel="noopener">GitHub</a> · <span data-i18n="footNote">Data snapshot updated daily · Not financial advice</span> · <span style="opacity:.7">👁 <span id="vPv">…</span> views · <span id="vUv">…</span> visitors today</span> · <span style="opacity:.7" id="vStats"></span></div>
   </div>
 </div>
 
@@ -690,6 +690,7 @@ function applyLang(){
   renderData();
   renderAddrHint();
   conv();
+  if(window.svRenderStats) window.svRenderStats();
 }
 const $ = id => document.getElementById(id);
 function renderData(){
@@ -783,6 +784,7 @@ function genBat(){
   const bat='@echo off\r\nchcp 65001 >nul\r\nrem StoneVast one-click IRON miner (FishHash)\r\nrem Pool: HeroMiners plain port 1145\r\nset WALLET='+w+'\r\nset WORKER='+wk+'\r\nset POOL=ironfish.herominers.com:1145\r\ncd /d "%~dp0"\r\nlolMiner.exe --algo FISHHASH --pool %POOL% --user %WALLET%.%WORKER% --tls off --watchdog exit --apiport 4200\r\npause\r\n';
   const b=new Blob([bat],{type:'text/plain'}); const a=document.createElement('a');
   a.href=URL.createObjectURL(b); a.download='start-mining.bat'; a.click();
+  if(window.svReportDownload) window.svReportDownload();
 }
 async function checkBalance(){
   const en=LANG==='en';
@@ -1116,6 +1118,14 @@ function upd(d){if(!d)return;var a=document.getElementById('vPv'),b=document.get
 fetch(EP+'?mode=hit').then(function(r){return r.json()}).then(upd).catch(function(){});
 setInterval(function(){fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})},60000);
 document.addEventListener('visibilitychange',function(){if(!document.hidden)fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})});
+// 公示：已下载人数 + 节点选择人数（后端去重/真实注册，不虚增）
+window.svStats={dl:null,agents:null};
+window.svRenderStats=function(){var el=document.getElementById('vStats');if(!el)return;var s=window.svStats;if(s.dl==null)return;
+  el.innerHTML=(LANG==='en'?'\u2B07 <b>'+s.dl+'</b> miners downloaded · \u{1F91D} <b>'+s.agents+'</b> nodes joined':'\u2B07 已有 <b>'+s.dl+'</b> 人下载挖矿 · \u{1F91D} <b>'+s.agents+'</b> 人加入节点');};
+function pullStats(){fetch('https://stonevast.com/api/stats').then(function(r){return r.json()}).then(function(d){if(!d)return;window.svStats={dl:d.downloads,agents:d.agents};window.svRenderStats();}).catch(function(){});}
+pullStats(); setInterval(pullStats,60000);
+// 下载上报（一人只计一次，后端按长期身份哈希去重）
+window.svReportDownload=function(){try{fetch('https://stonevast.com/api/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'download_bat'})}).then(pullStats).catch(function(){});}catch(e){}};
 })();</script>
 </body>
 </html>
