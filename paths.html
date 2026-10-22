@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StoneVast node paths at a glance — Standard 5→20%, Genesis 30% (limited, first 100), Pro tooling. One-level referrals only. Public ledger. No promised returns.">
+<meta property="og:title" content="StoneVast · Three Node Paths, One Page">
+<meta property="og:description" content="Standard 5→20% · Genesis 30% limited · Pro tooling. One-level referrals only. Public ledger. No promised returns.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://haolinsong32-lang.github.io/stonevast/paths.html">
+<title>StoneVast 石广 · Three Paths, One Page · 三条路径一图看懂</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;--warn:#ffb020;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 16px 72px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc);}
+  .back{font-size:13px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+  .hero{text-align:center;padding:52px 0 44px;position:relative;}
+  .hero::before{content:'';position:absolute;left:50%;top:-30px;width:min(680px,120%);height:280px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%,#f0a35e22,transparent 70%);pointer-events:none;}
+  .hero > *{position:relative;}
+  .hero h1{font-size:clamp(28px,5.6vw,42px);font-weight:800;line-height:1.25;}
+  .hero h1 span{color:var(--acc);}
+  .hero p{color:var(--sub);margin-top:12px;font-size:15px;max-width:600px;margin-left:auto;margin-right:auto;}
+  .rule{display:inline-flex;gap:8px;align-items:center;margin-top:20px;border:1px solid #2ecc8f55;color:var(--ok);border-radius:999px;padding:6px 16px;font-size:12.5px;letter-spacing:.3px;}
+  .paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:8px;}
+  .path{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 22px 22px;display:flex;flex-direction:column;transition:transform .2s,border-color .25s,box-shadow .25s;}
+  .path:hover{transform:translateY(-3px);border-color:#374054;box-shadow:0 10px 30px #00000040;}
+  .path.genesis{border-color:#f0a35e66;position:relative;overflow:hidden;}
+  .path.genesis::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--acc),var(--warn));}
+  .tag{align-self:flex-start;font-size:11px;letter-spacing:1.6px;color:var(--sub);border:1px solid var(--line);border-radius:999px;padding:3px 10px;text-transform:uppercase;}
+  .path.genesis .tag{color:var(--acc);border-color:#f0a35e66;}
+  .path.pro .tag{color:var(--acc2);border-color:#5b9dff55;}
+  .path h2{font-size:21px;font-weight:800;margin:14px 0 2px;}
+  .path .cn{font-size:13px;color:var(--sub);}
+  .rate{font-size:44px;font-weight:800;letter-spacing:-1px;margin:18px 0 2px;font-variant-numeric:tabular-nums;}
+  .rate small{font-size:15px;color:var(--sub);font-weight:500;letter-spacing:0;}
+  .path.standard .rate{color:var(--ok);}
+  .path.genesis .rate{color:var(--acc);}
+  .path.pro .rate{color:var(--acc2);font-size:30px;letter-spacing:-.5px;line-height:1.3;}
+  .path ul{list-style:none;margin:14px 0 0;flex:1;}
+  .path li{font-size:13.5px;color:var(--sub);padding:7px 0 7px 22px;position:relative;border-bottom:1px dashed #252b3880;}
+  .path li:last-child{border-bottom:none;}
+  .path li::before{content:'—';position:absolute;left:0;color:var(--acc);font-weight:700;}
+  .path li b{color:var(--txt);font-weight:600;}
+  .cta{display:block;text-align:center;margin-top:20px;text-decoration:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;transition:opacity .2s;}
+  .cta:hover{opacity:.88;}
+  .cta.free{background:transparent;border:1px solid var(--ok);color:var(--ok);}
+  .cta.gen{background:linear-gradient(135deg,var(--acc),var(--warn));color:#0d1016;}
+  .cta.tool{background:transparent;border:1px solid var(--acc2);color:var(--acc2);}
+  .compare{margin-top:36px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 22px;}
+  .compare h3{font-size:14px;color:var(--acc);letter-spacing:1px;margin-bottom:14px;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;}
+  th{color:var(--sub);font-weight:600;font-size:12px;letter-spacing:.5px;}
+  tr:last-child td{border-bottom:none;}
+  td b{color:var(--txt);}
+  td .g{color:var(--ok);font-weight:700;}
+  td .o{color:var(--acc);font-weight:700;}
+  td .b{color:var(--acc2);font-weight:700;}
+  .redline{margin-top:36px;text-align:center;border:1px solid #e5484d55;background:#e5484d0d;border-radius:14px;padding:18px 20px;}
+  .redline b{color:#ff6b6f;letter-spacing:1px;font-size:13px;}
+  .redline p{color:var(--sub);font-size:13px;margin-top:6px;}
+  .redline p b{color:var(--txt);letter-spacing:0;font-size:13px;}
+  .foot{text-align:center;color:var(--sub);font-size:12px;margin-top:36px;line-height:2.1;}
+  .foot a{color:var(--acc2);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="./index.html"><b>⛏</b> StoneVast 石广</a>
+    <a class="back" href="./index.html">← Back · 返回首页</a>
+  </nav>
+
+  <div class="hero">
+    <h1>Three paths in.<br><span>One level only.</span></h1>
+    <p>三条参与路径，一页看懂。标准节点免费入场，创世凭证限量锁定，Pro 只卖工具不卖分成。</p>
+    <div class="rule">✓ &nbsp;One-level referrals · Public ledger · No promised returns&nbsp; ·&nbsp; 只有一级直推 · 账本公开 · 不承诺收益</div>
+  </div>
+
+  <div class="paths">
+    <!-- 标准节点 -->
+    <div class="path standard">
+      <span class="tag">Standard · 标准节点</span>
+      <h2>Free invite code</h2>
+      <div class="cn">免费邀请码 · 零成本入场</div>
+      <div class="rate">5<small>% →</small> 20<small>%</small></div>
+      <ul>
+        <li><b>5% starting</b> direct-referral share, up to <b>20%</b> with node level<br>默认 5% 直推分成，随节点等级最高 20%</li>
+        <li><b>No entry fee</b>, no hardware required to start<br>无门槛、无需自备矿机即可验证规则</li>
+        <li>Best for verifying the transparency claims yourself<br>适合先进来核对账本与规则的人</li>
+      </ul>
+      <a class="cta free" href="./index.html#start">Get a free invite code · 领取邀请码</a>
+    </div>
+
+    <!-- 创世节点 -->
+    <div class="path genesis">
+      <span class="tag">Genesis · 创世节点</span>
+      <h2>Limited Genesis Pass</h2>
+      <div class="cn">限量创世凭证 · 发完即止</div>
+      <div class="rate">30<small>% forever</small></div>
+      <ul>
+        <li><b>Permanent 30%</b> direct-referral share, never diluted<br>永久 30% 直推分成，不增发、不返场、不稀释</li>
+        <li><b>Hard-capped at the first 100</b> nodes + numbered Genesis NFT (#001–#100)<br>仅限前 100 节点，配编号创世 NFT 作为链上身份</li>
+        <li>Early nodes take the cold-start risk — the weight matches<br>早期节点承担冷启动不确定性，高权重对应高风险</li>
+      </ul>
+      <a class="cta gen" href="./nft.html">Check Genesis availability · 查看创世凭证</a>
+    </div>
+
+    <!-- Pro 节点 -->
+    <div class="path pro">
+      <span class="tag">Pro · 工具权益</span>
+      <h2>Pro subscription</h2>
+      <div class="cn">付费订阅 · 卖工具不卖分成</div>
+      <div class="rate">Tools,<br>not tiers.</div>
+      <ul>
+        <li>Estimators, compounding calculator, rental-cost model, node dashboard<br>收益估算器、复利计算器、租赁成本测算、节点看板</li>
+        <li><b>Pro sells tooling — never a higher referral rate</b><br>Pro 不提供更高分成比例，分成仍只有一级</li>
+        <li>Adjustable 0–100% self-set share display for your own books<br>自有账本分成展示 0–100% 可调，仅限自己的账</li>
+      </ul>
+      <a class="cta tool" href="./index.html#est">Try the free estimator · 先试试估算器</a>
+    </div>
+  </div>
+
+  <!-- 怎么选 -->
+  <div class="compare">
+    <h3>WHICH ONE FITS · 怎么选</h3>
+    <table>
+      <tr><th></th><th>Cost · 成本</th><th>Direct share · 直推分成</th><th>Best for · 适合</th></tr>
+      <tr><td><b class="g">Standard</b></td><td>Free · 免费</td><td class="g">5% → 20%</td><td>Verify first, scale later · 先验证后放大</td></tr>
+      <tr><td><b class="o">Genesis</b></td><td>Limited pass · 限量凭证</td><td class="o">30% permanent · 永久</td><td>Early believers · 早期共建者</td></tr>
+      <tr><td><b class="b">Pro</b></td><td>Subscription · 订阅</td><td>Same rules · 同一套规则</td><td>Data &amp; tooling · 数据工具党</td></tr>
+    </table>
+  </div>
+
+  <!-- 合规红线 -->
+  <div class="redline">
+    <b>THE ONE HARD RULE · 唯一红线</b>
+    <p>You invite a friend, you earn. Your friend invites someone, <b>you earn nothing</b>. Written into the rules, not the marketing.<br>你邀请朋友，你拿分成；朋友再邀请别人，<b>与你无关</b>。这是写死在规则里的，不是宣传话术。</p>
+  </div>
+
+  <div class="foot">
+    Rules, ledger and estimator are public — do your own math first.<br>
+    <a href="./index.html">Home · 首页</a> · <a href="./node-docs.html">Issuance docs · 发放规则</a> · <a href="./withdrawals.html">Withdrawal proof · 提现核验</a> · <a href="./guide.html">Guide · 说明</a>
+  </div>
+</div>
+</body>
+</html>
