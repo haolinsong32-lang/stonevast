@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>StoneVast Pro · Advanced ROI Calculator · 高级收益计算器</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;--bad:#ff6b6f;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 72px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc2);}
+  .links{display:flex;gap:8px;}
+  .back{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;}
+  .back:hover{border-color:var(--acc2);color:var(--txt);}
+  .back.active{border-color:var(--acc2);color:var(--acc2);}
+  h1{font-size:24px;font-weight:800;margin:20px 0 6px;}
+  .sub1{font-size:13px;color:var(--sub);margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:18px;}
+  .card h2{font-size:15px;color:var(--acc2);letter-spacing:1px;margin-bottom:16px;font-weight:700;}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:14px;}
+  .fld label{display:block;font-size:11.5px;color:var(--sub);margin-bottom:6px;letter-spacing:.5px;}
+  .fld input,.fld select{width:100%;background:#0d1016;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--txt);font-family:inherit;outline:none;transition:border-color .2s;font-variant-numeric:tabular-nums;}
+  .fld input:focus{border-color:var(--acc2);}
+  .result{background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:14px;}
+  .result .r{display:flex;justify-content:space-between;font-size:13.5px;padding:6px 0;border-bottom:1px dashed #252b3880;}
+  .result .r:last-child{border-bottom:none;}
+  .result .r b{color:var(--acc2);font-variant-numeric:tabular-nums;}
+  .result .r.pos b{color:var(--ok);}
+  .result .r.neg b{color:var(--bad);}
+  table.sens{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px;}
+  table.sens th,table.sens td{padding:10px 8px;text-align:center;border:1px solid var(--line);}
+  table.sens th{background:#0d1016;color:var(--sub);font-weight:600;font-size:11.5px;}
+  table.sens td{font-variant-numeric:tabular-nums;}
+  table.sens td.pos{color:var(--ok);background:#2ecc8f0d;}
+  table.sens td.neg{color:var(--bad);background:#ff6b6f0d;}
+  table.sens td.zero{color:var(--sub);}
+  .note{font-size:12px;color:var(--sub);margin-top:12px;line-height:1.7;}
+  .reset{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
+  .reset:hover{border-color:var(--acc);color:var(--txt);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="./pro.html"><b>⛏</b> StoneVast Pro</a>
+    <div class="links">
+      <a class="back" href="./pro/dashboard.html">Dashboard</a>
+      <a class="back active" href="./pro/calculator.html">Calculator</a>
+      <a class="back" href="./pro.html">← Exit</a>
+    </div>
+  </nav>
+
+  <h1>🧮 Advanced ROI Calculator</h1>
+  <div class="sub1">复利 + 租赁对比 + 敏感性分析。whattomine 免费版没有的三件套。</div>
+
+  <!-- 模块 1：复利模型 -->
+  <div class="card">
+    <h2>1 · COMPOUNDING · 复利模型</h2>
+    <div class="row">
+      <div class="fld"><label>Initial principal · 初始本金 (IRON)</label><input type="number" id="c0" value="100" step="any"></div>
+      <div class="fld"><label>Daily return rate · 日收益率 (%)</label><input type="number" id="cr" value="0.3" step="any"></div>
+      <div class="fld"><label>Days · 天数</label><input type="number" id="cd" value="365" step="1"></div>
+    </div>
+    <div class="result" id="cOut"></div>
+  </div>
+
+  <!-- 模块 2：租赁成本对比 -->
+  <div class="card">
+    <h2>2 · RENT VS OWN · 租算力 vs 自有矿机</h2>
+    <div class="row">
+      <div class="fld"><label>Hashrate · 算力 (MH/s)</label><input type="number" id="rh" value="18.8" step="any"></div>
+      <div class="fld"><label>Rental price · 租赁单价 ($/MH/day)</label><input type="number" id="rp" value="0.025" step="any"></div>
+      <div class="fld"><label>Revenue per MH · 单位收益 ($/MH/day)</label><input type="number" id="rr" value="0.0245" step="any"></div>
+      <div class="fld"><label>Power · 功耗 (W)</label><input type="number" id="rw" value="49" step="any"></div>
+      <div class="fld"><label>Electricity · 电价 ($/kWh)</label><input type="number" id="re" value="0.077" step="any"></div>
+    </div>
+    <div class="result" id="rOut"></div>
+  </div>
+
+  <!-- 模块 3：敏感性九宫格 -->
+  <div class="card">
+    <h2>3 · SENSITIVITY MATRIX · 年化净收敏感性</h2>
+    <div class="row">
+      <div class="fld"><label>Base revenue · 基础日毛收 ($)</label><input type="number" id="sr" value="0.46" step="any"></div>
+      <div class="fld"><label>Base electricity · 基础日电费 ($)</label><input type="number" id="se" value="0.09" step="any"></div>
+    </div>
+    <table class="sens" id="sensTable"></table>
+    <div class="note">
+      行：价格变动（-20% / 基准 / +20%）。列：难度变动（-30% / 基准 / +30%）。单元格为年化净收（USD）。<br>
+      难度上涨 → 单位算力收益下降。价格与难度通常正相关（牛市难度跟涨），所以右上格才是真实乐观场景，右下格几乎不会出现。
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <button class="reset" onclick="resetAll()">↺ Reset to defaults · 重置默认值</button>
+  </div>
+</div>
+
+<script src="../data.js"></script>
+<script>
+if(!sessionStorage.getItem('sv_pro_auth')){ location.href='../pro.html'; }
+
+const $ = id=>document.getElementById(id);
+const fmt=(n,d=2)=>(+n||0).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+// ===== 1. Compounding =====
+function calcCompound(){
+  const c0=+$('c0').value||0, r=(+$('cr').value||0)/100, d=+$('cd').value||0;
+  const final = c0*Math.pow(1+r,d);
+  const gain = final-c0;
+  const apy = (Math.pow(1+r,365)-1)*100;
+  $('cOut').innerHTML = `
+    <div class="r"><span>Final amount · 最终金额</span><b>${fmt(final,4)} IRON</b></div>
+    <div class="r ${gain>=0?'pos':'neg'}"><span>Total gain · 总收益</span><b>${gain>=0?'+':''}${fmt(gain,4)} IRON</b></div>
+    <div class="r"><span>Implied APY · 隐含年化</span><b>${fmt(apy,2)}%</b></div>
+    <div class="r"><span>Monthly equivalent · 月均复利</span><b>${fmt((Math.pow(1+r,30)-1)*100,2)}%</b></div>
+  `;
+}
+
+// ===== 2. Rent vs Own =====
+function calcRent(){
+  const h=+$('rh').value||0, rp=+$('rp').value||0, rr=+$('rr').value||0, w=+$('rw').value||0, e=+$('re').value||0;
+  const rentCost = h*rp;
+  const rentRev  = h*rr;
+  const rentNet  = rentRev-rentCost;
+  const ownElec  = w*24/1000*e;
+  const ownNet   = rentRev-ownElec;
+  const edge     = ownNet-rentNet;
+  $('rOut').innerHTML = `
+    <div class="r"><span>Daily gross revenue · 日毛收</span><b>$${fmt(rentRev,4)}</b></div>
+    <div class="r"><span>Rental cost · 租赁成本</span><b>-$${fmt(rentCost,4)}</b></div>
+    <div class="r ${rentNet>=0?'pos':'neg'}"><span>Rent net · 租赁净收</span><b>${rentNet>=0?'+':''}$${fmt(rentNet,4)}/day</b></div>
+    <div class="r"><span>Own electricity · 自有机电费</span><b>-$${fmt(ownElec,4)}</b></div>
+    <div class="r ${ownNet>=0?'pos':'neg'}"><span>Own net · 自有机净收</span><b>${ownNet>=0?'+':''}$${fmt(ownNet,4)}/day</b></div>
+    <div class="r ${edge>=0?'pos':'neg'}"><span>Edge (own - rent) · 自有优势</span><b>${edge>=0?'+':''}$${fmt(edge,4)}/day · ${edge>=0?'+':''}$${fmt(edge*365,2)}/yr</b></div>
+  `;
+}
+
+// ===== 3. Sensitivity =====
+function calcSens(){
+  const sr=+$('sr').value||0, se=+$('se').value||0;
+  const prices=[-0.2,0,0.2], diffs=[-0.3,0,0.3];
+  let html='<tr><th>Price \\ Diff</th>';
+  diffs.forEach(d=>{html+=`<th>${d>0?'+':''}${d*100}%</th>`;});
+  html+='</tr>';
+  prices.forEach(p=>{
+    html+=`<tr><th>${p>0?'+':''}${p*100}%</th>`;
+    diffs.forEach(d=>{
+      // 价格上涨 → revenue 同比例涨；难度上涨 → revenue 反比下降
+      const rev = sr*(1+p)/(1+d);
+      const yearNet = (rev-se)*365;
+      const cls = yearNet>0.01?'pos':(yearNet<-0.01?'neg':'zero');
+      html+=`<td class="${cls}">$${fmt(yearNet,0)}</td>`;
+    });
+    html+='</tr>';
+  });
+  $('sensTable').innerHTML=html;
+}
+
+function calcAll(){ calcCompound(); calcRent(); calcSens(); }
+
+function resetAll(){
+  const D = window.SITE_DATA||{};
+  // Pull live numbers when available
+  if(D.hashrate) $('rh').value = D.hashrate;
+  if(D.power)    $('rw').value = D.power;
+  if(D.priceUsd && D.hashrate){
+    // rough: daily gross = hashrate * revPerMh; we don't have revPerMh here, use netDayCny/usdCny as proxy
+    const grossUsd = (D.netDayCny + D.power*24/1000*0.55)/(D.usdCny||7.12);
+    $('sr').value = grossUsd.toFixed(4);
+    $('se').value = (D.power*24/1000*0.55/(D.usdCny||7.12)).toFixed(4);
+    $('rr').value = (grossUsd/D.hashrate).toFixed(4);
+  }
+  calcAll();
+}
+
+['c0','cr','cd'].forEach(id=>$(id).addEventListener('input',calcCompound));
+['rh','rp','rr','rw','re'].forEach(id=>$(id).addEventListener('input',calcRent));
+['sr','se'].forEach(id=>$(id).addEventListener('input',calcSens));
+
+resetAll();
+</script>
+</body>
+</html>
