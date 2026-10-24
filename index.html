@@ -493,7 +493,7 @@ en:{
   quixote:'Honest like Don Quixote — charging at windmills, but every number is real.',
   clockLbl:'TOTAL MINED · counting live',
   dashTitle:'📊 LIVE DASHBOARD · DAILY SNAPSHOT',
-  sHash:'⚡ Hashrate (IRON)', sPower:'🔌 Power draw', sPrice:'💲 IRON price', sNet:'📈 Net / day (after power)', sPaid:'✅ Lifetime paid (pool-verified)',
+  sHash:'⚡ Hashrate (IRON)', sPower:'🔌 Power draw', sPrice:'💲 USD parity · IRON/KARL/XTR', sNet:'📈 Net / day (after power)', sPaid:'✅ Lifetime paid (pool-verified)',
   sUpdated:'Snapshot: 2026-10-17 09:30 (UTC+8) · Pool: HeroMiners · Auto-stop if revenue turns negative',
   goalTitle:'🎯 THE GOAL · RTX 6000 PRO (96GB)',
   goalNow:'Saved: <b>¥560 ≈ $78</b>', goalTarget:'Target: <b>¥70,000 ≈ $10,000</b>',
@@ -591,7 +591,7 @@ zh:{
   quixote:'堂吉诃德式的诚实 —— 向着风车冲锋，但每个数字都是真的。',
   clockLbl:'累计产出 · 实时跳动',
   dashTitle:'📊 实时看板 · 每日快照',
-  sHash:'⚡ 算力 (IRON)', sPower:'🔌 功耗', sPrice:'💲 IRON 价格', sNet:'📈 日净收益（扣电费）', sPaid:'✅ 累计已付（矿池可查）',
+  sHash:'⚡ 算力 (IRON)', sPower:'🔌 功耗', sPrice:'💲 USD 对标 · IRON/KARL/XTR', sNet:'📈 日净收益（扣电费）', sPaid:'✅ 累计已付（矿池可查）',
   sUpdated:'快照：2026-10-17 09:30 (UTC+8) · 矿池 HeroMiners · 收益倒挂自动停机',
   goalTitle:'🎯 目标 · RTX 6000 PRO（96GB）',
   goalNow:'已攒：<b>¥560 ≈ $78</b>', goalTarget:'目标：<b>¥70,000 ≈ $10,000</b>',
@@ -1131,20 +1131,50 @@ window.svReportDownload=function(){try{fetch('https://stonevast.com/api/event',{
 // 实时 IRON 价格（CoinGecko 公开 API，允许 CORS，每 60 秒刷新）
 (function(){
   function pullPrice(){
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=iron-fish&vs_currencies=usd')
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=iron-fish,karlsen,tari&vs_currencies=usd')
       .then(function(r){return r.json();})
       .then(function(d){
-        if(!d||!d['iron-fish']||!d['iron-fish'].usd) return;
-        var p=+d['iron-fish'].usd;
-        if(window.SITE_DATA) window.SITE_DATA.priceUsd=p;
-        var el=document.getElementById('vPrice');
-        if(el) el.textContent='$'+p.toFixed(3)+' \u26A1';
-        var rate=(window.SITE_DATA&&window.SITE_DATA.usdCny)||7.12;
-        var ep=document.getElementById('ePrice');
-        if(ep) ep.value=(p*rate).toFixed(3);
-        var fp=document.getElementById('fprice');
-        if(fp) fp.value=p.toFixed(4);
-        if(typeof renderData==='function') renderData();
+        if(!d) return;
+        var iron=(d['iron-fish']&&d['iron-fish'].usd)?+d['iron-fish'].usd:null;
+        var karl=(d['karlsen']&&d['karlsen'].usd)?+d['karlsen'].usd:null;
+        var tari=(d['tari']&&d['tari'].usd)?+d['tari'].usd:null;
+        if(iron===null && karl===null && tari===null) return;
+        if(iron!==null){
+          var p=iron;
+          if(window.SITE_DATA) window.SITE_DATA.priceUsd=p;
+          var el=document.getElementById('vPrice');
+          if(el){
+            // 主标：IRON 价格；副标由下方 ensureSub 注入 KARL/XTR，避免覆盖
+            if(el.firstChild && el.firstChild.nodeType===3){
+              el.firstChild.nodeValue='$'+p.toFixed(3)+' ⚡';
+            }else{
+              el.textContent='$'+p.toFixed(3)+' ⚡';
+            }
+          }
+          var rate=(window.SITE_DATA&&window.SITE_DATA.usdCny)||7.12;
+          var ep=document.getElementById('ePrice');
+          if(ep) ep.value=(p*rate).toFixed(3);
+          var fp=document.getElementById('fprice');
+          if(fp) fp.value=p.toFixed(4);
+          if(typeof renderData==='function') renderData();
+        }
+        // 副标：KARL / XTR USD 对照
+        var parts=[];
+        if(karl!==null) parts.push('KARL $'+karl.toFixed(4));
+        if(tari!==null) parts.push('XTR $'+tari.toFixed(4));
+        if(parts.length){
+          var v=document.getElementById('vPrice');
+          if(v){
+            var s=document.getElementById('vPriceSub');
+            if(!s){
+              s=document.createElement('div');
+              s.id='vPriceSub';
+              s.style.cssText='font-size:11px;font-weight:400;opacity:.7;margin-top:4px;letter-spacing:.03em;line-height:1.4';
+              v.appendChild(s);
+            }
+            s.textContent=parts.join('  ·  ');
+          }
+        }
       }).catch(function(){});
   }
   pullPrice();
