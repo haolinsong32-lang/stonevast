@@ -72,6 +72,20 @@
   td .o{color:var(--acc);font-weight:700;}
   td .b{color:var(--acc2);font-weight:700;}
   .redline{margin-top:36px;text-align:center;border:1px solid #e5484d55;background:#e5484d0d;border-radius:14px;padding:18px 20px;}
+  .community{margin-top:36px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 22px 22px;}
+  .community h3{font-size:14px;color:var(--acc);letter-spacing:1px;margin-bottom:6px;font-weight:700;}
+  .community-sub{color:var(--sub);font-size:13px;margin-bottom:18px;}
+  .community-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  .community-card{background:#0d1016;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;text-decoration:none;transition:transform .2s,border-color .25s;}
+  .community-card:hover{transform:translateY(-2px);border-color:#3a4560;}
+  .community-card.tg:hover{border-color:#29a9eb55;}
+  .community-icon{font-size:28px;margin-bottom:8px;}
+  .community-name{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:4px;}
+  .community-desc{font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:14px;}
+  .community-cta{font-size:13px;font-weight:600;color:var(--acc2);}
+  .live-stats{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:11.5px;color:var(--ok);margin-bottom:10px;padding:4px 10px;background:#2ecc8f11;border:1px solid #2ecc8f33;border-radius:999px;letter-spacing:.3px;}
+  .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
   .redline b{color:#ff6b6f;letter-spacing:1px;font-size:13px;}
   .redline p{color:var(--sub);font-size:13px;margin-top:6px;}
   .redline p b{color:var(--txt);letter-spacing:0;font-size:13px;}
@@ -85,6 +99,42 @@ function copyIron(btn){
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(IRON_ADDR).then(done).catch(()=>fallback());}else{fallback();}
   function fallback(){const ta=document.createElement('textarea');ta.value=IRON_ADDR;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){alert(IRON_ADDR);}document.body.removeChild(ta);}
 }
+
+// === Live community stats ===
+// Multi-source fallback: same-origin -> github.io -> raw.githubusercontent
+// Token stays on the cron host, never shipped to client.
+(function loadLiveStats(){
+  const countEl = document.getElementById('tg-member-count');
+  const statusEl = document.getElementById('tg-online-status');
+  if(!countEl) return;
+  const sources = [
+    '/api/tg-stats.json',
+    'https://haolinsong32-lang.github.io/stonevast/api/tg-stats.json',
+    'https://raw.githubusercontent.com/haolinsong32-lang/stonevast/main/api/tg-stats.json'
+  ];
+  const tryFetch = (i) => {
+    if(i >= sources.length){
+      const stats = countEl.closest('.live-stats');
+      if(stats) stats.style.display = 'none';
+      return;
+    }
+    fetch(sources[i] + (sources[i].indexOf('?')>-1?'&':'?') + 't=' + Date.now())
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(d => {
+        if(d && typeof d.members === 'number'){
+          countEl.textContent = d.members;
+          if(d.updated_at){
+            const ago = Math.max(0, Math.floor((Date.now()/1000 - d.updated_at) / 60));
+            statusEl.textContent = ago < 2 ? 'live' : ago + 'm ago';
+          }
+        } else {
+          tryFetch(i+1);
+        }
+      })
+      .catch(() => tryFetch(i+1));
+  };
+  tryFetch(0);
+})();
 </script>
 </head>
 <body>
@@ -151,6 +201,27 @@ function copyIron(btn){
         <div class="price"><b>120 IRON</b> <small>≈ $9 / month · 月度订阅</small> &nbsp;·&nbsp; <b>1200 IRON</b> <small>≈ $90 / year · 年度</small></div>
         <button class="paybtn" onclick="copyIron(this)">📋 Pay with IRON · 复制收款地址</button>
         <div class="paynote">Send, then DM your txid + email to activate Pro within 24h.<br>转账后把 txid 和邮箱发给客服，24 小时内开通 Pro。<br><a href="./pay-guide.html" style="color:var(--acc2);text-decoration:none;font-weight:600;">📖 如何手动转账？查看 3 步指南 →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 社群入口 -->
+  <div class="community">
+    <h3>JOIN THE COMMUNITY · 加入社群</h3>
+    <p class="community-sub">Real-time updates, payout proofs, and direct support.<br>实时动态、打款证明、直接答疑。</p>
+    <div class="community-grid">
+      <a class="community-card tg" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">
+        <div class="community-icon">✈️</div>
+        <div class="community-name">Telegram</div>
+        <div class="community-desc">Official group · 官方群<br>Announcements + live support</div>
+        <div class="live-stats"><span class="live-dot"></span><span id="tg-member-count">—</span>&nbsp;members · <span id="tg-online-status">live</span></div>
+        <div class="community-cta">Join now · 立即加入 →</div>
+      </a>
+      <div class="community-card discord" style="opacity:.5;cursor:not-allowed;">
+        <div class="community-icon">💬</div>
+        <div class="community-name">Discord</div>
+        <div class="community-desc">Coming soon · 即将上线<br>Server under construction</div>
+        <div class="community-cta" style="color:var(--sub);">Stay tuned · 敬请期待</div>
       </div>
     </div>
   </div>
