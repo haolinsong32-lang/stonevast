@@ -4,3 +4,4 @@ deploy/
 assets/*
 !assets/nft-001.svg
 !assets/nft/
+!assets/monsters/

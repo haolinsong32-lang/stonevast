@@ -1,0 +1,18 @@
+name = "stonevast-monsters-vote"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+# 部署步骤见 README.md
+# 1) wrangler login
+# 2) wrangler kv:namespace create VOTES
+#    把返回的 id 填到下面
+# 3) wrangler secret put TG_BOT_TOKEN
+# 4) wrangler deploy
+
+[[kv_namespaces]]
+binding = "VOTES"
+id = "REPLACE_WITH_YOUR_KV_ID"
+preview_id = "REPLACE_WITH_YOUR_PREVIEW_KV_ID"
+
+[vars]
+TG_CHAT_ID = "-1004425841910"

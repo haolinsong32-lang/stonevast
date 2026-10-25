@@ -171,6 +171,11 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// ============ 配置 ============
+// Workers API 根地址,部署完成后改成实际域名(如 https://stonevast-monsters-vote.xxx.workers.dev)
+// 留空 = 纯本地模式(localStorage 票仓,仅当前浏览器可见)
+const API_BASE = '';  // 待部署后填入
+
 // ============ 数据定义 ============
 const MONSTERS = [
   { id:'wukong',   name:'Sun Wukong',       cn:'孙悟空',     origin:'China · 中国',       emoji:'🐒', tagline:'The Monkey King who rebelled against Heaven. 72 transformations, one golden staff.' },
@@ -185,41 +190,73 @@ const MONSTERS = [
 
 const VOTE_KEY = 'stonevast_monster_v1';
 const VOTE_TS_KEY = 'stonevast_monster_ts';
-const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24h
+const LOCAL_TALLY_KEY = 'stonevast_monster_tally';
+const COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
-// ============ 本地票仓(v0.1:localStorage;v0.2 接 Cloudflare Workers KV) ============
-function loadVotes(){
-  try{
-    const raw = localStorage.getItem('stonevast_monster_tally');
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  // 初始种子票(仅 v0.1 演示用,接 Workers 后会清空)
+// 全局票仓缓存(API 模式下)
+let remoteTally = null;
+let boostToken = null;
+
+// URL 参数 ?boost=xxx → TG 群成员 3x 加成
+(function(){
+  const u = new URL(location.href);
+  const b = u.searchParams.get('boost');
+  if (b && /^[a-f0-9-]{36}$/i.test(b)) {
+    boostToken = b;
+    // 清掉 URL 参数,避免分享时泄露
+    u.searchParams.delete('boost');
+    history.replaceState(null, '', u.toString());
+  }
+})();
+
+// ============ 票仓读取(本地或远端) ============
+async function fetchTally(){
+  if (!API_BASE) return loadLocalTally();
+  try {
+    const r = await fetch(API_BASE + '/tally', { cache: 'no-store' });
+    if (!r.ok) throw new Error('http ' + r.status);
+    const data = await r.json();
+    remoteTally = data.tally;
+    return data.tally;
+  } catch (e) {
+    console.warn('API unreachable, fallback to local tally', e);
+    return loadLocalTally();
+  }
+}
+
+function loadLocalTally(){
+  try {
+    const raw = localStorage.getItem(LOCAL_TALLY_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e){}
   const seed = {};
   MONSTERS.forEach(m => seed[m.id] = 0);
   return seed;
 }
-function saveVotes(t){ localStorage.setItem('stonevast_monster_tally', JSON.stringify(t)); }
+
+function saveLocalTally(t){
+  try { localStorage.setItem(LOCAL_TALLY_KEY, JSON.stringify(t)); } catch(e){}
+}
+
 function getMyVote(){
   const ts = parseInt(localStorage.getItem(VOTE_TS_KEY) || '0', 10);
-  if(Date.now() - ts < COOLDOWN_MS){
-    return localStorage.getItem(VOTE_KEY);
-  }
-  return null; // 可以重新投
+  if (Date.now() - ts < COOLDOWN_MS) return localStorage.getItem(VOTE_KEY);
+  return null;
 }
+
 function recordMyVote(id){
   localStorage.setItem(VOTE_KEY, id);
   localStorage.setItem(VOTE_TS_KEY, String(Date.now()));
 }
 
 // ============ 渲染 ============
-function render(){
-  const tally = loadVotes();
+function render(tally){
   const total = Object.values(tally).reduce((a,b)=>a+b, 0);
   const myVote = getMyVote();
 
-  document.getElementById('total-votes').textContent = `${total} vote${total===1?'':'s'} cast`;
+  document.getElementById('total-votes').textContent =
+    `${total} vote${total===1?'':'s'} cast` + (API_BASE && remoteTally ? '' : ' · local');
 
-  // 排序找领先者
   const sorted = [...MONSTERS].sort((a,b)=>(tally[b.id]||0)-(tally[a.id]||0));
   const leaderId = sorted[0] && (tally[sorted[0].id]||0) > 0 ? sorted[0].id : null;
 
@@ -230,9 +267,14 @@ function render(){
     const pct = total > 0 ? (votes/total*100).toFixed(1) : '0.0';
     const card = document.createElement('div');
     card.className = 'monster' + (m.id === leaderId ? ' leading' : '');
+    // 优先用本地图片,失败回退 emoji
+    const imgPath = `assets/monsters/${m.id}_sm.jpg`;
+    const avatarHtml = `<img src="${imgPath}" alt="${m.name}" loading="lazy"
+      onerror="this.outerHTML='<div class=\\'avatar-emoji\\'>${m.emoji}</div>'"
+      style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block;">`;
     card.innerHTML = `
       <div class="rank">#${idx+1} · WEEK 1</div>
-      <div class="avatar">${m.emoji}</div>
+      <div class="avatar" style="padding:0;overflow:hidden;">${avatarHtml}</div>
       <div class="name">${m.name}</div>
       <div class="origin">${m.origin}</div>
       <div class="tagline">${m.tagline}</div>
@@ -242,31 +284,62 @@ function render(){
       </div>
       <div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div>
       <button class="vote-btn ${myVote===m.id?'voted':''}" data-id="${m.id}" ${myVote?'disabled':''}>
-        ${myVote===m.id ? '✓ Voted' : (myVote ? 'Come back tomorrow' : 'Vote · 投票')}
+        ${myVote===m.id ? '✓ Voted' : (myVote ? 'Come back tomorrow' : (boostToken ? 'Vote ×3 · 加成票' : 'Vote · 投票'))}
       </button>
     `;
     grid.appendChild(card);
   });
 
-  // 绑定
   grid.querySelectorAll('.vote-btn').forEach(btn => {
     btn.addEventListener('click', onVote);
   });
 }
 
 // ============ 投票 ============
-function onVote(e){
+async function onVote(e){
   const id = e.currentTarget.dataset.id;
-  if(getMyVote()){
+  if (getMyVote()){
     showToast('Already voted. Come back in 24h. · 24 小时内只能投 1 票', true);
     return;
   }
-  const tally = loadVotes();
+
+  if (API_BASE) {
+    try {
+      const r = await fetch(API_BASE + '/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, boost_token: boostToken || undefined }),
+      });
+      const data = await r.json();
+      if (!r.ok) {
+        if (data.error === 'cooldown') {
+          showToast(`Server cooldown · ${Math.ceil(data.retry_after/3600)}h left`, true);
+        } else {
+          showToast('Vote failed: ' + (data.error || 'unknown'), true);
+        }
+        return;
+      }
+      recordMyVote(id);
+      const msg = data.weight > 1
+        ? `+${data.weight} votes · TG bonus applied!`
+        : 'Vote counted! TG 群成员可解锁 3x 加成';
+      showToast(msg);
+      boostToken = null; // 一次性
+      const tally = await fetchTally();
+      render(tally);
+      return;
+    } catch (err) {
+      console.warn('API vote failed, fallback to local', err);
+    }
+  }
+
+  // 本地兜底
+  const tally = loadLocalTally();
   tally[id] = (tally[id]||0) + 1;
-  saveVotes(tally);
+  saveLocalTally(tally);
   recordMyVote(id);
-  showToast('Vote counted! · 投票成功! TG 群成员可解锁 3x 加成票');
-  render();
+  showToast('Vote counted locally · API 未部署,当前为本机票仓');
+  render(tally);
 }
 
 // ============ Toast ============
@@ -279,7 +352,18 @@ function showToast(msg, isErr){
   toastTimer = setTimeout(()=>{ t.className = 'toast'; }, 2800);
 }
 
-render();
+// ============ 启动 ============
+(async function(){
+  const tally = await fetchTally();
+  render(tally);
+  // 每 30s 拉一次最新票仓(API 模式)
+  if (API_BASE) {
+    setInterval(async ()=>{
+      const t = await fetchTally();
+      render(t);
+    }, 30000);
+  }
+})();
 </script>
 </body>
 </html>
