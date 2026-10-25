@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>StoneVast Pro · Advanced ROI Calculator · 高级收益计算器</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;--bad:#ff6b6f;--warn:#ffb020;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 72px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc2);}
+  .links{display:flex;gap:8px;}
+  .back{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;}
+  .back:hover{border-color:var(--acc2);color:var(--txt);}
+  .back.active{border-color:var(--acc2);color:var(--acc2);}
+  h1{font-size:24px;font-weight:800;margin:20px 0 6px;}
+  .sub1{font-size:13px;color:var(--sub);margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:18px;}
+  .card h2{font-size:15px;color:var(--acc2);letter-spacing:1px;margin-bottom:6px;font-weight:700;}
+  .card .intro{font-size:12.5px;color:var(--sub);margin-bottom:14px;line-height:1.7;}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:14px;}
+  .fld label{display:block;font-size:11.5px;color:var(--sub);margin-bottom:6px;letter-spacing:.5px;}
+  .fld input,.fld select{width:100%;background:#0d1016;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--txt);font-family:inherit;outline:none;transition:border-color .2s;font-variant-numeric:tabular-nums;}
+  .fld input:focus{border-color:var(--acc2);}
+  .result{background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:14px;}
+  .result .r{display:flex;justify-content:space-between;font-size:13.5px;padding:6px 0;border-bottom:1px dashed #252b3880;}
+  .result .r:last-child{border-bottom:none;}
+  .result .r b{color:var(--acc2);font-variant-numeric:tabular-nums;}
+  .result .r.pos b{color:var(--ok);}
+  .result .r.neg b{color:var(--bad);}
+  .verdict{margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13.5px;line-height:1.7;}
+  .verdict.good{background:#2ecc8f15;border:1px solid #2ecc8f55;color:var(--ok);}
+  .verdict.edge{background:#ffb02015;border:1px solid #ffb02055;color:var(--warn);}
+  .verdict.bad{background:#ff6b6f15;border:1px solid #ff6b6f55;color:var(--bad);}
+  .verdict b{font-size:14.5px;letter-spacing:.5px;}
+  .verdict small{display:block;color:var(--sub);font-size:12px;margin-top:4px;}
+  table.sens{width:100%;border-collapse:collapse;margin-top:10px;font-size:12.5px;}
+  table.sens th,table.sens td{padding:10px 8px;text-align:center;border:1px solid var(--line);}
+  table.sens th{background:#0d1016;color:var(--sub);font-weight:600;font-size:11.5px;}
+  table.sens td{font-variant-numeric:tabular-nums;}
+  table.sens td.pos{color:var(--ok);background:#2ecc8f0d;}
+  table.sens td.neg{color:var(--bad);background:#ff6b6f0d;}
+  table.sens td.zero{color:var(--sub);}
+  .note{font-size:12px;color:var(--sub);margin-top:12px;line-height:1.7;}
+  .reset{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
+  .reset:hover{border-color:var(--acc);color:var(--txt);}
+  details{background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px;font-size:13px;color:var(--sub);}
+  details summary{cursor:pointer;color:var(--acc2);font-weight:600;font-size:13px;letter-spacing:.5px;}
+  details[open]{padding-bottom:16px;}
+  details p{margin:10px 0;line-height:1.8;}
+  details b{color:var(--txt);}
+  details code{background:#1a1f2a;padding:2px 6px;border-radius:4px;font-size:12px;color:var(--acc);font-family:ui-monospace,Menlo,monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="./pro.html"><b>⛏</b> StoneVast Pro</a>
+    <div class="links">
+      <a class="back" href="./pro/dashboard.html">Dashboard</a>
+      <a class="back active" href="./pro/calculator.html">Calculator</a>
+      <a class="back" href="./pro.html">← Exit</a>
+    </div>
+  </nav>
+
+  <h1>🧮 Advanced ROI Calculator</h1>
+  <div class="sub1">电费盈亏点判定 + 复利澄清 + 租赁对比 + 敏感性分析。先说人话，再算账。</div>
+
+  <!-- 模块 0：电费盈亏点判定（最重要，放最前） -->
+  <div class="card">
+    <h2>0 · BREAK-EVEN CHECK · 你的电费能不能做</h2>
+    <div class="intro">
+      先回答一个问题：<b style="color:var(--txt)">你的 1 度电多少钱？</b>这决定了你该不该继续往下算。
+      很多人算了半天收益，最后发现电费超过盈亏点，白忙。我们先帮你避开这个坑。
+    </div>
+    <div class="row">
+      <div class="fld"><label>Your electricity price · 你的电价 ($/kWh)</label><input type="number" id="bp" value="0.077" step="any"></div>
+      <div class="fld"><label>Your hashrate · 你的算力 (MH/s)</label><input type="number" id="bh" value="18.8" step="any"></div>
+      <div class="fld"><label>Your power draw · 你的功耗 (W)</label><input type="number" id="bw" value="49" step="any"></div>
+      <div class="fld"><label>Current revenue · 当前收益 ($/MH/day)</label><input type="number" id="br" value="0.0245" step="any"></div>
+    </div>
+    <div class="result" id="bOut"></div>
+    <div id="bVerdict"></div>
+    <details>
+      <summary>📐 盈亏点怎么算的？· How is break-even calculated?</summary>
+      <p><b>公式：</b>日净收 = (算力 × 单位收益) − (功耗 × 24 ÷ 1000 × 电价)</p>
+      <p><b>盈亏点电价</b> = (算力 × 单位收益 × 1000) ÷ (功耗 × 24)</p>
+      <p>代入你的数据：单位日毛收 ÷ 单位日耗电量 = 你能承受的最高电价。电价超过这个数，你挖一天亏一天。</p>
+      <p><b>经验法则（IRON @ 当前价格）：</b></p>
+      <p>· 电价 <code>&lt; $0.08/kWh</code>：能做，有正净收<br>
+      · 电价 <code>$0.08 – $0.15/kWh</code>：边缘，看币价波动，可能微利或微亏<br>
+      · 电价 <code>&gt; $0.15/kWh</code>：别做。挖就是给电网打工，不如直接买币</p>
+      <p>如果你家电价超过 <code>$0.15</code>，我们的建议是<b>不要挖</b>。这不是打击你，是帮你省钱。</p>
+    </details>
+  </div>
+
+  <!-- 模块 1：复利 vs 单利（澄清） -->
+  <div class="card">
+    <h2>1 · APR vs APY · 先分清复利和单利</h2>
+    <div class="intro">
+      大多数人搞混这两个。<b style="color:var(--txt)">挖矿本身不是复利</b>——你每天产出固定数量的币，收益不会自动变多。
+      真正的复利需要「再投入」。我们用两个并排计算让你看清差距。
+    </div>
+    <div class="row">
+      <div class="fld"><label>Initial amount · 初始数量 (IRON)</label><input type="number" id="c0" value="100" step="any"></div>
+      <div class="fld"><label>Daily rate · 日收益率 (%)</label><input type="number" id="cr" value="0.3" step="any"></div>
+      <div class="fld"><label>Days · 天数</label><input type="number" id="cd" value="365" step="1"></div>
+    </div>
+    <div class="result" id="cOut"></div>
+    <details open>
+      <summary>⚠️ 关键问题：你的"复利"从哪来？· Where does your compounding come from?</summary>
+      <p><b>场景 A · 纯挖矿（不是复利，是 APR）</b><br>
+      每天挖出 0.3 IRON，365 天 = 109.5 IRON。<br>
+      公式：<code>最终 = 日产量 × 天数</code> · 线性增长，<b>不是复利</b>。</p>
+      <p><b>场景 B · 挖矿 + 币价上涨（不是复利，是投资收益）</b><br>
+      币价涨 10 倍，你的 109.5 IRON 值更多钱。但这是<b>价格上涨</b>，不是复利。复利指的是「数量变多」，不是「单价变高」。</p>
+      <p><b>场景 C · 把收益再投入买算力（伪复利，有折旧）</b><br>
+      把每天挖的 IRON 立刻拿去租更多算力 → 明天产更多 → 再租更多。看起来像复利。<br>
+      但：<br>
+      · 租赁价格会随算力需求上涨<br>
+      · 难度会随全网算力上涨<br>
+      · 币价波动可能让你的"复利"变成"负利"<br>
+      <b>结论：理论上是复利，实际上要扣折旧和风险溢价，真实 APY 远低于纸面。</b></p>
+      <p><b>场景 D · 质押 Staking（真复利，但有锁仓风险）</b><br>
+      把币质押进协议，每天产出新币，新币自动加入质押 → <b>数学意义上的真复利</b>。<br>
+      但 IRON 目前不支持质押。支持质押的币（如 ETH、SOL）才是这种模型。</p>
+      <p><b>场景 E · 推荐返利（真复利，但规模有限）</b><br>
+      你推荐的人持续付费，你持续拿分成。分成可以再买 Genesis、再推荐更多人 → <b>网络效应复利</b>。<br>
+      这是 StoneVast 提倡的复利——<b>不靠押注币价，不靠堆矿机，靠网络增长</b>。</p>
+    </details>
+    <details>
+      <summary>💡 StoneVast 提倡的复利模型 · Our recommended compounding</summary>
+      <p><b>我们不提倡：</b></p>
+      <p>· 贷款买矿机期待复利（折旧+电费+币价风险会吃掉你）<br>
+      · 借币租赁算力期待复利（租赁成本+难度上涨会吃掉你）<br>
+      · 梭哈小币种期待复利（流动性风险会吃掉你）</p>
+      <p><b>我们提倡：</b></p>
+      <p>· <b>零成本启动</b>：用已有硬件挖，不新增投入<br>
+      · <b>网络效应</b>：通过一级推荐获得持续分成，分成再投入<br>
+      · <b>时间复利</b>：长期坚持，让 6 小时一次的账本记录你的每一天<br>
+      · <b>透明复利</b>：每一笔都在公开账本上，可验证、可审计</p>
+      <p><b>一句话：</b>真正的复利不是数学公式，是<b>可持续的模式</b>。我们卖的不是「快速致富」，是「长期可验证」。</p>
+    </details>
+  </div>
+
+  <!-- 模块 2：租赁成本对比 -->
+  <div class="card">
+    <h2>2 · RENT VS OWN · 租算力 vs 自有矿机</h2>
+    <div class="row">
+      <div class="fld"><label>Hashrate · 算力 (MH/s)</label><input type="number" id="rh" value="18.8" step="any"></div>
+      <div class="fld"><label>Rental price · 租赁单价 ($/MH/day)</label><input type="number" id="rp" value="0.025" step="any"></div>
+      <div class="fld"><label>Revenue per MH · 单位收益 ($/MH/day)</label><input type="number" id="rr" value="0.0245" step="any"></div>
+      <div class="fld"><label>Power · 功耗 (W)</label><input type="number" id="rw" value="49" step="any"></div>
+      <div class="fld"><label>Electricity · 电价 ($/kWh)</label><input type="number" id="re" value="0.077" step="any"></div>
+    </div>
+    <div class="result" id="rOut"></div>
+    <div id="rVerdict"></div>
+  </div>
+
+  <!-- 模块 3：敏感性九宫格 -->
+  <div class="card">
+    <h2>3 · SENSITIVITY MATRIX · 年化净收敏感性</h2>
+    <div class="row">
+      <div class="fld"><label>Base revenue · 基础日毛收 ($)</label><input type="number" id="sr" value="0.46" step="any"></div>
+      <div class="fld"><label>Base electricity · 基础日电费 ($)</label><input type="number" id="se" value="0.09" step="any"></div>
+    </div>
+    <table class="sens" id="sensTable"></table>
+    <div class="note">
+      行：价格变动（-20% / 基准 / +20%）。列：难度变动（-30% / 基准 / +30%）。单元格为年化净收（USD）。<br>
+      难度上涨 → 单位算力收益下降。价格与难度通常正相关（牛市难度跟涨），所以右上格才是真实乐观场景，右下格几乎不会出现。
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <button class="reset" onclick="resetAll()">↺ Reset to defaults · 重置默认值</button>
+  </div>
+</div>
+
+<script src="../data.js"></script>
+<script>
+if(!sessionStorage.getItem('sv_pro_auth')){ location.href='../pro.html'; }
+
+const $ = id=>document.getElementById(id);
+const fmt=(n,d=2)=>(+n||0).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+// ===== 0. Break-even check =====
+function calcBreak(){
+  const p=+$('bp').value||0, h=+$('bh').value||0, w=+$('bw').value||0, r=+$('br').value||0;
+  const gross = h*r;
+  const elec  = w*24/1000*p;
+  const net   = gross-elec;
+  const breakevenPrice = w>0 ? (gross*1000)/(w*24) : 0;  // $/kWh
+  const margin = breakevenPrice>0 ? (p/breakevenPrice) : 0;
+
+  $('bOut').innerHTML = `
+    <div class="r"><span>Daily gross revenue · 日毛收</span><b>$${fmt(gross,4)}</b></div>
+    <div class="r"><span>Daily electricity · 日电费</span><b>-$${fmt(elec,4)}</b></div>
+    <div class="r ${net>=0?'pos':'neg'}"><span>Daily net · 日净收</span><b>${net>=0?'+':''}$${fmt(net,4)}</b></div>
+    <div class="r"><span>Break-even electricity price · 盈亏点电价</span><b>$${fmt(breakevenPrice,4)}/kWh</b></div>
+  `;
+
+  let cls, title, body;
+  if(p < breakevenPrice*0.7){
+    cls='good';
+    title='✓ GOOD TO GO · 可以做';
+    body=`Your electricity ($${fmt(p,3)}) is well below break-even ($${fmt(breakevenPrice,3)}). You have ${fmt((1-margin)*100,0)}% safety margin. 你家电价远低于盈亏点，有充足安全垫。`;
+  } else if(p < breakevenPrice){
+    cls='edge';
+    title='⚠ MARGINAL · 边缘地带';
+    body=`Your electricity ($${fmt(p,3)}) is close to break-even ($${fmt(breakevenPrice,3)}). Small price drops can push you negative. 你家电价接近盈亏点，币价小跌就亏。建议观望或降低功耗。`;
+  } else {
+    cls='bad';
+    title='✗ DON\'T DO IT · 别做了';
+    body=`Your electricity ($${fmt(p,3)}) exceeds break-even ($${fmt(breakevenPrice,3)}). You lose $${fmt(-net*365,2)}/year. Better to just buy the coin. 你家电价超过盈亏点，每年亏 $${fmt(-net*365,2)}。直接买币更划算。`;
+  }
+  $('bVerdict').innerHTML = `<div class="verdict ${cls}"><b>${title}</b><small>${body}</small></div>`;
+}
+
+// ===== 1. APR vs APY =====
+function calcCompound(){
+  const c0=+$('c0').value||0, r=(+$('cr').value||0)/100, d=+$('cd').value||0;
+  // APR (simple)
+  const aprFinal = c0*(1+r*d);
+  // APY (compound)
+  const apyFinal = c0*Math.pow(1+r,d);
+  const aprApy = r*365*100;
+  const apyApy = (Math.pow(1+r,365)-1)*100;
+  const diff = apyFinal-aprFinal;
+  $('cOut').innerHTML = `
+    <div class="r"><span>APR final (simple) · 单利最终</span><b>${fmt(aprFinal,4)} IRON</b></div>
+    <div class="r"><span>APY final (compound) · 复利最终</span><b>${fmt(apyFinal,4)} IRON</b></div>
+    <div class="r pos"><span>Compound edge · 复利多赚</span><b>+${fmt(diff,4)} IRON (${fmt(diff/aprFinal*100,2)}%)</b></div>
+    <div class="r"><span>APR · 年化单利</span><b>${fmt(aprApy,2)}%</b></div>
+    <div class="r"><span>APY · 年化复利</span><b>${fmt(apyApy,2)}%</b></div>
+  `;
+}
+
+// ===== 2. Rent vs Own =====
+function calcRent(){
+  const h=+$('rh').value||0, rp=+$('rp').value||0, rr=+$('rr').value||0, w=+$('rw').value||0, e=+$('re').value||0;
+  const rentCost = h*rp;
+  const rentRev  = h*rr;
+  const rentNet  = rentRev-rentCost;
+  const ownElec  = w*24/1000*e;
+  const ownNet   = rentRev-ownElec;
+  const edge     = ownNet-rentNet;
+  $('rOut').innerHTML = `
+    <div class="r"><span>Daily gross revenue · 日毛收</span><b>$${fmt(rentRev,4)}</b></div>
+    <div class="r"><span>Rental cost · 租赁成本</span><b>-$${fmt(rentCost,4)}</b></div>
+    <div class="r ${rentNet>=0?'pos':'neg'}"><span>Rent net · 租赁净收</span><b>${rentNet>=0?'+':''}$${fmt(rentNet,4)}/day</b></div>
+    <div class="r"><span>Own electricity · 自有机电费</span><b>-$${fmt(ownElec,4)}</b></div>
+    <div class="r ${ownNet>=0?'pos':'neg'}"><span>Own net · 自有机净收</span><b>${ownNet>=0?'+':''}$${fmt(ownNet,4)}/day</b></div>
+    <div class="r ${edge>=0?'pos':'neg'}"><span>Edge (own - rent) · 自有优势</span><b>${edge>=0?'+':''}$${fmt(edge,4)}/day · ${edge>=0?'+':''}$${fmt(edge*365,2)}/yr</b></div>
+  `;
+  let cls, title, body;
+  if(rentNet < 0 && ownNet > 0){
+    cls='good'; title='✓ 自有矿机更划算';
+    body=`租赁每天亏 $${fmt(-rentNet,4)}，自有每天赚 $${fmt(ownNet,4)}。租赁平台在赚你的钱。`;
+  } else if(rentNet < 0 && ownNet < 0){
+    cls='bad'; title='✗ 两个都别做';
+    body=`租赁每天亏 $${fmt(-rentNet,4)}，自有也亏 $${fmt(-ownNet,4)}。当前价格下挖矿整体不划算。`;
+  } else if(edge > 0){
+    cls='good'; title='✓ 自有机优势明显';
+    body=`自有机每天比租赁多赚 $${fmt(edge,4)}，一年多赚 $${fmt(edge*365,2)}。`;
+  } else {
+    cls='edge'; title='⚠ 租赁可能更灵活';
+    body=`租赁每天比自有少亏/多赚 $${fmt(-edge,4)}，但要考虑托管风险。`;
+  }
+  $('rVerdict').innerHTML = `<div class="verdict ${cls}"><b>${title}</b><small>${body}</small></div>`;
+}
+
+// ===== 3. Sensitivity =====
+function calcSens(){
+  const sr=+$('sr').value||0, se=+$('se').value||0;
+  const prices=[-0.2,0,0.2], diffs=[-0.3,0,0.3];
+  let html='<tr><th>Price \\ Diff</th>';
+  diffs.forEach(d=>{html+=`<th>${d>0?'+':''}${d*100}%</th>`;});
+  html+='</tr>';
+  prices.forEach(p=>{
+    html+=`<tr><th>${p>0?'+':''}${p*100}%</th>`;
+    diffs.forEach(d=>{
+      const rev = sr*(1+p)/(1+d);
+      const yearNet = (rev-se)*365;
+      const cls = yearNet>0.01?'pos':(yearNet<-0.01?'neg':'zero');
+      html+=`<td class="${cls}">$${fmt(yearNet,0)}</td>`;
+    });
+    html+='</tr>';
+  });
+  $('sensTable').innerHTML=html;
+}
+
+function calcAll(){ calcBreak(); calcCompound(); calcRent(); calcSens(); }
+
+function resetAll(){
+  const D = window.SITE_DATA||{};
+  if(D.hashrate){ $('rh').value = D.hashrate; $('bh').value = D.hashrate; }
+  if(D.power){ $('rw').value = D.power; $('bw').value = D.power; }
+  if(D.priceUsd && D.hashrate){
+    const grossUsd = (D.netDayCny + D.power*24/1000*0.55)/(D.usdCny||7.12);
+    const elecUsd  = (D.power*24/1000*0.55)/(D.usdCny||7.12);
+    $('sr').value = grossUsd.toFixed(4);
+    $('se').value = elecUsd.toFixed(4);
+    $('rr').value = (grossUsd/D.hashrate).toFixed(4);
+    $('br').value = (grossUsd/D.hashrate).toFixed(4);
+    $('re').value = (0.55/(D.usdCny||7.12)).toFixed(4);
+    $('bp').value = (0.55/(D.usdCny||7.12)).toFixed(4);
+  }
+  calcAll();
+}
+
+['bp','bh','bw','br'].forEach(id=>$(id).addEventListener('input',calcBreak));
+['c0','cr','cd'].forEach(id=>$(id).addEventListener('input',calcCompound));
+['rh','rp','rr','rw','re'].forEach(id=>$(id).addEventListener('input',calcRent));
+['sr','se'].forEach(id=>$(id).addEventListener('input',calcSens));
+
+resetAll();
+</script>
+</body>
+</html>

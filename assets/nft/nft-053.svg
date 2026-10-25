@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="72%">
+      <stop offset="0%" stop-color="#1a1f2b"/>
+      <stop offset="60%" stop-color="#0f131b"/>
+      <stop offset="100%" stop-color="#0a0d12"/>
+    </radialGradient>
+    <linearGradient id="vein" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffc8a8"/>
+      <stop offset="45%" stop-color="#eba05e"/>
+      <stop offset="100%" stop-color="#b9641f"/>
+    </linearGradient>
+    <linearGradient id="rock" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2b3140"/>
+      <stop offset="100%" stop-color="#161a22"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="26"/></filter>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <ellipse cx="512" cy="470" rx="330" ry="300" fill="#eba05e" opacity="0.11" filter="url(#soft)"/>
+  <circle cx="512" cy="470" r="332" fill="none" stroke="#eba05e" stroke-opacity="0.16" stroke-width="1.5"/>
+  <circle cx="512" cy="470" r="300" fill="none" stroke="#2b3140" stroke-width="1"/>
+  <polygon points="512,196 664,262 742,404 716,566 596,702 452,740 322,650 268,494 306,336 396,240" fill="url(#rock)" stroke="#3a4152" stroke-width="2"/>
+  <polygon points="512,232 640,292 700,410 676,540 574,652 456,682 352,608 310,486 342,354 420,272" fill="#12161e" stroke="#252b38" stroke-width="1.5"/>
+  <g fill="none" stroke="url(#vein)" stroke-linecap="round" filter="url(#glow)">
+    <path d="M566 426 L566 383 L663 445 L680 441" stroke-width="4.1" opacity="0.76"/>
+    <path d="M566 297 L637 280 L595 280 L608 286" stroke-width="2.6" opacity="0.76"/>
+    <path d="M602 620 L603 580 L663 626" stroke-width="4.9" opacity="0.53"/>
+    <path d="M539 308 L546 280 L540 280" stroke-width="4.9" opacity="0.65"/>
+    <path d="M520 569 L502 596 L525 532 L578 534" stroke-width="4.3" opacity="0.45"/>
+    <path d="M399 485 L355 504 L428 501 L435 550" stroke-width="4.2" opacity="0.57"/>
+    <path d="M649 535 L660 497 L644 494 L641 473 L628 532" stroke-width="2.3" opacity="0.64"/>
+  </g>
+  <g stroke="#eba05e" stroke-opacity="0.35" fill="none" stroke-width="1">
+    <path d="M542,390 L482,399"/>
+    <path d="M694,496 L644,472"/>
+    <path d="M485,362 L447,341"/>
+  </g>
+  <text x="512" y="836" text-anchor="middle" fill="#e9edf4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="6">STONEVAST GENESIS</text>
+  <text x="512" y="876" text-anchor="middle" fill="#8b93a7" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4">REAL HASHRATE · REAL REVENUE</text>
+  <text x="512" y="936" text-anchor="middle" fill="#eba05e" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="8">#053</text>
+  <g stroke="#eba05e" stroke-opacity="0.5" stroke-width="2" fill="none">
+    <path d="M64 128 L64 64 L128 64"/>
+    <path d="M896 64 L960 64 L960 128"/>
+    <path d="M64 896 L64 960 L128 960"/>
+    <path d="M960 896 L960 960 L896 960"/>
+  </g>
+</svg>

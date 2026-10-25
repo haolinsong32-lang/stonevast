@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genesis NFT · 创世节点权益 · 石广 StoneVast</title>
+<meta name="description" content="石广 StoneVast Genesis NFT：100 张程序化生成，编号可复现，统一矿石切片+橙色光脉风格。免费领取，权益包含 Pro 终身免费与月度抽奖。">
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--ok:#2ecc8f;--warn:#ffb020;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.7;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 80px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;}
+  .navlinks a{color:var(--acc);text-decoration:none;margin-left:16px;font-size:14px;}
+  a{color:var(--acc);text-decoration:none;word-break:break-all;}
+  h1{font-size:28px;font-weight:800;margin:10px 0 6px;}
+  .sub{color:var(--sub);font-size:14px;margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;color:var(--acc);margin-bottom:12px;font-weight:700;letter-spacing:.5px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;}
+  th{color:var(--sub);font-weight:600;font-size:12px;}
+  tr:last-child td{border-bottom:none;}
+  .ok{color:var(--ok);}
+  .steps{font-size:13.5px;line-height:2.1;}
+  .steps b{color:var(--txt);}
+  .tip{font-size:13px;color:var(--sub);line-height:1.9;margin-top:10px;}
+  .box{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:10px;font-size:13px;line-height:1.9;}
+  .box.ok{border-color:#2ecc8f55;}
+  .claim{display:inline-block;background:var(--acc);color:#0d1016;font-weight:800;font-size:15px;padding:12px 28px;border-radius:12px;text-decoration:none;margin-top:10px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px;}
+  .nft{background:#10141b;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .15s,border-color .15s;display:block;}
+  .nft:hover{transform:translateY(-3px);border-color:var(--acc);}
+  .nft img{width:100%;display:block;aspect-ratio:1;}
+  .nft .id{display:block;text-align:center;font-size:12px;color:var(--sub);padding:6px 0;letter-spacing:2px;}
+  .nft .id b{color:var(--acc);}
+  .foot{color:var(--sub);font-size:12px;margin-top:20px;line-height:1.9;}
+  .hero-nft{width:220px;border-radius:14px;border:1px solid var(--line);float:right;margin:0 0 12px 18px;}
+  @media(max-width:640px){.hero-nft{width:140px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">⛏ 石广 StoneVast</div>
+    <div class="navlinks">
+      <a href="./index.html">首页</a>
+      <a href="./withdrawals.html">提现实录</a>
+      <a href="./guide.html">节点说明</a>
+    </div>
+  </nav>
+
+  <h1>Genesis Collection · 创世 NFT</h1>
+  <div class="sub">100 张 · 程序化生成 · 编号即种子，同号永远同图 · 前往领取页底部三步领走</div>
+
+  <!-- 亮点图 + 定位 -->
+  <div class="card">
+    <img class="hero-nft" src="./assets/nft/nft-007.svg" alt="Genesis NFT #007">
+    <h2>🪨 这是什么</h2>
+    <div class="tip" style="margin-top:0">
+      每一张 Genesis NFT = 一台真实矿机的"节点身份牌"。矿石切片 + 芯片质感 + 橙色光脉，与官网品牌同源。
+      全部 100 张由<a href="https://github.com/haolinsong32-lang/stonevast/blob/main/tools/generate-nft.js" target="_blank">一段开源脚本</a>程序化生成——
+      编号是随机种子，任何人跑同一脚本都能复现同一张图。<b>没有稀缺性魔术，只有可验证的诚实。</b>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+  <!-- 权益 -->
+  <div class="card">
+    <h2>🎁 持有权益</h2>
+    <table>
+      <tr><th>权益</th><th>说明</th><th>状态</th></tr>
+      <tr><td>Pro 版终身免费</td><td>付费版工作台上线后，持有人直接解锁</td><td class="ok">锁定</td></tr>
+      <tr><td>月度抽奖资格</td><td>每月从持有人中抽 1 名送限定 NFT 图</td><td class="ok">进行中</td></tr>
+      <tr><td>域名大奖池</td><td>推荐 5 名真实节点 → 抽 .com 域名/等值 USDT</td><td class="ok">进行中</td></tr>
+      <tr><td>创世分成锁定</td><td>未来付费期直推分成 30%（前 100 名专属）</td><td class="ok">锁定</td></tr>
+    </table>
+  </div>
+
+  <!-- 领取三步 -->
+  <div class="card">
+    <h2>🪙 三步领取（免费）</h2>
+    <div class="steps">
+      <b>①</b> 从下方图墙挑一个未领取的编号（下方表格 = 实时登记表）<br>
+      <b>②</b> 点下面的领取按钮，发一封邮件：写明「GENESIS-CLAIM #编号」+ 你想署名的昵称<br>
+      <b>③</b> 收到回信即登记完成，你的编号会出现在下方登记表，未来可上链锚定
+    </div>
+    <a class="claim" href="mailto:haolinsong32@gmail.com?subject=GENESIS-CLAIM%20%23__&body=%E6%88%91%E8%A6%81%E9%A2%86%E5%8F%96%20Genesis%20%23__%0A%E6%98%B5%E7%A7%B0%EF%BC%AA">⚡ 领取我的 Genesis</a>
+    <div class="box ok">
+      <b>诚实声明：</b>当前为链下登记制（邮件登记 + 本页公示），NFT 图与登记记录完全公开。
+      链上铸造/锚定会在项目产生稳定收入后进行，登记在先者永久保留编号。绝不收取任何费用。
+    </div>
+  </div>
+
+  <!-- 登记表 -->
+  <div class="card">
+    <h2>📋 登记表（实时更新）</h2>
+    <table>
+      <tr><th>编号</th><th>持有人</th><th>登记时间</th></tr>
+      <tr><td><b>#001</b></td><td>StoneVast 项目方（创世样张）</td><td>2026-10-18</td></tr>
+      <tr><td>—</td><td colspan="2" style="color:var(--sub)">下一个编号，等你来领</td></tr>
+    </table>
+  </div>
+
+  <!-- 图墙 -->
+  <div class="card">
+    <h2>🖼 全集图墙（点击看大图）</h2>
+    <div class="grid" id="wall"></div>
+  </div>
+
+  <div class="foot">
+    <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener" style="color:#29a9eb;font-weight:600">💬 Telegram 群 · 创世凭证答疑</a><br>
+    生成脚本开源可复现 · 与官网数据同源可核验 · 2026-10-19<br>
+    本页为权益登记展示，不构成投资建议，不承诺任何收益。
+  </div>
+</div>
+
+<script>
+  const wall = document.getElementById('wall');
+  for (let i = 1; i <= 100; i++) {
+    const num = String(i).padStart(3, '0');
+    const a = document.createElement('a');
+    a.className = 'nft';
+    a.href = `./assets/nft/nft-${num}.svg`;
+    a.target = '_blank';
+    a.innerHTML = `<img src="./assets/nft/nft-${num}.svg" alt="Genesis #${num}" loading="lazy"><span class="id">GENESIS <b>#${num}</b></span>`;
+    wall.appendChild(a);
+  }
+</script>
+<script>
+(function(){var EP='https://stonevast.com/api/visit';
+function upd(d){if(!d)return;var a=document.getElementById('vPv'),b=document.getElementById('vUv');if(a)a.textContent=d.pv;if(b)b.textContent=d.uv;}
+fetch(EP+'?mode=hit').then(function(r){return r.json()}).then(upd).catch(function(){});
+setInterval(function(){fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})},60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})});
+})();</script>
+<div style="text-align:center;opacity:.6;font-size:13px;margin:24px 0 8px">本站总访问量 <span id="vPv">…</span> 次 · 今日访客 <span id="vUv">…</span> 人</div>
+</body>
+</html>

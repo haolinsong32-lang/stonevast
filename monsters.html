@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Battle of Legendary Monsters — Vote for the world's greatest mythological beast. Sun Wukong vs Yamata no Orochi vs Fenrir vs Medusa and more. Weekly elimination, community-driven.">
+<meta property="og:title" content="Battle of Legendary Monsters · StoneVast">
+<meta property="og:description" content="8 legendary monsters. 1 crown. Vote every 24h. Join Telegram for 3x bonus votes.">
+<meta property="og:type" content="website">
+<title>Battle of Legendary Monsters · StoneVast 石广</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9A%94%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0d1016; --card:#161a22; --line:#252b38;
+    --txt:#e9edf4; --sub:#8b93a7;
+    --acc:#f0a35e; --acc2:#5b9dff; --ok:#2ecc8f; --warn:#ffb020;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 64px;}
+
+  /* Nav */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);}
+  .logo{font-size:16px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc);}
+  .back{font-size:12px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;transition:border-color .2s;}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+
+  /* Hero */
+  .hero{text-align:center;padding:44px 0 32px;position:relative;}
+  .hero::before{content:'';position:absolute;left:50%;top:-20px;width:min(700px,120%);height:280px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%,#f0a35e22,transparent 70%);pointer-events:none;}
+  .hero > *{position:relative;}
+  .season{display:inline-block;font-size:11px;letter-spacing:2px;color:var(--acc);border:1px solid #f0a35e55;border-radius:999px;padding:4px 14px;margin-bottom:14px;}
+  .hero h1{font-size:clamp(26px,5.4vw,40px);font-weight:800;line-height:1.25;}
+  .hero h1 span{color:var(--acc);}
+  .hero p{color:var(--sub);margin-top:10px;font-size:14px;max-width:560px;margin-left:auto;margin-right:auto;}
+
+  /* Week progress */
+  .week-bar{display:flex;justify-content:center;gap:8px;margin-top:22px;font-size:11px;color:var(--sub);}
+  .week-pill{padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);}
+  .week-pill.active{color:var(--ok);border-color:#2ecc8f55;background:#2ecc8f11;}
+
+  /* Live counter */
+  .live-stats{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ok);margin-top:14px;padding:4px 12px;background:#2ecc8f11;border:1px solid #2ecc8f33;border-radius:999px;}
+  .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
+
+  /* Grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:36px;}
+  .monster{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;transition:transform .2s,border-color .25s,box-shadow .25s;position:relative;overflow:hidden;}
+  .monster:hover{transform:translateY(-3px);border-color:#374054;box-shadow:0 10px 30px #00000040;}
+  .monster.leading{border-color:#f0a35e66;}
+  .monster.leading::before{content:'👑';position:absolute;top:8px;right:10px;font-size:18px;}
+  .rank{font-size:10px;letter-spacing:1.5px;color:var(--sub);margin-bottom:6px;}
+  .avatar{width:100%;aspect-ratio:1;border-radius:12px;background:#0d1016;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:56px;margin-bottom:12px;}
+  .name{font-size:16px;font-weight:800;margin-bottom:2px;}
+  .origin{font-size:11.5px;color:var(--acc);letter-spacing:.5px;margin-bottom:8px;}
+  .tagline{font-size:12px;color:var(--sub);line-height:1.5;margin-bottom:14px;flex:1;min-height:36px;}
+  .votes{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .votes-num{font-size:24px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums;}
+  .votes-pct{font-size:11px;color:var(--sub);}
+  .bar{height:4px;background:#0d1016;border-radius:2px;overflow:hidden;margin-bottom:12px;}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--warn));transition:width .6s ease;}
+  .vote-btn{width:100%;background:transparent;border:1px solid var(--acc);color:var(--acc);border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;}
+  .vote-btn:hover:not(:disabled){background:#f0a35e1a;}
+  .vote-btn:disabled{opacity:.4;cursor:not-allowed;border-color:var(--line);color:var(--sub);}
+  .vote-btn.voted{background:#2ecc8f22;border-color:#2ecc8f66;color:var(--ok);}
+
+  /* Nominate */
+  .nominate{margin-top:36px;background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:24px;text-align:center;}
+  .nominate h3{font-size:16px;color:var(--acc);margin-bottom:6px;font-weight:700;}
+  .nominate p{font-size:12.5px;color:var(--sub);margin-bottom:14px;}
+  .nominate-btn{display:inline-block;background:transparent;border:1px solid var(--acc2);color:var(--acc2);border-radius:10px;padding:10px 22px;font-size:13px;font-weight:600;text-decoration:none;transition:background .2s;}
+  .nominate-btn:hover{background:#5b9dff1a;}
+
+  /* Rules */
+  .rules{margin-top:36px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;}
+  .rules h3{font-size:14px;color:var(--acc);letter-spacing:1px;margin-bottom:12px;font-weight:700;}
+  .rules li{font-size:13px;color:var(--sub);padding:6px 0 6px 22px;position:relative;list-style:none;}
+  .rules li::before{content:'—';position:absolute;left:0;color:var(--acc);font-weight:700;}
+  .rules li b{color:var(--txt);font-weight:600;}
+
+  /* Footer CTA */
+  .foot-cta{margin-top:36px;text-align:center;border:1px solid #f0a35e33;background:#f0a35e08;border-radius:14px;padding:24px;}
+  .foot-cta h3{font-size:16px;margin-bottom:6px;}
+  .foot-cta h3 b{color:var(--acc);}
+  .foot-cta p{font-size:12.5px;color:var(--sub);margin-bottom:14px;}
+  .foot-cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .btn{display:inline-block;padding:10px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .2s;}
+  .btn:hover{opacity:.85;}
+  .btn-tg{background:#29a9eb22;border:1px solid #29a9eb55;color:#29a9eb;}
+  .btn-site{background:transparent;border:1px solid var(--acc);color:var(--acc);}
+
+  .foot{text-align:center;color:var(--sub);font-size:11px;margin-top:32px;line-height:2;}
+  .foot a{color:var(--acc2);text-decoration:none;}
+
+  /* Toast */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--ok);color:var(--ok);padding:12px 22px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;z-index:100;}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+  .toast.error{border-color:#e5484d;color:#ff6b6f;}
+
+  @media (max-width:640px){
+    .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+    .avatar{font-size:42px;}
+    .name{font-size:14px;}
+    .votes-num{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <a class="logo" href="https://stonevast.com">Stone<b>Vast</b> 石广</a>
+    <a class="back" href="https://stonevast.com">← Main site · 回主站</a>
+  </nav>
+
+  <section class="hero">
+    <div class="season">SEASON 1 · WEEK 1 · 8 → 4</div>
+    <h1>Battle of <span>Legendary Monsters</span></h1>
+    <p>8 myths. 1 crown. Vote every 24 hours.<br>世界第一妖怪 PK 赛 · 8 进 4 本周开战</p>
+    <div class="week-bar">
+      <span class="week-pill active">W1 · 8→4</span>
+      <span class="week-pill">W2 · 4→2</span>
+      <span class="week-pill">W3 · Finals</span>
+      <span class="week-pill">W4 · Crown</span>
+    </div>
+    <div class="live-stats">
+      <span class="live-dot"></span>
+      <span id="total-votes">0 votes cast</span>
+    </div>
+  </section>
+
+  <section class="grid" id="monster-grid">
+    <!-- JS 渲染 -->
+  </section>
+
+  <section class="nominate">
+    <h3>💡 Want a different monster? · 想让别的妖怪上场?</h3>
+    <p>Join our Telegram and nominate next week's challenger. Top community pick enters Week 2.<br>进 TG 群提名下周新妖怪,得票最高者直接进场。</p>
+    <a class="nominate-btn" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">Nominate in Telegram · 进群提名</a>
+  </section>
+
+  <section class="rules">
+    <h3>RULES · 规则</h3>
+    <ul>
+      <li><b>1 vote per 24h</b> per device. 每设备每天 1 票。</li>
+      <li><b>3x bonus votes</b> for Telegram members (verify via bot). TG 群成员 3 倍加成票。</li>
+      <li><b>Bottom 4 eliminated</b> every Sunday 24:00 UTC. 每周日末位 4 名淘汰。</li>
+      <li><b>No real-money prizes.</b> This is for fun. 纯娱乐,无奖励。</li>
+      <li><b>Open source.</b> All vote data is public. 投票数据公开。</li>
+    </ul>
+  </section>
+
+  <section class="foot-cta">
+    <h3>After the battle, <b>check what we're mining</b></h3>
+    <p>看完妖怪,顺路看看石广在挖什么矿。 honest tools · public ledger · no promised returns.</p>
+    <div class="foot-cta-btns">
+      <a class="btn btn-tg" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">Join Telegram · 进群</a>
+      <a class="btn btn-site" href="https://stonevast.com" target="_blank" rel="noopener">stonevast.com →</a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    StoneVast 石广 · Battle of Legendary Monsters · Season 1<br>
+    <a href="https://stonevast.com">Website</a> · <a href="https://stonevast.com/paths.html">Paths</a> · <a href="https://stonevast.com/withdrawals.html">Ledger</a>
+  </footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ 配置 ============
+// Workers API 根地址,部署完成后改成实际域名(如 https://stonevast-monsters-vote.xxx.workers.dev)
+// 留空 = 纯本地模式(localStorage 票仓,仅当前浏览器可见)
+const API_BASE = '';  // 待部署后填入
+
+// ============ 数据定义 ============
+const MONSTERS = [
+  { id:'wukong',   name:'Sun Wukong',       cn:'孙悟空',     origin:'China · 中国',       emoji:'🐒', tagline:'The Monkey King who rebelled against Heaven. 72 transformations, one golden staff.' },
+  { id:'orochi',   name:'Yamata no Orochi', cn:'八岐大蛇',   origin:'Japan · 日本',        emoji:'🐍', tagline:'Eight heads, eight tails. Susanoo\'s eternal rival, sake\'s worst enemy.' },
+  { id:'fenrir',   name:'Fenrir',           cn:'芬里尔',     origin:'Norse · 北欧',        emoji:'🐺', tagline:'The wolf prophesied to devour Odin at Ragnarök. Chains couldn\'t hold him.' },
+  { id:'medusa',   name:'Medusa',           cn:'美杜莎',     origin:'Greece · 希腊',       emoji:'🐍', tagline:'One gaze turns heroes to stone. The original "don\'t meet her eyes".' },
+  { id:'bahamut',  name:'Bahamut',          cn:'巴哈姆特',   origin:'Arabia · 阿拉伯',     emoji:'🐋', tagline:'The colossal fish that carries the world on its back. Older than maps.' },
+  { id:'naga',     name:'Naga',             cn:'那伽',       origin:'India/SEA · 印度',    emoji:'🐍', tagline:'Half-human, half-serpent water deities. Guardians of rivers and treasure.' },
+  { id:'quetzal',  name:'Quetzalcoatl',     cn:'羽蛇神',     origin:'Aztec · 阿兹特克',    emoji:'🦅', tagline:'The Feathered Serpent. God of wind, wisdom, and the morning star.' },
+  { id:'dracula',  name:'Dracula',          cn:'德古拉',     origin:'E. Europe · 东欧',    emoji:'🧛', tagline:'The original vampire. Vlad III\'s shadow never left Transylvania.' },
+];
+
+const VOTE_KEY = 'stonevast_monster_v1';
+const VOTE_TS_KEY = 'stonevast_monster_ts';
+const LOCAL_TALLY_KEY = 'stonevast_monster_tally';
+const COOLDOWN_MS = 24 * 60 * 60 * 1000;
+
+// 全局票仓缓存(API 模式下)
+let remoteTally = null;
+let boostToken = null;
+
+// URL 参数 ?boost=xxx → TG 群成员 3x 加成
+(function(){
+  const u = new URL(location.href);
+  const b = u.searchParams.get('boost');
+  if (b && /^[a-f0-9-]{36}$/i.test(b)) {
+    boostToken = b;
+    // 清掉 URL 参数,避免分享时泄露
+    u.searchParams.delete('boost');
+    history.replaceState(null, '', u.toString());
+  }
+})();
+
+// ============ 票仓读取(本地或远端) ============
+async function fetchTally(){
+  if (!API_BASE) return loadLocalTally();
+  try {
+    const r = await fetch(API_BASE + '/tally', { cache: 'no-store' });
+    if (!r.ok) throw new Error('http ' + r.status);
+    const data = await r.json();
+    remoteTally = data.tally;
+    return data.tally;
+  } catch (e) {
+    console.warn('API unreachable, fallback to local tally', e);
+    return loadLocalTally();
+  }
+}
+
+function loadLocalTally(){
+  try {
+    const raw = localStorage.getItem(LOCAL_TALLY_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e){}
+  const seed = {};
+  MONSTERS.forEach(m => seed[m.id] = 0);
+  return seed;
+}
+
+function saveLocalTally(t){
+  try { localStorage.setItem(LOCAL_TALLY_KEY, JSON.stringify(t)); } catch(e){}
+}
+
+function getMyVote(){
+  const ts = parseInt(localStorage.getItem(VOTE_TS_KEY) || '0', 10);
+  if (Date.now() - ts < COOLDOWN_MS) return localStorage.getItem(VOTE_KEY);
+  return null;
+}
+
+function recordMyVote(id){
+  localStorage.setItem(VOTE_KEY, id);
+  localStorage.setItem(VOTE_TS_KEY, String(Date.now()));
+}
+
+// ============ 渲染 ============
+function render(tally){
+  const total = Object.values(tally).reduce((a,b)=>a+b, 0);
+  const myVote = getMyVote();
+
+  document.getElementById('total-votes').textContent =
+    `${total} vote${total===1?'':'s'} cast` + (API_BASE && remoteTally ? '' : ' · local');
+
+  const sorted = [...MONSTERS].sort((a,b)=>(tally[b.id]||0)-(tally[a.id]||0));
+  const leaderId = sorted[0] && (tally[sorted[0].id]||0) > 0 ? sorted[0].id : null;
+
+  const grid = document.getElementById('monster-grid');
+  grid.innerHTML = '';
+  sorted.forEach((m, idx) => {
+    const votes = tally[m.id] || 0;
+    const pct = total > 0 ? (votes/total*100).toFixed(1) : '0.0';
+    const card = document.createElement('div');
+    card.className = 'monster' + (m.id === leaderId ? ' leading' : '');
+    // 优先用本地图片,失败回退 emoji
+    const imgPath = `assets/monsters/${m.id}_sm.jpg`;
+    const avatarHtml = `<img src="${imgPath}" alt="${m.name}" loading="lazy"
+      onerror="this.outerHTML='<div class=\\'avatar-emoji\\'>${m.emoji}</div>'"
+      style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block;">`;
+    card.innerHTML = `
+      <div class="rank">#${idx+1} · WEEK 1</div>
+      <div class="avatar" style="padding:0;overflow:hidden;">${avatarHtml}</div>
+      <div class="name">${m.name}</div>
+      <div class="origin">${m.origin}</div>
+      <div class="tagline">${m.tagline}</div>
+      <div class="votes">
+        <span class="votes-num">${votes}</span>
+        <span class="votes-pct">${pct}%</span>
+      </div>
+      <div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div>
+      <button class="vote-btn ${myVote===m.id?'voted':''}" data-id="${m.id}" ${myVote?'disabled':''}>
+        ${myVote===m.id ? '✓ Voted' : (myVote ? 'Come back tomorrow' : (boostToken ? 'Vote ×3 · 加成票' : 'Vote · 投票'))}
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+
+  grid.querySelectorAll('.vote-btn').forEach(btn => {
+    btn.addEventListener('click', onVote);
+  });
+}
+
+// ============ 投票 ============
+async function onVote(e){
+  const id = e.currentTarget.dataset.id;
+  if (getMyVote()){
+    showToast('Already voted. Come back in 24h. · 24 小时内只能投 1 票', true);
+    return;
+  }
+
+  if (API_BASE) {
+    try {
+      const r = await fetch(API_BASE + '/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, boost_token: boostToken || undefined }),
+      });
+      const data = await r.json();
+      if (!r.ok) {
+        if (data.error === 'cooldown') {
+          showToast(`Server cooldown · ${Math.ceil(data.retry_after/3600)}h left`, true);
+        } else {
+          showToast('Vote failed: ' + (data.error || 'unknown'), true);
+        }
+        return;
+      }
+      recordMyVote(id);
+      const msg = data.weight > 1
+        ? `+${data.weight} votes · TG bonus applied!`
+        : 'Vote counted! TG 群成员可解锁 3x 加成';
+      showToast(msg);
+      boostToken = null; // 一次性
+      const tally = await fetchTally();
+      render(tally);
+      return;
+    } catch (err) {
+      console.warn('API vote failed, fallback to local', err);
+    }
+  }
+
+  // 本地兜底
+  const tally = loadLocalTally();
+  tally[id] = (tally[id]||0) + 1;
+  saveLocalTally(tally);
+  recordMyVote(id);
+  showToast('Vote counted locally · API 未部署,当前为本机票仓');
+  render(tally);
+}
+
+// ============ Toast ============
+let toastTimer = null;
+function showToast(msg, isErr){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isErr ? ' error' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ t.className = 'toast'; }, 2800);
+}
+
+// ============ 启动 ============
+(async function(){
+  const tally = await fetchTally();
+  render(tally);
+  // 每 30s 拉一次最新票仓(API 模式)
+  if (API_BASE) {
+    setInterval(async ()=>{
+      const t = await fetchTally();
+      render(t);
+    }, 30000);
+  }
+})();
+</script>
+</body>
+</html>

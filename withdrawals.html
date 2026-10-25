@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>提现实录 · 石广 StoneVast</title>
+<meta name="description" content="石广 StoneVast 提现实录：从矿池到钱包到交易所，每一步链上可自查。堂吉诃德式的诚实——数字很小，但全是真的。">
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--ok:#2ecc8f;--warn:#ffb020;--bad:#ff5d6c;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px 80px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;}
+  a{color:var(--acc);text-decoration:none;word-break:break-all;}
+  h1{font-size:26px;font-weight:800;margin:10px 0 6px;}
+  .sub{color:var(--sub);font-size:14px;margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;color:var(--acc);margin-bottom:12px;font-weight:700;letter-spacing:.5px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;}
+  th{color:var(--sub);font-weight:600;font-size:12px;}
+  tr:last-child td{border-bottom:none;}
+  .ok{color:var(--ok);}.warn{color:var(--warn);}
+  .mono{font-family:Consolas,Menlo,monospace;font-size:12px;word-break:break-all;}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0;font-size:13px;}
+  .flow .node{background:#10141b;border:1px solid var(--line);border-radius:10px;padding:8px 12px;}
+  .flow .arrow{color:var(--acc);font-weight:700;}
+  .box{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:10px;font-size:13px;line-height:1.9;}
+  .box.ok{border-color:#2ecc8f55;}
+  .tip{font-size:13px;color:var(--sub);line-height:1.9;margin-top:10px;}
+  .stat{font-size:22px;font-weight:800;color:var(--ok);}
+  .foot{color:var(--sub);font-size:12px;margin-top:20px;line-height:1.9;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">⛏ 石广 StoneVast</div>
+    <a href="./index.html">← 返回首页</a>
+  </nav>
+
+  <h1>提现实录 · Withdrawal Log</h1>
+  <div class="sub">2026-10-19 · 从矿池到交易所的完整链路，每一步链上可自查。数字很小，但全是真的。</div>
+
+  <!-- 总览 -->
+  <div class="card">
+    <h2>📌 一笔 3.2 IRON 的旅程（≈ $0.24）</h2>
+    <div class="flow">
+      <span class="node">⛏ lolMiner 挖矿</span><span class="arrow">→</span>
+      <span class="node">🏊 HeroMiners 矿池</span><span class="arrow">→</span>
+      <span class="node">👛 本机 Iron Fish 钱包</span><span class="arrow">→</span>
+      <span class="node">🏦 Gate.io</span>
+    </div>
+    <div class="box ok">
+      <b>结果：</b>两笔转账全部链上确认。这就是"库存消耗"的阶段性成果——收益不是 PPT 数字，是能提到交易所的链上资产。
+    </div>
+  </div>
+
+  <!-- 链上凭证 -->
+  <div class="card">
+    <h2>🔗 链上凭证（点击自查）</h2>
+    <table>
+      <tr><th>笔次</th><th>金额</th><th>区块</th><th>交易哈希</th><th>状态</th></tr>
+      <tr>
+        <td>① 测试</td><td>0.2 IRON</td><td>1846578</td>
+        <td class="mono"><a href="https://explorer.ironfish.network/transaction/9281c0be78dfdb1d0196c832e4ea74afe80544d73b076aa1ecc6298ff335fb0a" target="_blank">9281c0be…fb0a</a></td>
+        <td class="ok">confirmed</td>
+      </tr>
+      <tr>
+        <td>② 批量</td><td>3.0 IRON</td><td>1846594</td>
+        <td class="mono"><a href="https://explorer.ironfish.network/transaction/c0092ac5633747806c0e222fac770ec81088add39d34557fb0db54a5240af23c" target="_blank">c0092ac5…f23c</a></td>
+        <td class="ok">confirmed</td>
+      </tr>
+    </table>
+    <div class="tip">
+      ⚠ 隐私币说明：Iron Fish 浏览器只能确认交易<b>存在</b>与<b>确认状态</b>，看不到金额与地址——这是协议设计，不是故障。
+      金额以本机钱包账本（ironfish wallet:transactions）与 Gate 充值记录为准。
+    </div>
+  </div>
+
+  <!-- 关键教训 -->
+  <div class="card">
+    <h2>⚠ 差点踩的坑：Memo 必填</h2>
+    <div class="box">
+      Gate 的 IRON 充值采用<b>统一地址 + Memo 区分用户</b>。页面红字警告：「充值需同时填写地址和 Memo/Tag」。
+      我们事先读了三遍页面，把 Memo 带上了——漏填的话币会进交易所池子但<b>无法入账到个人账户</b>。
+      另外 Gate IRON 最低充值额为 0.13333333 IRON，测试金额要高于它。
+    </div>
+  </div>
+
+  <!-- 四关验证 -->
+  <div class="card">
+    <h2>✅ 变现链四关验证进度</h2>
+    <table>
+      <tr><th>关卡</th><th>通过标准</th><th>状态</th></tr>
+      <tr><td>① 收益存在</td><td>钱包显示真实链上余额</td><td class="ok">已通过（3.09 IRON 可见）</td></tr>
+      <tr><td>② 币可动</td><td>转账链上确认</td><td class="ok">已通过（两笔 confirmed）</td></tr>
+      <tr><td>③ 可换币</td><td>IRON 卖出成 USDT</td><td class="warn">进行中（交易对已验证开放）</td></tr>
+      <tr><td>④ 可变现</td><td>USDT 提现法币</td><td class="warn">待测（需 KYC，由本人决定）</td></tr>
+    </table>
+  </div>
+
+  <!-- 诚实注脚 -->
+  <div class="card">
+    <h2>🗡 堂吉诃德式诚实</h2>
+    <div class="tip">
+      这笔提现值 0.24 美元。按日净 ¥0.54 的实测收益，攒到目标 RTX 6000 Pro 需要约 355 年。
+      我们照样把每个数字、每个哈希公开放在这里——因为这个项目的产品不是挖矿收益，
+      是<b>一台任何陌生人都能核验的信任机器</b>。
+    </div>
+  </div>
+
+  <div class="foot">
+    <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener" style="color:#29a9eb;font-weight:600">💬 Telegram 群 · 提现答疑</a><br>
+    数据来源：Iron Fish 区块链 / HeroMiners 矿池 / Gate.io · 最后更新 2026-10-19<br>
+    本页仅为真实数据记录，不构成投资建议。挖矿有电费风险，请自行计算。
+  </div>
+</div>
+
+<script>
+(function(){var EP='https://stonevast.com/api/visit';
+function upd(d){if(!d)return;var a=document.getElementById('vPv'),b=document.getElementById('vUv');if(a)a.textContent=d.pv;if(b)b.textContent=d.uv;}
+fetch(EP+'?mode=hit').then(function(r){return r.json()}).then(upd).catch(function(){});
+setInterval(function(){fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})},60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})});
+})();</script>
+<div style="text-align:center;opacity:.6;font-size:13px;margin:24px 0 8px">本站总访问量 <span id="vPv">…</span> 次 · 今日访客 <span id="vUv">…</span> 人</div>
+</body>
+</html>
