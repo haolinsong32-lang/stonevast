@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StoneVast public mining ledger — real hashrate, real power draw, real payouts, updated every 6 hours. 石广公开挖矿账本：真实算力、真实功耗、真实支付，每 6 小时更新。">
+<meta property="og:title" content="Public Ledger · StoneVast 石广">
+<meta property="og:description" content="No demo numbers. This is one small machine, reported honestly.">
+<meta property="og:type" content="website">
+<title>Public Ledger · 公开账本 · StoneVast 石广</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 16px 72px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:10px;}
+  .logo{font-size:17px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc);}
+  .links{display:flex;gap:8px;flex-wrap:wrap;}
+  .back{font-size:12px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;transition:border-color .2s;}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+  .back.active{border-color:var(--acc);color:var(--acc);}
+
+  .hero{padding:34px 0 6px;}
+  .kicker{font-size:11px;letter-spacing:2px;color:var(--acc);text-transform:uppercase;margin-bottom:10px;}
+  h1{font-size:clamp(24px,4.6vw,32px);font-weight:800;line-height:1.25;}
+  h1 span{color:var(--acc);}
+  .lede{font-size:13.5px;color:var(--sub);margin-top:10px;max-width:620px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-top:24px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;}
+  .stat .v{font-size:24px;font-weight:800;color:var(--acc2);font-variant-numeric:tabular-nums;}
+  .stat .k{font-size:11.5px;color:var(--sub);margin-top:4px;letter-spacing:.4px;}
+  .stat .s{font-size:10.5px;color:var(--sub);opacity:.7;margin-top:1px;}
+  .stat.hl .v{color:var(--acc);}
+
+  .note{background:#ffb02011;border:1px solid #ffb02033;border-radius:10px;padding:12px 14px;font-size:12px;color:var(--sub);margin-top:18px;line-height:1.7;}
+  .note b{color:var(--txt);}
+
+  .chart-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:18px;}
+  .chart-card h3{font-size:13px;color:var(--acc);letter-spacing:1px;margin-bottom:14px;font-weight:700;}
+  .chart-box{position:relative;height:250px;}
+
+  .cta{margin-top:24px;border:1px solid #f0a35e44;background:#f0a35e08;border-radius:14px;padding:22px;text-align:center;}
+  .cta h3{font-size:15px;margin-bottom:6px;}
+  .cta h3 b{color:var(--acc);}
+  .cta p{font-size:12.5px;color:var(--sub);margin-bottom:14px;}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .btn{display:inline-block;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .2s;}
+  .btn:hover{opacity:.85;}
+  .btn-acc{background:transparent;border:1px solid var(--acc);color:var(--acc);}
+  .btn-tg{background:#29a9eb22;border:1px solid #29a9eb55;color:#29a9eb;}
+
+  footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--sub);line-height:2;text-align:center;}
+  footer a{color:var(--acc2);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <a class="logo" href="/"><b>⛏</b> StoneVast 石广</a>
+    <div class="links">
+      <a class="back active" href="/dashboard.html">Dashboard</a>
+      <a class="back" href="/calculator.html">Calculator</a>
+      <a class="back" href="/monsters.html">Monster vote</a>
+      <a class="back" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Public ledger · 公开账本</div>
+    <h1>一台小机器，<span>每天的真实数字</span></h1>
+    <p class="lede">没有演示数据，没有回测曲线。这就是我们一台机器的实时快照——赚多少、亏多少，都写着。
+      No demo numbers. One small machine, reported honestly.</p>
+    <p class="lede" style="margin-top:6px;opacity:.75">最后更新 · Last updated: <span id="upd">--</span></p>
+  </div>
+
+  <div class="grid">
+    <div class="stat"><div class="v" id="sHash">--</div><div class="k">HASHRATE · 算力</div><div class="s">MH/s</div></div>
+    <div class="stat"><div class="v" id="sPow">--</div><div class="k">POWER · 功耗</div><div class="s">W at wall</div></div>
+    <div class="stat"><div class="v" id="sPrice">--</div><div class="k">IRON PRICE · 币价</div><div class="s">USD</div></div>
+    <div class="stat hl"><div class="v" id="sNet">--</div><div class="k">DAILY NET · 日净收</div><div class="s">CNY</div></div>
+    <div class="stat"><div class="v" id="sPaid">--</div><div class="k">TOTAL PAID · 累计到账</div><div class="s">IRON</div></div>
+    <div class="stat"><div class="v" id="sBal">--</div><div class="k">POOL BALANCE · 矿池余额</div><div class="s">IRON</div></div>
+    <div class="stat hl"><div class="v" id="sSaved">--</div><div class="k">CUMULATIVE NET · 累计净收</div><div class="s">CNY</div></div>
+    <div class="stat"><div class="v" id="sDays">--</div><div class="k">RUNNING DAYS · 运行天数</div><div class="s">since start</div></div>
+  </div>
+
+  <div class="note">
+    <b>为什么公开这些？</b>因为大部分「挖矿收益」截图都不可验证。我们把原始数字摊开：算力、功耗、到账、余额——你可以自己乘一边电价核对。
+    数字小得没什么可吹的，但它是真的。<br>
+    <span style="opacity:.8">Why publish this? Because most mining screenshots can't be checked. These are the raw numbers — multiply them by your own electricity rate and verify.</span>
+  </div>
+
+  <div class="chart-card">
+    <h3>DAILY NET · 日净收</h3>
+    <div class="chart-box"><canvas id="cNet"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <h3>CUMULATIVE NET · 累计净收</h3>
+    <div class="chart-box"><canvas id="cCum"></canvas></div>
+  </div>
+
+  <div class="cta">
+    <h3>想知道<b>你这台机</b>能不能做？</h3>
+    <p>用同一套口径，把我们的数字换成你的电价和显卡，30 秒出结论。免费，不用注册。</p>
+    <div class="btns">
+      <a class="btn btn-acc" href="/calculator.html">打开计算器 →</a>
+      <a class="btn btn-tg" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">Telegram 群里问</a>
+    </div>
+  </div>
+
+  <footer>
+    <a href="/">Home</a> · <a href="/calculator.html">Calculator</a> · <a href="/monsters.html">Monster vote</a> · <a href="/blog-bnb-mechanics.html">BNB explainer</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1">Telegram</a><br>
+    <span style="opacity:.7">Snapshot every 6h · Not financial advice · 不构成投资建议</span>
+  </footer>
+</div>
+
+<script src="/data.js"></script>
+<script>
+(async function(){
+  const $ = id => document.getElementById(id);
+  const D = window.SITE_DATA || {};
+  const f = (n,d=2) => (+n||0).toFixed(d);
+
+  $('upd').textContent = D.updated || '--';
+  $('sHash').textContent  = f(D.hashrate,2);
+  $('sPow').textContent   = f(D.power,0);
+  $('sPrice').textContent = '$' + f(D.priceUsd,4);
+  $('sNet').textContent   = '¥' + f(D.netDayCny,2);
+  $('sPaid').textContent  = f(D.paidIron,4);
+  $('sBal').textContent   = f(D.balIron,4);
+  $('sSaved').textContent = '¥' + f(D.savedCny,2);
+  if (D.since) {
+    $('sDays').textContent = Math.floor((Date.now() - new Date(D.since).getTime()) / 86400000);
+  }
+
+  let ledger = {entries: []};
+  try {
+    const r = await fetch('/ledger.json', {cache: 'no-store'});
+    if (r.ok) ledger = await r.json();
+  } catch(e) { /* 无账本时静默降级 */ }
+
+  const entries = (ledger.entries || []).slice().sort((a,b) => a.date.localeCompare(b.date));
+  if (!entries.length || typeof Chart === 'undefined') return;
+
+  const labels = entries.map(e => e.date.slice(5));
+  const daily = entries.map(e => +e.netCny || 0);
+  let cum = 0;
+  const cumulative = daily.map(v => cum += v);
+
+  const opts = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {legend: {display: false}},
+    scales: {
+      x: {ticks: {color: '#8b93a7', font: {size: 11}}, grid: {color: '#252b3840'}},
+      y: {ticks: {color: '#8b93a7', font: {size: 11}}, grid: {color: '#252b3840'}}
+    }
+  };
+
+  new Chart($('cNet'), {
+    type: 'bar',
+    data: {labels, datasets: [{data: daily, backgroundColor: '#5b9dff66', borderColor: '#5b9dff', borderWidth: 1.5, borderRadius: 4}]},
+    options: opts
+  });
+
+  new Chart($('cCum'), {
+    type: 'line',
+    data: {labels, datasets: [{data: cumulative, borderColor: '#f0a35e', backgroundColor: '#f0a35e22', fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#f0a35e'}]},
+    options: opts
+  });
+})();
+</script>
+</body>
+</html>

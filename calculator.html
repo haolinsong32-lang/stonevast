@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Free GPU mining break-even calculator. Enter your electricity price and hashrate — get an honest GO / NO-GO verdict in seconds. 免费显卡挖矿盈亏计算器：输入电价与算力，立刻得到该不该挖的结论。">
+<meta property="og:title" content="Break-even Calculator · StoneVast 石广">
+<meta property="og:description" content="Most people should not mine. Run your numbers first. 大多数人不该挖矿——先算清楚再动手。">
+<meta property="og:type" content="website">
+<title>Break-even Calculator · 电费盈亏计算器 · StoneVast 石广</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;--bad:#ff6b6f;--warn:#ffb020;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;min-height:100vh;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 16px 72px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:10px;}
+  .logo{font-size:17px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc);}
+  .links{display:flex;gap:8px;flex-wrap:wrap;}
+  .back{font-size:12px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;transition:border-color .2s;}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+  .back.active{border-color:var(--acc);color:var(--acc);}
+
+  .hero{padding:36px 0 8px;}
+  .kicker{font-size:11px;letter-spacing:2px;color:var(--acc);text-transform:uppercase;margin-bottom:10px;}
+  h1{font-size:clamp(24px,4.6vw,34px);font-weight:800;line-height:1.25;}
+  h1 span{color:var(--acc);}
+  .lede{font-size:14px;color:var(--sub);margin-top:10px;max-width:640px;}
+  .src{display:inline-block;margin-top:14px;font-size:11.5px;color:var(--ok);background:#2ecc8f11;border:1px solid #2ecc8f33;border-radius:999px;padding:4px 12px;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-top:20px;}
+  .card h2{font-size:14px;color:var(--acc);letter-spacing:1px;margin-bottom:6px;font-weight:700;}
+  .card .intro{font-size:12.5px;color:var(--sub);margin-bottom:16px;line-height:1.7;}
+  .card .intro b{color:var(--txt);}
+
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;}
+  .fld label{display:block;font-size:11.5px;color:var(--sub);margin-bottom:6px;letter-spacing:.4px;}
+  .fld input{width:100%;background:#0d1016;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--txt);font-family:inherit;outline:none;transition:border-color .2s;font-variant-numeric:tabular-nums;}
+  .fld input:focus{border-color:var(--acc);}
+  .hint{font-size:10.5px;color:var(--sub);opacity:.75;margin-top:4px;}
+
+  .result{background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:16px;}
+  .result .r{display:flex;justify-content:space-between;font-size:13.5px;padding:7px 0;border-bottom:1px dashed #252b3880;gap:12px;}
+  .result .r:last-child{border-bottom:none;}
+  .result .r span{color:var(--sub);}
+  .result .r b{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .result .r.pos b{color:var(--ok);}
+  .result .r.neg b{color:var(--bad);}
+
+  .verdict{margin-top:14px;padding:16px;border-radius:10px;font-size:13.5px;line-height:1.7;}
+  .verdict.good{background:#2ecc8f15;border:1px solid #2ecc8f55;color:var(--ok);}
+  .verdict.edge{background:#ffb02015;border:1px solid #ffb02055;color:var(--warn);}
+  .verdict.bad{background:#ff6b6f15;border:1px solid #ff6b6f55;color:var(--bad);}
+  .verdict b{font-size:15px;letter-spacing:.5px;display:block;margin-bottom:4px;}
+  .verdict small{display:block;color:var(--sub);font-size:12.5px;}
+
+  .note{font-size:12px;color:var(--sub);margin-top:14px;line-height:1.8;}
+  .note code{background:#1a1f2a;padding:2px 6px;border-radius:4px;font-size:11.5px;color:var(--acc);font-family:ui-monospace,Menlo,monospace;}
+
+  .cta{margin-top:24px;border:1px solid #f0a35e44;background:#f0a35e08;border-radius:14px;padding:22px;text-align:center;}
+  .cta h3{font-size:15px;margin-bottom:6px;}
+  .cta h3 b{color:var(--acc);}
+  .cta p{font-size:12.5px;color:var(--sub);margin-bottom:14px;}
+  .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .btn{display:inline-block;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .2s;}
+  .btn:hover{opacity:.85;}
+  .btn-acc{background:transparent;border:1px solid var(--acc);color:var(--acc);}
+  .btn-tg{background:#29a9eb22;border:1px solid #29a9eb55;color:#29a9eb;}
+
+  .reset{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:inherit;margin-top:16px;}
+  .reset:hover{border-color:var(--acc);color:var(--txt);}
+
+  footer{margin-top:32px;padding-top:20px;border-top:1px solid var(--line);font-size:11.5px;color:var(--sub);line-height:2;text-align:center;}
+  footer a{color:var(--acc2);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <a class="logo" href="/"><b>⛏</b> StoneVast 石广</a>
+    <div class="links">
+      <a class="back active" href="/calculator.html">Calculator</a>
+      <a class="back" href="/dashboard.html">Dashboard</a>
+      <a class="back" href="/monsters.html">Monster vote</a>
+      <a class="back" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Free tool · No signup · No wallet</div>
+    <h1>先算清楚，<span>再决定挖不挖</span></h1>
+    <p class="lede">输入你的电价和显卡功耗，30 秒得到 GO / NO-GO 结论。这个计算器经常告诉我们自己「不划算」——那是它的工作。<br>
+      Enter your electricity price and hardware. You'll get a straight answer, including the one you might not want.</p>
+    <div class="src" id="srcNote">默认值来自我们自己的真实机器快照</div>
+  </div>
+
+  <!-- 模块 1：盈亏判定 -->
+  <div class="card">
+    <h2>1 · 电费盈亏点 · BREAK-EVEN</h2>
+    <div class="intro">很多人先算收益，最后才发现电费已经吃掉全部利润。<b>先看电费这一关。</b></div>
+    <div class="row">
+      <div class="fld"><label>电价 · Electricity ($/kWh)</label><input type="number" id="i_price" step="any" value="0.077">
+        <div class="hint">中国居民约 ¥0.55/度 ≈ $0.077</div></div>
+      <div class="fld"><label>算力 · Hashrate (MH/s)</label><input type="number" id="i_hash" step="any" value="20.34"></div>
+      <div class="fld"><label>功耗 · Power (W)</label><input type="number" id="i_power" step="any" value="49">
+        <div class="hint">整机墙上功耗，不是显卡 TDP</div></div>
+      <div class="fld"><label>单位收益 · Revenue ($/MH/day)</label><input type="number" id="i_rev" step="any" value="0.0072">
+        <div class="hint">矿池实时口径，会随难度变化</div></div>
+    </div>
+    <div class="result" id="out1"></div>
+    <div id="verdict1"></div>
+  </div>
+
+  <!-- 模块 2：回本 / 年化 -->
+  <div class="card">
+    <h2>2 · 回本天数 · PAYBACK</h2>
+    <div class="intro">假设你已经有机子，这里算的是<b>净现金回收</b>。如果要买新卡，把卡价填进来。</div>
+    <div class="row">
+      <div class="fld"><label>硬件投入 · Hardware cost ($)</label><input type="number" id="i_cost" step="any" value="0">
+        <div class="hint">已有硬件填 0</div></div>
+      <div class="fld"><label>币价预期变动 · Price drift (%/yr)</label><input type="number" id="i_drift" step="any" value="0">
+        <div class="hint">填 0 = 保守，不预测币价</div></div>
+      <div class="fld"><label>难度增长 · Difficulty growth (%/yr)</label><input type="number" id="i_diff" step="any" value="30">
+        <div class="hint">全网算力上升会摊薄你的份额</div></div>
+    </div>
+    <div class="result" id="out2"></div>
+  </div>
+
+  <!-- 模块 3：三档电价对照 -->
+  <div class="card">
+    <h2>3 · 电价三档对照 · THREE PRICE TIERS</h2>
+    <div class="intro">同一台机器，换一个电价，结论可能完全相反。看看你在哪一档。</div>
+    <div class="result" id="out3"></div>
+    <div class="note">
+      经验法则（当前 IRON 网络参数）：电价 <code>&lt; $0.08/kWh</code> 有正净收；<code>$0.08–0.15</code> 边缘，币价一跌就亏；<code>&gt; $0.15</code> 不建议做——不如直接买币。
+    </div>
+  </div>
+
+  <div style="text-align:center">
+    <button class="reset" onclick="resetAll()">↺ 重置为真实快照值</button>
+  </div>
+
+  <div class="cta">
+    <h3>需要更细的账？<b>Pro 里有完整版</b></h3>
+    <p>免费版给结论。Pro 版多三块：租赁 vs 自有对比、APR / APY 复利拆解、价格 × 难度敏感性矩阵。<br>
+      不订阅也能用这个页面，结论一样诚实。</p>
+    <div class="btns">
+      <a class="btn btn-acc" href="/pro.html">看看 Pro 有什么 →</a>
+      <a class="btn btn-tg" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">问我们问题 · Telegram</a>
+    </div>
+  </div>
+
+  <footer>
+    Data snapshot: <span id="fUpd">--</span> · 公开账本，可自行核对<br>
+    <a href="/">Home</a> · <a href="/dashboard.html">Live dashboard</a> · <a href="/monsters.html">Monster vote</a> · <a href="/blog-bnb-mechanics.html">BNB explainer</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1">Telegram</a><br>
+    <span style="opacity:.7">Not financial advice. 不构成投资建议。</span>
+  </footer>
+</div>
+
+<script src="/data.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const D = window.SITE_DATA || {};
+const USDCNY = D.usdCny || 7.12;
+const LOCAL_ELEC_CNY = 0.55;
+
+const fmt = (n, d=2) => (isFinite(n) ? n : 0).toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d});
+const sign = n => (n >= 0 ? '+' : '');
+
+function defaults(){
+  const hash = D.hashrate || 20.34;
+  const power = D.power || 49;
+  const netCny = D.netDayCny || 0.39;
+  const grossCny = netCny + power * 24 / 1000 * LOCAL_ELEC_CNY;
+  return {
+    price: LOCAL_ELEC_CNY / USDCNY,
+    hash: hash,
+    power: power,
+    rev: (grossCny / USDCNY) / (hash || 1)
+  };
+}
+
+function readInputs(){
+  return {
+    price: +$('i_price').value || 0,
+    hash:  +$('i_hash').value || 0,
+    power: +$('i_power').value || 0,
+    rev:   +$('i_rev').value || 0
+  };
+}
+
+// ---- 1. 盈亏判定 ----
+function calcBreak(){
+  const {price, hash, power, rev} = readInputs();
+  const gross = hash * rev;
+  const elec = power * 24 / 1000 * price;
+  const net = gross - elec;
+  const bePrice = power > 0 ? (gross * 1000) / (power * 24) : 0;
+
+  $('out1').innerHTML = `
+    <div class="r"><span>日毛收 · Daily gross</span><b>$${fmt(gross,4)}</b></div>
+    <div class="r"><span>日电费 · Daily power cost</span><b>-$${fmt(elec,4)}</b></div>
+    <div class="r ${net>=0?'pos':'neg'}"><span>日净收 · Daily net</span><b>${sign(net)}$${fmt(net,4)}</b></div>
+    <div class="r ${net>=0?'pos':'neg'}"><span>年净收 · Annual net</span><b>${sign(net*365)}$${fmt(net*365,2)}</b></div>
+    <div class="r"><span>盈亏点电价 · Break-even price</span><b>$${fmt(bePrice,4)}/kWh</b></div>
+  `;
+
+  let cls, title, body;
+  if (bePrice <= 0) {
+    cls = 'bad'; title = '✗ 数据不足 · Not enough input';
+    body = '请填写算力和单位收益，才能给出结论。';
+  } else if (price < bePrice * 0.7) {
+    cls = 'good'; title = '✓ 可以做 · GO';
+    body = `你的电价 $${fmt(price,3)} 明显低于盈亏点 $${fmt(bePrice,3)}，安全垫约 ${fmt((1 - price/bePrice)*100,0)}%。币价有明显下跌空间仍为正。`;
+  } else if (price < bePrice) {
+    cls = 'edge'; title = '⚠ 边缘地带 · MARGINAL';
+    body = `你的电价 $${fmt(price,3)} 已经贴近盈亏点 $${fmt(bePrice,3)}。币价小跌或难度一涨就转负，建议降到更低功耗档位再评估。`;
+  } else {
+    cls = 'bad'; title = '✗ 别做了 · NO-GO';
+    body = `你的电价 $${fmt(price,3)} 已超过盈亏点 $${fmt(bePrice,3)}，按当前参数每年净亏 $${fmt(-net*365,2)}。相同金额直接买币更划算。`;
+  }
+  $('verdict1').innerHTML = `<div class="verdict ${cls}"><b>${title}</b><small>${body}</small></div>`;
+}
+
+// ---- 2. 回本 ----
+function calcPayback(){
+  const {hash, rev, power, price} = readInputs();
+  const cost = +$('i_cost').value || 0;
+  const drift = (+$('i_drift').value || 0) / 100;
+  const diff = (+$('i_diff').value || 0) / 100;
+
+  const gross = hash * rev;
+  const elec = power * 24 / 1000 * price;
+  const netNow = gross - elec;
+
+  // 12 个月滚动：收入受币价漂移与难度增长双重影响
+  let cumulative = 0, paybackMonth = null;
+  const months = [];
+  for (let m = 1; m <= 36; m++) {
+    const revM = gross * Math.pow(1 + drift, m/12) / Math.pow(1 + diff, m/12);
+    const netM = revM - elec;
+    cumulative += netM * 30;
+    months.push(cumulative);
+    if (paybackMonth === null && cumulative >= cost && cost > 0) paybackMonth = m;
+  }
+
+  const paybackDays = netNow > 0 && cost > 0 ? cost / netNow : null;
+  const year1 = months[11] || 0;
+
+  $('out2').innerHTML = `
+    <div class="r ${netNow>=0?'pos':'neg'}"><span>当前日净收 · Current daily net</span><b>${sign(netNow)}$${fmt(netNow,4)}</b></div>
+    <div class="r"><span>硬件投入 · Hardware cost</span><b>$${fmt(cost,2)}</b></div>
+    <div class="r ${paybackDays?'pos':'neg'}"><span>静态回本 · Static payback</span><b>${paybackDays ? fmt(paybackDays,0)+' 天' : (cost>0 ? '永无回本' : '无需回本')}</b></div>
+    <div class="r ${paybackMonth?'pos':'neg'}"><span>动态回本 · With drift & difficulty</span><b>${cost>0 ? (paybackMonth ? paybackMonth+' 个月' : '36 个月内无') : '—'}</b></div>
+    <div class="r ${year1>=0?'pos':'neg'}"><span>12 个月累计净收 · 12-month cumulative</span><b>${sign(year1)}$${fmt(year1,2)}</b></div>
+  `;
+
+  let note = '';
+  if (diff > 0) note = `已计入难度年增 ${fmt(diff*100,0)}%（算力越多，你的份额越薄）。`;
+  else if (diff === 0) note = '难度按不增长处理——这是乐观假设，真实网络通常每年上涨。';
+  const el = document.createElement('div');
+  el.className = 'note';
+  el.textContent = note;
+  $('out2').appendChild(el);
+}
+
+// ---- 3. 三档电价 ----
+function calcTiers(){
+  const {hash, rev} = readInputs();
+  const gross = hash * rev;
+  const tiers = [
+    {label:'低价电 · Cheap', price:0.05, tag:'工业/水电'},
+    {label:'居民电 · Residential', price:0.09, tag:'多数家庭'},
+    {label:'高价电 · Expensive', price:0.18, tag:'商业/峰电'}
+  ];
+  let html = '';
+  tiers.forEach(t => {
+    const power = +$('i_power').value || 0;
+    const elec = power * 24 / 1000 * t.price;
+    const net = gross - elec;
+    const yearly = net * 365;
+    html += `<div class="r ${net>=0?'pos':'neg'}">
+      <span>${t.label} · $${fmt(t.price,3)}/kWh <span style="opacity:.6">(${t.tag})</span></span>
+      <b>${sign(net)}$${fmt(net,4)}/日 · ${sign(yearly)}$${fmt(yearly,0)}/年</b></div>`;
+  });
+  $('out3').innerHTML = html;
+}
+
+function calcAll(){ calcBreak(); calcPayback(); calcTiers(); }
+
+function resetAll(){
+  const d = defaults();
+  $('i_price').value = d.price.toFixed(4);
+  $('i_hash').value  = d.hash.toFixed(2);
+  $('i_power').value = d.power.toFixed(0);
+  $('i_rev').value   = d.rev.toFixed(4);
+  $('i_cost').value  = 0;
+  $('i_drift').value = 0;
+  $('i_diff').value  = 30;
+  if (D.updated) $('fUpd').textContent = D.updated;
+  calcAll();
+}
+
+['i_price','i_hash','i_power','i_rev','i_cost','i_drift','i_diff'].forEach(id => {
+  const el = $(id);
+  if (el) el.addEventListener('input', calcAll);
+});
+
+resetAll();
+</script>
+</body>
+</html>
