@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BNB has no miners. Here is what actually keeps it alive: elected validators, a self-burning gas fee, and a public quarterly burn formula anyone can verify.">
+<meta property="og:title" content="You Can't Mine BNB. Here's What Actually Keeps It Alive. · StoneVast">
+<meta property="og:description" content="Elected validators, a burn formula, and zero mining rigs — the mechanics of BNB, written plainly.">
+<meta property="og:type" content="article">
+<title>You Can't Mine BNB. Here's What Actually Keeps It Alive. · StoneVast 石广</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9A%94%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0d1016; --card:#161a22; --line:#252b38;
+    --txt:#e9edf4; --sub:#8b93a7;
+    --acc:#f0a35e; --acc2:#5b9dff; --ok:#2ecc8f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.75;font-size:16px;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px;}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);}
+  .logo{font-size:16px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc);}
+  .back{font-size:12px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+
+  header{padding:48px 0 8px;}
+  .kicker{font-size:11px;letter-spacing:2px;color:var(--acc);text-transform:uppercase;margin-bottom:14px;}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.28;font-weight:800;letter-spacing:-.5px;}
+  .sub{color:var(--sub);font-size:15px;margin-top:14px;}
+  .meta{color:var(--sub);font-size:12px;margin-top:18px;padding-bottom:22px;border-bottom:1px solid var(--line);}
+
+  article h2{font-size:20px;margin:40px 0 14px;color:var(--txt);letter-spacing:-.2px;}
+  article h2::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--acc);margin-right:10px;vertical-align:middle;}
+  article p{margin:14px 0;color:#cfd6e4;}
+  article strong{color:var(--txt);}
+  article ul{margin:14px 0 14px 22px;color:#cfd6e4;}
+  article li{margin:7px 0;}
+  article a{color:var(--acc2);text-decoration:none;border-bottom:1px solid #5b9dff44;}
+  blockquote{margin:22px 0;padding:14px 18px;border-left:3px solid var(--acc);background:#f0a35e0d;border-radius:0 10px 10px 0;color:var(--txt);font-weight:600;}
+  hr{border:none;border-top:1px solid var(--line);margin:36px 0;}
+
+  .formula{background:var(--card);border:1px solid #f0a35e44;border-radius:14px;padding:26px 20px;text-align:center;margin:26px 0;}
+  .formula .big{font-size:26px;font-weight:800;color:var(--acc);letter-spacing:.5px;font-family:'Cambria Math',Georgia,serif;}
+  .formula .cap{font-size:11px;color:var(--sub);letter-spacing:1.5px;margin-top:10px;text-transform:uppercase;}
+
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px;}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--acc);font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:700;}
+  td{color:#cfd6e4;}
+
+  .cta{margin-top:44px;background:var(--card);border:1px solid #f0a35e33;border-radius:16px;padding:26px;}
+  .cta h3{font-size:16px;margin-bottom:8px;}
+  .cta p{font-size:13.5px;color:var(--sub);margin-bottom:16px;}
+  .btn{display:inline-block;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:var(--acc);color:#131720;}
+  .btn:hover{opacity:.88;}
+
+  .foot{text-align:center;color:var(--sub);font-size:11px;margin-top:40px;line-height:2;}
+  .foot a{color:var(--acc2);text-decoration:none;}
+  @media(max-width:600px){body{font-size:15px;} .formula .big{font-size:20px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="https://stonevast.com">Stone<b>Vast</b> 石广</a>
+    <a class="back" href="https://stonevast.com">← Main site</a>
+  </nav>
+
+  <header>
+    <div class="kicker">Explainer · BNB Chain</div>
+    <h1>You Can't Mine BNB. Here's What Actually Keeps It Alive.</h1>
+    <p class="sub">Elected validators, a self-destructing gas fee, and a public formula that deletes supply every quarter on a schedule anyone can check.</p>
+    <div class="meta">StoneVast · 石广 &nbsp;·&nbsp; 9 min read &nbsp;·&nbsp; Mechanics only — no price talk, no advice</div>
+  </header>
+
+  <article>
+    <p>Every few weeks, someone asks: "How do I mine BNB?"</p>
+    <p>It's a fair question. BNB is a top-5 asset by market cap, it powers one of the busiest blockchains on earth, and most people's mental model of crypto is still "miners make coins." But BNB has no miners. It never needed them. What it has instead is more interesting: a small set of elected validators, a gas fee that partially self-destructs, and a public formula that deletes supply every quarter on a schedule anyone can verify.</p>
+    <p>This is how BNB actually works — no hype, no fear, just the mechanics.</p>
+
+    <h2>Part 1: Three lives in eight years</h2>
+    <p>BNB has already changed its consensus model twice. That's worth remembering later.</p>
+    <p><strong>Life one (2017): the discount coupon.</strong> BNB launched in July 2017 as an ERC-20 token on Ethereum. Total supply: 200 million. Its job was simple — pay trading fees on Binance at a discount. It was a loyalty point with a ticker symbol.</p>
+    <p><strong>Life two (2019): the mainnet coin.</strong> In April 2019, BNB moved to Binance Chain, a purpose-built chain running Tendermint-style Byzantine Fault Tolerance. BNB became the native gas and staking asset of its own network. No ERC-20 wrapper, no Ethereum dependency.</p>
+    <p><strong>Life three (2020–2022): the smart-contract giant.</strong> September 2020 brought Binance Smart Chain (BSC), an EVM-compatible chain running in parallel. In 2022 the two chains merged into what we now call BNB Chain. This is the BNB most people touch today.</p>
+    <p>Three architectures in eight years. Keep that in mind.</p>
+
+    <h2>Part 2: PoSA — consensus by election, not by race</h2>
+    <p>Bitcoin miners compete. BNB validators get elected.</p>
+    <p>BNB Smart Chain runs <strong>Proof of Staked Authority (PoSA)</strong> — a hybrid of delegated staking and authority-style rotation:</p>
+    <ul>
+      <li>Anyone can <strong>self-stake BNB</strong> to register as a validator candidate.</li>
+      <li>Holders <strong>delegate</strong> their BNB to candidates they trust. Stake plus delegated votes equals your weight.</li>
+      <li>The top candidates — a few dozen — form the <strong>active validator set</strong>.</li>
+      <li>Validators take turns producing blocks in a fixed rotation. Originally one block roughly every 3 seconds; the chain has gotten faster since.</li>
+      <li>Misbehave (double-sign, go offline too long) and you get <strong>slashed</strong> — part of your stake is destroyed and you're ejected from the set.</li>
+    </ul>
+    <p>Two things follow from this design:</p>
+    <p><strong>First, there is no block reward in new coins.</strong> Validators earn a share of transaction gas fees — nothing is freshly printed to pay them. BNB started with a fixed supply of 200 million and has only ever shrunk.</p>
+    <p><strong>Second, there is no hashrate to measure.</strong> No mining rigs, no electricity bill, no difficulty adjustment. Security comes from staked capital and slashing risk, not from burned energy. It's a different bet with different trade-offs — faster blocks and cheap transactions, in exchange for a smaller, elected security set.</p>
+
+    <h2>Part 3: The Auto-Burn formula</h2>
+    <p>Here's the part most people have never actually seen written down.</p>
+    <p>BNB's original whitepaper promised quarterly burns funded by exchange profits, until supply fell to 100 million. In late 2021 that promise was replaced by something better: a <strong>public, objective formula</strong> that doesn't depend on any company's revenue.</p>
+
+    <div class="formula">
+      <div class="big">B = N × 1000 / (P + K)</div>
+      <div class="cap">The Auto-Burn Formula</div>
+    </div>
+
+    <table>
+      <tr><th>Symbol</th><th>Meaning</th></tr>
+      <tr><td><strong>B</strong></td><td>BNB to be burned this quarter</td></tr>
+      <tr><td><strong>N</strong></td><td>Blocks produced on BSC during the quarter, <em>normalized</em> to the original 3-second block time (so quarters stay comparable as the chain gets faster)</td></tr>
+      <tr><td><strong>P</strong></td><td>Median BNB price in USD over the quarter</td></tr>
+      <tr><td><strong>K</strong></td><td>A constant price anchor (initially 1,000, adjustable by governance)</td></tr>
+    </table>
+
+    <p>Read the formula once and two design choices jump out:</p>
+    <p><strong>Price sits in the denominator.</strong> Lower price → bigger burn. Higher price → smaller burn. The formula is counter-cyclical by construction.</p>
+    <p><strong>Block count sits in the numerator.</strong> A busier chain burns more. Usage directly destroys supply.</p>
+    <p>The endgame is fixed: keep burning until 100,000,000 BNB remain. Every quarterly burn is executed on-chain and publicly auditable — the schedule and real-time numbers are tracked at <a href="https://bnbburn.info" target="_blank" rel="noopener">bnbburn.info</a>, and each completed burn is announced on the BNB Chain blog.</p>
+    <p>On top of the quarterly Auto-Burn, <strong>BEP-95</strong> burns a fixed ratio of every gas fee in real time — BSC's rough equivalent of Ethereum's EIP-1559 base-fee burn. Two mechanisms, one direction: down.</p>
+
+    <h2>Part 4: "So what do stakers earn, exactly?"</h2>
+    <p>If you delegate BNB to a validator, your yield comes from one place: <strong>gas fee sharing</strong>. Users pay gas in BNB; a portion is burned (BEP-95); the rest flows to validators, who share it with delegators minus a commission.</p>
+    <p>That makes staking BNB structurally similar to mining in one narrow sense — you're contributing a resource (capital instead of hashrate) and getting paid from network usage. But the cost side is completely different:</p>
+
+    <table>
+      <tr><th></th><th>PoW mining</th><th>BNB staking</th></tr>
+      <tr><td>Resource</td><td>Hashrate (GPU / ASIC)</td><td>Staked + delegated BNB</td></tr>
+      <tr><td>Ongoing cost</td><td>Electricity, hardware wear</td><td>Opportunity cost of locked capital</td></tr>
+      <tr><td>Main risk</td><td>Price drops below power cost</td><td>Slashing, validator misbehavior, lock-up</td></tr>
+      <tr><td>Revenue source</td><td>Block subsidy + fees (new coins printed)</td><td>Fees only (zero new issuance)</td></tr>
+      <tr><td>Verify it yourself</td><td>Your hashrate on the pool's dashboard</td><td>Your delegation on the chain explorer</td></tr>
+    </table>
+
+    <p>That last row matters more than the others. Whatever the mechanism, your claim should be <strong>independently verifiable by you, on a public dashboard or explorer, under your own address</strong>. That's the whole game.</p>
+
+    <h2>Part 5: Could BNB ever be mined?</h2>
+    <p>Today: no. The mainnet has no PoW component, and there is no legitimate "BNB mining" product anywhere.</p>
+    <p>Forever? Nobody gets to say forever in crypto. This asset has already changed consensus twice (ERC-20 → Tendermint BFT → PoSA). BNB Chain's rules are set by governance; sidechains, L2s, and entirely new mechanisms get proposed every year. If a genuinely mineable BNB-ecosystem asset ever appears, the way to judge it won't change:</p>
+    <ul>
+      <li><strong>Read the consensus.</strong> Is there actual proof-of-work, or just the word "mining" in the marketing?</li>
+      <li><strong>Find the blocks.</strong> A real PoW chain has a public explorer with blocks, difficulty, and hashrate.</li>
+      <li><strong>Verify your own output.</strong> Your address, your hashrate, your payouts — checkable without asking anyone's permission.</li>
+    </ul>
+    <p>If any of the three fails, walk away. If all three pass, it's worth a look.</p>
+
+    <h2>Part 6: Why we care — we build on the other side of this fence</h2>
+    <p>We build tools for the PoW side — coins like IRON, KARL, and XTR, where a laptop GPU produces a measurable hashrate and a painful electricity bill. Our flagship tool is a break-even calculator that regularly tells people <strong>not</strong> to mine. That's the point.</p>
+    <p>BNB's world and ours look opposite — elected validators versus open hashpower, burn schedules versus block subsidies. But the discipline is identical:</p>
+    <blockquote>Verify first. Commit second.</blockquote>
+    <p>Whether you're delegating 10 BNB or plugging in a 4070, the questions are the same: Where does the yield come from? What does it cost me? Can I check it myself?</p>
+    <p>If you want to see how we apply that to mining, the calculator is free — no signup, no wallet connection. Run your own numbers. Trust them more than anyone's pitch, including ours.</p>
+
+    <div class="cta">
+      <h3>Run your own numbers first</h3>
+      <p>Free break-even calculator. Input your GPU and electricity rate. If it says NO-GO, believe it.</p>
+      <a class="btn" href="https://stonevast.com/calculator.html">Open the calculator →</a>
+    </div>
+
+    <hr>
+    <p style="font-size:12.5px;color:var(--sub);">DYOR. Nothing here is financial advice. Consensus parameters and burn figures cited from BNB Chain's official documentation and bnbburn.info — check the primary sources, they're public.</p>
+  </article>
+
+  <div class="foot">
+    <div>StoneVast 石广 · Honest tools for PoW miners · No promised returns · Public ledger</div>
+    <div><a href="https://stonevast.com">Home</a> · <a href="https://stonevast.com/dashboard.html">Live dashboard</a> · <a href="https://stonevast.com/monsters.html">Monster vote</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1">Telegram</a></div>
+  </div>
+</div>
+</body>
+</html>
