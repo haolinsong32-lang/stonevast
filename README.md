@@ -21,10 +21,12 @@ StoneVast is built by a miner, for miners. After running a 4070 laptop for 7 day
 
 | Metric | Value |
 |---|---|
-| Current hashrate | 26.67 MH/s |
-| Power draw | 43 W |
-| Cumulative paid | 10.62 IRON ([txids](https://stonevast.com/withdrawals.html)) |
+| Current hashrate | 20.34 MH/s |
+| Power draw | 49 W |
+| Cumulative paid | 12.0929 IRON ([txids](https://stonevast.com/withdrawals.html)) |
 | Net (after ¥0.55/kWh) | **¥0.39 / day** |
+
+Live values refresh every 6 hours — see the [open ledger](https://stonevast.com/dashboard.html) for the current snapshot.
 
 Thin margin. Honest math. That's the whole pitch.
 
@@ -61,7 +63,7 @@ Don't trust our dashboard. Run the miner for 24h, log your own hashrate, and com
 |---|---|---|
 | **Break-even Calculator** | Input GPU + ¥/kWh → GO / NO-GO verdict | [calculator.html](https://stonevast.com/calculator.html) |
 | **Real-time Dashboard** | Hashrate, power, daily net, cumulative | [dashboard.html](https://stonevast.com/dashboard.html) |
-| **APR vs APY Explainer** | Because most people in crypto confuse these | [apr-apy.html](https://stonevast.com/apr-apy.html) |
+| **APR vs APY Explainer** | Because most people in crypto confuse these | [calculator.html § APR vs APY](https://stonevast.com/calculator.html) |
 
 ---
 
@@ -114,6 +116,10 @@ A: IRON (Iron Fish) is one of the few PoW coins still mineable on consumer GPUs 
 ## Links · 链接
 
 - Website: <https://stonevast.com>
+- Break-even Calculator (free, no signup): <https://stonevast.com/calculator.html>
+- Open Ledger Dashboard: <https://stonevast.com/dashboard.html>
+- BNB explainer (why BNB can't be mined): <https://stonevast.com/blog-bnb-mechanics.html>
+- Monster vote (community event): <https://stonevast.com/monsters.html>
 - Pro: <https://stonevast.com/pro.html>
 - Paths: <https://stonevast.com/paths.html>
 - Withdrawal Proof: <https://stonevast.com/withdrawals.html>
