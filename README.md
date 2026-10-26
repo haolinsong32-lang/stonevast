@@ -44,7 +44,7 @@ Open the [Break-even Calculator](https://stonevast.com/calculator.html). Input y
 |---|---|---|---|
 | **Standard** | Free | 5% → 20% | Verify first, scale later |
 | **Genesis** | 199 IRON one-time | 0-30% adjustable | Early believers, limited #001-#100 |
-| **Pro** | 120 IRON / month | Same rules | Data & tooling |
+| **Pro** | 120 IRON / month (60 IRON first month) | Same rules | Data & tooling |
 
 **3. Join the community · 加入社群**
 
@@ -73,7 +73,7 @@ Don't trust our dashboard. Run the miner for 24h, log your own hashrate, and com
 A: At current IRON price (~$0.07) and difficulty, a 4070 laptop nets ~¥0.39/day after electricity. That's not a typo. If someone promises you 10x ROI, they're lying.
 
 **Q: Why would I pay 120 IRON/month for Pro then?**
-A: Pro isn't about mining more — it's about *deciding faster*. The calculator saves you from bad decisions. The dashboard saves you from checking HeroMiners manually. If you don't value your time, don't buy Pro.
+A: Pro isn't about mining more — it's about *deciding faster*. The calculator saves you from bad decisions. The dashboard saves you from checking HeroMiners manually. If you don't value your time, don't buy Pro. (First month is 60 IRON as a trial, then 120 IRON / month.)
 
 **Q: Is this a pyramid scheme?**
 A: No. **One-level referrals only** — you earn from your direct invites, nothing from their invites. This is written into the rules, not the marketing. Multi-level would be illegal in most jurisdictions.
