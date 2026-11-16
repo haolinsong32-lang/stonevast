@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantus (QUAN/QTC) 挖矿收益计算器 · StoneVast</title>
+<meta name="description" content="Quantus (QUAN/QTC) 挖矿收益计算器 — 输入显卡算力、功耗、电价,秒出日/月收益、盈亏平衡与算力翻倍压力测试。敢标风险,敢说真话。">
+<meta name="keywords" content="Quantus,QUAN,QTC 挖矿,QPoW,Poseidon2,Quantus 收益,Quantus 计算器,显卡挖矿,RTX 4090 挖矿">
+<meta property="og:title" content="Quantus (QUAN/QTC) 挖矿收益计算器 · StoneVast">
+<meta property="og:description" content="秒算 Quantus 挖矿收益,附带别处没有的风险压力测试。">
+<meta property="og:url" content="https://stonevast.com/quantus-calculator.html">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://stonevast.com/quantus-calculator.html">
+<style>
+  :root{--bg:#0d0f14;--card:#161a22;--text:#e6e6e6;--dim:#8b949e;--accent:#fbbf24;--go:#10b981;--warn:#f59e0b;--no:#ef4444;--border:#2a2f3a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:820px;margin:0 auto;padding:24px 20px}
+  header{padding:40px 0 24px;border-bottom:1px solid var(--border);margin-bottom:28px}
+  header h1{font-size:28px;font-weight:700;margin-bottom:8px}
+  header p{color:var(--dim);font-size:15px}
+  .stats-bar{display:flex;gap:24px;margin:16px 0;font-size:13px;color:var(--dim);flex-wrap:wrap}
+  .stats-bar span b{color:var(--text);font-weight:600}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
+  .card h2{font-size:16px;font-weight:600;margin-bottom:16px;color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+  label{display:block;font-size:13px;color:var(--dim);margin-bottom:6px}
+  input,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:10px 12px;font-size:14px;font-family:inherit}
+  input:focus,select:focus{outline:none;border-color:var(--accent)}
+  .presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .preset-btn{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-family:inherit;transition:.15s}
+  .preset-btn:hover,.preset-btn.active{border-color:var(--accent);color:var(--accent)}
+  .advice{padding:20px;border-radius:10px;margin-bottom:16px;font-weight:600;font-size:18px;display:flex;align-items:center;gap:12px}
+  .advice.ok{background:rgba(16,185,129,.1);border-left:4px solid var(--go);color:var(--go)}
+  .advice.warn{background:rgba(245,158,11,.1);border-left:4px solid var(--warn);color:var(--warn)}
+  .advice.no{background:rgba(239,68,68,.1);border-left:4px solid var(--no);color:var(--no)}
+  .advice small{font-weight:400;font-size:13px;color:var(--dim);margin-top:4px;display:block}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--border)}
+  th{color:var(--dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  td.num{font-variant-numeric:tabular-nums;text-align:right}
+  tr.highlight td{background:rgba(251,191,36,.06)}
+  tr.loss td.num{color:var(--no)}
+  tr.profit td.num{color:var(--go)}
+  .note{background:rgba(139,148,158,.08);border-radius:8px;padding:14px;font-size:13px;color:var(--dim);margin-top:12px}
+  .note b{color:var(--text)}
+  .risk-critical{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.55);border-radius:10px;padding:18px 20px;font-size:14px;color:#fca5a5;margin-bottom:20px;line-height:1.8}
+  .risk-critical b{color:var(--text)}
+  .risk-critical .en{display:block;margin-top:10px;font-size:12px;color:var(--dim);border-top:1px dashed rgba(239,68,68,.35);padding-top:10px}
+  .risk-top{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--warn);margin-bottom:20px;line-height:1.7}
+  .risk-top b{color:var(--text)}
+  .stress{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+  .stress td{padding:8px 6px;border-bottom:1px dashed var(--border)}
+  .stress td:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+  .spinner{display:inline-block;width:12px;height:12px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  footer{padding:24px 0;border-top:1px solid var(--border);margin-top:40px;font-size:13px;color:var(--dim);text-align:center}
+  footer a{margin:0 8px}
+  @media(max-width:560px){
+    header h1{font-size:22px}
+    .wrap{padding:16px 12px}
+    .grid{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🪙 Quantus (QUAN/QTC) 挖矿收益计算器</h1>
+  <p>QPoW · Poseidon2 · 纯 GPU 无 ASIC · 快照会过期 · 风险压力测试一并送上。</p>
+  <div class="stats-bar">
+    <span>QUAN 价格 <b id="stat-price">...</b> <small id="stat-change"></small></span>
+    <span>网络算力 <b id="stat-hash">...</b></span>
+    <span>全网日产出 <b>1,793 QUAN</b></span>
+    <span>数据 <b id="stat-ts">加载中<span class="spinner"></span></b></span>
+  </div>
+</header>
+
+<!-- Quantus 专属高危横幅(比 Pearl 更显眼) -->
+<div class="risk-critical">
+  🚨 <b>HIGH RISK · 高危币种,先读这段再往下算</b><br>
+  ① <b>流动性红线</b>:24h 交易量仅约 <b>$532K</b>,低于 $1M 红线——你挖出来的币可能卖不掉,或一卖就砸盘。<br>
+  ② <b>单所交易</b>:几乎只在 SafeTrade 一家交易所交易,无深度、无备份通道。<br>
+  ③ <b>币龄极短</b>:主网 2026 年 9 月上线,至今约 6 周,未经任何完整市场周期检验。<br>
+  ④ <b>距 ATH −60%</b>:历史高点 $186,当前约 $74,高点买入者已深套。<br>
+  ⑤ <b>算力持续涌入</b>:网络算力 32.03 TH/s 且仍在上涨(9 月峰值 24.4 TH/s)——算力每翻 1 倍,你的日产币就减半。
+  <span class="en">EN: 24h volume ~$532K (&lt; $1M liquidity red line) · Trades almost only on SafeTrade (single exchange) · Mainnet live ~6 weeks (Sep 2026), no full market cycle survived · ~−60% from ATH $186 · Network hashrate 32.03 TH/s and still rising — every 2x in hashrate halves your daily coins. All numbers on this page are a current snapshot, not a promise.</span>
+</div>
+
+<!-- 顶部风险条 -->
+<div class="risk-top">
+  ⚠️ <b>先说风险,再谈收益</b>:本页所有数字是当前快照,不是承诺。Quantus 的流动性风险高于 Pearl/KAS——请按下方「压力测试」做决策,不要按峰值收益买卡,只用你亏得起的电费参与。
+</div>
+
+<!-- 输入区 -->
+<div class="card">
+  <h2>🔧 硬件 & 参数</h2>
+  <div class="presets" id="presets"></div>
+  <div class="grid" style="margin-top:16px">
+    <div>
+      <label for="hash">算力 (H/s)</label>
+      <input id="hash" type="number" step="100000000" value="1280000000" placeholder="e.g. 1280000000">
+    </div>
+    <div>
+      <label for="watt">功耗 (W)</label>
+      <input id="watt" type="number" step="10" value="297" placeholder="e.g. 297">
+    </div>
+    <div>
+      <label for="elec">电价 ($/kWh)</label>
+      <input id="elec" type="number" step="0.01" value="0.08" placeholder="e.g. 0.08">
+    </div>
+  </div>
+  <p class="note" style="margin-top:16px;font-size:12px">RTX 4090 调优实测 1,280 MH/s @ 297W;保守值 ≈900 MH/s @ 360W(估算)。带 ≈ 的预设为估算值,请务必用你自己的实测算力。QPoW 对显存/核心频率敏感,调优差距可达 40%。</p>
+</div>
+
+<!-- 建议区 -->
+<div class="card" id="advice-card" style="padding:0;border:none;background:transparent">
+  <div class="advice ok" id="advice-box" style="display:none">
+    <span id="advice-icon">✅</span>
+    <div>
+      <div id="advice-label" style="font-size:20px"></div>
+      <small id="advice-detail"></small>
+    </div>
+  </div>
+</div>
+
+<!-- 收益表 -->
+<div class="card">
+  <h2>📊 收益明细(当前快照)</h2>
+  <table>
+    <thead>
+      <tr><th>周期</th><th>QUAN 产量</th><th>毛收入 (USD)</th><th>电费 (USD)</th><th>净利润 (USD)</th></tr>
+    </thead>
+    <tbody id="result-table">
+      <tr><td colspan="5" style="color:var(--dim);text-align:center">输入参数后自动计算...</td></tr>
+    </tbody>
+  </table>
+  <div class="note" id="break-even"></div>
+</div>
+
+<!-- 压力测试 -->
+<div class="card">
+  <h2>🧪 风险压力测试(别处没有的功能)</h2>
+  <p style="font-size:13px;color:var(--dim);margin-bottom:6px">Quantus 最大的两个变量:① 网络算力涌入稀释产量 ② 低流动性下的价格崩塌。我们帮你把坏情况先算出来:</p>
+  <table class="stress" id="stress-table">
+    <tr><td>当前快照</td><td id="s0">—</td></tr>
+    <tr><td>网络算力翻倍(64 TH/s)</td><td id="s1">—</td></tr>
+    <tr><td>QUAN 价格腰斩(−50%)</td><td id="s2">—</td></tr>
+    <tr><td>算力翻倍 + 价格腰斩(同时发生)</td><td id="s3">—</td></tr>
+    <tr><td>算力 4 倍 + 价格 −75%(牛市退潮)</td><td id="s4">—</td></tr>
+  </table>
+  <div class="note" style="margin-top:14px"><b>决策建议</b>:如果第 5 行(最坏情况)仍然为正,这台机器挖 Quantus 才称得上稳健。如果只有第 1 行好看,你赚的是热度的钱——而对一个 $532K 日交易量的币种,热度退去时你可能连卖出的对手盘都没有。</div>
+</div>
+
+<!-- 科普 -->
+<div class="card">
+  <h2>🧠 你需要知道的</h2>
+  <div style="font-size:14px;color:var(--dim);line-height:1.8">
+    <p><b style="color:var(--text)">Quantus 用 QPoW 算法</b>(Poseidon2 哈希),GPU 友好、无 ASIC,RTX 4090 调优实测约 1,280 MH/s @ 297W,能效比约 4.31 MH/s/W。</p>
+    <p style="margin-top:12px"><b style="color:var(--text)">全网每天产出约 1,793 QUAN</b>(块奖励 0.30 QUAN × 块时间 14.46 秒),所有矿工按算力比例分。你分到的份额 = 你的算力 ÷ 全网算力。</p>
+    <p style="margin-top:12px"><b style="color:var(--text)">交易渠道</b>:QUAN 几乎只在 SafeTrade 交易,24h 交易量约 $532K。挖到的币能否按页面价格变现,取决于当时的盘口深度——页面价格 ≠ 你的实际成交价。</p>
+    <p style="margin-top:12px"><b style="color:var(--text)">数据保鲜</b>:价格每 10 分钟从 CoinGecko 刷新;网络算力为 2026-10-28 快照固定值(32.03 TH/s),每月手动校准。算力涨得很快,这个数字可能已偏低——偏低意味着你的实际收益比页面显示更少。</p>
+    <p style="margin-top:12px"><a href="./calculator.html">IRON 计算器 →</a> · <a href="./kas-calculator.html">KAS 计算器(敢劝退版) →</a> · <a href="./pearl-calculator.html">Pearl 计算器 →</a></p>
+  </div>
+</div>
+
+<footer>
+  <a href="./index.html">StoneVast 首页</a>
+  · <a href="https://stonevast.com/monsters.html">妖怪投票</a>
+  · <a href="./calculator.html">IRON 计算器</a>
+  · <a href="./kas-calculator.html">KAS 计算器</a>
+  · <a href="./pearl-calculator.html">Pearl 计算器</a>
+  · <a href="./pro.html">Pro 状态</a>
+  <br>
+  <span style="margin-top:8px;display:block">价格每 10 分钟从 CoinGecko 刷新 · 算力为固定快照 · 不构成投资建议,不保证收益</span>
+</footer>
+
+</div>
+
+<script>
+const API = 'https://stonevast.com/api/quantus';
+const $ = id => document.getElementById(id);
+
+let state = {
+  price: 0,
+  priceChange: 0,
+  networkHash: 32.03e12,
+  dailyEmission: 1793,
+  hwPresets: {},
+  lastPriceTs: 0,
+};
+
+function fmtNum(n, d=4){ return Number(n).toLocaleString('en-US',{maximumFractionDigits:d}); }
+function fmtBig(n){
+  if(n >= 1e18) return (n/1e18).toFixed(2)+' E';
+  if(n >= 1e15) return (n/1e15).toFixed(2)+' P';
+  if(n >= 1e12) return (n/1e12).toFixed(2)+' T';
+  if(n >= 1e9)  return (n/1e9).toFixed(2)+' G';
+  if(n >= 1e6)  return (n/1e6).toFixed(2)+' M';
+  return n;
+}
+
+async function init(){
+  try{
+    const stats = await fetch(API+'/stats').then(r=>r.json());
+    if(stats.ok){
+      state.price = stats.price;
+      state.priceChange = stats.price_change_24h || 0;
+      state.networkHash = stats.network_hash;
+      state.dailyEmission = stats.daily_emission || 1793;
+      state.lastPriceTs = stats.price_updated_ts;
+      $('stat-price').textContent = '$'+state.price.toFixed(4);
+      $('stat-change').textContent = (state.priceChange>=0?'▲':'▼')+' '+Math.abs(state.priceChange).toFixed(1)+'% 24h';
+      $('stat-change').style.color = state.priceChange>=0?'var(--go)':'var(--no)';
+      $('stat-hash').textContent = fmtBig(stats.network_hash)+' H/s';
+      $('stat-ts').textContent = new Date(stats.price_updated_ts*1000).toLocaleTimeString();
+    }
+    const hw = await fetch(API+'/hw-presets').then(r=>r.json());
+    if(hw.ok){
+      state.hwPresets = hw.presets;
+      renderPresets(hw.presets);
+    }
+  }catch(e){
+    $('stat-price').textContent = '离线';
+    $('stat-ts').textContent = 'API 暂不可用,使用缓存数据';
+  }
+  calc();
+}
+
+function renderPresets(presets){
+  const box = $('presets');
+  box.innerHTML = '';
+  Object.entries(presets).forEach(([key,hw])=>{
+    const b = document.createElement('button');
+    b.className = 'preset-btn';
+    b.textContent = hw.name+' · '+(hw.estimated?'≈':'')+(hw.hash/1e6).toFixed(0)+'MH/s';
+    b.onclick = ()=>{
+      $('hash').value = hw.hash;
+      $('watt').value = hw.watt;
+      [...document.querySelectorAll('.preset-btn')].forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      calc();
+    };
+    box.appendChild(b);
+  });
+}
+
+function profitAt(priceMult, hashMult, hash, watt, elec){
+  const price = state.price * priceMult;
+  const netHash = state.networkHash * hashMult;
+  const quanPerDay = (hash / netHash) * state.dailyEmission;
+  const usdPerDay = quanPerDay * price;
+  const elecPerDay = (watt/1000)*24*elec;
+  return usdPerDay - elecPerDay;
+}
+
+function calc(){
+  const hash = parseFloat($('hash').value);
+  const watt = parseFloat($('watt').value);
+  const elec = parseFloat($('elec').value);
+  if(!hash||!watt||!elec||!state.price) return;
+
+  const share = hash / state.networkHash;
+  const quanPerDay = share * state.dailyEmission;
+  const usdPerDay = quanPerDay * state.price;
+  const kwhPerDay = watt/1000 * 24;
+  const elecPerDay = kwhPerDay * elec;
+  const profitDay = usdPerDay - elecPerDay;
+
+  // 填表格
+  const tbody = $('result-table');
+  tbody.innerHTML = '';
+  const rows = [
+    {label:'日', k:quanPerDay,     u:usdPerDay,     e:elecPerDay,     p:profitDay},
+    {label:'周', k:quanPerDay*7,   u:usdPerDay*7,   e:elecPerDay*7,   p:profitDay*7},
+    {label:'月', k:quanPerDay*30,  u:usdPerDay*30,  e:elecPerDay*30,  p:profitDay*30},
+    {label:'年', k:quanPerDay*365, u:usdPerDay*365, e:elecPerDay*365, p:profitDay*365},
+  ];
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    const isLoss = r.p < 0;
+    if(isLoss) tr.classList.add('loss');
+    else if(r.p > 0.1) tr.classList.add('profit','highlight');
+    tr.innerHTML = `<td><b>${r.label}</b></td>
+      <td class="num">${fmtNum(r.k,3)}</td>
+      <td class="num">${fmtNum(r.u,3)}</td>
+      <td class="num">${fmtNum(r.e,2)}</td>
+      <td class="num">${fmtNum(r.p,3)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // 盈亏平衡
+  const breakevenElec = kwhPerDay>0 ? usdPerDay/kwhPerDay : 0;
+  const breakevenPrice = quanPerDay>0 ? elecPerDay/quanPerDay : 0;
+  $('break-even').innerHTML =
+    `⚡ 盈亏平衡电价: <b>$${breakevenElec.toFixed(4)}/kWh</b> (低于此价才能赚)<br>` +
+    `💸 盈亏平衡 QUAN 价格: <b>$${breakevenPrice.toFixed(4)}</b> (高于此价才能赚)<br>` +
+    `🔌 日均耗电: <b>${kwhPerDay.toFixed(2)} kWh</b>`;
+
+  // 压力测试
+  const s = [
+    ['s0', profitAt(1,    1,   hash, watt, elec)],
+    ['s1', profitAt(1,    2,   hash, watt, elec)],
+    ['s2', profitAt(0.5,  1,   hash, watt, elec)],
+    ['s3', profitAt(0.5,  2,   hash, watt, elec)],
+    ['s4', profitAt(0.25, 4,   hash, watt, elec)],
+  ];
+  s.forEach(([id,v])=>{
+    const el = $(id);
+    el.textContent = (v>=0?'+':'−')+'$'+Math.abs(v).toFixed(2)+'/天';
+    el.style.color = v>=0 ? 'var(--go)' : 'var(--no)';
+  });
+
+  // 建议(GO 分"扛得住退潮/扛不住"两级)
+  const advice = $('advice-box');
+  advice.style.display = 'flex';
+  advice.classList.remove('ok','warn','no');
+  const worst = s[4][1];
+  if(profitDay > 1 && worst > 0){
+    advice.classList.add('ok');
+    $('advice-icon').textContent='✅';
+    $('advice-label').textContent='GO · 可以挖(且扛得住退潮)';
+    $('advice-detail').textContent=`日净利 $${profitDay.toFixed(2)},最坏情况仍为正。但 Quantus 流动性极浅(24h 约 $532K、单所),建议按盈亏平衡价 $${breakevenPrice.toFixed(3)} 规划,并分批出货,别按峰值收益扩张。`;
+  } else if(profitDay > 1){
+    advice.classList.add('warn');
+    $('advice-icon').textContent='⚠️';
+    $('advice-label').textContent='GO(短期)· 但扛不住退潮';
+    $('advice-detail').textContent=`当前日净利 $${profitDay.toFixed(2)},但最坏情况转亏 ($${worst.toFixed(2)}/天)。赚的是热度的钱——对一个 6 周币龄、单所交易的币种,设定退出线,见好就收。`;
+  } else if(profitDay > 0){
+    advice.classList.add('warn');
+    $('advice-icon').textContent='⚠️';
+    $('advice-label').textContent='MARGINAL · 边缘';
+    $('advice-detail').textContent=`能赚但薄 (日净利 $${profitDay.toFixed(3)})。价格或算力稍动就亏,且 $532K 日交易量意味着出货本身可能砸价,不建议为此购卡。`;
+  } else {
+    advice.classList.add('no');
+    $('advice-icon').textContent='❌';
+    $('advice-label').textContent='NO-GO · 不建议';
+    $('advice-detail').textContent=`日亏 $${Math.abs(profitDay).toFixed(3)}。电费吃掉全部收益还不够。`;
+  }
+}
+
+['hash','watt','elec'].forEach(id=>$(id).addEventListener('input',calc));
+init();
+</script>
+</body>
+</html>
