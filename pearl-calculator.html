@@ -3,174 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pearl (PRL) 挖矿收益计算器 · StoneVast</title>
-<meta name="description" content="Pearl (PRL) 挖矿收益计算器 — 输入显卡算力、功耗、电价,秒出日/月收益、盈亏平衡与算力翻倍压力测试。敢标风险,敢说真话。">
+<title>PRL 参数与压力估算 · StoneVast 石广</title>
+<meta name="description" content="PRL 产量、电费、净额与联合压力情景估算：输入实测算力、墙上功耗和电价，检查价格回落及网络算力上升假设；不承诺收益或回本。">
 <meta name="keywords" content="Pearl,PRL 挖矿,PearlHash,Pearl 收益,Pearl 计算器,显卡挖矿,RTX 4090 挖矿">
-<meta property="og:title" content="Pearl (PRL) 挖矿收益计算器 · StoneVast">
-<meta property="og:description" content="秒算 Pearl 挖矿收益,附带别处没有的风险压力测试。">
+<meta property="og:title" content="PRL Parameter & Stress Estimates · StoneVast 石广">
+<meta property="og:description" content="所有输出均为参数估算，不是实际到账或净利润；压力情景为正也不保证盈利。">
 <meta property="og:url" content="https://stonevast.com/pearl-calculator.html">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://stonevast.com/pearl-calculator.html">
+<link rel="stylesheet" href="./site.css">
 <style>
-  :root{--bg:#0d0f14;--card:#161a22;--text:#e6e6e6;--dim:#8b949e;--accent:#a78bfa;--go:#10b981;--warn:#f59e0b;--no:#ef4444;--border:#2a2f3a}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
-  a{color:var(--accent);text-decoration:none}
-  .wrap{max-width:820px;margin:0 auto;padding:24px 20px}
-  header{padding:40px 0 24px;border-bottom:1px solid var(--border);margin-bottom:28px}
-  header h1{font-size:28px;font-weight:700;margin-bottom:8px}
-  header p{color:var(--dim);font-size:15px}
-  .stats-bar{display:flex;gap:24px;margin:16px 0;font-size:13px;color:var(--dim);flex-wrap:wrap}
-  .stats-bar span b{color:var(--text);font-weight:600}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px}
-  .card h2{font-size:16px;font-weight:600;margin-bottom:16px;color:var(--accent)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
-  label{display:block;font-size:13px;color:var(--dim);margin-bottom:6px}
-  input,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:10px 12px;font-size:14px;font-family:inherit}
-  input:focus,select:focus{outline:none;border-color:var(--accent)}
-  .presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .preset-btn{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-family:inherit;transition:.15s}
-  .preset-btn:hover,.preset-btn.active{border-color:var(--accent);color:var(--accent)}
-  .advice{padding:20px;border-radius:10px;margin-bottom:16px;font-weight:600;font-size:18px;display:flex;align-items:center;gap:12px}
-  .advice.ok{background:rgba(16,185,129,.1);border-left:4px solid var(--go);color:var(--go)}
-  .advice.warn{background:rgba(245,158,11,.1);border-left:4px solid var(--warn);color:var(--warn)}
-  .advice.no{background:rgba(239,68,68,.1);border-left:4px solid var(--no);color:var(--no)}
-  .advice small{font-weight:400;font-size:13px;color:var(--dim);margin-top:4px;display:block}
-  table{width:100%;border-collapse:collapse;font-size:14px}
-  th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--border)}
-  th{color:var(--dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
-  td.num{font-variant-numeric:tabular-nums;text-align:right}
-  tr.highlight td{background:rgba(167,139,250,.06)}
-  tr.loss td.num{color:var(--no)}
-  tr.profit td.num{color:var(--go)}
-  .note{background:rgba(139,148,158,.08);border-radius:8px;padding:14px;font-size:13px;color:var(--dim);margin-top:12px}
-  .note b{color:var(--text)}
-  .risk-top{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.35);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--warn);margin-bottom:20px;line-height:1.7}
-  .risk-top b{color:var(--text)}
-  .stress{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
-  .stress td{padding:8px 6px;border-bottom:1px dashed var(--border)}
-  .stress td:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
-  .spinner{display:inline-block;width:12px;height:12px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle}
+  body.site-page{--go:var(--ok);--no:var(--bad)}
+  body.site-page .wrap{padding-bottom:48px}
+  .tool-hero{padding:48px 0 30px}
+  .tool-hero h1{max-width:840px}
+  .tool-hero .lede{max-width:780px}
+  .stats-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:28px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .stats-bar>span{min-width:0;padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--sub);font:10px/1.7 var(--font-mono);letter-spacing:.04em}
+  .stats-bar b{display:block;color:var(--txt);font-size:13px;font-variant-numeric:tabular-nums;word-break:break-word}
+  .stats-bar small{font-family:var(--font-mono)}
+  .tool-workbench{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:40px;border-top:1px solid var(--line-strong)}
+  .tool-section{padding:26px 0 30px;border-top:1px solid var(--line-strong)}
+  .tool-workbench>.tool-section{border-top:0}
+  .section-tag{display:block;margin-bottom:8px;color:var(--acc);font:700 10px var(--font-mono);letter-spacing:.14em;text-transform:uppercase}
+  .tool-section h2{margin:0 0 14px;color:var(--txt);font:800 18px var(--font-display);letter-spacing:.02em}
+  .tool-section h3{margin:20px 0 8px;color:var(--txt);font-size:13px}
+  .input-grid{display:grid;gap:14px;margin-top:20px}
+  .fld label{display:block;margin-bottom:6px;color:var(--sub);font:11px var(--font-mono)}
+  .fld input{width:100%;padding:10px 12px}
+  .hint{margin-top:5px;color:var(--muted);font:10px/1.7 var(--font-mono)}
+  .presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .preset-btn{min-height:34px;padding:7px 10px;border:1px solid var(--line-strong);border-radius:2px;background:transparent;color:var(--sub);cursor:pointer;font:11px var(--font-mono)}
+  .preset-btn:hover,.preset-btn.active{border-color:var(--acc);background:rgba(231,161,94,.08);color:var(--acc-strong)}
+  .advice-frame{margin-bottom:18px}
+  .advice{margin:0;padding:14px 16px;border:1px solid var(--line);border-left:3px solid var(--line-strong);background:rgba(17,20,23,.66);align-items:flex-start;gap:12px}
+  .advice.ok{border-left-color:var(--ok);color:var(--ok)}
+  .advice.warn{border-left-color:var(--warn);color:var(--warn)}
+  .advice.no{border-left-color:var(--bad);color:var(--bad)}
+  .advice small{display:block;margin-top:5px;color:var(--sub);font-size:12px;font-weight:400;line-height:1.75}
+  #advice-label{font:700 16px var(--font-display)}
+  .table-scroll{margin-top:16px}
+  table{width:100%}
+  td.num{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.highlight td{background:rgba(231,161,94,.045)}
+  tr.loss td.num{color:var(--bad)}
+  tr.profit td.num{color:var(--ok)}
+  .note b{color:var(--txt)}
+  .risk-banner{margin:0 0 4px;padding:15px 16px;border:1px solid var(--line);border-left:3px solid var(--warn);background:rgba(213,173,103,.035);color:var(--sub);font-size:12px;line-height:1.85}
+  .risk-banner b{color:var(--txt)}
+  .risk-critical{border-left-color:var(--bad);background:rgba(219,129,120,.035)}
+  .stress{margin-top:10px}
+  .stress td:last-child{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+  .result{margin-top:16px;padding:4px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .result .r{display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px}
+  .result .r:last-child{border-bottom:0}
+  .result .r span{color:var(--sub)}
+  .result .r b{font-family:var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .result .r.pos b{color:var(--ok)}
+  .result .r.neg b{color:var(--bad)}
+  .verdict{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-left:3px solid var(--line-strong);font-size:13px;line-height:1.75}
+  .verdict.good{border-left-color:var(--ok);color:var(--ok)}
+  .verdict.edge{border-left-color:var(--warn);color:var(--warn)}
+  .verdict.bad{border-left-color:var(--bad);color:var(--bad)}
+  .verdict b{display:block;margin-bottom:4px;font-size:14px}
+  .verdict small{display:block;color:var(--sub);font-size:12px}
+  .reset{min-height:38px;margin-top:18px;padding:8px 13px;border:1px solid var(--line-strong);border-radius:2px;background:transparent;color:var(--sub);cursor:pointer;font:11px var(--font-mono)}
+  .reset:hover{border-color:var(--acc);color:var(--acc)}
+  .pro-status{margin-top:20px;padding-top:14px;border-top:1px dashed var(--line);color:var(--muted);font:11px/1.8 var(--font-mono);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+  .pro-status span{display:block}
+  .conversion{margin-top:8px;padding:28px 0;border-top:1px solid var(--acc);border-bottom:1px solid var(--line-strong)}
+  .conversion h2{margin:0 0 8px;font:800 20px var(--font-display)}
+  .conversion>p{max-width:760px;margin:0;color:var(--sub);font-size:12px}
+  .five-checks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:22px 0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .five-checks span{padding:13px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--sub);font-size:11px;line-height:1.6}
+  .five-checks b{display:block;margin-bottom:4px;color:var(--acc);font:10px var(--font-mono)}
+  .flow-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+  .flow-actions .flow-label{color:var(--sub);font:11px var(--font-mono)}
+  .knowledge{color:var(--sub);font-size:13px;line-height:1.85}
+  .knowledge p{margin:0 0 12px}
+  .knowledge b{color:var(--txt)}
+  .spinner{display:inline-block;width:11px;height:11px;border:1px solid var(--line-strong);border-top-color:var(--acc);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle}
   @keyframes spin{to{transform:rotate(360deg)}}
-  footer{padding:24px 0;border-top:1px solid var(--border);margin-top:40px;font-size:13px;color:var(--dim);text-align:center}
-  footer a{margin:0 8px}
-  @media(max-width:560px){
-    header h1{font-size:22px}
-    .wrap{padding:16px 12px}
-    .grid{grid-template-columns:1fr 1fr}
-  }
+  footer a{margin:0 3px}
+  @media(max-width:960px){.tool-workbench{grid-template-columns:1fr;gap:0}.tool-workbench>.tool-section+.tool-section{border-top:1px solid var(--line-strong)}.five-checks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:680px){.tool-hero{padding-top:38px}.stats-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.five-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.flow-actions{align-items:stretch;flex-direction:column}.flow-actions .btn{width:100%}.result .r{flex-wrap:wrap;gap:4px 12px}.result .r b{margin-left:auto}.tool-section{padding:22px 0 26px}}
 </style>
 </head>
-<body>
+<body class="site-page" data-density="tool">
 <div class="wrap">
+  <nav aria-label="主导航">
+    <a class="logo" href="./index.html">StoneVast <b>石广</b></a>
+    <div class="links"><a class="back" href="./calculator.html">IRON</a><a class="back" href="./kas-calculator.html">KAS</a><a class="back active" href="./pearl-calculator.html">PRL</a><a class="back" href="./quantus-calculator.html">QUAN</a><a class="back" href="https://stonevast.com/dashboard.html">实际到账</a></div>
+  </nav>
 
-<header>
-  <h1>🦪 Pearl (PRL) 挖矿收益计算器</h1>
-  <p>当前 RTX 4090 全网收益之王 · 但快照会过期 · 风险压力测试一并送上。</p>
-  <div class="stats-bar">
-    <span>PRL 价格 <b id="stat-price">...</b> <small id="stat-change"></small></span>
-    <span>网络算力 <b id="stat-hash">...</b></span>
-    <span>全网日产出 <b>736,000 PRL</b></span>
-    <span>数据 <b id="stat-ts">加载中<span class="spinner"></span></b></span>
-  </div>
-</header>
-
-<!-- 顶部风险条 -->
-<div class="risk-top">
-  ⚠️ <b>先说风险,再谈收益</b>:PRL 六个月内从 $0.169 涨至 $2.19(13 倍),当前已从顶部回落。网络算力 85.52 EH/s 且每周快速增长——<b>算力每翻 1 倍,你的日产币就减半</b>。本页所有数字是当前快照,不是承诺。请按下方「压力测试」做决策,不要按峰值收益买卡。
-</div>
-
-<!-- 输入区 -->
-<div class="card">
-  <h2>🔧 硬件 & 参数</h2>
-  <div class="presets" id="presets"></div>
-  <div class="grid" style="margin-top:16px">
-    <div>
-      <label for="hash">算力 (H/s)</label>
-      <input id="hash" type="number" step="1000000000000" value="293000000000000" placeholder="e.g. 293000000000000">
+  <header class="hero tool-hero">
+    <div class="kicker">PEARL / PearlHash / ESTIMATION TOOL</div>
+    <h1>PRL 挖矿<span>参数与压力估算</span></h1>
+    <p class="lede">以既有报价、网络快照和你的硬件输入估算当前份额，再测试算力上升与价格回落情景。所有结果均为估算，不是实际到账、净利润或购机依据。</p>
+    <div class="stats-bar" aria-label="PRL 接口参考参数">
+      <span>PRL 参考价<b id="stat-price">...</b><small id="stat-change"></small></span>
+      <span>网络算力参考<b id="stat-hash">...</b></span>
+      <span>初始日产出参数<b>736,000 PRL</b></span>
+      <span>报价时间<b id="stat-ts">加载中 <span class="spinner"></span></b></span>
     </div>
-    <div>
-      <label for="watt">功耗 (W)</label>
-      <input id="watt" type="number" step="10" value="450" placeholder="e.g. 450">
+  </header>
+
+  <main>
+    <div class="risk-banner"><b>先说风险：</b>PRL 报价、交易深度和网络算力可能快速变化。网络算力翻倍会在本模型中使日产币减半，但真实结果还受发行规则、矿池、停机与成交价格影响。不要按历史峰值或单一快照扩张硬件。</div>
+
+    <div class="tool-workbench">
+      <section class="tool-section site-reveal" aria-labelledby="prl-input-title">
+        <span class="section-tag">01 / INPUTS · 输入</span>
+        <h2 id="prl-input-title">硬件与测算参数</h2>
+        <div class="presets" id="presets" aria-label="硬件预设"></div>
+        <div class="input-grid">
+          <div class="fld"><label for="hash">算力 · H/s</label><input id="hash" type="number" step="1000000000000" value="293000000000000" placeholder="e.g. 293000000000000"></div>
+          <div class="fld"><label for="watt">墙上功耗 · W</label><input id="watt" type="number" step="10" value="450" placeholder="e.g. 450"></div>
+          <div class="fld"><label for="elec">电价参数 · USD/kWh</label><input id="elec" type="number" step="0.01" value="0.08" placeholder="e.g. 0.08"></div>
+        </div>
+        <p class="note">293 TH/s 等预设来自历史第三方参考，带 ≈ 项为比例估算。它们不是当前实测承诺；请用自己的 PearlHash 实测算力与墙上功耗替换。</p>
+      </section>
+
+      <section class="tool-section site-reveal" aria-labelledby="prl-result-title">
+        <span class="section-tag">02 / ESTIMATES · 结果</span>
+        <h2 id="prl-result-title">当前快照净额估算</h2>
+        <div class="advice-frame" id="advice-card"><div class="advice ok" id="advice-box" style="display:none"><span id="advice-icon" aria-hidden="true"></span><div><div id="advice-label"></div><small id="advice-detail"></small></div></div></div>
+        <div class="table-scroll"><table><thead><tr><th>周期</th><th>PRL 估算产量</th><th>毛收参考 (USD)</th><th>电费参数 (USD)</th><th>净额估算 (USD)</th></tr></thead><tbody id="result-table"><tr><td colspan="5">输入参数后自动生成估算；并非实际到账。</td></tr></tbody></table></div>
+        <div class="note" id="break-even"></div>
+      </section>
     </div>
-    <div>
-      <label for="elec">电价 ($/kWh)</label>
-      <input id="elec" type="number" step="0.01" value="0.08" placeholder="e.g. 0.08">
-    </div>
-  </div>
-  <p class="note" style="margin-top:16px;font-size:12px">RTX 4090 的 293 TH/s 为三源实测中位(kryptex 293 / hashrate.no 308 / pearl-trade 230)。带 ≈ 的预设为按比例估算,请务必用你自己的实测算力。</p>
+
+    <section class="tool-section site-reveal" aria-labelledby="prl-stress-title">
+      <span class="section-tag">03 / STRESS TEST · 压力测试</span>
+      <h2 id="prl-stress-title">算力与价格联合情景</h2>
+      <p class="sub">固定其他输入，仅改变网络算力与 PRL 参考价。最后一行只是设定的极端情景，不是可预见的最坏情况。</p>
+      <div class="table-scroll"><table class="stress" id="stress-table"><thead><tr><th>假设情景</th><th>每日净额估算（USD 参考）</th></tr></thead><tbody>
+        <tr><td>当前接口快照</td><td id="s0">—</td></tr>
+        <tr><td>网络算力 ×2</td><td id="s1">—</td></tr>
+        <tr><td>PRL 参考价 −50%</td><td id="s2">—</td></tr>
+        <tr><td>网络算力 ×2 + 参考价 −50%</td><td id="s3">—</td></tr>
+        <tr><td>网络算力 ×4 + 参考价 −75%</td><td id="s4">—</td></tr>
+      </tbody></table></div>
+      <div class="note"><b>解读边界：</b>压力情景为正也不代表实际盈利或回本；未覆盖流动性枯竭、规则变化、矿池故障与全部成本。若只有当前快照为正，应先视为对参数高度敏感。</div>
+      <aside class="pro-status" id="pro-cta"><span id="pro-cta-title">Pro 收款与自助激活暂停</span><span id="pro-cta-sub">免费估算可独立使用；Pro 不是本页主转化。</span></aside>
+    </section>
+
+    <section class="tool-section site-reveal" aria-labelledby="prl-risk-title">
+      <span class="section-tag">04 / RISK NOTES · 风险说明</span>
+      <h2 id="prl-risk-title">模型之外仍需核验</h2>
+      <div class="knowledge">
+        <p><b>硬件：</b>PearlHash 输入参考不保证兼容或性能。官方软件支持、显存要求、温度和稳定性须在本机验证。</p>
+        <p><b>发行参数：</b>初始日产出 736,000 PRL 来自历史收益快照反推，尚不能替代官方 emission 文档；接口返回值才会进入本次计算。</p>
+        <p><b>矿池与成交：</b>历史资料中的 Kryptex 费率、模式和起付门槛可能变化，请以使用当天官方条款为准。PPS+ 不等于无风险，页面参考价也不等于实际成交价。</p>
+        <p><b>数据时效：</b>初始网络参数取自历史快照，接口失败时可能继续参与估算。USD/USDT/CNY 仅为测算参数或参考折算，不是净利润或实际到账。</p>
+        <p><a href="./calculator.html">IRON 参数估算 →</a> · <a href="./kas-calculator.html">KAS 参数估算 →</a> · <a href="./quantus-calculator.html">QUAN 压力测试 →</a></p>
+      </div>
+    </section>
+
+    <section class="conversion site-reveal" aria-labelledby="prl-next-title">
+      <span class="section-tag">05 / NEXT CHECKS · 转化前五项确认</span><h2 id="prl-next-title">先确认适用性，再接触挖矿软件</h2>
+      <p>五项均确认后，再从对应项目或矿工的官方发布页核对下载、算法与完整性；不要根据单项估算直接购机。</p>
+      <div class="five-checks"><span><b>01</b>设备与当地规则</span><span><b>02</b>服务商条款</span><span><b>03</b>实际电价</span><span><b>04</b>矿池可用性</span><span><b>05</b>官方下载来源</span></div>
+      <div class="flow-actions"><span class="flow-label">01 完成五项确认 →</span><a class="btn btn-primary" href="./guide.html">02 核对官方下载与启动边界</a><span class="flow-label">→</span><a class="btn" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">03 Telegram 咨询</a></div>
+    </section>
+  </main>
+
+  <footer><a href="./index.html">首页</a> · <a href="./guide.html">五项确认</a> · <a href="https://stonevast.com/dashboard.html">实际到账</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a><br>价格由既有 CoinGecko 接口提供；网络参数可能为固定快照。所有输出均为估算，不承诺收益或回本；Pro 收款与自助激活暂停。</footer>
 </div>
 
-<!-- 建议区 -->
-<div class="card" id="advice-card" style="padding:0;border:none;background:transparent">
-  <div class="advice ok" id="advice-box" style="display:none">
-    <span id="advice-icon">✅</span>
-    <div>
-      <div id="advice-label" style="font-size:20px"></div>
-      <small id="advice-detail"></small>
-    </div>
-  </div>
-</div>
-
-<!-- 收益表 -->
-<div class="card">
-  <h2>📊 收益明细(当前快照)</h2>
-  <table>
-    <thead>
-      <tr><th>周期</th><th>PRL 产量</th><th>毛收入 (USD)</th><th>电费 (USD)</th><th>净利润 (USD)</th></tr>
-    </thead>
-    <tbody id="result-table">
-      <tr><td colspan="5" style="color:var(--dim);text-align:center">输入参数后自动计算...</td></tr>
-    </tbody>
-  </table>
-  <div class="note" id="break-even"></div>
-</div>
-
-<!-- 压力测试 -->
-<div class="card">
-  <h2>🧪 风险压力测试(别处没有的功能)</h2>
-  <p style="font-size:13px;color:var(--dim);margin-bottom:6px">Pearl 最大的两个变量:① 网络算力涌入稀释产量 ② 价格均值回归。我们帮你把坏情况先算出来:</p>
-  <table class="stress" id="stress-table">
-    <tr><td>当前快照</td><td id="s0">—</td></tr>
-    <tr><td>网络算力翻倍(171 EH/s)</td><td id="s1">—</td></tr>
-    <tr><td>PRL 价格腰斩(−50%)</td><td id="s2">—</td></tr>
-    <tr><td>算力翻倍 + 价格腰斩(同时发生)</td><td id="s3">—</td></tr>
-    <tr><td>算力 4 倍 + 价格 −75%(牛市退潮)</td><td id="s4">—</td></tr>
-  </table>
-  <div class="note" style="margin-top:14px"><b>决策建议</b>:如果第 4 行(最坏情况)仍然为正,这台机器挖 Pearl 才称得上稳健。如果只有第 1 行好看,你赚的是热度的钱,热度退了就没了。</div>
-</div>
-
-<!-- Pro 转化 CTA - 算完立刻出现 -->
-<div id="pro-cta" style="max-width:820px;margin:20px auto 0;padding:22px 24px;border:1px solid #5b9dff44;border-radius:16px;background:linear-gradient(135deg,#1a2640,#0d1a2e);text-align:center;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;pointer-events:none">
-  <div style="font-size:16px;font-weight:800;color:#8ec5ff;margin-bottom:4px" id="pro-cta-title">查看 Pro 多卡工具状态</div>
-  <div style="font-size:13px;color:#8b93a7;margin-bottom:14px" id="pro-cta-sub">Pro · 同时对比 5 张卡 · 敏感度网格 · 首月 $4.9 USDT · 支付 API 迁移期间暂停收款</div>
-  <a href="./pro.html" style="display:inline-block;background:linear-gradient(135deg,#5b9dff,#8ec5ff);color:#0d1016;font-weight:800;text-decoration:none;padding:11px 26px;border-radius:10px;font-size:14px">查看 Pro 状态 · Payment paused →</a>
-</div>
-
-<!-- 科普 -->
-<div class="card">
-  <h2>🧠 你需要知道的</h2>
-  <div style="font-size:14px;color:var(--dim);line-height:1.8">
-    <p><b style="color:var(--text)">Pearl 用 PearlHash 算法</b>,GPU 友好,RTX 4090 实测约 293 TH/s @ 450W,能效比约 1.10 TH/s/W。</p>
-    <p style="margin-top:12px"><b style="color:var(--text)">全网每天产出约 736,000 PRL</b>(反推自收益快照,待官方 emission 表确认),所有矿工按算力比例分。你分到的份额 = 你的算力 ÷ 全网算力。</p>
-    <p style="margin-top:12px"><b style="color:var(--text)">矿池</b>:Kryptex 支持 PPS+ 2% 费率和 SOLO 1%,最小出金 1 PRL。PPS+ 模式收益稳定,适合散户。</p>
-    <p style="margin-top:12px"><b style="color:var(--text)">数据保鲜</b>:价格每 10 分钟从 CoinGecko 刷新;网络算力为 2026-10-27 实测固定值,每月手动校准。算力涨得很快,这个数字可能已偏低——偏低意味着你的实际收益比页面显示更少。</p>
-    <p style="margin-top:12px"><a href="./calculator.html">IRON 计算器 →</a> · <a href="./kas-calculator.html">KAS 计算器(敢劝退版) →</a></p>
-  </div>
-</div>
-
-<footer>
-  <a href="./index.html">StoneVast 首页</a>
-  · <a href="https://stonevast.com/monsters.html">妖怪投票</a>
-  · <a href="./calculator.html">IRON 计算器</a>
-  · <a href="./kas-calculator.html">KAS 计算器</a>
-  · <a href="./pro.html">Pro 状态</a>
-  <br>
-  <span style="margin-top:8px;display:block">价格每 10 分钟从 CoinGecko 刷新 · 算力为固定快照 · 不构成投资建议,不保证收益</span>
-</footer>
-
-</div>
-
+<script src="./site.js"></script>
 <script>
 const API = 'https://stonevast.com/api/pearl';
 const $ = id => document.getElementById(id);
@@ -216,7 +217,7 @@ async function init(){
     }
   }catch(e){
     $('stat-price').textContent = '离线';
-    $('stat-ts').textContent = 'API 暂不可用,使用缓存数据';
+    $('stat-ts').textContent = '接口暂不可用；沿用可能过期的初始参数';
   }
   calc();
 }
@@ -287,9 +288,9 @@ function calc(){
   const breakevenElec = kwhPerDay>0 ? usdPerDay/kwhPerDay : 0;
   const breakevenPrice = prlPerDay>0 ? elecPerDay/prlPerDay : 0;
   $('break-even').innerHTML =
-    `⚡ 盈亏平衡电价: <b>$${breakevenElec.toFixed(4)}/kWh</b> (低于此价才能赚)<br>` +
-    `💸 盈亏平衡 PRL 价格: <b>$${breakevenPrice.toFixed(4)}</b> (高于此价才能赚)<br>` +
-    `🔌 日均耗电: <b>${kwhPerDay.toFixed(2)} kWh</b>`;
+    `⚡ 盈亏平衡电价估算: <b>$${breakevenElec.toFixed(4)}/kWh</b>（当前毛收参考与耗电参数下）<br>` +
+    `💸 盈亏平衡 PRL 参考价估算: <b>$${breakevenPrice.toFixed(4)}</b>（当前产量与电费参数下）<br>` +
+    `🔌 日均耗电估算: <b>${kwhPerDay.toFixed(2)} kWh</b>`;
 
   // 压力测试
   const s = [
@@ -305,7 +306,7 @@ function calc(){
     el.style.color = v>=0 ? 'var(--go)' : 'var(--no)';
   });
 
-  // 建议
+  // 按当前与压力情景展示估算状态
   const advice = $('advice-box');
   advice.style.display = 'flex';
   advice.classList.remove('ok','warn','no');
@@ -313,39 +314,39 @@ function calc(){
   if(profitDay > 1 && worst > 0){
     advice.classList.add('ok');
     $('advice-icon').textContent='✅';
-    $('advice-label').textContent='GO · 可以挖(且扛得住退潮)';
-    $('advice-detail').textContent=`日净利 $${profitDay.toFixed(2)},最坏情况仍为正。但仍建议按盈亏平衡价 $${breakevenPrice.toFixed(3)} 规划,别按峰值收益扩张。`;
+    $('advice-label').textContent='POSITIVE ESTIMATE · 五档情景为正';
+    $('advice-detail').textContent=`当前日净额估算为 $${profitDay.toFixed(2)}，设定极端情景估算仍为 +$${worst.toFixed(2)}/天。仅为五档假设，不代表实际盈利；仍需核验全部成本与盈亏平衡参考价 $${breakevenPrice.toFixed(3)}。`;
   } else if(profitDay > 1){
     advice.classList.add('warn');
     $('advice-icon').textContent='⚠️';
-    $('advice-label').textContent='GO(短期)· 但扛不住退潮';
-    $('advice-detail').textContent=`当前日净利 $${profitDay.toFixed(2)},但最坏情况转亏 ($${worst.toFixed(2)}/天)。赚的是热度的钱——设定退出线,见好就收。`;
+    $('advice-label').textContent='SENSITIVE ESTIMATE · 极端情景未保持正净额';
+    $('advice-detail').textContent=`当前日净额估算为 $${profitDay.toFixed(2)}，设定极端情景估算为 $${worst.toFixed(2)}/天。参数敏感性较高，不按热度或峰值扩张硬件。`;
   } else if(profitDay > 0){
     advice.classList.add('warn');
     $('advice-icon').textContent='⚠️';
-    $('advice-label').textContent='MARGINAL · 边缘';
-    $('advice-detail').textContent=`能赚但薄 (日净利 $${profitDay.toFixed(3)})。价格或算力稍动就亏,不建议为此购卡。`;
+    $('advice-label').textContent='MARGINAL ESTIMATE · 正净额较薄';
+    $('advice-detail').textContent=`当前日净额估算为 $${profitDay.toFixed(3)}；价格或网络算力变化可使其转负，不建议据此购卡。`;
   } else {
     advice.classList.add('no');
     $('advice-icon').textContent='❌';
-    $('advice-label').textContent='NO-GO · 不建议';
-    $('advice-detail').textContent=`日亏 $${Math.abs(profitDay).toFixed(3)}。电费吃掉全部收益还不够。`;
+    $('advice-label').textContent='NEGATIVE ESTIMATE · 当前参数为负';
+    $('advice-detail').textContent=`当前日净额估算为 -$${Math.abs(profitDay).toFixed(3)}；毛收参考不足以覆盖本页电费参数，仍非实际盈亏。`;
   }
 
-  // 激活 Pro CTA - 算完立刻显示
+  // 显示 Pro 暂停状态与估算口径
   const cta = $('pro-cta');
   if(cta){
     const title = $('pro-cta-title');
     const sub = $('pro-cta-sub');
     if(profitDay > 1 && worst > 0){
-      title.textContent = `✅ 估算日净 $${profitDay.toFixed(2)} · 可继续对比多卡假设`;
-      sub.textContent = `Pro 工作台 · 批量对比 5 张卡 · 敏感度网格 · 首月 $4.9 USDT · 当前暂停收款`;
+      title.textContent = `当前日净额估算 $${profitDay.toFixed(2)} · 五档情景均为正`;
+      sub.textContent = `Pro 收款与自助激活暂停；免费估算与压力测试可独立使用。`;
     } else if(profitDay > 0){
-      title.textContent = `⚠️ 估算日净薄利 $${profitDay.toFixed(2)} · 先检查最坏情况`;
-      sub.textContent = `Pro · 敏感度压力测试 + 回本曲线 + 多卡互比 · 首月 $4.9 USDT · 当前暂停收款`;
+      title.textContent = `当前日净额估算 $${profitDay.toFixed(2)} · 先核对压力情景`;
+      sub.textContent = `Pro 收款与自助激活暂停；免费估算与压力测试可独立使用。`;
     } else {
-      title.textContent = `❌ 估算日亏 $${Math.abs(profitDay).toFixed(2)} · 不建议按当前参数运行`;
-      sub.textContent = `Pro · 对比不同显卡假设，结果仅为估算 · 当前暂停收款`;
+      title.textContent = `当前日净额估算 -$${Math.abs(profitDay).toFixed(2)} · 当前参数为负`;
+      sub.textContent = `Pro 收款与自助激活暂停；免费估算与压力测试可独立使用。`;
     }
     cta.style.opacity = '1';
     cta.style.transform = 'translateY(0)';
