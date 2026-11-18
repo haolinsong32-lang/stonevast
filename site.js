@@ -141,4 +141,30 @@
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden) refreshStats();
   });
+
+  var progressBar = document.createElement('div');
+  progressBar.className = 'sv-progress';
+  progressBar.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(progressBar);
+
+  var navBar = document.querySelector('.wrap > nav');
+  var scrollQueued = false;
+  var updateScrollState = function () {
+    var doc = document.documentElement;
+    var offset = window.pageYOffset || doc.scrollTop || 0;
+    var max = doc.scrollHeight - window.innerHeight;
+    var ratio = max > 0 ? offset / max : 0;
+    progressBar.style.transform = 'scaleX(' + Math.max(0, Math.min(1, ratio)).toFixed(4) + ')';
+    if (navBar) navBar.classList.toggle('is-scrolled', offset > 12);
+    scrollQueued = false;
+  };
+  var queueScrollState = function () {
+    if (!scrollQueued) {
+      window.requestAnimationFrame(updateScrollState);
+      scrollQueued = true;
+    }
+  };
+  window.addEventListener('scroll', queueScrollState, { passive: true });
+  window.addEventListener('resize', queueScrollState);
+  updateScrollState();
 }());
