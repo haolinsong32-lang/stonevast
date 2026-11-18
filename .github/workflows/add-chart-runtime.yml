@@ -20,7 +20,7 @@ jobs:
           set -euo pipefail
           mkdir -p assets
           curl --fail --location --silent --show-error --retry 3 \
-            https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js \
+            https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js \
             --output assets/chart.umd.min.js
           echo "0e2326c6868072bec1592760c6729043caeea2960a2b46cee6a2192aac6abff0  assets/chart.umd.min.js" | sha256sum --check
           test "$(git hash-object assets/chart.umd.min.js)" = "9a07c2f45def422fa70b91aa8ae4f0601935246c"
