@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StoneVast 付款指南已归档。Pro 收款与 TXID 自助激活暂停，恢复前请勿付款。">
+<meta property="og:title" content="StoneVast · Payment Paused">
+<meta property="og:description" content="Do not send funds or submit a TXID. Historical payment instructions are archived.">
+<title>StoneVast 石广 · 收款暂停与旧指南归档</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./site.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body.site-page{font-size:15px;}
+  body.site-page .wrap{max-width:860px;margin:0 auto;}
+  .hero{padding:54px 0 30px;}
+  .hero .kicker{font:11px var(--font-mono);letter-spacing:.16em;color:var(--acc);text-transform:uppercase;}
+  .hero h1{margin:16px 0;font-size:clamp(30px,5vw,46px);line-height:1.12;}
+  .hero h1 span{color:var(--acc);}
+  .hero p{max-width:680px;color:var(--sub);font-size:14px;}
+  .pause-panel{margin:24px 0;padding:20px 22px;border:1px solid var(--acc);border-left-width:4px;background:rgba(231,161,94,.06);}
+  .pause-panel b{display:block;color:var(--acc);font-size:17px;margin-bottom:8px;}
+  .pause-panel p{color:var(--txt);font-size:14px;line-height:1.85;}
+  .status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:28px 0;background:var(--line);border:1px solid var(--line);}
+  .status-item{background:var(--card);padding:20px;}
+  .status-item .num{font:11px var(--font-mono);color:var(--acc);letter-spacing:.12em;}
+  .status-item h2{font-size:15px;margin:10px 0 6px;}
+  .status-item p{color:var(--sub);font-size:12.5px;line-height:1.75;}
+  .detail{margin-top:24px;padding:24px 0;border-top:1px solid var(--line);}
+  .detail h2{font-size:17px;color:var(--acc);margin-bottom:12px;}
+  .detail p,.detail li{color:var(--sub);font-size:13.5px;line-height:1.9;}
+  .detail ul{padding-left:20px;}
+  .detail strong{color:var(--txt);}
+  .faq{margin-top:32px;}
+  .faq>h2{font-size:17px;color:var(--acc);margin-bottom:14px;}
+  details{background:var(--card);border:1px solid var(--line);border-radius:2px;padding:15px 17px;margin-bottom:10px;}
+  summary{cursor:pointer;color:var(--txt);font-size:14px;font-weight:650;}
+  details p{margin-top:10px;color:var(--sub);font-size:13px;line-height:1.85;}
+  .foot{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);text-align:center;color:var(--sub);font-size:11px;line-height:2.1;}
+  .foot a{color:var(--acc);text-decoration:none;}
+  @media(max-width:640px){.status-grid{grid-template-columns:1fr;}.hero{padding-top:38px;}.detail{padding:20px 0;}}
+</style>
+</head>
+<body class="site-page" data-density="document">
+<div class="wrap">
+  <nav>
+    <a class="logo" href="./index.html">StoneVast 石广</a>
+    <a class="back" href="./pro.html">Pro status · Pro 状态 →</a>
+  </nav>
+
+  <header class="hero">
+    <div class="kicker">Payment notice · 收款状态公告</div>
+    <h1>Payment guide.<br><span>Paused and archived.</span></h1>
+    <p>本页不再提供 Genesis 或 Pro 的地址复制、钱包转账、金额核对或交易哈希提交引导。旧付款说明仅作归档，不构成当前收款信息。</p>
+  </header>
+
+  <section class="pause-panel" role="status">
+    <b>Pro 收款与自助激活暂停</b>
+    <p><strong>恢复前请勿付款，请勿向任何历史地址转账。</strong>Pro 不处理新订单或续费，不恢复 TXID 自助激活；Genesis 旧 IRON 付款与人工登记流程也已归档。请以官网后续明确公告为准。</p>
+  </section>
+
+  <section class="status-grid" aria-label="当前操作边界">
+    <div class="status-item">
+      <span class="num">01 / PAYMENT</span>
+      <h2>请勿付款</h2>
+      <p>暂停期间没有有效付款入口。不要依据旧截图、旧页面或他人转发的地址付款。</p>
+    </div>
+    <div class="status-item">
+      <span class="num">02 / ACTIVATION</span>
+      <h2>请勿提交 TXID</h2>
+      <p>不通过 TXID 自助激活或恢复权限。历史交易记录不等同于当前订单。</p>
+    </div>
+    <div class="status-item">
+      <span class="num">03 / STATUS</span>
+      <h2>等待官方公告</h2>
+      <p>恢复时间、适用范围和处理方式仅以 StoneVast 官网后续公告为准。</p>
+    </div>
+  </section>
+
+  <section class="detail">
+    <h2>当前状态 · Current status</h2>
+    <ul>
+      <li><strong>Pro：</strong>收款、新订单、续费和 TXID 自助激活均暂停；已有用户可按 Pro 页面说明使用现有访问方式。</li>
+      <li><strong>Genesis：</strong>本页旧 IRON 付款流程不再作为领取或登记依据，请勿补款、重复转账或发送领取交易哈希。</li>
+      <li><strong>安全：</strong>任何核验都不要求私钥、助记词或钱包密码，也不要求为核验再次付款。</li>
+    </ul>
+  </section>
+
+  <section class="detail">
+    <h2>旧指南归档说明 · Archive scope</h2>
+    <p>旧版中的收款地址、历史价格、钱包下载、交易所提币和 TXID 提交步骤已移除，避免被误认为当前操作指引。链上历史记录仍可公开查询，但本页不据此创建订单、确认权益或承诺处理结果。</p>
+  </section>
+
+  <section class="faq">
+    <h2>常见问题 · FAQ</h2>
+    <details>
+      <summary>现在可以付款或续费吗？</summary>
+      <p>不可以。恢复前请勿付款。Pro 不处理新订单或续费，本页也不提供 Genesis 付款入口。</p>
+    </details>
+    <details>
+      <summary>可以提交 TXID 自助激活吗？</summary>
+      <p>不可以。TXID 自助激活不会随本次页面改造恢复，请勿向任何人提交 TXID 以换取所谓快速激活。</p>
+    </details>
+    <details>
+      <summary>此前已经转账，应该怎么做？</summary>
+      <p>请勿再次转账，也不要提供私钥或助记词。历史订单问题仅可通过官方渠道人工核对公开记录，不承诺退款、补偿或完成时限。</p>
+    </details>
+    <details>
+      <summary>在哪里查看恢复状态？</summary>
+      <p>请查看 <a href="./pro.html">Pro 状态页</a>及 StoneVast 官方后续公告。在明确恢复前，本页全部旧付款流程保持停用。</p>
+    </details>
+  </section>
+
+  <footer class="foot">
+    <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">Telegram · 官方公告与人工核验</a><br>
+    StoneVast 石广 · Payment paused · Historical guide archived<br>
+    <a href="./index.html">Home</a> · <a href="./paths.html">Paths</a> · <a href="./pro.html">Pro</a> · <a href="./nft.html">Genesis archive</a><br>
+    <span>Last updated 2026-11-17</span>
+  </footer>
+</div>
+<script src="./site.js"></script>
+</body>
+</html>

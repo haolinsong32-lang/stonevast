@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="StoneVast 节点工程文档：登记、激活、公开钱包记录与关系查询接口契约。关系记录不等于收益、应付款、实际到账或自动结算。">
+<meta name="description" content="StoneVast 节点工程文档：无限邀请关系、无限级减半分成资格、单次节点令牌、心跳状态、公开钱包与查询接口。分账权益不等于实际到账。">
 <title>节点接口与状态说明 · StoneVast 石广</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="./site.css">
@@ -41,7 +41,7 @@
     <button type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">MENU</button>
     <div class="navlinks" id="primary-nav">
       <a href="./calculator.html">免费测算</a>
-      <a href="https://stonevast.com/dashboard.html#payout-title">实际到账</a>
+      <a href="./dashboard.html#payout-title">实际到账</a>
       <a href="./guide.html">使用指南</a>
       <a href="./paths.html">参与路径</a>
       <a class="back active" href="./node-docs.html">节点文档</a>
@@ -52,17 +52,17 @@
   <main id="main">
     <header class="hero site-reveal">
       <div class="kicker">NODE ENGINEERING / 接口与状态</div>
-      <h1>节点登记是记录，<span>不是结算系统</span></h1>
-      <p class="lede">本文说明首页现有登记、激活、公开钱包记录和关系查询契约。节点功能不是免费测算、官方下载或挖矿启动的必经步骤。</p>
-      <div class="hero-actions"><a href="https://stonevast.com/index.html#registry">前往正式站管理节点</a><a href="https://stonevast.com/dashboard.html#payout-title">独立查看实际到账</a></div>
-      <div class="doc-meta">DOCUMENT STATUS / 2026-11-17 · 接口路径沿用现有前端 · 实际响应以服务端当前版本为准</div>
+      <h1>关系无限延伸，<span>结算只认证据</span></h1>
+      <p class="lede">本文说明登记、无限级减半费率、节点令牌、心跳、公开钱包与关系查询契约。节点功能不是免费测算、官方下载或挖矿启动的必经步骤。</p>
+      <div class="hero-actions"><a href="./index.html#registry">前往节点登记</a><a href="./dashboard.html#payout-title">独立查看实际到账</a></div>
+      <div class="doc-meta">DOCUMENT STATUS / 2026-11-18 · RULE / infinite-halving-v1 · 实际响应以服务端当前版本为准</div>
     </header>
 
     <section class="card site-reveal" aria-labelledby="boundary-title">
       <h2 id="boundary-title">先读边界</h2>
-      <div class="box warn"><b>关系记录不等于收益、应付款或自动结算。</b>登记、激活、邀请关系和公开钱包地址都不会触发挖矿产出、链上转账或提现；节点接口也不是实际到账数据的来源。</div>
+      <div class="box warn"><b>登记不产生收入，分账权益不等于实际付款。</b>无限级整数分账与冲正核心已实现，但生产结算仍未开启：必须先建立可信的「链上事件 → 产币节点 UID」映射。没有真实净产出、最终确认事件、有效关系或公开地址，就不会形成可付款权益。</div>
       <div class="boundary">
-        <div class="box ok"><b>可以记录</b><br>登记卡密状态、节点 UID、可选邀请关系、公开 IRON 地址及关系查询结果。</div>
+        <div class="box ok"><b>可以记录</b><br>节点 UID、无限邀请关系、减半费率资格、公开 IRON 地址、心跳状态与整数分账流水。</div>
         <div class="box bad"><b>不要提交</b><br>助记词、私钥、钱包密码、交易所 API Key、身份证件或任何付款授权信息。</div>
       </div>
     </section>
@@ -73,9 +73,11 @@
         <thead><tr><th>字段</th><th>形式</th><th>工程含义</th></tr></thead>
         <tbody>
           <tr><td><code>key</code></td><td><code>SV-XXXXXXXX</code></td><td>登记或激活使用的单次凭证；初始为 <code>unused</code>，成功后转为 <code>used</code>。</td></tr>
-          <tr><td><code>invite_code</code></td><td><code>N-XXXXXXXX</code></td><td>可选关系标识；只用于建立节点关系，不表示收益或付款资格。</td></tr>
+          <tr><td><code>invite_code</code></td><td><code>N-XXXXXXXX</code></td><td>建立不限层级的邀请关系与分成资格；邀请本身不保证产生收入。</td></tr>
           <tr><td><code>uid</code></td><td>服务端返回的节点标识</td><td>用于查询与记录；不是身份密钥、钱包所有权证明或付款授权。</td></tr>
-          <tr><td><code>address</code></td><td>公开 IRON 地址</td><td>仅保存公开地址记录；当前流程不应被解释为托管、收款或自动打款配置。</td></tr>
+          <tr><td><code>nodeToken</code></td><td><code>svn_...</code></td><td>注册或管理补发时仅返回一次；服务端只保存 SHA-256 哈希，用于心跳认证。</td></tr>
+          <tr><td><code>address</code></td><td>公开 IRON 地址</td><td>作为公开分账地址记录；不代表托管、地址所有权证明或已经付款。</td></tr>
+          <tr><td><code>last_heartbeat_at</code></td><td>Unix 秒时间戳</td><td>独立节点心跳证据；最近 300 秒内才计为活跃，不能用 PV、UV 或 IP 冒充。</td></tr>
         </tbody>
       </table></div>
       <p class="footnote">卡密字符集避免使用易混淆的 <code>0 / O / 1 / I</code>。已经使用的卡密不能再次登记或激活。</p>
@@ -86,8 +88,9 @@
       <ol class="sequence">
         <li><b>前端读取输入：</b>卡密必填，邀请码可选；首页将两者转为大写后发送。</li>
         <li><b>服务端校验：</b>检查卡密是否有效且未使用；如提供邀请码，再记录对应关系。</li>
-        <li><b>成功返回：</b>返回节点记录，首页保存其中的 <code>uid</code> 并展示 <code>invite_code</code>。</li>
-        <li><b>结果边界：</b>只完成关系登记，不创建收益、应付款、结算单或任何链上交易。</li>
+        <li><b>成功返回：</b>返回节点记录与一次性的 <code>nodeToken</code>；首页只持久保存 UID，不保存节点令牌。</li>
+        <li><b>立即保存：</b>刷新或关闭后不能再次获取令牌；丢失只能由管理员补发，补发后旧令牌立即失效。</li>
+        <li><b>结果边界：</b>登记建立关系与分成资格，但不创建收入、实际付款或任何链上交易。</li>
       </ol>
       <pre class="contract">POST /api/v1/register
 Content-Type: application/json
@@ -108,7 +111,7 @@ Content-Type: application/json
   "key": "SV-XXXXXXXX",
   "uid": "服务端返回的节点标识"
 }</pre>
-      <p class="hint">激活表示把有效卡密用于已有节点记录，并推进卡密状态。它不代表购买 Pro、获得付款资格或启动自动结算。若当前服务端未开放该操作，应以实际错误响应为准，不由前端伪造成功状态。</p>
+      <p class="hint">激活表示把有效卡密用于已有节点记录，并推进卡密状态。创世角色只影响 L1 直推费率，不保证收益或付款，也不代表恢复 Pro 收款。若当前服务端未开放该操作，应以实际错误响应为准，不由前端伪造成功状态。</p>
     </section>
 
     <section class="card site-reveal" aria-labelledby="wallet-title">
@@ -123,7 +126,7 @@ Content-Type: application/json
       <ol class="sequence">
         <li><b>只填公开地址：</b>首页进行格式检查后发送，不接受助记词或私钥。</li>
         <li><b>没有所有权签名：</b>该记录不能单独证明地址归属，也不能作为转账或扣款授权。</li>
-        <li><b>没有结算副作用：</b>保存成功只表示地址记录更新，不产生收益、欠款、付款或提现。</li>
+        <li><b>只记录，不等于付款：</b>保存成功只表示地址记录更新，不产生收益、欠款、付款或提现；后续分账权益也必须单独核验，不能写成已到账。</li>
       </ol>
       <div class="box warn">修改公开地址前应人工核对。不要把截图、钱包导出或聊天记录中的私密信息粘贴到该输入框。</div>
     </section>
@@ -134,12 +137,31 @@ Content-Type: application/json
         <thead><tr><th>请求</th><th>用途</th><th>解释边界</th></tr></thead>
         <tbody>
           <tr><td><code>GET /api/v1/node/my?uid=sv_xxx</code></td><td>读取当前节点、公开地址记录及关系统计。</td><td>首页只据此渲染节点记录，不渲染应付款。</td></tr>
-          <tr><td><code>GET /api/v1/node/downline?uid=sv_xxx&amp;depth=3</code></td><td>读取下级关系树；既有文档约定最多查询 10 层。</td><td>人数和层级只描述关系，不代表计酬或实际产出。</td></tr>
-          <tr><td><code>GET /api/v1/node/lineage?uid=sv_xxx</code></td><td>读取上级关系链。</td><td>历史字段即使存在，也不得解释为收益或结算凭证。</td></tr>
+          <tr><td><code>GET /api/v1/node/downline?uid=sv_xxx&amp;depth=3&amp;offset=0&amp;limit=50</code></td><td>读取下级关系树；<code>depth</code> 只控制本次展示深度，不限制实际关系或分成资格。</td><td><code>offset/limit</code> 控制分页，<code>limit</code> 为 1–200；人数和层级不代表计酬或实际产出。</td></tr>
+          <tr><td><code>GET /api/v1/node/lineage?uid=sv_xxx&amp;offset=0&amp;limit=50</code></td><td>分页读取完整上级关系链，不在第 3 层截断。</td><td>分页只影响展示，不影响结算关系深度；关系字段也不是收益或付款凭证。</td></tr>
           <tr><td><code>GET /api/v1/node/lookup?code=N-XXXX</code></td><td>按邀请码查询对应节点关系。</td><td>不用于证明钱包所有权、实际到账或应付金额。</td></tr>
         </tbody>
       </table></div>
       <p class="footnote">查询参数必须 URL 编码。具体字段、可用深度和错误码以服务端当前响应为准；调用方不得用缺失字段补造收入或零值。</p>
+    </section>
+
+    <section class="card site-reveal" aria-labelledby="heartbeat-title">
+      <h2 id="heartbeat-title">节点心跳与真实状态</h2>
+      <pre class="contract">POST /api/v1/node/heartbeat
+Content-Type: application/json
+
+{
+  "uid": "sv_xxx",
+  "token": "svn_..."
+}
+
+GET /api/v1/node/stats</pre>
+      <ol class="sequence">
+        <li><b>独立认证：</b>矿工端使用注册或管理补发时获得的节点令牌，建议每 60 秒上报一次；令牌不得写入网页本地存储或公开日志。</li>
+        <li><b>活跃口径：</b>最近 300 秒内有通过认证的心跳才计为活跃；失联、从未上报与离线分别统计。</li>
+        <li><b>不可混用：</b><code>registeredNodes</code> 是注册节点数，<code>activeNodes</code> 是活跃节点数，<code>staleNodes</code> 是曾上报但已失联数，<code>neverReportedNodes</code> 是从未上报数，<code>offlineNodes</code> 是当前非活跃数；PV、UV 和独立 IP 均不能冒充节点。</li>
+      </ol>
+      <p class="hint">管理补发接口需要服务端配置的 <code>X-Admin-Token</code>，补发后旧节点令牌立即失效。管理令牌只应由管理员保管，不放入前端。</p>
     </section>
 
     <section class="card site-reveal" aria-labelledby="errors-title">
@@ -147,7 +169,7 @@ Content-Type: application/json
       <div class="table-scroll"><table>
         <thead><tr><th>情况</th><th>前端应如何呈现</th><th>禁止行为</th></tr></thead>
         <tbody>
-          <tr><td><code>{ "ok": true, ... }</code></td><td>仅展示服务端实际返回的节点或地址记录。</td><td>不得附带收益、返佣、结算成功等暗示。</td></tr>
+          <tr><td><code>{ "ok": true, ... }</code></td><td>仅展示服务端实际返回的节点、地址、资格或权益状态。</td><td>不得把分成资格、应计未付权益或关系记录写成已付款。</td></tr>
           <tr><td><code>{ "ok": false, "err": "..." }</code></td><td>展示错误并保留用户重新核对的机会。</td><td>不得把失败改写成已登记、已绑定或已付款。</td></tr>
           <tr><td>超时、断网、非 JSON 响应</td><td>显示网络或格式错误，状态保持未知。</td><td>不得默认成功、自动重试写操作或重复提交卡密。</td></tr>
         </tbody>
@@ -157,15 +179,15 @@ Content-Type: application/json
 
     <section class="card site-reveal" aria-labelledby="ledger-title">
       <h2 id="ledger-title">与公开账本的隔离</h2>
-      <p class="hint">实际到账只能由符合口径的已确认矿池付款和对应交易证据支持。历史快照、矿池未付余额、测算结果、节点人数、邀请关系与公开地址记录均不属于该口径。</p>
-      <div class="btns"><a class="btn" href="https://stonevast.com/dashboard.html#payout-title">查看实际到账证据</a><a class="btn" href="https://stonevast.com/dashboard.html#snapshot-title">查看历史快照</a><a class="btn" href="./calculator.html">打开独立测算</a></div>
+      <p class="hint">实际到账只能由符合口径的已确认矿池付款和对应交易证据支持。无限级分账核心按最终确认的真实净产出计算整数权益并支持冲正，但权益、历史快照、矿池未付余额、测算结果、节点人数、邀请关系与公开地址记录均不属于实际到账。</p>
+      <div class="btns"><a class="btn" href="./dashboard.html#payout-title">查看实际到账证据</a><a class="btn" href="./dashboard.html#snapshot-title">查看历史快照</a><a class="btn" href="./calculator.html">打开独立测算</a></div>
     </section>
 
     <section class="card site-reveal" aria-labelledby="status-title">
       <h2 id="status-title">当前服务状态</h2>
       <ul class="steps">
         <li><b>节点登记：</b>可选的记录功能，不是下载或运行挖矿软件的前提。</li>
-        <li><b>自动结算：</b>未由上述节点接口提供；仅凭 UID 或公开地址不得自动打款。</li>
+        <li><b>生产结算：</b>整数分账与冲正核心已实现，但可信的「链上事件 → 产币节点 UID」生产映射尚未配置，因此未开启生产分账；仅凭 UID、关系或公开地址不得自动打款。</li>
         <li><b>Pro：</b>收款与自助激活暂停，不提供价格、付款或续费入口。</li>
         <li><b>安全：</b>任何自称官方的人都不会因登记、激活或支持而索取助记词、私钥或钱包密码。</li>
       </ul>
@@ -173,7 +195,7 @@ Content-Type: application/json
     </section>
   </main>
 
-  <footer class="foot">本文是接口与数据边界说明，不构成投资、法律或税务建议。<br><a href="./index.html">首页</a> · <a href="./guide.html">使用指南</a> · <a href="./paths.html">参与路径</a> · <a href="https://stonevast.com/dashboard.html#payout-title">实际到账</a></footer>
+  <footer class="foot">本文是接口与数据边界说明，不构成投资、法律或税务建议。<br><a href="./index.html">首页</a> · <a href="./guide.html">使用指南</a> · <a href="./paths.html">参与路径</a> · <a href="./dashboard.html#payout-title">实际到账</a></footer>
 </div>
 <noscript><div class="wrap"><p class="note">全部接口契约与安全说明无需 JavaScript 即可阅读；实际登记、绑定和查询操作需要启用 JavaScript，并以服务端响应为准。</p></div></noscript>
 </body>

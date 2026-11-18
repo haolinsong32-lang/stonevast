@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>StoneVast Pro · Node Health Dashboard · 节点健康看板</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<script src="../assets/chart.umd.min.js"></script>
+<link rel="stylesheet" href="../site.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 72px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc);}
+  .links{display:flex;gap:8px;}
+  .back{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+  .back.active{border-color:var(--acc);color:var(--acc);}
+  h1{font-size:24px;font-weight:800;margin:20px 0 6px;}
+  .upd{font-size:12.5px;color:var(--sub);margin-bottom:22px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:22px;}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;}
+  .stat .v{font-size:26px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums;}
+  .stat .k{font-size:12px;color:var(--sub);margin-top:4px;letter-spacing:.5px;}
+  .stat .sub{font-size:11px;color:var(--sub);opacity:.7;margin-top:2px;}
+  .chart-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;}
+  .chart-card h3{font-size:13.5px;color:var(--acc);letter-spacing:1px;margin-bottom:14px;font-weight:700;}
+  .chart-box{position:relative;height:260px;}
+  .warn{background:#ffb02011;border:1px solid #ffb02044;border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--sub);margin-bottom:16px;}
+  .warn b{color:var(--warn);}
+  .pro-status{position:sticky;top:0;z-index:99;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px max(14px,calc((100% - 1280px)/2));border-bottom:1px solid var(--line-strong);background:rgba(11,13,15,.96);color:var(--sub);font:11px var(--font-mono);}
+  .pro-status .pause-state{color:var(--warn);white-space:nowrap;}
+  body.site-page .warn{border-radius:2px;background:rgba(213,173,103,.05);border-color:var(--line-strong);border-left:2px solid var(--warn);}
+  @media(max-width:640px){.chart-box{height:200px;}.pro-status{align-items:flex-start;flex-direction:column;gap:3px;}}
+</style>
+</head>
+<body class="site-page" data-density="tool">
+<div class="pro-status" role="status">
+  <span>StoneVast Pro · 节点健康仪表盘 · 历史快照分析</span>
+  <span class="pause-state">Pro 收款与自助激活暂停</span>
+</div>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="../pro.html"><b>⛏</b> StoneVast Pro</a>
+    <div class="links">
+      <a class="back" href="./workbench.html">Workbench</a>
+      <a class="back active" href="./dashboard.html">Dashboard</a>
+      <a class="back" href="./calculator.html">Calculator</a>
+      <a class="back" href="../pro.html">← Exit</a>
+    </div>
+  </nav>
+
+  <h1>📊 Node Health Dashboard</h1>
+  <div class="upd" id="upd">Loading…</div>
+
+  <div class="grid">
+    <div class="stat"><div class="v" id="sHash">--</div><div class="k">HASHRATE · 算力</div><div class="sub">MH/s</div></div>
+    <div class="stat"><div class="v" id="sPow">--</div><div class="k">POWER · 功耗</div><div class="sub">W at wall</div></div>
+    <div class="stat"><div class="v" id="sPrice">--</div><div class="k">IRON PRICE · 价格</div><div class="sub">USD</div></div>
+    <div class="stat"><div class="v" id="sNet">--</div><div class="k">DAILY NET · 日净收</div><div class="sub">CNY</div></div>
+    <div class="stat"><div class="v" id="sPaid">--</div><div class="k">TOTAL PAID · 累计支付</div><div class="sub">IRON</div></div>
+    <div class="stat"><div class="v" id="sBal">--</div><div class="k">POOL BALANCE · 矿池余额</div><div class="sub">IRON</div></div>
+    <div class="stat"><div class="v" id="sSaved">--</div><div class="k">CUMULATIVE NET · 累计净收</div><div class="sub">CNY</div></div>
+    <div class="stat"><div class="v" id="sDays">--</div><div class="k">RUNNING DAYS · 运行天数</div><div class="sub">since start</div></div>
+  </div>
+
+  <div class="warn">
+    <b>Snapshot note:</b> This dashboard renders the existing recorded data and ledger; it is not a live wallet-payout feed.
+    本看板展示既有记录与账本快照，用于历史分析，不代表实时钱包到账或实时收益。
+  </div>
+
+  <div class="chart-card">
+    <h3>DAILY NET REVENUE · 日净收趋势</h3>
+    <div class="chart-box"><canvas id="cNet"></canvas></div>
+  </div>
+
+  <div class="chart-card">
+    <h3>CUMULATIVE NET · 累计净收曲线</h3>
+    <div class="chart-box"><canvas id="cCum"></canvas></div>
+  </div>
+</div>
+
+<script src="../data.js"></script>
+<script src="../ledger.json" type="application/json" id="ledgerRaw"></script>
+<script>
+(async function(){
+  // Auth check — 必须校验哈希值本身，不能只判断 key 是否存在（否则 devtools 一行即可白拿）
+  if(sessionStorage.getItem('sv_pro_auth')!=='c1e137063b1de0fbc4c549f2ea63c947285c99bdb8319401c312e5a3f916dcc4'){
+    location.href='../pro.html';
+    return;
+  }
+
+  const D = window.SITE_DATA || {};
+  document.getElementById('upd').textContent = 'Last updated · 最后更新: ' + (D.updated || '--');
+
+  // Stats
+  const fmt=(n,d=2)=>(+n||0).toFixed(d);
+  document.getElementById('sHash').textContent = fmt(D.hashrate,2);
+  document.getElementById('sPow').textContent = fmt(D.power,0);
+  document.getElementById('sPrice').textContent = '$'+fmt(D.priceUsd,4);
+  document.getElementById('sNet').textContent = '¥'+fmt(D.netDayCny,2);
+  document.getElementById('sPaid').textContent = fmt(D.paidIron,4);
+  document.getElementById('sBal').textContent = fmt(D.balIron,4);
+  document.getElementById('sSaved').textContent = '¥'+fmt(D.savedCny,2);
+
+  // Running days
+  if(D.since){
+    const days = Math.floor((Date.now()-new Date(D.since).getTime())/(1000*60*60*24));
+    document.getElementById('sDays').textContent = days;
+  }
+
+  // Load ledger
+  let ledger = {entries:[]};
+  try{
+    const r = await fetch('../ledger.json');
+    ledger = await r.json();
+  }catch(e){
+    console.warn('ledger load fail', e);
+  }
+
+  const entries = (ledger.entries||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const labels = entries.map(e=>e.date.slice(5));  // MM-DD
+  const dailyNet = entries.map(e=>+e.netCny||0);
+  let cum=0; const cumNet = dailyNet.map(v=>cum+=v);
+
+  const chartOpts = {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{color:'#a09f98',font:{size:11}},grid:{color:'#2a2d2e66'}},
+      y:{ticks:{color:'#a09f98',font:{size:11}},grid:{color:'#2a2d2e66'}}
+    }
+  };
+
+  new Chart(document.getElementById('cNet'),{
+    type:'bar',
+    data:{labels,datasets:[{data:dailyNet,backgroundColor:'#e7a15e55',borderColor:'#e7a15e',borderWidth:1.5,borderRadius:2}]},
+    options:chartOpts
+  });
+
+  new Chart(document.getElementById('cCum'),{
+    type:'line',
+    data:{labels,datasets:[{data:cumNet,borderColor:'#e7a15e',backgroundColor:'#e7a15e22',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#e7a15e'}]},
+    options:chartOpts
+  });
+})();
+</script>
+<script src="../site.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>算力租赁成本测算与硬件投入可行性 · 石广 StoneVast</title>
+<meta name="description" content="以 2026-10-22 历史快照为基准的算力成本测算归档：自购硬件回本周期、租赁算力盈亏平衡线与币价敏感性分析。数据非实时，不构成投资建议。">
+<link rel="stylesheet" href="./site.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--txt);line-height:1.7;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 16px 80px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;}
+  .navlinks a{color:var(--acc);text-decoration:none;margin-left:16px;font-size:14px;}
+  a{color:var(--acc);text-decoration:none;word-break:break-all;}
+  h1{font-size:26px;font-weight:800;margin:10px 0 6px;}
+  .sub{color:var(--sub);font-size:14px;margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;color:var(--acc);margin-bottom:12px;font-weight:700;letter-spacing:.5px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top;}
+  th{color:var(--sub);font-weight:600;font-size:12px;}
+  tr:last-child td{border-bottom:none;}
+  .ok{color:var(--ok);}
+  .warn{color:var(--warn);}
+  ol,ul{font-size:13.5px;line-height:2;padding-left:22px;}
+  .tip{font-size:13px;color:var(--sub);line-height:1.9;margin-top:10px;}
+  .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-top:10px;font-size:13px;line-height:1.9;font-family:ui-monospace,Consolas,monospace;}
+  .box.ok{border-color:#2ecc8f55;font-family:inherit;}
+  .box.warn{border-color:#ffb02055;font-family:inherit;}
+  .foot{color:var(--sub);font-size:12px;margin-top:20px;line-height:1.9;}
+</style>
+</head>
+<body class="site-page" data-density="document">
+<div class="wrap">
+  <nav>
+    <div class="logo">⛏ 石广 StoneVast</div>
+    <div class="navlinks">
+      <a href="./index.html">首页</a>
+      <a href="./withdrawals.html">提现实录</a>
+      <a href="./nft.html">创世 NFT</a>
+      <a href="./guide.html">节点说明</a>
+      <a href="./node-docs.html">发放流程</a>
+    </div>
+  </nav>
+
+  <h1>⚡ 算力租赁成本测算与硬件投入可行性</h1>
+  <div class="sub">数据基准：2026-10-22 05:00 UTC+8 历史快照 · 非实时数据 · 币价、难度与网络规则可能已变化</div>
+  <div class="box warn" role="status" style="margin:0 0 20px"><b>历史测算归档：</b>本页仅保留当日参数与计算过程，不提供算力租赁、硬件销售、付费招募或返佣活动，也不构成当前投入建议。</div>
+
+  <div class="card">
+    <div class="box warn" style="margin-top:0">
+      <b>合规提示：</b>阅读本页即表示知悉并同意 StoneVast《服务条例》。本文所有数字为基于公开数据的<b>测算框架</b>，不构成投资建议，不承诺任何收益。
+    </div>
+  </div>
+
+  <!-- 一 -->
+  <div class="card">
+    <h2>一、历史测算基线</h2>
+    <div class="table-scroll">
+    <table>
+      <tr><th>指标</th><th>数值</th></tr>
+      <tr><td>算力</td><td>18.17 MH/s</td></tr>
+      <tr><td>功耗</td><td>44 W</td></tr>
+      <tr><td>IRON 价格</td><td>$0.074 ≈ ¥0.527</td></tr>
+      <tr><td>净日产</td><td class="ok">¥0.62 / 天</td></tr>
+      <tr><td>净年产</td><td>≈ ¥226 / 年</td></tr>
+    </table>
+    </div>
+    <div class="tip">净日产 = 挖矿产出 − 电费，来自上述日期的官网历史快照。按 44W 整机估算，电费约 ¥0.5/度，日电费约 ¥0.53，毛产约 ¥1.15/天；这些数值不代表当前产出。</div>
+  </div>
+
+  <!-- 二 -->
+  <div class="card">
+    <h2>二、核心问题</h2>
+    <div class="tip" style="margin-top:0;font-size:14px;color:var(--txt)">「挖矿收益能否覆盖硬件投入？」—— 即买矿机的钱，靠挖矿多久能赚回来。</div>
+  </div>
+
+  <!-- 三 -->
+  <div class="card">
+    <h2>三、自购硬件路径测算</h2>
+    <div class="tip" style="margin-top:0">假设一台能跑 18.17 MH/s 的低功耗整机（44W），硬件成本分档估算：</div>
+    <div class="table-scroll">
+    <table>
+      <tr><th>硬件成本档</th><th>回本周期</th><th>结论</th></tr>
+      <tr><td>¥1,000</td><td>≈ 4.4 年</td><td class="warn">偏长</td></tr>
+      <tr><td>¥2,000</td><td>≈ 8.8 年</td><td class="warn">很长</td></tr>
+      <tr><td>¥3,000</td><td>≈ 13 年</td><td class="warn">不现实</td></tr>
+    </table>
+    </div>
+    <div class="tip">回本周期 = 硬件成本 ÷ 净日产（¥0.62）。<b>历史结论：按快照中的币价与产出，纯靠挖矿覆盖硬件投入短期不可行，回本周期普遍超过 4 年。</b></div>
+  </div>
+
+  <!-- 四 -->
+  <div class="card">
+    <h2>四、租赁算力路径测算</h2>
+    <div class="tip" style="margin-top:0">「租赁算力」= 不买硬件，向供应商按算力付费挖矿。盈亏平衡公式：</div>
+    <div class="box">每 MH/s 日租金  &lt;  每 MH/s 日净产出  →  租赁才划算</div>
+    <div class="tip">该历史快照对应的每 MH/s 日净产出：</div>
+    <div class="box">¥0.62 ÷ 18.17 MH/s ≈ ¥0.034 / MH/s / 天</div>
+    <div class="tip">在这组历史假设下，只有租赁价格<b>低于 ¥0.034 / MH/s / 天</b>才可能出现正收益。该阈值不是当前报价；任何新测算都必须重新取得实时币价、难度、电价和供应商报价。</div>
+  </div>
+
+  <!-- 五 -->
+  <div class="card">
+    <h2>五、敏感性分析（聚焦币价）</h2>
+    <div class="tip" style="margin-top:0">净产出对 <b>IRON 币价</b>最敏感：</div>
+    <div class="table-scroll">
+    <table>
+      <tr><th>情景</th><th>IRON 价格</th><th>净日产（约）</th><th>回本（¥2,000 硬件）</th></tr>
+      <tr><td>基准</td><td>$0.074</td><td>¥0.62</td><td class="warn">≈ 8.8 年</td></tr>
+      <tr><td>币价 ×2</td><td>$0.148</td><td>≈ ¥1.2</td><td>≈ 4.4 年</td></tr>
+      <tr><td>币价 ×5</td><td>$0.37</td><td>≈ ¥3.1</td><td class="ok">≈ 1.8 年</td></tr>
+      <tr><td>币价 ×10</td><td>$0.74</td><td>≈ ¥6.2</td><td class="ok">≈ 0.9 年</td></tr>
+    </table>
+    </div>
+    <div class="tip"><b>历史结论：</b>该快照中的主要瓶颈为 <b>IRON 币价较低 + 单机算力较小</b>，不代表当前市场状态。</div>
+  </div>
+
+  <!-- 六 -->
+  <div class="card">
+    <h2>六、基于历史快照的可行性判断</h2>
+    <ol>
+      <li><b>短期（币价不变）</b>：硬件投入不可行，租赁挖矿倒挂，不建议追加硬件。</li>
+      <li><b>敏感性情景</b>：币价 ×2～×5 的表格仅演示数学关系，不是价格预测；租赁成本需重新比价。</li>
+      <li><b>长期变量</b>：实际结果取决于币价、难度、能耗、设备寿命与规则变化，不据历史快照推断未来现金流。</li>
+    </ol>
+  </div>
+
+  <!-- 七 -->
+  <div class="card">
+    <h2>七、历史结论与使用边界</h2>
+    <ol>
+      <li><b>历史基线</b>：快照假设下不建议新增硬件；这只是对当日数据的复盘，不是当前操作指令。</li>
+      <li><b>服务边界</b>：本页不提供算力租赁、硬件销售、付费招募或返佣活动，也不发布供应商报价。</li>
+      <li><b>重新测算</b>：如需评估当前情况，必须更新 IRON 币价、全网难度、电费、设备表现与矿池可达性。</li>
+      <li><b>风险边界</b>：敏感性情景仅用于展示参数变化的影响，不构成价格预测或收益承诺。</li>
+    </ol>
+    <div class="box ok">
+      <b>一句话总结：</b>保留计算框架，停用旧业务引导；先核实当前数据，再独立判断成本与风险。
+    </div>
+  </div>
+
+  <div class="foot">
+    <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">Telegram · 官方公告</a><br>
+    历史测算归档 · 快照日期 2026-10-22 · 非实时数据<br>
+    本页仅展示计算框架，不构成投资建议，不承诺任何收益。
+  </div>
+</div>
+
+<div style="text-align:center;opacity:.6;font-size:13px;margin:24px 0 8px">本站总访问量 <span id="vPv">…</span> 次 · 今日访客 <span id="vUv">…</span> 人</div>
+<script src="./site.js"></script>
+</body>
+</html>

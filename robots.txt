@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /pro.html
+Disallow: /pro/
+Disallow: /deploy/
+Disallow: /api/
+
+Sitemap: https://stonevast.com/sitemap.xml

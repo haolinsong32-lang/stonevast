@@ -109,7 +109,7 @@ async function checkPwd(){
   if(h===PWD_HASH){
     msg.className='msg ok';msg.textContent='✓ Access granted · 验证通过，正在跳转…';
     sessionStorage.setItem('sv_pro_auth',h);
-    setTimeout(()=>{location.href='https://stonevast.com/pro/workbench.html';},800);
+    setTimeout(()=>{location.href='./pro/workbench.html';},800);
   }else{
     msg.className='msg err';msg.textContent='✗ Wrong password · 密码错误，请核对 TG/Discord 私聊里的最新密码';
   }

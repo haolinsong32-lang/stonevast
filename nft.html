@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genesis NFT · 历史链下登记归档 · 石广 StoneVast</title>
+<meta name="description" content="石广 StoneVast Genesis NFT 历史归档：100 张程序化生成收藏图与既有链下登记快照。新领取已暂停，不证明真实矿机，不授予返佣或 Pro 订阅。">
+<link rel="stylesheet" href="./site.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--txt);line-height:1.7;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 80px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;}
+  .navlinks a{color:var(--acc);text-decoration:none;margin-left:16px;font-size:14px;}
+  a{color:var(--acc);text-decoration:none;word-break:break-all;}
+  h1{font-size:28px;font-weight:800;margin:10px 0 6px;}
+  .sub{color:var(--sub);font-size:14px;margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;color:var(--acc);margin-bottom:12px;font-weight:700;letter-spacing:.5px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;}
+  th{color:var(--sub);font-weight:600;font-size:12px;}
+  tr:last-child td{border-bottom:none;}
+  .ok{color:var(--ok);}
+  .steps{font-size:13.5px;line-height:2.1;}
+  .steps b{color:var(--txt);}
+  .tip{font-size:13px;color:var(--sub);line-height:1.9;margin-top:10px;}
+  .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-top:10px;font-size:13px;line-height:1.9;}
+  .box.ok{border-color:#2ecc8f55;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px;}
+  .nft{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .15s,border-color .15s;display:block;}
+  .nft:hover{transform:translateY(-3px);border-color:var(--acc);}
+  .nft img{width:100%;display:block;aspect-ratio:1;}
+  .nft .id{display:block;text-align:center;font-size:12px;color:var(--sub);padding:6px 0;letter-spacing:2px;}
+  .nft .id b{color:var(--acc);}
+  .foot{color:var(--sub);font-size:12px;margin-top:20px;line-height:1.9;}
+  .hero-nft{width:220px;border-radius:var(--radius);border:1px solid var(--line);float:right;margin:0 0 12px 18px;}
+  @media(max-width:640px){.hero-nft{width:140px;}}
+</style>
+</head>
+<body class="site-page">
+<div class="wrap">
+  <nav>
+    <div class="logo">⛏ 石广 StoneVast</div>
+    <div class="navlinks">
+      <a href="./index.html">首页</a>
+      <a href="./withdrawals.html">提现实录</a>
+      <a href="./guide.html">节点说明</a>
+    </div>
+  </nav>
+
+  <h1>Genesis Collection · 创世 NFT</h1>
+  <div class="sub">100 张 · 程序化生成 · 编号即种子，同号永远同图 · 历史链下登记归档</div>
+  <div class="box" role="status" style="margin:0 0 20px;border-color:var(--acc)"><b>归档状态：</b>新领取与邮件登记已暂停。本页仅保留既有登记快照、权益边界和可复现图墙；请勿发送领取邮件，也不要为领取、核验或恢复权益付款。</div>
+
+  <!-- 亮点图 + 定位 -->
+  <div class="card">
+    <img class="hero-nft" src="./assets/nft/nft-007.svg" alt="Genesis NFT #007">
+    <h2>🪨 这是什么</h2>
+    <div class="tip" style="margin-top:0">
+      每一张 Genesis NFT 都是链下登记的收藏图，不证明存在真实矿机，也不等于 Genesis Pass。矿石切片 + 芯片质感 + 橙色光脉，与官网品牌同源。
+      全部 100 张由<a href="https://github.com/haolinsong32-lang/stonevast/blob/main/tools/generate-nft.js" target="_blank">一段开源脚本</a>程序化生成——
+      编号是随机种子，任何人跑同一脚本都能复现同一张图。<b>没有稀缺性魔术，只有可验证的诚实。</b>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+  <!-- 权益 -->
+  <div class="card">
+    <h2>🎁 权益与边界</h2>
+    <div class="table-scroll">
+    <table>
+      <tr><th>项目</th><th>说明</th><th>状态</th></tr>
+      <tr><td>Pro 历史权益</td><td>原“终身免费”说明仅作为历史登记权益，持有人资格与范围需官方核验；不代表普通 Pro 免费，支付迁移期间不收款</td><td class="ok">历史权益 · 待核验</td></tr>
+      <tr><td>月度抽奖资格</td><td>历史活动说明；是否继续及开奖记录以官方公告为准</td><td class="ok">待公告</td></tr>
+      <tr><td>域名大奖池</td><td>历史拉新活动已暂停，不按邀请人数发放奖励</td><td class="ok">暂停</td></tr>
+      <tr><td>节点返佣</td><td>NFT 不等于 Genesis Pass，不授予任何返佣；本页不开展返佣、拉新或付费招募活动</td><td class="ok">不授予</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <!-- 历史领取流程归档 -->
+  <div class="card">
+    <h2>🪙 历史领取流程 · 已停止</h2>
+    <div class="steps">原流程曾通过邮件登记编号与昵称，并在本页公示结果。该流程现已停止，不再接受新领取、编号预留或邮件登记。</div>
+    <div class="box" role="status" style="border-color:var(--acc)">
+      <b>当前状态：</b>没有有效领取按钮或付款入口。既有登记仅按下方快照展示，不因本次归档改造新增、转移或恢复任何权益。
+    </div>
+    <div class="box ok">
+      <b>性质说明：</b>历史记录采用链下登记方式，NFT 图与登记记录公开；是否链上铸造或锚定没有既定时间表。
+      Genesis Pass 与 Pro 是独立产品，本页不销售、激活或恢复任何产品权益。
+    </div>
+  </div>
+
+  <!-- 登记表 -->
+  <div class="card">
+    <h2>📋 登记表（本页快照）</h2>
+    <div class="table-scroll">
+    <table>
+      <tr><th>编号</th><th>持有人</th><th>登记时间</th></tr>
+      <tr><td><b>#001</b></td><td>StoneVast 项目方（创世样张）</td><td>2026-10-18</td></tr>
+      <tr><td>—</td><td colspan="2" style="color:var(--sub)">其余编号未在本快照登记；暂停期间不接受新领取</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <!-- 图墙 -->
+  <div class="card">
+    <h2>🖼 全集图墙（点击看大图）</h2>
+    <div class="grid" id="wall"></div>
+  </div>
+
+  <div class="foot">
+    <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600">Telegram · 官方公告</a><br>
+    生成脚本开源可复现 · 历史链下登记快照 · 2026-10-19<br>
+    本页为历史归档展示，不构成投资建议，不承诺任何收益。
+  </div>
+</div>
+
+<script>
+  const wall = document.getElementById('wall');
+  for (let i = 1; i <= 100; i++) {
+    const num = String(i).padStart(3, '0');
+    const a = document.createElement('a');
+    a.className = 'nft';
+    a.href = `./assets/nft/nft-${num}.svg`;
+    a.target = '_blank';
+    a.innerHTML = `<img src="./assets/nft/nft-${num}.svg" alt="Genesis #${num}" loading="lazy"><span class="id">GENESIS <b>#${num}</b></span>`;
+    wall.appendChild(a);
+  }
+</script>
+<div style="text-align:center;opacity:.6;font-size:13px;margin:24px 0 8px">本站总访问量 <span id="vPv">…</span> 次 · 今日访客 <span id="vUv">…</span> 人</div>
+<script src="./site.js"></script>
+</body>
+</html>

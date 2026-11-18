@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>提现实录 · 石广 StoneVast</title>
+<meta name="description" content="StoneVast 历史提现证据：保留 IRON 交易哈希、明确记录日期，并区分公开浏览器确认与钱包、交易所金额证据。">
+<style>
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--ok:#2ecc8f;--warn:#ffb020;--bad:#ff5d6c;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.7;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px 80px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;}
+  a{color:var(--acc);text-decoration:none;word-break:break-all;}
+  h1{font-size:26px;font-weight:800;margin:10px 0 6px;}
+  .sub{color:var(--sub);font-size:14px;margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;color:var(--acc);margin-bottom:12px;font-weight:700;letter-spacing:.5px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;}
+  th{color:var(--sub);font-weight:600;font-size:12px;}
+  tr:last-child td{border-bottom:none;}
+  .ok{color:var(--ok);}.warn{color:var(--warn);}
+  .mono{font-family:Consolas,Menlo,monospace;font-size:12px;word-break:break-all;}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0;font-size:13px;}
+  .flow .node{background:#10141b;border:1px solid var(--line);border-radius:10px;padding:8px 12px;}
+  .flow .arrow{color:var(--acc);font-weight:700;}
+  .box{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:10px;font-size:13px;line-height:1.9;}
+  .box.ok{border-color:#2ecc8f55;}
+  .tip{font-size:13px;color:var(--sub);line-height:1.9;margin-top:10px;}
+  .stat{font-size:22px;font-weight:800;color:var(--ok);}
+  .foot{color:var(--sub);font-size:12px;margin-top:20px;line-height:1.9;}
+</style>
+<link rel="stylesheet" href="./site.css">
+</head>
+<body class="site-page" data-density="document">
+<div class="wrap">
+  <nav aria-label="主导航">
+    <a class="logo" href="./index.html">StoneVast <b>石广</b></a>
+    <div class="links">
+      <a class="back" href="./dashboard.html">公开账本</a>
+      <a class="back active" href="./withdrawals.html">提现证据</a>
+      <a class="back" href="./calculator.html">免费测算</a>
+      <a class="back" href="./guide.html">使用说明</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="kicker">HISTORICAL EVIDENCE / 历史提现证据</div>
+    <h1>提现实录 · <span>Withdrawal Log</span></h1>
+    <p class="lede">2026-10-19 的两笔 IRON 转账记录。公开浏览器可核对交易存在与确认状态；金额和地址证据来自当时的钱包与交易所记录，属于有限核验。</p>
+  </header>
+
+  <section class="card" aria-labelledby="historic-status">
+    <div class="kicker">STATUS BOUNDARY / 状态边界</div>
+    <h2 id="historic-status">2026-10-29 历史状态，不是当前公告</h2>
+    <p>当日记录显示，Gate 与 MEXC 应 Iron Fish 项目方要求暂停 IRON 充币与提币，场内买卖当时仍开放。该状态仅描述 2026-10-29，<b>不代表今天仍暂停或已经恢复</b>。</p>
+    <p><b>不要依据本页向任何旧 IRON 充值地址转币。</b>实际操作前必须重新核对交易所和项目方的当前官方公告、地址、Memo 与最低金额。本页不实时检测充提状态，也不承诺恢复时间或提供新地址。</p>
+    <p>下方链路发生在 2026-10-19 当时可用的环境中，只作证据归档，不能直接照搬为当前操作指引。</p>
+  </section>
+
+  <section class="card site-reveal" aria-labelledby="journey-title">
+    <div class="kicker">2026-10-19 / HISTORICAL ROUTE</div>
+    <h2 id="journey-title">一笔 3.2 IRON 的历史链路</h2>
+    <div class="flow" aria-label="历史转账路径">
+      <span class="node">lolMiner 挖矿</span><span class="arrow">→</span>
+      <span class="node">HeroMiners 矿池</span><span class="arrow">→</span>
+      <span class="node">本机 Iron Fish 钱包</span><span class="arrow">→</span>
+      <span class="node">Gate.io</span>
+    </div>
+    <div class="box ok">
+      <b>当时记录：</b>两笔交易均已确认存在。3.2 IRON 是当时钱包与 Gate 记录中的金额；约 $0.24 也只是当日记录，不作当前折算或收益承诺。
+    </div>
+  </section>
+
+  <section class="card site-reveal" aria-labelledby="evidence-title">
+    <div class="kicker">PUBLIC EXPLORER / 公开凭证</div>
+    <h2 id="evidence-title">交易哈希与核验级别</h2>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>笔次</th><th>历史金额</th><th>区块</th><th>交易哈希</th><th>公开核验</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>测试</td><td>0.2 IRON</td><td>1846578</td>
+            <td class="mono"><a href="https://explorer.ironfish.network/transaction/9281c0be78dfdb1d0196c832e4ea74afe80544d73b076aa1ecc6298ff335fb0a" target="_blank" rel="noopener noreferrer">9281c0be…fb0a</a></td>
+            <td class="ok">交易存在已确认<br><span class="warn">金额有限核验</span></td>
+          </tr>
+          <tr>
+            <td>批量</td><td>3.0 IRON</td><td>1846594</td>
+            <td class="mono"><a href="https://explorer.ironfish.network/transaction/c0092ac5633747806c0e222fac770ec81088add39d34557fb0db54a5240af23c" target="_blank" rel="noopener noreferrer">c0092ac5…f23c</a></td>
+            <td class="ok">交易存在已确认<br><span class="warn">金额有限核验</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip"><b>隐私链边界：</b>Iron Fish 公开浏览器只能确认交易存在与确认状态，不能公开核对金额和地址。表中金额来自当时的本机钱包账本（<code>ironfish wallet:transactions</code>）与 Gate 充值记录，因此单列“有限核验”，不并入完全链上核验金额。</p>
+  </section>
+
+  <section class="card site-reveal" aria-labelledby="memo-title">
+    <div class="kicker">2026-10-19 / OPERATING NOTE</div>
+    <h2 id="memo-title">历史操作记录：Memo 必填</h2>
+    <div class="box">
+      当时 Gate 的 IRON 充值采用统一地址加 Memo 区分用户，页面要求同时填写地址和 Memo/Tag；当时记录的最低充值额为 0.13333333 IRON。以上规则均有明确日期，<b>当前规则必须重新查看交易所官方页面</b>，不能把本段当作实时充值指引。
+    </div>
+  </section>
+
+  <section class="card site-reveal" aria-labelledby="checks-title">
+    <div class="kicker">AS OF 2026-10-19 / 历史进度</div>
+    <h2 id="checks-title">当时四项验证的边界</h2>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>项目</th><th>验证标准</th><th>截至当日的记录</th></tr></thead>
+        <tbody>
+          <tr><td>收益记录</td><td>钱包显示链上资产</td><td class="ok">当时记录 3.09 IRON 可见</td></tr>
+          <tr><td>资产可转</td><td>公开浏览器确认交易存在</td><td class="ok">当时两笔已确认</td></tr>
+          <tr><td>兑换 USDT</td><td>实际完成 IRON 卖出</td><td class="warn">当时仅验证交易对开放，未完成卖出</td></tr>
+          <tr><td>法币提现</td><td>实际完成法币提现</td><td class="warn">当时未测试；KYC 与后续操作由本人决定</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tip">“当时未测试”不是当前进行中的任务，也不代表现在已经完成兑换或法币提现。</p>
+  </section>
+
+  <section class="card site-reveal" aria-labelledby="honesty-title">
+    <div class="kicker">EVIDENCE BEFORE PROMISES / 证据优先</div>
+    <h2 id="honesty-title">小额历史记录，不包装成收益故事</h2>
+    <p class="tip">本页保留哈希、日期和证据限制，不用历史金额推算当前收益，不承诺回本，也不把交易所记录冒充公开浏览器可完全核验的数据。</p>
+    <p><a class="btn btn-primary" href="./dashboard.html">查看实际到账与历史快照分区</a> <a class="btn" href="./calculator.html">先做免费测算</a></p>
+  </section>
+
+  <footer class="foot">
+    <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram · 历史记录咨询</a><br>
+    历史记录来源：Iron Fish 区块链 / HeroMiners 矿池 / Gate.io。交易日期 2026-10-19；交易所状态记录日期 2026-10-29；页面整理日期 2026-11-17，未重新验证当前交易所状态。<br>
+    本页仅为历史证据归档，不构成投资建议或当前操作指引。
+  </footer>
+</div>
+
+<script src="./site.js"></script>
+<div style="text-align:center;opacity:.6;font-size:13px;margin:24px 0 8px">本站总访问量 <span id="vPv">…</span> 次 · 今日访客 <span id="vUv">…</span> 人</div>
+</body>
+</html>

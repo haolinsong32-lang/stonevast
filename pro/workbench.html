@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>StoneVast Pro · Multi-Rig Workbench · 多卡收益工作台</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<script src="../assets/chart.umd.min.js"></script>
+<link rel="stylesheet" href="../site.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  body{background:var(--bg);color:var(--txt);line-height:1.6;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px 80px;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:18px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
+  .logo b{color:var(--acc);}
+  .links{display:flex;gap:8px;flex-wrap:wrap;}
+  .back{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+  .back.active{border-color:var(--acc);color:var(--acc);}
+  h1{font-size:24px;font-weight:800;margin:20px 0 6px;}
+  .sub1{font-size:13px;color:var(--sub);margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;color:var(--acc);letter-spacing:1px;margin-bottom:4px;font-weight:700;}
+  .card .intro{font-size:12.5px;color:var(--sub);margin-bottom:14px;line-height:1.7;}
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+  .fld label{display:block;font-size:11.5px;color:var(--sub);margin-bottom:5px;letter-spacing:.4px;}
+  .fld input,.fld select{width:100%;background:#0d1016;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13.5px;color:var(--txt);font-family:inherit;outline:none;transition:border-color .2s;font-variant-numeric:tabular-nums;}
+  .fld input:focus,.fld select:focus{border-color:var(--acc);}
+  .live{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--sub);border:1px solid var(--line);border-radius:999px;padding:3px 10px;margin-left:8px;vertical-align:middle;}
+  .live .dot{width:6px;height:6px;border-radius:50%;background:var(--sub);}
+  .live.on .dot{background:var(--ok);box-shadow:0 0 6px var(--ok);}
+  .live.stale .dot{background:var(--warn);}
+
+  /* rigs table */
+  .rigs{width:100%;border-collapse:collapse;font-size:13px;}
+  .rigs th{font-size:11px;color:var(--sub);font-weight:600;text-align:left;padding:6px 6px;letter-spacing:.4px;border-bottom:1px solid var(--line);}
+  .rigs td{padding:4px 6px;border-bottom:1px solid #252b3866;}
+  .rigs input{width:100%;background:#0d1016;border:1px solid var(--line);border-radius:7px;padding:7px 9px;font-size:13px;color:var(--txt);font-family:inherit;outline:none;font-variant-numeric:tabular-nums;min-width:0;}
+  .rigs input:focus{border-color:var(--acc);}
+  .rigs input.name{border-color:#2f3a4e;}
+  .rigs .del{background:transparent;border:1px solid #ff6b6f44;color:#ff6b6f;border-radius:7px;padding:5px 9px;cursor:pointer;font-size:12px;font-family:inherit;}
+  .rigs .del:hover{background:#ff6b6f18;}
+  .btn{background:#5b9dff22;border:1px solid #5b9dff66;color:var(--acc);border-radius:8px;padding:8px 16px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;}
+  .btn:hover{background:#5b9dff33;}
+  .btn.ghost{background:transparent;border-color:var(--line);color:var(--sub);}
+  .btn.ghost:hover{border-color:var(--acc);color:var(--txt);}
+
+  /* summary */
+  .sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:10px;}
+  .st{background:#0d1016;border:1px solid var(--line);border-radius:11px;padding:14px;}
+  .st .v{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.4px;}
+  .st .k{font-size:11px;color:var(--sub);margin-top:3px;letter-spacing:.3px;}
+  .pos{color:var(--ok);} .neg{color:var(--bad);} .neu{color:var(--acc);} .wa{color:var(--warn);}
+
+  /* result table */
+  .res{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;}
+  .res th{background:#0d1016;color:var(--sub);font-weight:600;font-size:11px;padding:9px 7px;text-align:right;letter-spacing:.3px;white-space:nowrap;border-bottom:1px solid var(--line);}
+  .res th:first-child{text-align:left;}
+  .res td{padding:9px 7px;text-align:right;border-bottom:1px solid #252b3866;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .res td:first-child{text-align:left;font-weight:600;}
+  .res tr:hover td{background:#5b9dff0a;}
+  .res tr.sel td{background:#5b9dff14;}
+  .res tr.total td{font-weight:800;border-top:1px solid var(--acc);background:#5b9dff0a;}
+  .res .pick{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;font-family:inherit;}
+  .res .pick.on{border-color:var(--acc);color:var(--acc);}
+
+  /* heatmap */
+  .heat{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
+  .heat th,.heat td{padding:8px 5px;text-align:center;border:1px solid var(--line);font-variant-numeric:tabular-nums;}
+  .heat th{background:#0d1016;color:var(--sub);font-weight:600;font-size:11px;}
+  .heat td.g{background:#2ecc8f14;color:var(--ok);}
+  .heat td.y{background:#ffb02014;color:var(--warn);}
+  .heat td.r{background:#ff6b6f14;color:var(--bad);}
+  .heat td.ax{background:#0d1016;color:var(--sub);font-weight:600;}
+
+  .chart-box{position:relative;height:280px;margin-top:10px;}
+  .note{font-size:11.5px;color:var(--sub);margin-top:10px;line-height:1.75;}
+  .note b{color:var(--txt);}
+  .empty{color:var(--sub);font-size:13px;padding:18px;text-align:center;}
+  .pro-status{position:sticky;top:0;z-index:99;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px max(14px,calc((100% - 1280px)/2));border-bottom:1px solid var(--line-strong);background:rgba(11,13,15,.96);color:var(--sub);font:11px var(--font-mono);}
+  .pro-status .pause-state{color:var(--warn);white-space:nowrap;}
+  body.site-page .btn{min-height:34px;padding:7px 12px;border-radius:2px;background:transparent;color:var(--acc);border-color:var(--line-strong);font-size:11px;}
+  body.site-page .btn:hover{background:rgba(231,161,94,.06);border-color:var(--acc);}
+  body.site-page .rigs input{min-height:34px;border-radius:2px;}
+  body.site-page .res tr.sel td,
+  body.site-page .res tr.total td{background:rgba(231,161,94,.055);}
+  body.site-page .res tr.total td{border-top-color:var(--acc);}
+  body.site-page .res .pick.on{border-color:var(--acc);color:var(--acc);}
+  @media(max-width:760px){
+    .pro-status{align-items:flex-start;flex-direction:column;gap:3px;}
+    .rigs .hideSm{display:none;}
+    .chart-box{height:220px;}
+    h1{font-size:20px;}
+  }
+</style>
+</head>
+<body class="site-page" data-density="tool">
+<div class="pro-status" role="status">
+  <span>StoneVast Pro · 多卡批量对比 + 敏感度网格 + 回本曲线</span>
+  <span class="pause-state">Pro 收款与自助激活暂停</span>
+</div>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="../pro.html"><b>⛏</b> StoneVast Pro</a>
+    <div class="links">
+      <a class="back active" href="./workbench.html">Workbench</a>
+      <a class="back" href="./dashboard.html">Dashboard</a>
+      <a class="back" href="./calculator.html">Calculator</a>
+      <a class="back" href="../pro.html">← Exit</a>
+    </div>
+  </nav>
+
+  <h1>🧰 Multi-Rig Workbench</h1>
+  <div class="sub1">多卡并排对比 · 二变量敏感度 · 回本曲线 · 一键导出结论。这是给你自己的机队算账，不是看别人的数据。<span class="live" id="liveTag"><span class="dot"></span><span id="liveTxt">取价中…</span></span></div>
+
+  <!-- 全局参数 -->
+  <div class="card">
+    <h2>① 全局参数 · GLOBALS</h2>
+    <div class="intro">币价与网络算力会自动从 StoneVast 节点拉取；也可手动改，用于压力测试。</div>
+    <div class="row">
+      <div class="fld"><label>PRL 币价 (USD)</label><input type="number" id="gPrice" step="any" value="1.53"></div>
+      <div class="fld"><label>全网算力 (EH/s)</label><input type="number" id="gNet" step="any" value="51.56"></div>
+      <div class="fld"><label>全网日产出 (PRL/天)</label><input type="number" id="gEmit" step="any" value="736000"></div>
+      <div class="fld"><label>电价 (¥/kWh)</label><input type="number" id="gElec" step="any" value="0.55"></div>
+      <div class="fld"><label>USD/CNY 汇率</label><input type="number" id="gFx" step="any" value="7.12"></div>
+    </div>
+  </div>
+
+  <!-- 机队 -->
+  <div class="card">
+    <h2>② 你的机队 · YOUR RIGS</h2>
+    <div class="intro">填你自己的实测算力与功耗。单价用于算回本，不知道填 0 就不算回本。</div>
+    <div class="table-scroll">
+    <table class="rigs">
+      <thead>
+        <tr>
+          <th style="width:20%">名称</th>
+          <th style="width:15%">算力 TH/s</th>
+          <th style="width:13%">功耗 W</th>
+          <th style="width:10%">数量</th>
+          <th style="width:15%" class="hideSm">单价 USD</th>
+          <th style="width:12%"></th>
+        </tr>
+      </thead>
+      <tbody id="rigBody"></tbody>
+    </table>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" onclick="addRig()">+ 加一张卡</button>
+      <button class="btn ghost" onclick="loadPreset()">↺ 恢复默认三卡</button>
+      <button class="btn ghost" onclick="copySummary()">⧉ 复制结论</button>
+    </div>
+  </div>
+
+  <!-- 汇总 -->
+  <div class="card">
+    <h2>③ 机队汇总 · FLEET SUMMARY</h2>
+    <div class="sum" id="sum"></div>
+  </div>
+
+  <!-- 明细 -->
+  <div class="card">
+    <h2>④ 逐卡明细 · PER-RIG BREAKDOWN</h2>
+    <div class="intro">点「选中」把它设为下方敏感度网格的对象。红色 = 该卡当前亏损。</div>
+    <div style="overflow-x:auto;">
+      <table class="res">
+        <thead>
+          <tr>
+            <th>卡 / 数量</th>
+            <th>算力 TH/s</th>
+            <th>能效 TH/kW</th>
+            <th>日产 PRL</th>
+            <th>日毛收 $</th>
+            <th>日电费 $</th>
+            <th>日净 $</th>
+            <th>月净 $</th>
+            <th>年净 $</th>
+            <th>回本天</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="resBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 敏感度 -->
+  <div class="card">
+    <h2>⑤ 敏感度网格 · SENSITIVITY (单卡月净, USD)</h2>
+    <div class="intro">对象：<b id="sensWho" style="color:var(--txt)">—</b>。横轴电价变动，纵轴币价变动。绿色可赚，红色亏损。</div>
+    <div style="overflow-x:auto;"><table class="heat" id="heat"></table></div>
+    <div class="note">难度不变假设下的静态网格。真实情况：币价上涨通常伴随算力涌入，<b>右下角（币价涨、难度不变）几乎不会同时发生</b>，看中间列更接近现实。</div>
+  </div>
+
+  <!-- 回本 -->
+  <div class="card">
+    <h2>⑥ 回本 & 累计净收曲线 · PAYBACK CURVE</h2>
+    <div class="intro" id="pbIntro">—</div>
+    <div class="chart-box"><canvas id="cPay"></canvas></div>
+    <div class="note">假设币价、难度、电费全不变，累计净收线性增长。<b>这是乐观下限</b>：不算难度上涨，也不算币价下跌。真实回本通常更晚。</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ── 鉴权：必须比对哈希值本身 ──
+  if(sessionStorage.getItem('sv_pro_auth')!=='c1e137063b1de0fbc4c549f2ea63c947285c99bdb8319401c312e5a3f916dcc4'){
+    location.href='../pro.html';
+    return;
+  }
+
+  const LS_KEY='sv_pro_rigs_v1';
+  const $=id=>document.getElementById(id);
+  const n=(v,d=2)=>(+v||0).toFixed(d);
+  const money=(v,d=2)=>(v<0?'-':'')+'$'+Math.abs(+v||0).toFixed(d);
+
+  const PRESET=[
+    {name:'RTX 4090', th:293, watt:450, qty:1, cost:1800},
+    {name:'RTX 4080S', th:230, watt:320, qty:1, cost:1100},
+    {name:'RTX 3090', th:180, watt:350, qty:2, cost:800}
+  ];
+
+  let rigs=[];
+  let selIdx=0;
+  let chart=null;
+
+  // ── 拉取实时参数 ──
+  async function pullLive(){
+    const tag=$('liveTag'), txt=$('liveTxt');
+    try{
+      const r=await fetch('/api/pearl/stats',{cache:'no-store'});
+      const d=await r.json();
+      if(!d.ok) throw new Error(d.error||'bad');
+      if(d.price>0){ $('gPrice').value=(+d.price).toFixed(4); }
+      if(d.network_hash>0){ $('gNet').value=(d.network_hash/1e18).toFixed(2); }
+      if(d.daily_emission>0){ $('gEmit').value=d.daily_emission; }
+      tag.className='live on'; txt.textContent='实时 · PRL '+money(d.price,4);
+    }catch(e){
+      tag.className='live stale'; txt.textContent='离线 · 用缓存值';
+    }
+    calcAll();
+  }
+
+  // ── 渲染机队输入 ──
+  function renderRigs(){
+    const tb=$('rigBody');
+    tb.innerHTML='';
+    rigs.forEach((r,i)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=
+        '<td><input class="name" data-i="'+i+'" data-f="name" value="'+esc(r.name)+'"></td>'+
+        '<td><input type="number" step="any" data-i="'+i+'" data-f="th" value="'+r.th+'"></td>'+
+        '<td><input type="number" step="any" data-i="'+i+'" data-f="watt" value="'+r.watt+'"></td>'+
+        '<td><input type="number" step="1" min="1" data-i="'+i+'" data-f="qty" value="'+r.qty+'"></td>'+
+        '<td class="hideSm"><input type="number" step="any" data-i="'+i+'" data-f="cost" value="'+r.cost+'"></td>'+
+        '<td><button class="del" data-del="'+i+'">删</button></td>';
+      tb.appendChild(tr);
+    });
+    tb.querySelectorAll('input').forEach(inp=>{
+      inp.addEventListener('input',e=>{
+        const i=+e.target.dataset.i, f=e.target.dataset.f;
+        rigs[i][f] = (f==='name') ? e.target.value : (+e.target.value||0);
+        save(); calcAll();
+      });
+    });
+    tb.querySelectorAll('button[data-del]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        const i=+b.dataset.del;
+        if(rigs.length<=1){ alert('至少保留一张卡'); return; }
+        rigs.splice(i,1);
+        if(selIdx>=rigs.length) selIdx=rigs.length-1;
+        save(); renderRigs(); calcAll();
+      });
+    });
+  }
+  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+  function addRig(){
+    if(rigs.length>=8){ alert('最多 8 张卡（够用了）'); return; }
+    rigs.push({name:'新卡 '+(rigs.length+1), th:200, watt:300, qty:1, cost:0});
+    save(); renderRigs(); calcAll();
+  }
+  function loadPreset(){ rigs=JSON.parse(JSON.stringify(PRESET)); selIdx=0; save(); renderRigs(); calcAll(); }
+
+  function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(rigs)); }catch(e){} }
+  function load(){
+    try{
+      const raw=localStorage.getItem(LS_KEY);
+      if(raw){ const a=JSON.parse(raw); if(Array.isArray(a)&&a.length) return a; }
+    }catch(e){}
+    return JSON.parse(JSON.stringify(PRESET));
+  }
+
+  // ── 核心计算 ──
+  function globals(){
+    return {
+      price: +$('gPrice').value||0,
+      netHs: (+$('gNet').value||0)*1e18,
+      emit: +$('gEmit').value||0,
+      elec: (+$('gElec').value||0)/(+$('gFx').value||7.12),
+      fx: +$('gFx').value||7.12
+    };
+  }
+  function calcRig(r,g){
+    const hashHs = (r.th||0)*1e12;
+    const share  = g.netHs>0 ? hashHs/g.netHs : 0;
+    const coins  = share*g.emit*(r.qty||0);          // PRL/天
+    const gross  = coins*g.price;                     // USD/天
+    const kw     = (r.watt||0)*(r.qty||0)/1000;
+    const elec   = kw*24*g.elec;                      // USD/天
+    const net    = gross-elec;
+    const cost   = (r.cost||0)*(r.qty||0);
+    const payback= net>0 && cost>0 ? cost/net : Infinity;
+    const eff    = (r.watt||0)>0 ? (r.th||0)/((r.watt||0)/1000) : 0;
+    return {hashHs,coins,gross,elec,net,cost,payback,eff,kw};
+  }
+
+  let lastRows=[];
+
+  function calcAll(){
+    const g=globals();
+    const tb=$('resBody'); tb.innerHTML='';
+    lastRows=[];
+    let T={th:0,watt:0,qty:0,gross:0,elec:0,net:0,cost:0,coins:0};
+
+    rigs.forEach((r,i)=>{
+      const c=calcRig(r,g);
+      lastRows.push({r,c});
+      T.th+=r.th*r.qty; T.watt+=r.watt*r.qty; T.qty+=r.qty;
+      T.gross+=c.gross; T.elec+=c.elec; T.net+=c.net; T.cost+=c.cost; T.coins+=c.coins;
+
+      const tr=document.createElement('tr');
+      if(i===selIdx) tr.className='sel';
+      const pbTxt = c.net<=0 ? '永不' : (c.cost>0 ? n(c.payback,0)+'天' : '—');
+      tr.innerHTML=
+        '<td>'+esc(r.name)+' ×'+(r.qty||0)+'</td>'+
+        '<td>'+n(r.th*(r.qty||0),0)+'</td>'+
+        '<td>'+n(c.eff,1)+'</td>'+
+        '<td>'+n(c.coins,4)+'</td>'+
+        '<td>'+money(c.gross,3)+'</td>'+
+        '<td>'+money(-c.elec,3)+'</td>'+
+        '<td class="'+(c.net>=0?'pos':'neg')+'">'+money(c.net,3)+'</td>'+
+        '<td class="'+(c.net>=0?'pos':'neg')+'">'+money(c.net*30,1)+'</td>'+
+        '<td class="'+(c.net>=0?'pos':'neg')+'">'+money(c.net*365,0)+'</td>'+
+        '<td class="'+(c.net>0?'neu':'neg')+'">'+pbTxt+'</td>'+
+        '<td><button class="pick'+(i===selIdx?' on':'')+'" data-sel="'+i+'">选中</button></td>';
+      tb.appendChild(tr);
+    });
+
+    const tr=document.createElement('tr');
+    tr.className='total';
+    tr.innerHTML=
+      '<td>合计 '+T.qty+' 卡</td>'+
+      '<td>'+n(T.th,0)+'</td>'+
+      '<td>'+(T.watt>0?n(T.th/(T.watt/1000),1):'—')+'</td>'+
+      '<td>'+n(T.coins,4)+'</td>'+
+      '<td>'+money(T.gross,3)+'</td>'+
+      '<td>'+money(-T.elec,3)+'</td>'+
+      '<td class="'+(T.net>=0?'pos':'neg')+'">'+money(T.net,3)+'</td>'+
+      '<td class="'+(T.net>=0?'pos':'neg')+'">'+money(T.net*30,1)+'</td>'+
+      '<td class="'+(T.net>=0?'pos':'neg')+'">'+money(T.net*365,0)+'</td>'+
+      '<td class="'+(T.cost>0&&T.net>0?'neu':'')+'">'+(T.net<=0?'永不':(T.cost>0?n(T.cost/T.net,0)+'天':'—'))+'</td>'+
+      '<td></td>';
+    tb.appendChild(tr);
+
+    tb.querySelectorAll('button[data-sel]').forEach(b=>{
+      b.addEventListener('click',()=>{ selIdx=+b.dataset.sel; calcAll(); });
+    });
+
+    // 汇总卡
+    const cny=T.net*30*g.fx;
+    $('sum').innerHTML=
+      stCard(money(T.net,2),'日净 · DAILY NET','',T.net)+
+      stCard('¥'+n(cny,0),'月净 · MONTHLY (CNY)','',T.net)+
+      stCard(money(T.net*365,0),'年净 · YEARLY','',T.net)+
+      stCard(n(T.th,0)+' TH/s','总算力 · TOTAL HASH','neu')+
+      stCard(n(T.watt,0)+' W','总功耗 · TOTAL POWER','neu')+
+      stCard(T.cost>0?money(T.cost,0):'—','总投入 · CAPEX','neu')+
+      stCard(T.net<=0?'永不':(T.cost>0?n(T.cost/T.net,0)+' 天':'—'),'整体回本 · PAYBACK',T.net>0?'pos':'neg');
+
+    buildHeat(g);
+    buildChart(T,g);
+  }
+
+  function stCard(v,k,cls,raw){
+    let c=cls;
+    if(!c && typeof raw==='number') c = raw>=0?'pos':'neg';
+    return '<div class="st"><div class="v '+(c||'')+'">'+v+'</div><div class="k">'+k+'</div></div>';
+  }
+
+  // ── 敏感度网格（针对选中卡，单卡月净）──
+  function buildHeat(g){
+    const row=lastRows[selIdx];
+    const el=$('heat');
+    if(!row){ el.innerHTML='<tr><td class="empty">没有机队数据</td></tr>'; return; }
+    const r=row.r;
+    $('sensWho').textContent=r.name+' ×'+(r.qty||1)+'（单卡月净）';
+    const priceSteps=[-0.5,-0.25,0,0.25,0.5];
+    const elecSteps=[-0.3,0,0.3];
+
+    let html='<tr><th>币价 \\ 电价</th>';
+    elecSteps.forEach(e=>{ html+='<th>'+(e===0?'基准':(e>0?'+':'')+(e*100).toFixed(0)+'%')+'</th>'; });
+    html+='</tr>';
+
+    priceSteps.forEach(p=>{
+      html+='<tr><td class="ax">'+(p>0?'+':'')+(p*100).toFixed(0)+'%'+(p===0?' 基准':'')+'</td>';
+      elecSteps.forEach(e=>{
+        const gg={price:g.price*(1+p), netHs:g.netHs, emit:g.emit, elec:g.elec*(1+e), fx:g.fx};
+        const c=calcRig(r,gg);
+        const m=c.net*30;
+        const cls = m<=0 ? 'r' : (m<10 ? 'y' : 'g');
+        html+='<td class="'+cls+'">'+money(m,0)+'</td>';
+      });
+      html+='</tr>';
+    });
+    el.innerHTML=html;
+  }
+
+  // ── 回本曲线 ──
+  function buildChart(T,g){
+    const net=T.net;
+    const cost=T.cost;
+    let intro;
+    if(net<=0){
+      intro='当前参数下机队日净为负，<b class="neg">不存在回本</b>。要么降电价，要么等高币价。';
+    }else if(cost<=0){
+      intro='未填写投入成本，无法计算回本。补上「单价」即可出曲线。';
+    }else{
+      const days=Math.ceil(cost/net);
+      intro='总投入 <b>'+money(cost,0)+'</b>，日净 <b class="pos">'+money(net,2)+'</b> → 静态回本 <b class="neu">'+days+' 天</b>（约 '+(days/30).toFixed(1)+' 个月）。';
+    }
+    $('pbIntro').innerHTML=intro;
+
+    const horizon = (net>0 && cost>0) ? Math.min(720, Math.max(90, Math.ceil(cost/net)*1.6)) : 365;
+    const step = Math.max(1, Math.round(horizon/60));
+    const xs=[], ys=[];
+    for(let d=0; d<=horizon; d+=step){ xs.push(d); ys.push(+(net*d).toFixed(2)); }
+    const costLine = xs.map(()=>cost);
+
+    if(chart) chart.destroy();
+    chart=new Chart($('cPay'),{
+      type:'line',
+      data:{labels:xs,datasets:[
+        {label:'累计净收',data:ys,borderColor:'#e7a15e',backgroundColor:'#e7a15e22',fill:true,tension:.25,pointRadius:0,borderWidth:2},
+        {label:'投入成本',data:costLine,borderColor:'#9db8c2',borderDash:[6,4],pointRadius:0,borderWidth:1.5,fill:false}
+      ]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        plugins:{legend:{labels:{color:'#a09f98',font:{size:11},boxWidth:14}}},
+        scales:{
+          x:{ticks:{color:'#a09f98',font:{size:10},maxTicksLimit:8,callback:(v,i)=>xs[i]+'d'},grid:{color:'#2a2d2e66'}},
+          y:{ticks:{color:'#a09f98',font:{size:10},callback:v=>'$'+v},grid:{color:'#2a2d2e66'}}
+        }
+      }
+    });
+  }
+
+  // ── 导出结论 ──
+  function copySummary(){
+    const g=globals();
+    const T=lastRows.reduce((a,x)=>({net:a.net+x.c.net,gross:a.gross+x.c.gross,elec:a.elec+x.c.elec,cost:a.cost+x.c.cost,th:a.th+x.r.th*x.r.qty,watt:a.watt+x.r.watt*x.r.qty,qty:a.qty+x.r.qty}),{net:0,gross:0,elec:0,cost:0,th:0,watt:0,qty:0});
+    let s='【StoneVast 机队测算】\n';
+    s+='币价 $'+n(g.price,4)+' | 全网 '+(g.netHs/1e18).toFixed(2)+' EH/s | 电价 ¥'+n(g.elec*g.fx,3)+'/kWh\n';
+    s+=T.qty+' 卡 · 合计 '+n(T.th,0)+' TH/s · '+n(T.watt,0)+'W\n';
+    lastRows.forEach(x=>{
+      s+='· '+x.r.name+' ×'+x.r.qty+' → 日净 '+money(x.c.net,2)+' / 年净 '+money(x.c.net*365,0)+'\n';
+    });
+    s+='日净合计 '+money(T.net,2)+' · 月净 ¥'+n(T.net*30*g.fx,0)+' · 年净 '+money(T.net*365,0)+'\n';
+    if(T.cost>0 && T.net>0) s+='总投入 '+money(T.cost,0)+' · 静态回本 '+Math.ceil(T.cost/T.net)+' 天\n';
+    s+='（难度不变假设，非收益承诺）stonevast.com';
+    const done=()=>alert('已复制到剪贴板\n\n'+s);
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(s).then(done).catch(done);
+    }else{ done(); }
+  }
+
+  // ── 绑定 ──
+  ['gPrice','gNet','gEmit','gElec','gFx'].forEach(id=>$(id).addEventListener('input',calcAll));
+  window.addRig=addRig; window.loadPreset=loadPreset; window.copySummary=copySummary;
+
+  rigs=load();
+  renderRigs();
+  calcAll();
+  pullLive();
+})();
+</script>
+<script src="../site.js"></script>
+</body>
+</html>
