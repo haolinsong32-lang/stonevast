@@ -6,31 +6,31 @@
 <meta name="robots" content="noindex">
 <title>StoneVast Pro · Advanced ROI Calculator · 高级收益计算器</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../site.css">
 <style>
-  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;--bad:#ff6b6f;--warn:#ffb020;}
   *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
   body{background:var(--bg);color:var(--txt);line-height:1.6;}
   .wrap{max-width:1100px;margin:0 auto;padding:0 16px 72px;}
   nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
   .logo{font-size:18px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
-  .logo b{color:var(--acc2);}
+  .logo b{color:var(--acc);}
   .links{display:flex;gap:8px;}
   .back{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;}
-  .back:hover{border-color:var(--acc2);color:var(--txt);}
-  .back.active{border-color:var(--acc2);color:var(--acc2);}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+  .back.active{border-color:var(--acc);color:var(--acc);}
   h1{font-size:24px;font-weight:800;margin:20px 0 6px;}
   .sub1{font-size:13px;color:var(--sub);margin-bottom:22px;}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:18px;}
-  .card h2{font-size:15px;color:var(--acc2);letter-spacing:1px;margin-bottom:6px;font-weight:700;}
+  .card h2{font-size:15px;color:var(--acc);letter-spacing:1px;margin-bottom:6px;font-weight:700;}
   .card .intro{font-size:12.5px;color:var(--sub);margin-bottom:14px;line-height:1.7;}
   .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:14px;}
   .fld label{display:block;font-size:11.5px;color:var(--sub);margin-bottom:6px;letter-spacing:.5px;}
   .fld input,.fld select{width:100%;background:#0d1016;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--txt);font-family:inherit;outline:none;transition:border-color .2s;font-variant-numeric:tabular-nums;}
-  .fld input:focus{border-color:var(--acc2);}
+  .fld input:focus{border-color:var(--acc);}
   .result{background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:14px;}
   .result .r{display:flex;justify-content:space-between;font-size:13.5px;padding:6px 0;border-bottom:1px dashed #252b3880;}
   .result .r:last-child{border-bottom:none;}
-  .result .r b{color:var(--acc2);font-variant-numeric:tabular-nums;}
+  .result .r b{color:var(--acc);font-variant-numeric:tabular-nums;}
   .result .r.pos b{color:var(--ok);}
   .result .r.neg b{color:var(--bad);}
   .verdict{margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13.5px;line-height:1.7;}
@@ -50,21 +50,34 @@
   .reset{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
   .reset:hover{border-color:var(--acc);color:var(--txt);}
   details{background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px;font-size:13px;color:var(--sub);}
-  details summary{cursor:pointer;color:var(--acc2);font-weight:600;font-size:13px;letter-spacing:.5px;}
+  details summary{cursor:pointer;color:var(--acc);font-weight:600;font-size:13px;letter-spacing:.5px;}
   details[open]{padding-bottom:16px;}
   details p{margin:10px 0;line-height:1.8;}
   details b{color:var(--txt);}
   details code{background:#1a1f2a;padding:2px 6px;border-radius:4px;font-size:12px;color:var(--acc);font-family:ui-monospace,Menlo,monospace;}
+  .pro-status{position:sticky;top:0;z-index:99;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px max(14px,calc((100% - 1280px)/2));border-bottom:1px solid var(--line-strong);background:rgba(11,13,15,.96);color:var(--sub);font:11px var(--font-mono);}
+  .pro-status .pause-state{color:var(--warn);white-space:nowrap;}
+  body.site-page .result,
+  body.site-page details{border-radius:2px;background:rgba(11,13,15,.72);}
+  body.site-page .verdict{border-radius:2px;}
+  body.site-page details summary{color:var(--acc);}
+  body.site-page .reset{min-height:36px;border-radius:2px;color:var(--sub);border-color:var(--line-strong);}
+  @media(max-width:640px){.pro-status{align-items:flex-start;flex-direction:column;gap:3px;}}
 </style>
 </head>
-<body>
+<body class="site-page" data-density="tool">
+<div class="pro-status" role="status">
+  <span>StoneVast Pro · 多卡对比 + 敏感度网格 · 回本复利</span>
+  <span class="pause-state">Pro 收款与自助激活暂停</span>
+</div>
 <div class="wrap">
   <nav>
-    <a class="logo" href="./pro.html"><b>⛏</b> StoneVast Pro</a>
+    <a class="logo" href="../pro.html"><b>⛏</b> StoneVast Pro</a>
     <div class="links">
-      <a class="back" href="./pro/dashboard.html">Dashboard</a>
-      <a class="back active" href="./pro/calculator.html">Calculator</a>
-      <a class="back" href="./pro.html">← Exit</a>
+      <a class="back" href="./workbench.html">Workbench</a>
+      <a class="back" href="./dashboard.html">Dashboard</a>
+      <a class="back active" href="./calculator.html">Calculator</a>
+      <a class="back" href="../pro.html">← Exit</a>
     </div>
   </nav>
 
@@ -129,9 +142,9 @@
       <p><b>场景 D · 质押 Staking（真复利，但有锁仓风险）</b><br>
       把币质押进协议，每天产出新币，新币自动加入质押 → <b>数学意义上的真复利</b>。<br>
       但 IRON 目前不支持质押。支持质押的币（如 ETH、SOL）才是这种模型。</p>
-      <p><b>场景 E · 推荐返利（真复利，但规模有限）</b><br>
-      你推荐的人持续付费，你持续拿分成。分成可以再买 Genesis、再推荐更多人 → <b>网络效应复利</b>。<br>
-      这是 StoneVast 提倡的复利——<b>不靠押注币价，不靠堆矿机，靠网络增长</b>。</p>
+      <p><b>场景 E · 节点分成（不是复利，且尚未开启生产结算）</b><br>
+      邀请关系与分成资格均不限层级：L1 普通节点默认 5%、创世节点直推 30%，L2 2%、L3 1%、L4 0.5%、L5 0.25%，后续逐级减半。只有最终确认且完整验证的真实净产出才可能形成整数分账权益，且须先建立可信的「链上事件 → 产币节点 UID」映射。<br>
+      邀请关系本身不产生收入，分账权益不等于实际付款；最小单位取整后可能为 0，也不能把分成再投入描述成复利或按招募人数计算收益。</p>
     </details>
     <details>
       <summary>💡 StoneVast 提倡的复利模型 · Our recommended compounding</summary>
@@ -141,7 +154,7 @@
       · 梭哈小币种期待复利（流动性风险会吃掉你）</p>
       <p><b>我们提倡：</b></p>
       <p>· <b>零成本启动</b>：用已有硬件挖，不新增投入<br>
-      · <b>网络效应</b>：通过一级推荐获得持续分成，分成再投入<br>
+      · <b>真实记录</b>：邀请关系与分成资格可无限延伸，深层费率逐级减半；只根据符合条件的真实净产出计算权益，生产结算开启前不产生可提取收入，权益不等于实际付款<br>
       · <b>时间复利</b>：长期坚持，让 6 小时一次的账本记录你的每一天<br>
       · <b>透明复利</b>：每一笔都在公开账本上，可验证、可审计</p>
       <p><b>一句话：</b>真正的复利不是数学公式，是<b>可持续的模式</b>。我们卖的不是「快速致富」，是「长期可验证」。</p>
@@ -169,7 +182,7 @@
       <div class="fld"><label>Base revenue · 基础日毛收 ($)</label><input type="number" id="sr" value="0.46" step="any"></div>
       <div class="fld"><label>Base electricity · 基础日电费 ($)</label><input type="number" id="se" value="0.09" step="any"></div>
     </div>
-    <table class="sens" id="sensTable"></table>
+    <div class="table-scroll"><table class="sens" id="sensTable"></table></div>
     <div class="note">
       行：价格变动（-20% / 基准 / +20%）。列：难度变动（-30% / 基准 / +30%）。单元格为年化净收（USD）。<br>
       难度上涨 → 单位算力收益下降。价格与难度通常正相关（牛市难度跟涨），所以右上格才是真实乐观场景，右下格几乎不会出现。
@@ -183,7 +196,7 @@
 
 <script src="../data.js"></script>
 <script>
-if(!sessionStorage.getItem('sv_pro_auth')){ location.href='../pro.html'; }
+if(sessionStorage.getItem('sv_pro_auth')!=='c1e137063b1de0fbc4c549f2ea63c947285c99bdb8319401c312e5a3f916dcc4'){ location.href='../pro.html'; }
 
 const $ = id=>document.getElementById(id);
 const fmt=(n,d=2)=>(+n||0).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -320,5 +333,6 @@ function resetAll(){
 
 resetAll();
 </script>
+<script src="../site.js"></script>
 </body>
 </html>

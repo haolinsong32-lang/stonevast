@@ -3,146 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>锁核说明 · 节点协议 · 石广 StoneVast</title>
-<meta name="description" content="石广 StoneVast：显卡锁核配置、收益起付点、转账自检与合规普法说明。所有数字可核验，不承诺收益。">
+<meta name="description" content="StoneVast 使用指南：免费测算、五项确认、官方下载、钱包与 start.bat、矿池未结算核对、转账自检及安全清单。">
+<title>使用指南 · StoneVast 石广</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./site.css">
+<script src="./site.js" defer></script>
 <style>
-  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--ok:#2ecc8f;--warn:#ffb020;--bad:#ff5d6c;}
-  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
-  body{background:var(--bg);color:var(--txt);line-height:1.7;}
-  .wrap{max-width:860px;margin:0 auto;padding:0 16px 80px;}
-  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;}
-  .logo{font-size:18px;font-weight:800;letter-spacing:1px;}
-  a{color:var(--acc);text-decoration:none;}
-  h1{font-size:26px;font-weight:800;margin:10px 0 6px;}
-  .sub{color:var(--sub);font-size:14px;margin-bottom:22px;}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;}
-  .card h2{font-size:15px;color:var(--acc);margin-bottom:12px;font-weight:700;letter-spacing:.5px;}
-  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
-  th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;}
-  th{color:var(--sub);font-weight:600;font-size:12px;}
-  tr:last-child td{border-bottom:none;}
-  .ok{color:var(--ok);}.warn{color:var(--warn);}.bad{color:var(--bad);}
-  .steps{font-size:13.5px;line-height:2;}
-  .steps b{color:var(--txt);}
-  .tip{font-size:13px;color:var(--sub);line-height:1.9;margin-top:10px;}
-  .box{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:10px;font-size:13px;line-height:1.9;}
-  .box.ok{border-color:#2ecc8f55;}
-  .box.bad{border-color:#ff5d6c55;}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-  @media(max-width:640px){.grid{grid-template-columns:1fr;}}
-  .foot{color:var(--sub);font-size:12px;margin-top:20px;line-height:1.9;}
+  body.site-page .skip-link{position:fixed;top:8px;left:8px;z-index:20;padding:8px 12px;background:var(--acc);color:#17110c;transform:translateY(-160%)}
+  body.site-page .skip-link:focus{transform:none}
+  body.site-page [data-nav-toggle]{min-height:40px;padding:8px 12px;border:1px solid var(--line-strong);background:transparent;color:var(--txt);font:700 11px var(--font-mono);cursor:pointer}
+  body.site-page .guide-steps{margin:0;padding:0;list-style:none;counter-reset:guide}
+  body.site-page .guide-steps>li{position:relative;padding:20px 0 20px 58px;border-top:1px solid var(--line);counter-increment:guide}
+  body.site-page .guide-steps>li::before{content:"0" counter(guide);position:absolute;left:0;top:22px;color:var(--acc);font:700 12px var(--font-mono)}
+  body.site-page .guide-steps h3{margin:0 0 8px;font-size:15px}
+  body.site-page .guide-steps p{margin:0;color:var(--sub);font-size:13px}
+  body.site-page .checklist{margin:12px 0 0;padding:0;list-style:none}
+  body.site-page .checklist li{position:relative;padding:13px 0 13px 30px;border-bottom:1px solid var(--line);color:var(--sub);font-size:13px}
+  body.site-page .checklist li::before{content:"□";position:absolute;left:0;color:var(--acc);font-family:var(--font-mono)}
+  body.site-page .checklist b{color:var(--txt)}
+  body.site-page .two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  body.site-page .command{display:block;margin-top:10px;padding:14px;overflow-x:auto;border:1px solid var(--line);background:#090b0c;color:var(--acc-strong);font:12px/1.9 var(--font-mono);white-space:pre}
+  body.site-page .table-scroll table{width:100%}
+  body.site-page details{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;color:var(--sub);font-size:13px}
+  body.site-page summary{color:var(--acc);cursor:pointer}
+  @media(max-width:760px){
+    .js body.site-page [data-nav-toggle]{display:inline-flex;align-items:center}
+    .js body.site-page #primary-nav{display:none;width:100%;padding:12px 0;border-top:1px solid var(--line)}
+    .js body.site-page #primary-nav[data-open="true"]{display:flex}
+    body.site-page #primary-nav a{min-height:42px}
+  }
+  @media(max-width:680px){body.site-page .two-col{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
+<body class="site-page" data-density="document">
+<a class="skip-link" href="#main">跳到正文</a>
 <div class="wrap">
-  <nav>
-    <div class="logo">⛏ 石广 StoneVast</div>
-    <a href="./index.html">← 返回首页</a>
+  <nav aria-label="主导航">
+    <a class="logo" href="./index.html">StoneVast <b>石广</b></a>
+    <button type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">MENU</button>
+    <div class="navlinks" id="primary-nav">
+      <a href="./calculator.html">免费测算</a>
+      <a href="./dashboard.html#payout-title">实际到账</a>
+      <a class="back active" href="./guide.html">使用指南</a>
+      <a href="./paths.html">参与路径</a>
+      <a href="./node-docs.html">节点文档</a>
+      <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a>
+    </div>
   </nav>
 
-  <h1>锁核说明 · 节点协议</h1>
-  <div class="sub">先看清代价，再决定要不要跑。所有数字可自行核验，我们不承诺收益。</div>
+  <main id="main">
+    <header class="hero site-reveal">
+      <div class="kicker">OPERATING GUIDE / 从 0 到核验</div>
+      <h1>先检查，<span>再下载与运行</span></h1>
+      <p class="lede">这是一份操作清单，不是收益说明书。按顺序完成测算、五项确认和官方下载；任何一步不通过，都保持停机。</p>
+      <div class="hero-actions"><a href="./calculator.html">免费测算 →</a><a href="#checks">查看五项确认</a></div>
+    </header>
 
-  <!-- 1. 显卡与锁核 -->
-  <div class="card">
-    <h2>① 显卡配置与锁核</h2>
-    <div class="tip">FishHash 需要至少 <b>4.6 GB 显存</b>。显存不足的卡无法参与，选卡时会直接判定不可用。</div>
-    <table>
-      <tr><th>显卡</th><th>显存</th><th>参考算力</th><th>参考功耗</th><th>结论</th></tr>
-      <tr><td>RTX 4090</td><td>24 GB</td><td>~28 MH/s</td><td>~80 W</td><td class="ok">可跑</td></tr>
-      <tr><td>RTX 4080</td><td>16 GB</td><td>~22 MH/s</td><td>~55 W</td><td class="ok">可跑</td></tr>
-      <tr><td>RTX 4070 Laptop</td><td>8 GB</td><td>14.5–16.7 MH/s</td><td>40–47 W</td><td class="ok">实测可跑</td></tr>
-      <tr><td>RTX 4060 / 3070 / 3060</td><td>8–12 GB</td><td>10–12 MH/s</td><td>35–60 W</td><td class="ok">可跑</td></tr>
-      <tr><td>RTX 2060 / GTX 1660</td><td>6 GB</td><td>7–9 MH/s</td><td>80–90 W</td><td class="warn">边缘，注意电价</td></tr>
-      <tr><td>GTX 1050 Ti</td><td>4 GB</td><td>~4 MH/s</td><td>~75 W</td><td class="bad">大概率亏电费</td></tr>
-      <tr><td>RX 7900 XTX / XT</td><td>24 / 20 GB</td><td>~26–30 MH/s*</td><td>100–120 W</td><td class="warn">参考值，需实测</td></tr>
-      <tr><td>RX 7800 / 6800 / 6700 XT</td><td>12–16 GB</td><td>~15–20 MH/s*</td><td>80–100 W</td><td class="warn">参考值，需实测</td></tr>
-      <tr><td>A100 / H100（商用）</td><td>40 / 80 GB</td><td>~45–60 MH/s*</td><td>250–300 W</td><td class="warn">不建议为挖矿采购</td></tr>
-      <tr><td>GTX 760 / GT 730</td><td>2 GB</td><td>—</td><td>—</td><td class="bad">显存不足，不可用</td></tr>
-    </table>
-    <div class="tip">* AMD 与商用卡为参考值，lolMiner 支持情况需在本机实测确认。</div>
+    <section class="card site-reveal" aria-labelledby="route-title">
+      <h2 id="route-title">操作顺序</h2>
+      <ol class="guide-steps">
+        <li><h3>免费测算</h3><p>输入真实设备参数和电价，观察不同情景。测算结果不是实际到账，也不代表回本时间。</p></li>
+        <li><h3>完成五项确认</h3><p>设备、地区和服务商条款、电价、矿池可用性、官方下载来源，缺一项都不进入运行阶段。</p></li>
+        <li><h3>从官方来源下载</h3><p>准备 IRON 钱包与官方挖矿软件；不使用第三方“优化版”“收益版”安装包。</p></li>
+        <li><h3>生成并检查启动脚本</h3><p>首页工具只在本地生成钱包辅助脚本和 start-mining.bat，不上传地址、助记词或私钥。</p></li>
+        <li><h3>核对矿池、钱包与公开证据</h3><p>矿池未结算、历史快照、测算和实际到账分别记录；转账前先小额测试。</p></li>
+        <li><h3>有问题再到 Telegram</h3><p>提供设备型号、软件版本、网络和报错文本即可，绝不发送助记词或私钥。</p></li>
+      </ol>
+    </section>
 
-    <div class="tip" style="margin-top:16px"><b>锁核三档（自己选）</b></div>
-    <table>
-      <tr><th>模式</th><th>核心频率</th><th>算力</th><th>功耗</th><th>温度</th><th>适合</th></tr>
-      <tr><td>省电</td><td>1200 MHz</td><td>~14.5 MH/s</td><td>~40 W</td><td>~48°C</td><td>安静、长期挂机</td></tr>
-      <tr><td>均衡</td><td>1600 MHz</td><td>~16.7 MH/s</td><td>~47 W</td><td>~57°C</td><td>收益与温度平衡</td></tr>
-      <tr><td>满血</td><td>默认 boost</td><td>~20+ MH/s</td><td>~50–60 W</td><td>~60–68°C</td><td>收益优先</td></tr>
-    </table>
-    <div class="box bad"><b>温度红线：</b>超过 75°C 请立即回退到更低档位。笔记本散热差异大，先跑 10 分钟再决定。</div>
-    <div class="tip"><b>怎么改：</b>编辑 start.bat 里的 <code>--cclk</code> 数值（单位 MHz），或删掉该参数使用默认 boost。</div>
-  </div>
+    <section class="card site-reveal" id="checks" aria-labelledby="checks-title">
+      <h2 id="checks-title">五项确认 · 下载前检查清单</h2>
+      <ul class="checklist">
+        <li><b>01 设备</b><br>显存满足当前算法要求；功耗、散热、驱动和软件兼容性已核实。先用短时间测试观察温度与稳定性，不把网页参考算力当成本机实测。</li>
+        <li><b>02 地区和服务商条款</b><br>确认所在地法律、税务、电力使用规定，以及矿池、交易所和软件服务商条款。平台是否可用以你所在地区和账户状态为准。</li>
+        <li><b>03 电价</b><br>填入自己的真实每度电成本，并计入阶梯电价、散热等直接成本。网页默认值只用于演示。</li>
+        <li><b>04 矿池可用性</b><br>从自己的网络测试端口连通性，阅读起付额、手续费、最低支付和停付规则。矿池显示余额不代表已进入你的钱包。</li>
+        <li><b>05 官方下载来源</b><br>核对官方域名、GitHub 发布主体、版本和适用系统；若官方提供哈希或签名，下载后自行验证。</li>
+      </ul>
+      <div class="note"><b>停止条件：</b>任一项无法确认、测算为负、设备温度异常、矿池无法连接或下载来源可疑，都不要继续运行。</div>
+    </section>
 
-  <!-- 2. 起付点与转账 -->
-  <div class="card">
-    <h2>② 收益起付点与转账自检</h2>
-    <div class="steps">
-      <b>① 矿池自动打款：</b>达到矿池起付门槛后，HeroMiners 自动打到你在矿池绑定的 IRON 地址，每笔都能在面板查到。<br>
-      <b>② 钱包 → 交易所：</b>Iron Fish 钱包 → 发送 → 粘贴 Gate 的 IRON 充值地址 → 网络必须选 <b>IRON 主网</b>。<br>
-      <b>③ 交易所 → 法币：</b>在 Gate 把 IRON 卖成 USDT，再提现（需完成 KYC）。<br>
-      <b>④ 节点分成：</b>实时结算、随时可提（建议 ≥2 USDT 摊薄手续费）、直达钱包、链上可查。
-    </div>
-    <table style="margin-top:12px">
-      <tr><th>检查项</th><th>怎么做</th><th>错了的后果</th></tr>
-      <tr><td>地址核对</td><td>首 6 位 + 末 6 位逐字比对</td><td class="bad">转错无法追回</td></tr>
-      <tr><td>网络选择</td><td>必须 IRON 主网，不能选 ERC20</td><td class="bad">选错链永久丢失</td></tr>
-      <tr><td>小额测试</td><td>先转 0.1 IRON</td><td class="warn">大额试错代价高</td></tr>
-      <tr><td>区块确认</td><td>浏览器看到交易确认</td><td>—</td></tr>
-      <tr><td>到账核对</td><td>Gate 现货账户出现 IRON</td><td>—</td></tr>
-    </table>
-    <div class="box bad">
-      <b>测试币 / 水龙头币能不能变现？——不能。</b><br>
-      测试网代币没有市场价值，任何交易所都不会以现金收购。只有<b>主网真实 IRON</b> 才能卖成 USDT。看到“水龙头领币可提现”的说法，基本是骗局。
-    </div>
-    <div class="tip"><b>三重镜像对账：</b>矿池账（挖到了）↔ 链上账（到账了）↔ 交易所账（能变现）。三本账对得上，收益才是客观事实。</div>
-    <div class="box ok" style="margin-top:10px">
-      <b>✅ 2026-10-19 链路实测核验：</b>通过 Gate 官方公开 API 实时查验，IRON 当前<b>充值开放、提现开放、交易开放</b>，且仅支持 IRON 主网（无 ERC20 混淆风险）；本地址在 HeroMiners 已有主网真实付款记录 1.8065 IRON。矿池账与交易所账两端均已核验，链上账待本机节点同步完成后即可核对并执行首笔 0.1 IRON 小额测试转账。
-    </div>
-  </div>
-
-  <!-- 3. 合规普法 -->
-  <div class="card">
-    <h2>③ 合规与普法</h2>
-    <div class="grid">
-      <div class="box ok">
-        <b class="ok">✅ 你可以做</b><br>
-        · 运行自己的矿机<br>
-        · 参与一级推荐<br>
-        · 每月收款到自己的钱包<br>
-        · 公开你的真实数据（可匿名）<br>
-        · 随时提问、随时退出
+    <section class="card site-reveal" id="downloads" aria-labelledby="downloads-title">
+      <h2 id="downloads-title">官方下载与钱包准备</h2>
+      <div class="two-col">
+        <div>
+          <h3>Iron Fish 钱包</h3>
+          <p class="hint">优先从官方 Node App 或官方 CLI 创建。助记词应离线抄写，不截图、不上传、不发给客服。</p>
+          <a href="https://ironfish.network/use/node-app" target="_blank" rel="noopener noreferrer">Iron Fish Node App 官方页面 →</a>
+          <code class="command">npm i -g ironfish
+ironfish wallet:create
+ironfish wallet:address</code>
+          <a href="./index.html#start">使用本地钱包辅助脚本 →</a>
+        </div>
+        <div>
+          <h3>lolMiner</h3>
+          <p class="hint">只从官方 GitHub Releases 下载，并核对你的系统、显卡和 FishHash 支持。StoneVast 不提供二次封装安装包。</p>
+          <a href="https://github.com/Lolliedieb/lolMiner-releases/releases" target="_blank" rel="noopener noreferrer">lolMiner 官方发布页 →</a>
+          <div class="box warn">不要运行聊天私发、陌生网盘或所谓“高收益补丁”的可执行文件。杀毒软件提示也不应被随意忽略。</div>
+        </div>
       </div>
-      <div class="box bad">
-        <b class="bad">⛔ 我们绝不做</b><br>
-        · 不收门槛费、不押金、不囤货<br>
-        · 不做多级金字塔、不按团队计酬<br>
-        · 不承诺收益、不承诺回本<br>
-        · 不托管资金、不索取私钥或助记词<br>
-        · 不在中国大陆境内推广
-      </div>
-    </div>
-    <div class="steps" style="margin-top:14px">
-      <b>1. 结算：</b>实时结算、随时可提（建议 ≥2 USDT 摊薄手续费）、直达钱包、链上可查。<br>
-      <b>2. 税务：</b>收益属于应税收入，由你按所在地法律自行申报，我们不代扣。<br>
-      <b>3. 数据：</b>仅使用钱包地址与推荐统计用于结算与展示，公开榜单可选择匿名。<br>
-      <b>4. 终止：</b>作弊、刷量、虚假宣传的节点会被移除。<br>
-      <b>5. 风险：</b>挖矿收益取决于币价与电价，可能归零；不构成投资建议。
-    </div>
-    <div class="tip"><b>属地提示：</b>各国对加密货币挖矿、交易、税务的规定不同。参与前请自行确认所在地法律是否允许，并按要求完成 KYC/AML。你所在地区的规则优先于本页说明。</div>
-  </div>
+    </section>
 
-  <div class="foot">
-    <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener" style="color:#29a9eb;font-weight:600">💬 Telegram 群 · 有问题进群问</a><br>
-    本页为说明性文件，不构成投资、法律或税务建议。所有收益数字均可在矿池、区块浏览器与交易所自行核验。<br>
-    StoneVast 石广 · <a href="./index.html">返回首页</a> · <span style="opacity:.7">👁 <span id="vPv">…</span> 次浏览 · <span id="vUv">…</span> 位今日访客</span>
-  </div>
+    <section class="card site-reveal" id="starter" aria-labelledby="starter-title">
+      <h2 id="starter-title">start.bat 生成与运行前复核</h2>
+      <ol class="guide-steps">
+        <li><h3>准备正确的 IRON 地址</h3><p>Iron Fish 地址通常为长十六进制字符串，常见前缀为 b88f8b。EVM（0x…）、TRON、比特币和 Solana 地址不能混用。</p></li>
+        <li><h3>在首页生成脚本</h3><p>粘贴地址和可选矿机名，点击“生成 start-mining.bat”。生成过程在当前浏览器完成。</p></li>
+        <li><h3>检查脚本内容</h3><p>用文本编辑器打开，确认钱包地址、矿机名、算法和矿池端点。现有模板使用 HeroMiners 示例端口，运行前必须自行测试其可用性与条款。</p></li>
+        <li><h3>放入官方软件目录</h3><p>将脚本与 lolMiner.exe 放在同一目录；只有五项确认全部通过后才运行。</p></li>
+      </ol>
+      <div class="btns"><a class="btn btn-primary" href="./index.html#start">打开生成器</a><a class="btn" href="./index.html#download">复核官方下载</a></div>
+      <details><summary>锁核与温度：如何安全试错</summary><p>旧设备记录中的 <code>--cclk</code> 数值只适用于对应机器，不能直接照抄。先阅读 lolMiner 官方参数说明，再小步调整并观察；若温度、功耗或稳定性异常，立即恢复默认设置并停止。任何温度阈值都应结合设备厂商规范与现场环境判断。</p></details>
+    </section>
+
+    <section class="card site-reveal" id="ledger" aria-labelledby="ledger-title">
+      <h2 id="ledger-title">四种数据，不要混账</h2>
+      <div class="table-scroll"><table>
+        <thead><tr><th>口径</th><th>来源</th><th>正确用法</th></tr></thead>
+        <tbody>
+          <tr><td>实际到账</td><td>公开只读接口与对应交易证据</td><td>只统计符合口径的已确认矿池付款，查看 <a href="./dashboard.html#payout-title">公开账本</a>。</td></tr>
+          <tr><td>历史快照</td><td><code>data.js</code> 等固定时间旧记录</td><td>仅作归档，不能当作实时产出，也不会自动增长。</td></tr>
+          <tr><td>矿池未结算</td><td>矿池地址面板</td><td>说明矿池记录的未付余额；不等于钱包已收到。</td></tr>
+          <tr><td>测算</td><td>你的输入与数学假设</td><td>用于比较情景，不构成收益、回本或提现承诺。</td></tr>
+        </tbody>
+      </table></div>
+      <p class="hint">可使用首页“查询矿池面板”查看地址统计；如浏览器直连失败，请直接到矿池官方页面查询。矿池“已付”仍需与钱包或链上证据交叉核验。</p>
+    </section>
+
+    <section class="card site-reveal" id="transfer" aria-labelledby="transfer-title">
+      <h2 id="transfer-title">转账与提现自检</h2>
+      <ul class="checklist">
+        <li><b>地址：</b>逐字核对首 6 位与末 6 位，并确认复制过程未被剪贴板篡改。</li>
+        <li><b>网络：</b>发送 IRON 时确认使用 IRON 主网，不把 ERC20 等其他网络当作同一资产。</li>
+        <li><b>小额测试：</b>先转可承受损失的小额，待确认无误后再考虑后续操作。</li>
+        <li><b>证据：</b>保存交易 ID，分别在钱包、可用浏览器与收款方核对确认状态。</li>
+        <li><b>平台规则：</b>充值、交易、提现、KYC 与地区可用性以平台当前公告为准。</li>
+      </ul>
+      <div class="box bad"><b>测试币没有主网价值。</b>任何“水龙头测试币可保证提现”的说法都应视为高危诈骗信号。StoneVast 不代收资金，也不会索取助记词或私钥。</div>
+      <p class="hint">2026-10-19 的旧维护日志曾记录 Gate 接口与矿池链路检查；那只是历史记录，不代表当前充值、提现、交易或矿池状态。每次操作前都必须重新查询官方状态。</p>
+    </section>
+
+    <section class="card site-reveal" id="node" aria-labelledby="node-title">
+      <h2 id="node-title">可选：节点登记，不是启动前提</h2>
+      <p class="hint">节点功能用于登记关系与公开钱包地址。它不是下载或挖矿的必要条件，不产生收益，不触发自动结算。Pro 收款与自助激活目前暂停。</p>
+      <div class="btns"><a class="btn" href="./index.html#registry">前往节点登记</a><a class="btn" href="./node-docs.html">查看接口说明</a></div>
+    </section>
+
+    <section class="card site-reveal" aria-labelledby="safety-title">
+      <h2 id="safety-title">最后的安全清单</h2>
+      <div class="two-col">
+        <div class="box ok"><b>可以做</b><br>自己核验来源与参数 · 保持小额测试 · 离线备份助记词 · 按所在地要求处理税务 · 随时停止并提问</div>
+        <div class="box bad"><b>不要做</b><br>相信保本或固定收益 · 分享私钥或助记词 · 使用来路不明的软件 · 混用链与地址 · 把矿池余额或测算当成实际到账</div>
+      </div>
+      <div class="hero-actions"><a href="./calculator.html">重新免费测算</a><a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram 提问</a></div>
+    </section>
+  </main>
+
+  <footer>本页为操作说明，不构成投资、法律或税务建议。设备、平台和地区规则以各自最新官方信息为准。<br><a href="./index.html">首页</a> · <a href="./paths.html">参与路径</a> · <a href="./dashboard.html#payout-title">实际到账</a></footer>
 </div>
-<script>
-(function(){var EP='https://stonevast.com/api/visit';
-function upd(d){if(!d)return;var a=document.getElementById('vPv'),b=document.getElementById('vUv');if(a)a.textContent=d.pv;if(b)b.textContent=d.uv;}
-fetch(EP+'?mode=hit').then(function(r){return r.json()}).then(upd).catch(function(){});
-setInterval(function(){fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})},60000);
-document.addEventListener('visibilitychange',function(){if(!document.hidden)fetch(EP+'?mode=get').then(function(r){return r.json()}).then(upd).catch(function(){})});
-})();</script>
+<noscript><div class="wrap"><p class="note">本指南所有步骤与检查清单均可直接阅读；首页脚本生成和节点登记功能需要 JavaScript。</p></div></noscript>
 </body>
 </html>

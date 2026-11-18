@@ -9,13 +9,9 @@
 <meta property="og:type" content="article">
 <title>You Can't Mine BNB. Here's What Actually Keeps It Alive. · StoneVast 石广</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9A%94%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./site.css">
 <style>
-  :root{
-    --bg:#0d1016; --card:#161a22; --line:#252b38;
-    --txt:#e9edf4; --sub:#8b93a7;
-    --acc:#f0a35e; --acc2:#5b9dff; --ok:#2ecc8f;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box;}
   body{background:var(--bg);color:var(--txt);line-height:1.75;font-size:16px;}
   .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px;}
 
@@ -30,6 +26,8 @@
   h1{font-size:clamp(26px,5vw,38px);line-height:1.28;font-weight:800;letter-spacing:-.5px;}
   .sub{color:var(--sub);font-size:15px;margin-top:14px;}
   .meta{color:var(--sub);font-size:12px;margin-top:18px;padding-bottom:22px;border-bottom:1px solid var(--line);}
+  body.site-page[data-density="document"] .wrap{max-width:760px;}
+  .archive-note{margin:22px 0 0;padding:12px 14px;border-left:2px solid var(--acc);background:var(--card);color:var(--sub);font-size:12.5px;line-height:1.8;}
 
   article h2{font-size:20px;margin:40px 0 14px;color:var(--txt);letter-spacing:-.2px;}
   article h2::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--acc);margin-right:10px;vertical-align:middle;}
@@ -37,11 +35,11 @@
   article strong{color:var(--txt);}
   article ul{margin:14px 0 14px 22px;color:#cfd6e4;}
   article li{margin:7px 0;}
-  article a{color:var(--acc2);text-decoration:none;border-bottom:1px solid #5b9dff44;}
-  blockquote{margin:22px 0;padding:14px 18px;border-left:3px solid var(--acc);background:#f0a35e0d;border-radius:0 10px 10px 0;color:var(--txt);font-weight:600;}
+  article a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(231,161,94,.28);}
+  blockquote{margin:22px 0;padding:14px 18px;border-left:3px solid var(--acc);background:#e7a15e0d;border-radius:0 10px 10px 0;color:var(--txt);font-weight:600;}
   hr{border:none;border-top:1px solid var(--line);margin:36px 0;}
 
-  .formula{background:var(--card);border:1px solid #f0a35e44;border-radius:14px;padding:26px 20px;text-align:center;margin:26px 0;}
+  .formula{background:var(--card);border:1px solid #e7a15e44;border-radius:var(--radius);padding:26px 20px;text-align:center;margin:26px 0;}
   .formula .big{font-size:26px;font-weight:800;color:var(--acc);letter-spacing:.5px;font-family:'Cambria Math',Georgia,serif;}
   .formula .cap{font-size:11px;color:var(--sub);letter-spacing:1.5px;margin-top:10px;text-transform:uppercase;}
 
@@ -50,18 +48,18 @@
   th{color:var(--acc);font-size:12px;letter-spacing:1px;text-transform:uppercase;font-weight:700;}
   td{color:#cfd6e4;}
 
-  .cta{margin-top:44px;background:var(--card);border:1px solid #f0a35e33;border-radius:16px;padding:26px;}
+  .cta{margin-top:44px;background:var(--card);border:1px solid #e7a15e33;border-radius:var(--radius);padding:26px;}
   .cta h3{font-size:16px;margin-bottom:8px;}
   .cta p{font-size:13.5px;color:var(--sub);margin-bottom:16px;}
-  .btn{display:inline-block;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:700;text-decoration:none;background:var(--acc);color:#131720;}
+  .btn{display:inline-block;padding:11px 24px;border-radius:var(--radius);font-size:14px;font-weight:700;text-decoration:none;background:var(--acc);color:#131720;}
   .btn:hover{opacity:.88;}
 
   .foot{text-align:center;color:var(--sub);font-size:11px;margin-top:40px;line-height:2;}
-  .foot a{color:var(--acc2);text-decoration:none;}
+  .foot a{color:var(--acc);text-decoration:none;}
   @media(max-width:600px){body{font-size:15px;} .formula .big{font-size:20px;}}
 </style>
 </head>
-<body>
+<body class="site-page" data-density="document">
 <div class="wrap">
   <nav>
     <a class="logo" href="https://stonevast.com">Stone<b>Vast</b> 石广</a>
@@ -73,6 +71,7 @@
     <h1>You Can't Mine BNB. Here's What Actually Keeps It Alive.</h1>
     <p class="sub">Elected validators, a self-destructing gas fee, and a public formula that deletes supply every quarter on a schedule anyone can check.</p>
     <div class="meta">StoneVast · 石广 &nbsp;·&nbsp; 9 min read &nbsp;·&nbsp; Mechanics only — no price talk, no advice</div>
+    <p class="archive-note" role="note">Archived reference · 技术归档：本文保留原技术解释，共识规则、验证者参数、销毁数据和外部链接可能随时间变化；请以 BNB Chain 官方最新文档与链上记录为准。</p>
   </header>
 
   <article>
@@ -110,6 +109,7 @@
       <div class="cap">The Auto-Burn Formula</div>
     </div>
 
+    <div class="table-scroll">
     <table>
       <tr><th>Symbol</th><th>Meaning</th></tr>
       <tr><td><strong>B</strong></td><td>BNB to be burned this quarter</td></tr>
@@ -117,6 +117,7 @@
       <tr><td><strong>P</strong></td><td>Median BNB price in USD over the quarter</td></tr>
       <tr><td><strong>K</strong></td><td>A constant price anchor (initially 1,000, adjustable by governance)</td></tr>
     </table>
+    </div>
 
     <p>Read the formula once and two design choices jump out:</p>
     <p><strong>Price sits in the denominator.</strong> Lower price → bigger burn. Higher price → smaller burn. The formula is counter-cyclical by construction.</p>
@@ -128,6 +129,7 @@
     <p>If you delegate BNB to a validator, your yield comes from one place: <strong>gas fee sharing</strong>. Users pay gas in BNB; a portion is burned (BEP-95); the rest flows to validators, who share it with delegators minus a commission.</p>
     <p>That makes staking BNB structurally similar to mining in one narrow sense — you're contributing a resource (capital instead of hashrate) and getting paid from network usage. But the cost side is completely different:</p>
 
+    <div class="table-scroll">
     <table>
       <tr><th></th><th>PoW mining</th><th>BNB staking</th></tr>
       <tr><td>Resource</td><td>Hashrate (GPU / ASIC)</td><td>Staked + delegated BNB</td></tr>
@@ -136,6 +138,7 @@
       <tr><td>Revenue source</td><td>Block subsidy + fees (new coins printed)</td><td>Fees only (zero new issuance)</td></tr>
       <tr><td>Verify it yourself</td><td>Your hashrate on the pool's dashboard</td><td>Your delegation on the chain explorer</td></tr>
     </table>
+    </div>
 
     <p>That last row matters more than the others. Whatever the mechanism, your claim should be <strong>independently verifiable by you, on a public dashboard or explorer, under your own address</strong>. That's the whole game.</p>
 
@@ -168,8 +171,9 @@
 
   <div class="foot">
     <div>StoneVast 石广 · Honest tools for PoW miners · No promised returns · Public ledger</div>
-    <div><a href="https://stonevast.com">Home</a> · <a href="https://stonevast.com/dashboard.html">Live dashboard</a> · <a href="https://stonevast.com/monsters.html">Monster vote</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1">Telegram</a></div>
+    <div><a href="https://stonevast.com">Home</a> · <a href="https://stonevast.com/dashboard.html">Dashboard</a> · <a href="https://stonevast.com/monsters.html">Monster archive</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1" rel="noopener">Telegram</a></div>
   </div>
 </div>
+<script src="./site.js"></script>
 </body>
 </html>

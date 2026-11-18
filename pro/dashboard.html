@@ -6,42 +6,50 @@
 <meta name="robots" content="noindex">
 <title>StoneVast Pro · Node Health Dashboard · 节点健康看板</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="../assets/chart.umd.min.js"></script>
+<link rel="stylesheet" href="../site.css">
 <style>
-  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;}
   *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
   body{background:var(--bg);color:var(--txt);line-height:1.6;}
   .wrap{max-width:1100px;margin:0 auto;padding:0 16px 72px;}
   nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0;flex-wrap:wrap;gap:10px;}
   .logo{font-size:18px;font-weight:800;letter-spacing:1px;text-decoration:none;color:var(--txt);}
-  .logo b{color:var(--acc2);}
+  .logo b{color:var(--acc);}
   .links{display:flex;gap:8px;}
   .back{font-size:12.5px;color:var(--sub);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;}
-  .back:hover{border-color:var(--acc2);color:var(--txt);}
-  .back.active{border-color:var(--acc2);color:var(--acc2);}
+  .back:hover{border-color:var(--acc);color:var(--txt);}
+  .back.active{border-color:var(--acc);color:var(--acc);}
   h1{font-size:24px;font-weight:800;margin:20px 0 6px;}
   .upd{font-size:12.5px;color:var(--sub);margin-bottom:22px;}
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:22px;}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;}
-  .stat .v{font-size:26px;font-weight:800;color:var(--acc2);font-variant-numeric:tabular-nums;}
+  .stat .v{font-size:26px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums;}
   .stat .k{font-size:12px;color:var(--sub);margin-top:4px;letter-spacing:.5px;}
   .stat .sub{font-size:11px;color:var(--sub);opacity:.7;margin-top:2px;}
   .chart-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;}
-  .chart-card h3{font-size:13.5px;color:var(--acc2);letter-spacing:1px;margin-bottom:14px;font-weight:700;}
+  .chart-card h3{font-size:13.5px;color:var(--acc);letter-spacing:1px;margin-bottom:14px;font-weight:700;}
   .chart-box{position:relative;height:260px;}
   .warn{background:#ffb02011;border:1px solid #ffb02044;border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--sub);margin-bottom:16px;}
   .warn b{color:var(--warn);}
-  @media(max-width:640px){.chart-box{height:200px;}}
+  .pro-status{position:sticky;top:0;z-index:99;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px max(14px,calc((100% - 1280px)/2));border-bottom:1px solid var(--line-strong);background:rgba(11,13,15,.96);color:var(--sub);font:11px var(--font-mono);}
+  .pro-status .pause-state{color:var(--warn);white-space:nowrap;}
+  body.site-page .warn{border-radius:2px;background:rgba(213,173,103,.05);border-color:var(--line-strong);border-left:2px solid var(--warn);}
+  @media(max-width:640px){.chart-box{height:200px;}.pro-status{align-items:flex-start;flex-direction:column;gap:3px;}}
 </style>
 </head>
-<body>
+<body class="site-page" data-density="tool">
+<div class="pro-status" role="status">
+  <span>StoneVast Pro · 节点健康仪表盘 · 历史快照分析</span>
+  <span class="pause-state">Pro 收款与自助激活暂停</span>
+</div>
 <div class="wrap">
   <nav>
-    <a class="logo" href="./pro.html"><b>⛏</b> StoneVast Pro</a>
+    <a class="logo" href="../pro.html"><b>⛏</b> StoneVast Pro</a>
     <div class="links">
-      <a class="back active" href="./pro/dashboard.html">Dashboard</a>
-      <a class="back" href="./pro/calculator.html">Calculator</a>
-      <a class="back" href="./pro.html">← Exit</a>
+      <a class="back" href="./workbench.html">Workbench</a>
+      <a class="back active" href="./dashboard.html">Dashboard</a>
+      <a class="back" href="./calculator.html">Calculator</a>
+      <a class="back" href="../pro.html">← Exit</a>
     </div>
   </nav>
 
@@ -60,8 +68,8 @@
   </div>
 
   <div class="warn">
-    <b>Note:</b> Data refreshes every 6 hours via automated script. Live tickers on the public homepage show real-time counts; this dashboard is for daily snapshot analysis.
-    数据每 6 小时由脚本自动同步。主页是实时滚动计数器，本看板用于每日快照分析。
+    <b>Snapshot note:</b> This dashboard renders the existing recorded data and ledger; it is not a live wallet-payout feed.
+    本看板展示既有记录与账本快照，用于历史分析，不代表实时钱包到账或实时收益。
   </div>
 
   <div class="chart-card">
@@ -79,8 +87,8 @@
 <script src="../ledger.json" type="application/json" id="ledgerRaw"></script>
 <script>
 (async function(){
-  // Auth check (session)
-  if(!sessionStorage.getItem('sv_pro_auth')){
+  // Auth check — 必须校验哈希值本身，不能只判断 key 是否存在（否则 devtools 一行即可白拿）
+  if(sessionStorage.getItem('sv_pro_auth')!=='c1e137063b1de0fbc4c549f2ea63c947285c99bdb8319401c312e5a3f916dcc4'){
     location.href='../pro.html';
     return;
   }
@@ -122,23 +130,24 @@
     responsive:true, maintainAspectRatio:false,
     plugins:{legend:{display:false}},
     scales:{
-      x:{ticks:{color:'#8b93a7',font:{size:11}},grid:{color:'#252b3840'}},
-      y:{ticks:{color:'#8b93a7',font:{size:11}},grid:{color:'#252b3840'}}
+      x:{ticks:{color:'#a09f98',font:{size:11}},grid:{color:'#2a2d2e66'}},
+      y:{ticks:{color:'#a09f98',font:{size:11}},grid:{color:'#2a2d2e66'}}
     }
   };
 
   new Chart(document.getElementById('cNet'),{
     type:'bar',
-    data:{labels,datasets:[{data:dailyNet,backgroundColor:'#5b9dff66',borderColor:'#5b9dff',borderWidth:1.5,borderRadius:4}]},
+    data:{labels,datasets:[{data:dailyNet,backgroundColor:'#e7a15e55',borderColor:'#e7a15e',borderWidth:1.5,borderRadius:2}]},
     options:chartOpts
   });
 
   new Chart(document.getElementById('cCum'),{
     type:'line',
-    data:{labels,datasets:[{data:cumNet,borderColor:'#f0a35e',backgroundColor:'#f0a35e22',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#f0a35e'}]},
+    data:{labels,datasets:[{data:cumNet,borderColor:'#e7a15e',backgroundColor:'#e7a15e22',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#e7a15e'}]},
     options:chartOpts
   });
 })();
 </script>
+<script src="../site.js"></script>
 </body>
 </html>

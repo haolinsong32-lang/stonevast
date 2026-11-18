@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="StoneVast public mining ledger — real hashrate, real power draw, real payouts, updated every 6 hours. 石广公开挖矿账本：真实算力、真实功耗、真实支付，每 6 小时更新。">
+<meta name="description" content="StoneVast 公开账本：实际到账、历史快照与矿池未结算严格分区，按原币展示并保留公开证据与数据状态。">
 <meta property="og:title" content="Public Ledger · StoneVast 石广">
-<meta property="og:description" content="No demo numbers. This is one small machine, reported honestly.">
+<meta property="og:description" content="实际到账与历史快照分区展示；未配置不填零，缺价不按零折算。">
 <meta property="og:type" content="website">
 <title>Public Ledger · 公开账本 · StoneVast 石广</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="./assets/chart.umd.min.js"></script>
 <style>
   :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;}
   *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
@@ -56,74 +56,139 @@
   footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--sub);line-height:2;text-align:center;}
   footer a{color:var(--acc2);text-decoration:none;}
 </style>
+<link rel="stylesheet" href="./site.css">
 </head>
-<body>
+<body class="site-page">
 <div class="wrap">
 
-  <nav>
-    <a class="logo" href="/"><b>⛏</b> StoneVast 石广</a>
+  <nav aria-label="主导航">
+    <a class="logo" href="./index.html">StoneVast <b>石广</b></a>
     <div class="links">
-      <a class="back active" href="/dashboard.html">Dashboard</a>
-      <a class="back" href="/calculator.html">Calculator</a>
-      <a class="back" href="/monsters.html">Monster vote</a>
-      <a class="back" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">Telegram</a>
+      <a class="back active" href="./dashboard.html">公开账本</a>
+      <a class="back" href="./calculator.html">免费测算</a>
+      <a class="back" href="./withdrawals.html">提现证据</a>
+      <a class="back" href="./guide.html">使用说明</a>
+      <a class="back" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a>
     </div>
   </nav>
 
-  <div class="hero">
-    <div class="kicker">Public ledger · 公开账本</div>
-    <h1>一台小机器，<span>每天的真实数字</span></h1>
-    <p class="lede">没有演示数据，没有回测曲线。这就是我们一台机器的实时快照——赚多少、亏多少，都写着。
-      No demo numbers. One small machine, reported honestly.</p>
-    <p class="lede" style="margin-top:6px;opacity:.75">最后更新 · Last updated: <span id="upd">--</span></p>
-  </div>
+  <header class="hero">
+    <div class="kicker">PUBLIC LEDGER / 公开账本</div>
+    <h1>实际到账，<span>先证据后数字</span></h1>
+    <p class="lede">实际到账来自公开只读接口；历史快照、矿池未结算与测算收益在下方单独保留。公开地址未配置时不显示收入金额，也不以演示数据填充。</p>
+  </header>
 
-  <div class="grid">
-    <div class="stat"><div class="v" id="sHash">--</div><div class="k">HASHRATE · 算力</div><div class="s">MH/s</div></div>
-    <div class="stat"><div class="v" id="sPow">--</div><div class="k">POWER · 功耗</div><div class="s">W at wall</div></div>
-    <div class="stat"><div class="v" id="sPrice">--</div><div class="k">IRON PRICE · 币价</div><div class="s">USD</div></div>
-    <div class="stat hl"><div class="v" id="sNet">--</div><div class="k">DAILY NET · 日净收</div><div class="s">CNY</div></div>
-    <div class="stat"><div class="v" id="sPaid">--</div><div class="k">TOTAL PAID · 累计到账</div><div class="s">IRON</div></div>
-    <div class="stat"><div class="v" id="sBal">--</div><div class="k">POOL BALANCE · 矿池余额</div><div class="s">IRON</div></div>
-    <div class="stat hl"><div class="v" id="sSaved">--</div><div class="k">CUMULATIVE NET · 累计净收</div><div class="s">CNY</div></div>
-    <div class="stat"><div class="v" id="sDays">--</div><div class="k">RUNNING DAYS · 运行天数</div><div class="s">since start</div></div>
-  </div>
-
-  <div class="note">
-    <b>为什么公开这些？</b>因为大部分「挖矿收益」截图都不可验证。我们把原始数字摊开：算力、功耗、到账、余额——你可以自己乘一边电价核对。
-    数字小得没什么可吹的，但它是真的。<br>
-    <span style="opacity:.8">Why publish this? Because most mining screenshots can't be checked. These are the raw numbers — multiply them by your own electricity rate and verify.</span>
-  </div>
-
-  <div class="chart-card">
-    <h3>DAILY NET · 日净收</h3>
-    <div class="chart-box"><canvas id="cNet"></canvas></div>
-  </div>
-
-  <div class="chart-card">
-    <h3>CUMULATIVE NET · 累计净收</h3>
-    <div class="chart-box"><canvas id="cCum"></canvas></div>
-  </div>
-
-  <div class="cta">
-    <h3>想知道<b>你这台机</b>能不能做？</h3>
-    <p>用同一套口径，把我们的数字换成你的电价和显卡，30 秒出结论。免费，不用注册。</p>
-    <div class="btns">
-      <a class="btn btn-acc" href="/calculator.html">打开计算器 →</a>
-      <a class="btn btn-tg" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener">Telegram 群里问</a>
+  <section class="payout-panel site-reveal" data-payouts data-state="loading" aria-labelledby="payout-title">
+    <div class="payout-head">
+      <div>
+        <div class="kicker">VERIFIED RECEIPTS / 实际到账</div>
+        <h2 class="payout-title" id="payout-title">矿池付款的公开记录</h2>
+      </div>
+      <span class="payout-status" data-payout-status data-state="loading">读取中</span>
     </div>
-  </div>
+    <div class="payout-summary" aria-live="polite">
+      <div class="payout-metric">
+        <strong class="payout-value" data-payout-today>--</strong>
+        <span class="payout-label">今日实际到账 · 按接口时区</span>
+      </div>
+      <div class="payout-metric">
+        <strong class="payout-value" data-payout-total>--</strong>
+        <span class="payout-label">累计实际到账 · 完全链上核验</span>
+      </div>
+      <div class="payout-metric">
+        <strong class="payout-value" data-payout-latest>--</strong>
+        <span class="payout-label">最近公开事件 · <span data-payout-latest-amount>--</span></span>
+      </div>
+    </div>
+    <p class="payout-meta">数据时间：<span data-payout-generated>--</span> · 服务端缓存目标 10 分钟，以实际返回状态为准</p>
+    <p class="payout-meta" data-payout-message>正在读取公开只读接口；未配置时不显示收入。</p>
+    <div class="note">
+      <b>统计边界：</b>仅计入已确认且分类为矿池挖矿付款的收款，不含矿池未支付余额、历史快照、测算收益、Pro 收款、自转账、找零及未知入款。不同币不直接加总；USDT/CNY 仅为带报价时间与来源的参考折算，不是净利润。IRON 无法由公开浏览器核对的金额单列为“有限核验”。
+    </div>
+    <h3>分币明细</h3>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>资产</th><th>今日到账</th><th>累计 · 完全核验</th><th>待确认</th><th>有限核验</th><th>USDT / CNY 参考</th><th>状态</th></tr></thead>
+        <tbody data-payout-assets><tr><td colspan="7">正在读取公开资产状态。</td></tr></tbody>
+      </table>
+    </div>
+    <h3>最近到账证据</h3>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>时间</th><th>资产</th><th>金额</th><th>公开交易</th><th>确认状态</th></tr></thead>
+        <tbody data-payout-events><tr><td colspan="5">正在读取公开到账事件。</td></tr></tbody>
+      </table>
+    </div>
+    <h3>参考报价来源</h3>
+    <p class="payout-meta">每一折算路径都保留报价来源、报价时间、观测时间与报价 ID；缺任一路径即显示 <code>--</code>，不按零处理。</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>路径</th><th>报价</th><th>来源</th><th>报价时间 · UTC</th><th>观测时间 · UTC</th><th>报价 ID</th></tr></thead>
+        <tbody data-payout-quotes><tr><td colspan="6">正在读取公开报价证据。</td></tr></tbody>
+      </table>
+    </div>
+    <noscript><p class="payout-empty">需要启用 JavaScript 才能读取公开只读接口；本页不会用历史快照代替实际到账。</p></noscript>
+  </section>
+
+  <section aria-labelledby="snapshot-title" style="margin-top:48px">
+    <div class="kicker">ARCHIVE / 历史快照与既有账本</div>
+    <h2 id="snapshot-title">旧单机记录，不是实时到账</h2>
+    <p class="lede">以下来自既有 <code>data.js</code> 与 <code>ledger.json</code>，只用于保留历史曲线。快照最后更新：<span id="upd">--</span>。这些数字不会回填上方实际到账。</p>
+
+    <div class="grid">
+      <div class="stat"><div class="v" id="sHash">--</div><div class="k">SNAPSHOT HASHRATE · 快照算力</div><div class="s">MH/s</div></div>
+      <div class="stat"><div class="v" id="sPow">--</div><div class="k">SNAPSHOT POWER · 快照功耗</div><div class="s">W at wall</div></div>
+      <div class="stat"><div class="v" id="sPrice">--</div><div class="k">SNAPSHOT IRON PRICE · 快照币价</div><div class="s">USD</div></div>
+      <div class="stat hl"><div class="v" id="sNet">--</div><div class="k">SNAPSHOT DAILY NET · 历史日净收估算</div><div class="s">CNY</div></div>
+      <div class="stat"><div class="v" id="sPaid">--</div><div class="k">SNAPSHOT PAID · 快照记录支付</div><div class="s">IRON · 非实时</div></div>
+      <div class="stat"><div class="v" id="sBal">--</div><div class="k">SNAPSHOT POOL BALANCE · 快照矿池未结算</div><div class="s">IRON · 非实际到账</div></div>
+      <div class="stat hl"><div class="v" id="sSaved">--</div><div class="k">SNAPSHOT NET · 历史累计净收估算</div><div class="s">CNY</div></div>
+      <div class="stat"><div class="v" id="sDays">--</div><div class="k">SNAPSHOT DAYS · 快照起算天数</div><div class="s">since start</div></div>
+    </div>
+
+    <div class="note">
+      <b>历史口径边界：</b>这些旧指标来自静态快照，其中矿池未结算不等于实际到账，历史净收也不等于净利润或可提现金额。若静态文件不可用，不得据此推断上方链接口状态。
+    </div>
+
+    <div class="chart-card">
+      <h3>ARCHIVED DAILY NET · 历史日净收估算</h3>
+      <div class="chart-box"><canvas id="cNet" aria-label="历史日净收估算柱状图"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <h3>ARCHIVED CUMULATIVE NET · 历史累计净收估算</h3>
+      <div class="chart-box"><canvas id="cCum" aria-label="历史累计净收估算折线图"></canvas></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="kicker">START WITH YOUR CONSTRAINTS / 先核对边界</div>
+    <h3>想知道<b>你的设备</b>是否适合？</h3>
+    <p>先免费测算，再核对设备与地区、服务条款、电价、矿池可用性和官方下载来源。测算不是到账承诺；确认边界后再从官方来源下载或到 Telegram 咨询。</p>
+    <div class="btns">
+      <a class="btn btn-primary" href="./calculator.html">免费测算 →</a>
+      <a class="btn" href="./guide.html">查看五项确认</a>
+      <a class="btn" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram 咨询</a>
+    </div>
+  </section>
 
   <footer>
-    <a href="/">Home</a> · <a href="/calculator.html">Calculator</a> · <a href="/monsters.html">Monster vote</a> · <a href="/blog-bnb-mechanics.html">BNB explainer</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1">Telegram</a><br>
-    <span style="opacity:.7">Snapshot every 6h · Not financial advice · 不构成投资建议</span>
+    <a href="./index.html">首页</a> · <a href="./calculator.html">免费测算</a> · <a href="./withdrawals.html">提现证据</a> · <a href="./guide.html">使用说明</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a><br>
+    实际到账状态以只读接口为准；历史快照仅作归档。Pro 收款与自助激活暂停。不构成投资建议，不承诺收益或回本。
   </footer>
 </div>
 
-<script src="/data.js"></script>
+<script src="./data.js"></script>
+<script src="./payouts.js"></script>
+<script src="./site.js"></script>
 <script>
 (async function(){
   const $ = id => document.getElementById(id);
+  const payoutRoot = document.querySelector('[data-payouts]');
+  if (payoutRoot && window.StoneVastPayouts) {
+    window.StoneVastPayouts.mountPayouts(payoutRoot);
+  }
+
   const D = window.SITE_DATA || {};
   const f = (n,d=2) => (+n||0).toFixed(d);
 
@@ -141,7 +206,7 @@
 
   let ledger = {entries: []};
   try {
-    const r = await fetch('/ledger.json', {cache: 'no-store'});
+    const r = await fetch('./ledger.json', {cache: 'no-store'});
     if (r.ok) ledger = await r.json();
   } catch(e) { /* 无账本时静默降级 */ }
 

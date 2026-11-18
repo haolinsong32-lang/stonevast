@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QUAN 参数与压力估算 · StoneVast 石广</title>
+<meta name="description" content="QUAN/QTC 产量、电费、净额与联合压力情景估算：输入实测算力、墙上功耗和电价，检查价格回落、网络算力上升与流动性边界；不承诺收益。">
+<meta name="keywords" content="Quantus,QUAN,QTC 挖矿,QPoW,Poseidon2,Quantus 收益,Quantus 计算器,显卡挖矿,RTX 4090 挖矿">
+<meta property="og:title" content="QUAN Parameter & Stress Estimates · StoneVast 石广">
+<meta property="og:description" content="所有输出均为参数估算，不是实际到账或净利润；参考价不代表可以成交。">
+<meta property="og:url" content="https://stonevast.com/quantus-calculator.html">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://stonevast.com/quantus-calculator.html">
+<link rel="stylesheet" href="./site.css">
+<style>
+  body.site-page{--go:var(--ok);--no:var(--bad)}
+  body.site-page .wrap{padding-bottom:48px}
+  .tool-hero{padding:48px 0 30px}
+  .tool-hero h1{max-width:840px}
+  .tool-hero .lede{max-width:780px}
+  .stats-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:28px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .stats-bar>span{min-width:0;padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--sub);font:10px/1.7 var(--font-mono);letter-spacing:.04em}
+  .stats-bar b{display:block;color:var(--txt);font-size:13px;font-variant-numeric:tabular-nums;word-break:break-word}
+  .stats-bar small{font-family:var(--font-mono)}
+  .tool-workbench{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:40px;border-top:1px solid var(--line-strong)}
+  .tool-section{padding:26px 0 30px;border-top:1px solid var(--line-strong)}
+  .tool-workbench>.tool-section{border-top:0}
+  .section-tag{display:block;margin-bottom:8px;color:var(--acc);font:700 10px var(--font-mono);letter-spacing:.14em;text-transform:uppercase}
+  .tool-section h2{margin:0 0 14px;color:var(--txt);font:800 18px var(--font-display);letter-spacing:.02em}
+  .tool-section h3{margin:20px 0 8px;color:var(--txt);font-size:13px}
+  .input-grid{display:grid;gap:14px;margin-top:20px}
+  .fld label{display:block;margin-bottom:6px;color:var(--sub);font:11px var(--font-mono)}
+  .fld input{width:100%;padding:10px 12px}
+  .hint{margin-top:5px;color:var(--muted);font:10px/1.7 var(--font-mono)}
+  .presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .preset-btn{min-height:34px;padding:7px 10px;border:1px solid var(--line-strong);border-radius:2px;background:transparent;color:var(--sub);cursor:pointer;font:11px var(--font-mono)}
+  .preset-btn:hover,.preset-btn.active{border-color:var(--acc);background:rgba(231,161,94,.08);color:var(--acc-strong)}
+  .advice-frame{margin-bottom:18px}
+  .advice{margin:0;padding:14px 16px;border:1px solid var(--line);border-left:3px solid var(--line-strong);background:rgba(17,20,23,.66);align-items:flex-start;gap:12px}
+  .advice.ok{border-left-color:var(--ok);color:var(--ok)}
+  .advice.warn{border-left-color:var(--warn);color:var(--warn)}
+  .advice.no{border-left-color:var(--bad);color:var(--bad)}
+  .advice small{display:block;margin-top:5px;color:var(--sub);font-size:12px;font-weight:400;line-height:1.75}
+  #advice-label{font:700 16px var(--font-display)}
+  .table-scroll{margin-top:16px}
+  table{width:100%}
+  td.num{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.highlight td{background:rgba(231,161,94,.045)}
+  tr.loss td.num{color:var(--bad)}
+  tr.profit td.num{color:var(--ok)}
+  .note b{color:var(--txt)}
+  .risk-banner{margin:0 0 4px;padding:15px 16px;border:1px solid var(--line);border-left:3px solid var(--warn);background:rgba(213,173,103,.035);color:var(--sub);font-size:12px;line-height:1.85}
+  .risk-banner b{color:var(--txt)}
+  .risk-critical{border-left-color:var(--bad);background:rgba(219,129,120,.035)}
+  .stress{margin-top:10px}
+  .stress td:last-child{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+  .result{margin-top:16px;padding:4px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .result .r{display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px}
+  .result .r:last-child{border-bottom:0}
+  .result .r span{color:var(--sub)}
+  .result .r b{font-family:var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .result .r.pos b{color:var(--ok)}
+  .result .r.neg b{color:var(--bad)}
+  .verdict{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-left:3px solid var(--line-strong);font-size:13px;line-height:1.75}
+  .verdict.good{border-left-color:var(--ok);color:var(--ok)}
+  .verdict.edge{border-left-color:var(--warn);color:var(--warn)}
+  .verdict.bad{border-left-color:var(--bad);color:var(--bad)}
+  .verdict b{display:block;margin-bottom:4px;font-size:14px}
+  .verdict small{display:block;color:var(--sub);font-size:12px}
+  .reset{min-height:38px;margin-top:18px;padding:8px 13px;border:1px solid var(--line-strong);border-radius:2px;background:transparent;color:var(--sub);cursor:pointer;font:11px var(--font-mono)}
+  .reset:hover{border-color:var(--acc);color:var(--acc)}
+  .pro-status{margin-top:20px;padding-top:14px;border-top:1px dashed var(--line);color:var(--muted);font:11px/1.8 var(--font-mono);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+  .pro-status span{display:block}
+  .conversion{margin-top:8px;padding:28px 0;border-top:1px solid var(--acc);border-bottom:1px solid var(--line-strong)}
+  .conversion h2{margin:0 0 8px;font:800 20px var(--font-display)}
+  .conversion>p{max-width:760px;margin:0;color:var(--sub);font-size:12px}
+  .five-checks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:22px 0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .five-checks span{padding:13px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--sub);font-size:11px;line-height:1.6}
+  .five-checks b{display:block;margin-bottom:4px;color:var(--acc);font:10px var(--font-mono)}
+  .flow-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+  .flow-actions .flow-label{color:var(--sub);font:11px var(--font-mono)}
+  .knowledge{color:var(--sub);font-size:13px;line-height:1.85}
+  .knowledge p{margin:0 0 12px}
+  .knowledge b{color:var(--txt)}
+  .spinner{display:inline-block;width:11px;height:11px;border:1px solid var(--line-strong);border-top-color:var(--acc);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  footer a{margin:0 3px}
+  @media(max-width:960px){.tool-workbench{grid-template-columns:1fr;gap:0}.tool-workbench>.tool-section+.tool-section{border-top:1px solid var(--line-strong)}.five-checks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:680px){.tool-hero{padding-top:38px}.stats-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.five-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.flow-actions{align-items:stretch;flex-direction:column}.flow-actions .btn{width:100%}.result .r{flex-wrap:wrap;gap:4px 12px}.result .r b{margin-left:auto}.tool-section{padding:22px 0 26px}}
+</style>
+</head>
+<body class="site-page" data-density="tool">
+<div class="wrap">
+  <nav aria-label="主导航">
+    <a class="logo" href="./index.html">StoneVast <b>石广</b></a>
+    <div class="links"><a class="back" href="./calculator.html">IRON</a><a class="back" href="./kas-calculator.html">KAS</a><a class="back" href="./pearl-calculator.html">PRL</a><a class="back active" href="./quantus-calculator.html">QUAN</a><a class="back" href="./dashboard.html">实际到账</a></div>
+  </nav>
+
+  <header class="hero tool-hero">
+    <div class="kicker">QUANTUS / QPoW / ESTIMATION TOOL</div>
+    <h1>QUAN 挖矿<span>参数与压力估算</span></h1>
+    <p class="lede">以既有报价、网络快照和你的硬件输入估算当前份额，并测试算力上升与价格回落。页面同时显示 QUAN/QTC 历史称谓；所有输出均为估算，不是实际到账或净利润。</p>
+    <div class="stats-bar" aria-label="QUAN 接口参考参数">
+      <span>QUAN 参考价<b id="stat-price">...</b><small id="stat-change"></small></span>
+      <span>网络算力参考<b id="stat-hash">...</b></span>
+      <span>初始日产出参数<b>1,793 QUAN</b></span>
+      <span>报价时间<b id="stat-ts">加载中 <span class="spinner"></span></b></span>
+    </div>
+  </header>
+
+  <main>
+    <div class="risk-banner risk-critical"><b>HIGH RISK · 先核验流动性：</b>历史资料曾显示交易渠道集中、成交深度有限、主网历史较短及价格大幅回撤；这些不是当前实时指标，决策当天必须重新查询。页面参考价可能无法成交，网络快照也可能过期。不要用固定成交量、币龄或历史高点推断今天的机会与风险。</div>
+
+    <div class="tool-workbench">
+      <section class="tool-section site-reveal" aria-labelledby="quan-input-title">
+        <span class="section-tag">01 / INPUTS · 输入</span><h2 id="quan-input-title">硬件与测算参数</h2>
+        <div class="presets" id="presets" aria-label="硬件预设"></div>
+        <div class="input-grid">
+          <div class="fld"><label for="hash">算力 · H/s</label><input id="hash" type="number" step="100000000" value="1280000000" placeholder="e.g. 1280000000"></div>
+          <div class="fld"><label for="watt">墙上功耗 · W</label><input id="watt" type="number" step="10" value="297" placeholder="e.g. 297"></div>
+          <div class="fld"><label for="elec">电价参数 · USD/kWh</label><input id="elec" type="number" step="0.01" value="0.08" placeholder="e.g. 0.08"></div>
+        </div>
+        <p class="note">1,280 MH/s @ 297W 等数值是历史调优参考，带 ≈ 项为估算。QPoW 对频率与显存设置敏感；请用本机实测算力和墙上功耗，不预设“纯 GPU”或永久无 ASIC。</p>
+      </section>
+
+      <section class="tool-section site-reveal" aria-labelledby="quan-result-title">
+        <span class="section-tag">02 / ESTIMATES · 结果</span><h2 id="quan-result-title">当前快照净额估算</h2>
+        <div class="advice-frame" id="advice-card"><div class="advice ok" id="advice-box" style="display:none"><span id="advice-icon" aria-hidden="true"></span><div><div id="advice-label"></div><small id="advice-detail"></small></div></div></div>
+        <div class="table-scroll"><table><thead><tr><th>周期</th><th>QUAN 估算产量</th><th>毛收参考 (USD)</th><th>电费参数 (USD)</th><th>净额估算 (USD)</th></tr></thead><tbody id="result-table"><tr><td colspan="5">输入参数后自动生成估算；并非实际到账。</td></tr></tbody></table></div>
+        <div class="note" id="break-even"></div>
+      </section>
+    </div>
+
+    <section class="tool-section site-reveal" aria-labelledby="quan-stress-title">
+      <span class="section-tag">03 / STRESS TEST · 压力测试</span><h2 id="quan-stress-title">算力与价格联合情景</h2>
+      <p class="sub">固定其他输入，仅改变网络算力与 QUAN 参考价。未模拟流动性枯竭或无法成交，因此最后一行也不是最坏情况。</p>
+      <div class="table-scroll"><table class="stress" id="stress-table"><thead><tr><th>假设情景</th><th>每日净额估算（USD 参考）</th></tr></thead><tbody>
+        <tr><td>当前接口快照</td><td id="s0">—</td></tr><tr><td>网络算力 ×2</td><td id="s1">—</td></tr><tr><td>QUAN 参考价 −50%</td><td id="s2">—</td></tr><tr><td>网络算力 ×2 + 参考价 −50%</td><td id="s3">—</td></tr><tr><td>网络算力 ×4 + 参考价 −75%</td><td id="s4">—</td></tr>
+      </tbody></table></div>
+      <div class="note"><b>解读边界：</b>压力情景为正不代表稳健、实际盈利或回本。若只有当前快照为正，应先检查成交深度、网络参数年龄及全部成本，而不是放大运行规模。</div>
+    </section>
+
+    <section class="tool-section site-reveal" aria-labelledby="quan-risk-title">
+      <span class="section-tag">04 / RISK NOTES · 风险说明</span><h2 id="quan-risk-title">高波动资产的额外边界</h2>
+      <div class="knowledge">
+        <p><b>算法与硬件：</b>Quantus 使用 QPoW（Poseidon2 哈希）。设备兼容与性能以官方文档和本机实测为准，不把历史 GPU 参考值当作长期保证。</p>
+        <p><b>发行模型：</b>初始日产出 1,793 QUAN 来自历史块奖励与块时间参数；接口返回值才进入本次计算，未来发行规则和网络份额可能变化。</p>
+        <p><b>交易渠道：</b>历史资料曾指向 SafeTrade 等有限渠道，但当前平台、深度和可用地区必须重新核验。页面价格不等于实际成交价，也不代表可以卖出估算产量。</p>
+        <p><b>数据时效：</b>初始网络参数取自 2026-10-28 快照；接口失败时只能视为陈旧假设。USD/USDT/CNY 仅为测算参数或参考折算，不是净利润或实际到账。</p>
+        <p><a href="./calculator.html">IRON 参数估算 →</a> · <a href="./kas-calculator.html">KAS 参数估算 →</a> · <a href="./pearl-calculator.html">PRL 压力测试 →</a></p>
+      </div>
+    </section>
+
+    <section class="conversion site-reveal" aria-labelledby="quan-next-title">
+      <span class="section-tag">05 / NEXT CHECKS · 转化前五项确认</span><h2 id="quan-next-title">先确认适用性，再接触挖矿软件</h2>
+      <p>五项均确认后，再从对应项目或矿工的官方发布页核对下载、算法与完整性；不要根据单项估算直接购机。</p>
+      <div class="five-checks"><span><b>01</b>设备与当地规则</span><span><b>02</b>服务商条款</span><span><b>03</b>实际电价</span><span><b>04</b>矿池可用性</span><span><b>05</b>官方下载来源</span></div>
+      <div class="flow-actions"><span class="flow-label">01 完成五项确认 →</span><a class="btn btn-primary" href="./guide.html">02 核对官方下载与启动边界</a><span class="flow-label">→</span><a class="btn" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">03 Telegram 咨询</a></div>
+    </section>
+  </main>
+
+  <footer><a href="./index.html">首页</a> · <a href="./guide.html">五项确认</a> · <a href="./dashboard.html">实际到账</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a><br>价格由既有 CoinGecko 接口提供；网络参数可能为固定快照。所有输出均为估算，不承诺收益或回本；Pro 收款与自助激活暂停。</footer>
+</div>
+
+<script src="./site.js"></script>
+<script>
+const API = '/api/quantus';
+const $ = id => document.getElementById(id);
+
+let state = {
+  price: 0,
+  priceChange: 0,
+  networkHash: 32.03e12,
+  dailyEmission: 1793,
+  hwPresets: {},
+  lastPriceTs: 0,
+};
+
+function fmtNum(n, d=4){ return Number(n).toLocaleString('en-US',{maximumFractionDigits:d}); }
+function fmtBig(n){
+  if(n >= 1e18) return (n/1e18).toFixed(2)+' E';
+  if(n >= 1e15) return (n/1e15).toFixed(2)+' P';
+  if(n >= 1e12) return (n/1e12).toFixed(2)+' T';
+  if(n >= 1e9)  return (n/1e9).toFixed(2)+' G';
+  if(n >= 1e6)  return (n/1e6).toFixed(2)+' M';
+  return n;
+}
+
+async function init(){
+  try{
+    const stats = await fetch(API+'/stats').then(r=>r.json());
+    if(stats.ok){
+      state.price = stats.price;
+      state.priceChange = stats.price_change_24h || 0;
+      state.networkHash = stats.network_hash;
+      state.dailyEmission = stats.daily_emission || 1793;
+      state.lastPriceTs = stats.price_updated_ts;
+      $('stat-price').textContent = '$'+state.price.toFixed(4);
+      $('stat-change').textContent = (state.priceChange>=0?'▲':'▼')+' '+Math.abs(state.priceChange).toFixed(1)+'% 24h';
+      $('stat-change').style.color = state.priceChange>=0?'var(--go)':'var(--no)';
+      $('stat-hash').textContent = fmtBig(stats.network_hash)+' H/s';
+      $('stat-ts').textContent = new Date(stats.price_updated_ts*1000).toLocaleTimeString();
+    }
+    const hw = await fetch(API+'/hw-presets').then(r=>r.json());
+    if(hw.ok){
+      state.hwPresets = hw.presets;
+      renderPresets(hw.presets);
+    }
+  }catch(e){
+    $('stat-price').textContent = '离线';
+    $('stat-ts').textContent = '接口暂不可用；沿用可能过期的初始参数';
+  }
+  calc();
+}
+
+function renderPresets(presets){
+  const box = $('presets');
+  box.innerHTML = '';
+  Object.entries(presets).forEach(([key,hw])=>{
+    const b = document.createElement('button');
+    b.className = 'preset-btn';
+    b.textContent = hw.name+' · '+(hw.estimated?'≈':'')+(hw.hash/1e6).toFixed(0)+'MH/s';
+    b.onclick = ()=>{
+      $('hash').value = hw.hash;
+      $('watt').value = hw.watt;
+      [...document.querySelectorAll('.preset-btn')].forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      calc();
+    };
+    box.appendChild(b);
+  });
+}
+
+function profitAt(priceMult, hashMult, hash, watt, elec){
+  const price = state.price * priceMult;
+  const netHash = state.networkHash * hashMult;
+  const quanPerDay = (hash / netHash) * state.dailyEmission;
+  const usdPerDay = quanPerDay * price;
+  const elecPerDay = (watt/1000)*24*elec;
+  return usdPerDay - elecPerDay;
+}
+
+function calc(){
+  const hash = parseFloat($('hash').value);
+  const watt = parseFloat($('watt').value);
+  const elec = parseFloat($('elec').value);
+  if(!hash||!watt||!elec||!state.price) return;
+
+  const share = hash / state.networkHash;
+  const quanPerDay = share * state.dailyEmission;
+  const usdPerDay = quanPerDay * state.price;
+  const kwhPerDay = watt/1000 * 24;
+  const elecPerDay = kwhPerDay * elec;
+  const profitDay = usdPerDay - elecPerDay;
+
+  // 填表格
+  const tbody = $('result-table');
+  tbody.innerHTML = '';
+  const rows = [
+    {label:'日', k:quanPerDay,     u:usdPerDay,     e:elecPerDay,     p:profitDay},
+    {label:'周', k:quanPerDay*7,   u:usdPerDay*7,   e:elecPerDay*7,   p:profitDay*7},
+    {label:'月', k:quanPerDay*30,  u:usdPerDay*30,  e:elecPerDay*30,  p:profitDay*30},
+    {label:'年', k:quanPerDay*365, u:usdPerDay*365, e:elecPerDay*365, p:profitDay*365},
+  ];
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    const isLoss = r.p < 0;
+    if(isLoss) tr.classList.add('loss');
+    else if(r.p > 0.1) tr.classList.add('profit','highlight');
+    tr.innerHTML = `<td><b>${r.label}</b></td>
+      <td class="num">${fmtNum(r.k,3)}</td>
+      <td class="num">${fmtNum(r.u,3)}</td>
+      <td class="num">${fmtNum(r.e,2)}</td>
+      <td class="num">${fmtNum(r.p,3)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // 盈亏平衡
+  const breakevenElec = kwhPerDay>0 ? usdPerDay/kwhPerDay : 0;
+  const breakevenPrice = quanPerDay>0 ? elecPerDay/quanPerDay : 0;
+  $('break-even').innerHTML =
+    `⚡ 盈亏平衡电价估算: <b>$${breakevenElec.toFixed(4)}/kWh</b>（当前毛收参考与耗电参数下）<br>` +
+    `💸 盈亏平衡 QUAN 参考价估算: <b>$${breakevenPrice.toFixed(4)}</b>（当前产量与电费参数下）<br>` +
+    `🔌 日均耗电估算: <b>${kwhPerDay.toFixed(2)} kWh</b>`;
+
+  // 压力测试
+  const s = [
+    ['s0', profitAt(1,    1,   hash, watt, elec)],
+    ['s1', profitAt(1,    2,   hash, watt, elec)],
+    ['s2', profitAt(0.5,  1,   hash, watt, elec)],
+    ['s3', profitAt(0.5,  2,   hash, watt, elec)],
+    ['s4', profitAt(0.25, 4,   hash, watt, elec)],
+  ];
+  s.forEach(([id,v])=>{
+    const el = $(id);
+    el.textContent = (v>=0?'+':'−')+'$'+Math.abs(v).toFixed(2)+'/天';
+    el.style.color = v>=0 ? 'var(--go)' : 'var(--no)';
+  });
+
+  // 按当前与压力情景展示估算状态
+  const advice = $('advice-box');
+  advice.style.display = 'flex';
+  advice.classList.remove('ok','warn','no');
+  const worst = s[4][1];
+  if(profitDay > 1 && worst > 0){
+    advice.classList.add('ok');
+    $('advice-icon').textContent='✅';
+    $('advice-label').textContent='POSITIVE ESTIMATE · 五档情景为正';
+    $('advice-detail').textContent=`当前日净额估算为 $${profitDay.toFixed(2)}，设定极端情景估算仍为 +$${worst.toFixed(2)}/天。不代表可成交或实际盈利；决策当天重新核验交易深度与盈亏平衡参考价 $${breakevenPrice.toFixed(3)}。`;
+  } else if(profitDay > 1){
+    advice.classList.add('warn');
+    $('advice-icon').textContent='⚠️';
+    $('advice-label').textContent='SENSITIVE ESTIMATE · 极端情景未保持正净额';
+    $('advice-detail').textContent=`当前日净额估算为 $${profitDay.toFixed(2)}，设定极端情景估算为 $${worst.toFixed(2)}/天。参数敏感性高；流动性与主网规则需另行核验，不按热度或历史价量扩张。`;
+  } else if(profitDay > 0){
+    advice.classList.add('warn');
+    $('advice-icon').textContent='⚠️';
+    $('advice-label').textContent='MARGINAL ESTIMATE · 正净额较薄';
+    $('advice-detail').textContent=`当前日净额估算为 $${profitDay.toFixed(3)}；价格或网络算力变化可使其转负，成交深度也会影响实际结果，不建议据此购卡。`;
+  } else {
+    advice.classList.add('no');
+    $('advice-icon').textContent='❌';
+    $('advice-label').textContent='NEGATIVE ESTIMATE · 当前参数为负';
+    $('advice-detail').textContent=`当前日净额估算为 -$${Math.abs(profitDay).toFixed(3)}；毛收参考不足以覆盖本页电费参数，仍非实际盈亏。`;
+  }
+}
+
+['hash','watt','elec'].forEach(id=>$(id).addEventListener('input',calc));
+init();
+</script>
+</body>
+</html>
