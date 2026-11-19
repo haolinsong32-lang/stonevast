@@ -935,3 +935,165 @@ body.site-page .badge::before { animation: svBadgePulse 2.6s ease-in-out infinit
   body.site-page .badge::before { animation: none; }
   body.site-page .home-hero-bg { filter: none; }
 }
+
+/* 2026-11-19 visual v5 — instrument craft: choreography, corner ticks, metallic sheen. */
+@keyframes svRise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes svSheen {
+  from { transform: translateX(-140%) skewX(-18deg); }
+  to { transform: translateX(360%) skewX(-18deg); }
+}
+
+body.site-page .hero .kicker,
+body.site-page .hero .eyebrow,
+body.site-page .hero h1,
+body.site-page .hero p,
+body.site-page .hero .lede,
+body.site-page .hero .badge,
+body.site-page .hero-actions { animation: svRise .62s cubic-bezier(.22,.7,.24,1) both; }
+body.site-page .hero h1 { animation-delay: .05s; }
+body.site-page .hero .badge { animation-delay: .1s; }
+body.site-page .hero p,
+body.site-page .hero .lede { animation-delay: .13s; }
+body.site-page .hero-actions { animation-delay: .19s; }
+
+body.site-page .hero h1 span {
+  background: linear-gradient(180deg, var(--acc-strong) 0%, var(--acc) 58%, #cf8b45 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--acc);
+}
+
+body.site-page .hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .5;
+  background:
+    linear-gradient(var(--acc), var(--acc)) left 14px top 14px/16px 1px no-repeat,
+    linear-gradient(var(--acc), var(--acc)) left 14px top 14px/1px 16px no-repeat,
+    linear-gradient(var(--acc), var(--acc)) right 14px bottom 14px/16px 1px no-repeat,
+    linear-gradient(var(--acc), var(--acc)) right 14px bottom 14px/1px 16px no-repeat;
+  transition: opacity .28s ease;
+}
+body.site-page .hero-media:hover::after { opacity: 1; }
+body.site-page .hero-media img { transition: transform .7s cubic-bezier(.22,.7,.24,1), filter .4s ease; }
+body.site-page .hero-media:hover img { transform: scale(1.025); filter: saturate(.8) contrast(1.12) brightness(.92); }
+
+body.site-page .stat,
+body.site-page .st { position: relative; transition: background-color .22s ease; }
+body.site-page .stat::before,
+body.site-page .st::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--acc), rgba(240,173,100,0));
+  transition: right .3s ease;
+}
+body.site-page .stat:hover::before,
+body.site-page .st:hover::before { right: 0; }
+body.site-page .stat:hover,
+body.site-page .st:hover { background: rgba(22,26,30,.88); }
+
+body.site-page .btn-primary,
+body.site-page .mbtn.acc,
+body.site-page .cta.gen { position: relative; overflow: hidden; }
+body.site-page .btn-primary::after,
+body.site-page .mbtn.acc::after,
+body.site-page .cta.gen::after {
+  content: "";
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: 0;
+  width: 34%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+  transform: translateX(-140%) skewX(-18deg);
+}
+body.site-page .btn-primary:hover::after,
+body.site-page .mbtn.acc:hover::after,
+body.site-page .cta.gen:hover::after { opacity: 1; animation: svSheen .78s ease; }
+
+body.site-page table tbody tr { transition: background-color .18s ease; }
+body.site-page table tbody tr:hover { background: rgba(240,173,100,.055); }
+
+body.site-page footer { position: relative; }
+body.site-page footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong) 18%, var(--line-strong) 82%, transparent);
+}
+
+html::-webkit-scrollbar { width: 10px; height: 10px; }
+html::-webkit-scrollbar-track { background: #0b0e10; }
+html::-webkit-scrollbar-thumb { background: #232a2e; border: 2px solid #0b0e10; border-radius: 6px; }
+html::-webkit-scrollbar-thumb:hover { background: #3a4348; }
+
+@media (max-width: 680px) {
+  body.site-page .hero-actions,
+  body.site-page .btns { gap: 8px; }
+  body.site-page .hero-actions a,
+  body.site-page .btns .btn { flex: 1 1 100%; justify-content: center; }
+  body.site-page .hero-media::after { opacity: .75; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.site-page .hero .kicker,
+  body.site-page .hero .eyebrow,
+  body.site-page .hero h1,
+  body.site-page .hero p,
+  body.site-page .hero .lede,
+  body.site-page .hero .badge,
+  body.site-page .hero-actions { animation: none; }
+  body.site-page .hero-media img { transition: none; }
+  body.site-page .btn-primary::after,
+  body.site-page .mbtn.acc::after,
+  body.site-page .cta.gen::after { display: none; }
+}
+
+/* v5.1 — home hero lockup: gold wordmark, tighter scale, no art overlap. */
+body.site-page header.home-hero h1 em.sv-cn {
+  font-style: normal;
+  background: linear-gradient(180deg, #ffdcb0 0%, var(--acc-strong) 42%, #d08c44 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--acc);
+  text-shadow: none;
+}
+body.site-page header.home-hero .hero-copy { position: relative; z-index: 3; }
+body.site-page header.home-hero h1 { text-shadow: 0 4px 26px rgba(0,0,0,.55); }
+
+@media (max-width: 1200px) and (min-width: 681px) {
+  body.site-page header.home-hero h1 { font-size: clamp(44px, 6.2vw, 74px); letter-spacing: -.055em; }
+}
+@media (max-width: 680px) {
+  body.site-page header.home-hero h1 { font-size: clamp(29px, 8.2vw, 40px); letter-spacing: -.05em; }
+  body.site-page header.home-hero h1 em.sv-cn { display: block; margin-top: 2px; }
+  body.site-page header.home-hero h1 span { margin-top: 16px; font-size: clamp(26px, 7.6vw, 34px); }
+}
+
+body.site-page header.home-hero .home-hero-bg {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.55) 30%, #000 54%);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.55) 30%, #000 54%);
+}
+@media (max-width: 680px) {
+  body.site-page header.home-hero .home-hero-bg {
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.5) 0%, #000 34%);
+    mask-image: linear-gradient(180deg, rgba(0,0,0,.5) 0%, #000 34%);
+  }
+}
