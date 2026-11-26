@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="IRON electricity, net and payback scenario estimates: enter your actual electricity price, wall power and per-unit gross revenue to see breakeven and a 36-month hypothetical projection. No return or payback promises.">
+<meta property="og:title" content="Electricity &amp; Payback Estimate (IRON) · StoneVast">
+<meta property="og:description" content="All results are parameter estimates, not verified receipts or net profit; confirm the five boundary checks first, then verify official downloads.">
+<meta property="og:type" content="website">
+<title>IRON Electricity &amp; Payback Estimate · StoneVast</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./site.css">
+<style>
+  body.site-page{--go:var(--ok);--no:var(--bad)}
+  body.site-page .wrap{padding-bottom:48px}
+  .tool-hero{padding:48px 0 30px}
+  .tool-hero h1{max-width:840px}
+  .tool-hero .lede{max-width:780px}
+  .stats-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:28px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .stats-bar>span{min-width:0;padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--sub);font:10px/1.7 var(--font-mono);letter-spacing:.04em}
+  .stats-bar b{display:block;color:var(--txt);font-size:13px;font-variant-numeric:tabular-nums;word-break:break-word}
+  .stats-bar small{font-family:var(--font-mono)}
+  .tool-workbench{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:40px;border-top:1px solid var(--line-strong)}
+  .tool-section{padding:26px 0 30px;border-top:1px solid var(--line-strong)}
+  .tool-workbench>.tool-section{border-top:0}
+  .section-tag{display:block;margin-bottom:8px;color:var(--acc);font:700 10px var(--font-mono);letter-spacing:.14em;text-transform:uppercase}
+  .tool-section h2{margin:0 0 14px;color:var(--txt);font:800 18px var(--font-display);letter-spacing:.02em}
+  .tool-section h3{margin:20px 0 8px;color:var(--txt);font-size:13px}
+  .input-grid{display:grid;gap:14px;margin-top:20px}
+  .fld label{display:block;margin-bottom:6px;color:var(--sub);font:11px var(--font-mono)}
+  .fld input{width:100%;padding:10px 12px}
+  .hint{margin-top:5px;color:var(--muted);font:10px/1.7 var(--font-mono)}
+  .presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .preset-btn{min-height:34px;padding:7px 10px;border:1px solid var(--line-strong);border-radius:2px;background:transparent;color:var(--sub);cursor:pointer;font:11px var(--font-mono)}
+  .preset-btn:hover,.preset-btn.active{border-color:var(--acc);background:rgba(231,161,94,.08);color:var(--acc-strong)}
+  .advice-frame{margin-bottom:18px}
+  .advice{margin:0;padding:14px 16px;border:1px solid var(--line);border-left:3px solid var(--line-strong);background:rgba(17,20,23,.66);align-items:flex-start;gap:12px}
+  .advice.ok{border-left-color:var(--ok);color:var(--ok)}
+  .advice.warn{border-left-color:var(--warn);color:var(--warn)}
+  .advice.no{border-left-color:var(--bad);color:var(--bad)}
+  .advice small{display:block;margin-top:5px;color:var(--sub);font-size:12px;font-weight:400;line-height:1.75}
+  #advice-label{font:700 16px var(--font-display)}
+  .table-scroll{margin-top:16px}
+  table{width:100%}
+  td.num{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.highlight td{background:rgba(231,161,94,.045)}
+  tr.loss td.num{color:var(--bad)}
+  tr.profit td.num{color:var(--ok)}
+  .note b{color:var(--txt)}
+  .risk-banner{margin:0 0 4px;padding:15px 16px;border:1px solid var(--line);border-left:3px solid var(--warn);background:rgba(213,173,103,.035);color:var(--sub);font-size:12px;line-height:1.85}
+  .risk-banner b{color:var(--txt)}
+  .risk-critical{border-left-color:var(--bad);background:rgba(219,129,120,.035)}
+  .stress{margin-top:10px}
+  .stress td:last-child{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+  .result{margin-top:16px;padding:4px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .result .r{display:flex;justify-content:space-between;gap:18px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px}
+  .result .r:last-child{border-bottom:0}
+  .result .r span{color:var(--sub)}
+  .result .r b{font-family:var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .result .r.pos b{color:var(--ok)}
+  .result .r.neg b{color:var(--bad)}
+  .verdict{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-left:3px solid var(--line-strong);font-size:13px;line-height:1.75}
+  .verdict.good{border-left-color:var(--ok);color:var(--ok)}
+  .verdict.edge{border-left-color:var(--warn);color:var(--warn)}
+  .verdict.bad{border-left-color:var(--bad);color:var(--bad)}
+  .verdict b{display:block;margin-bottom:4px;font-size:14px}
+  .verdict small{display:block;color:var(--sub);font-size:12px}
+  .reset{min-height:38px;margin-top:18px;padding:8px 13px;border:1px solid var(--line-strong);border-radius:2px;background:transparent;color:var(--sub);cursor:pointer;font:11px var(--font-mono)}
+  .reset:hover{border-color:var(--acc);color:var(--acc)}
+  .pro-status{margin-top:20px;padding-top:14px;border-top:1px dashed var(--line);color:var(--muted);font:11px/1.8 var(--font-mono);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+  .pro-status span{display:block}
+  .conversion{margin-top:8px;padding:28px 0;border-top:1px solid var(--acc);border-bottom:1px solid var(--line-strong)}
+  .conversion h2{margin:0 0 8px;font:800 20px var(--font-display)}
+  .conversion>p{max-width:760px;margin:0;color:var(--sub);font-size:12px}
+  .five-checks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:22px 0;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .five-checks span{padding:13px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--sub);font-size:11px;line-height:1.6}
+  .five-checks b{display:block;margin-bottom:4px;color:var(--acc);font:10px var(--font-mono)}
+  .flow-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+  .flow-actions .flow-label{color:var(--sub);font:11px var(--font-mono)}
+  .knowledge{color:var(--sub);font-size:13px;line-height:1.85}
+  .knowledge p{margin:0 0 12px}
+  .knowledge b{color:var(--txt)}
+  .spinner{display:inline-block;width:11px;height:11px;border:1px solid var(--line-strong);border-top-color:var(--acc);border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  footer a{margin:0 3px}
+  @media(max-width:960px){.tool-workbench{grid-template-columns:1fr;gap:0}.tool-workbench>.tool-section+.tool-section{border-top:1px solid var(--line-strong)}.five-checks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:680px){.tool-hero{padding-top:38px}.stats-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.five-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.flow-actions{align-items:stretch;flex-direction:column}.flow-actions .btn{width:100%}.result .r{flex-wrap:wrap;gap:4px 12px}.result .r b{margin-left:auto}.tool-section{padding:22px 0 26px}}
+.tier-row{margin:16px 0;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.tier-row:last-child{border-bottom:none;padding-bottom:0}
+.tier-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;margin-bottom:9px;flex-wrap:wrap}
+.tier-name{font-weight:650;color:var(--txt)}
+.tier-price{font-family:var(--font-mono);color:var(--muted);font-size:11.5px}
+.tier-badge{display:inline-block;font-size:10px;letter-spacing:.5px;padding:2px 8px;border-radius:99px;background:rgba(255,178,107,.14);color:var(--acc);border:1px solid rgba(255,178,107,.42);font-weight:700;vertical-align:1px}
+.tier-bar{height:10px;border-radius:99px;background:#171d22;border:1px solid var(--line);overflow:hidden}
+.tier-bar i{display:block;height:100%;border-radius:99px;transition:width .55s cubic-bezier(.22,.61,.36,1)}
+.tier-bar i.pos{background:linear-gradient(90deg,#3f7f5f,#72cf9f)}
+.tier-bar i.neg{background:linear-gradient(90deg,#8a4141,#e88b81)}
+.tier-val{margin-top:8px;font-family:var(--font-mono);font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.tier-val.pos{color:var(--ok)}.tier-val.neg{color:var(--bad)}
+.tier-val small{font-weight:500;color:var(--muted)}
+.split{margin:16px 0 2px}
+.split-bar{height:8px;border-radius:99px;background:#171d22;border:1px solid var(--line);overflow:hidden}
+.split-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#e5bb72,#ffb26b);transition:width .55s cubic-bezier(.22,.61,.36,1)}
+.split-legend{display:flex;justify-content:space-between;gap:12px;font-size:11.5px;color:var(--muted);margin-top:7px;flex-wrap:wrap}
+.tier-alert{margin:0 0 16px;padding:11px 14px;border-radius:10px;border:1px solid rgba(229,187,114,.4);background:rgba(229,187,114,.09);color:var(--warn);font-size:12.5px;line-height:1.6}
+</style>
+</head>
+<body class="site-page" data-density="tool">
+<div class="wrap">
+  <nav aria-label="Primary navigation">
+    <a class="logo" href="./index-en.html">StoneVast <b>石广</b></a>
+    <div class="links"><a class="back active" href="./calculator-en.html">IRON</a><a class="back" href="./kas-calculator.html">KAS</a><a class="back" href="./pearl-calculator.html">PRL</a><a class="back" href="./quantus-calculator.html">QUAN</a><a class="back" href="./dashboard-en.html">Verified receipts</a><a class="back" href="./claim.html">Claim STV</a><a class="back" href="./liquidity.html">Liquidity</a><a class="back" href="./shop.html">Merch presale</a><a class="back" href="./calculator.html">中文</a></div>
+  </nav>
+
+  <header class="hero tool-hero">
+    <div class="kicker">IRON · ELECTRICITY &amp; PAYBACK SCENARIOS</div>
+    <h1>Check electricity first, <span>then talk payback</span></h1>
+    <p class="lede">Enter your actual electricity price, wall power and per-unit gross revenue to get the current net, breakeven and payback scenario estimates. All figures are hypothetical projections — not verified receipts, net profit or an earnings promise.</p>
+    <div class="status" id="srcNote">Initial parameters come from a historical single-machine snapshot, not live pool data</div>
+  </header>
+
+  <main>
+    <div class="risk-banner"><b>Estimate boundaries:</b> pool fees, downtime, transaction fees, taxes and hardware depreciation are not included. Historical CNY→USD conversion is used only to produce initial parameters; USD/USDT/CNY are all estimate parameters or reference values, not withdrawable amounts.</div>
+
+    <div class="tool-workbench">
+      <section class="tool-section site-reveal" aria-labelledby="iron-input-title">
+        <span class="section-tag">01 · Inputs</span><h2 id="iron-input-title">Device &amp; payback parameters</h2>
+        <h3>Current operating assumptions</h3>
+        <div class="input-grid">
+          <div class="fld"><label for="i_price">Electricity price · USD/kWh</label><input type="number" id="i_price" step="any" value="0.077"><div class="hint">Initial value derives from the historical default ¥0.55/kWh and the historical conversion parameter — not a confirmed Lianhu District bill value. Please enter your actual electricity price</div></div>
+          <div class="fld"><label for="i_hash">Hashrate · MH/s</label><input type="number" id="i_hash" step="any" value="20.34"></div>
+          <div class="fld"><label for="i_power">Power at the wall · W</label><input type="number" id="i_power" step="any" value="49"><div class="hint">Whole-rig wall power, not GPU TDP</div></div>
+          <div class="fld"><label for="i_rev">Gross revenue per unit · USD/MH/day</label><input type="number" id="i_rev" step="any" value="0.0072"><div class="hint">Derived from a historical snapshot, not a live pool quote</div></div>
+        </div>
+        <div class="note"><b>Shaanxi residential electricity reference (excluding Yulin, below 1 kV):</b> peak ¥0.5483, flat ¥0.4983, valley ¥0.2983/kWh. Source: <a href="https://sndrc.shaanxi.gov.cn/zfxxgk/zc/fgwj/sfzggwwj/2023/202401/P020241106356626113535.pdf" target="_blank" rel="noopener noreferrer">Shaanxi Provincial DRC "Shaanxi Grid (excluding Yulin) retail electricity price schedule" ↗</a> (checked 2026-11-20); eligible users may voluntarily choose residential peak-valley time-of-use pricing. The actual effective price for Lianhu District must be recalculated as "desensitized bill electricity charge ÷ corresponding kWh", combining usage category, tiering or peak-valley selection and time-of-use energy — do not cherry-pick the valley price to flatter returns.</div>
+        <h3>Payback scenario assumptions</h3>
+        <div class="input-grid">
+          <div class="fld"><label for="i_cost">Hardware cost · USD</label><input type="number" id="i_cost" step="any" value="0"><div class="hint">Enter 0 when comparing only new investment and the hardware is already owned</div></div>
+          <div class="fld"><label for="i_drift">Coin price drift · %/year</label><input type="number" id="i_drift" step="any" value="0"><div class="hint">0 means no price prediction; it is not conservative and does not guarantee breakeven</div></div>
+          <div class="fld"><label for="i_diff">Difficulty growth · %/year</label><input type="number" id="i_diff" step="any" value="30"><div class="hint">Scenario assumption used only to dilute the model share</div></div>
+        </div>
+        <button class="reset" type="button" onclick="resetAll()">Reset to historical snapshot parameters</button>
+      </section>
+
+      <section class="tool-section site-reveal" aria-labelledby="iron-result-title">
+        <span class="section-tag">02 · Results</span><h2 id="iron-result-title">Net &amp; payback estimate</h2>
+        <h3>Current electricity breakeven</h3>
+        <div class="result" id="out1"></div>
+        <div id="verdict1"></div>
+        <h3>36-month rolling scenario</h3>
+        <div class="result" id="out2"></div>
+        <div class="note"><b>Basis of calculation:</b> "net" is only the gross-revenue reference minus this page's electricity parameter; payback is an estimate built on fixed mathematical assumptions — it does not promise recovery of cost, nor does it equal actual cash flow.</div>
+      </section>
+    </div>
+
+    <section class="tool-section site-reveal" aria-labelledby="iron-stress-title">
+      <span class="section-tag">03 · Stress test</span><h2 id="iron-stress-title">Three-tier electricity sensitivity</h2>
+      <p class="sub">Keeping all other inputs unchanged, only three preset electricity price parameters are compared. Bar length shows relative net size; green is positive, red is negative. All daily and annual figures below are estimates and are not used to give buy-coin or buy-rig advice within any fixed price band.</p>
+      <div class="result" id="out3"></div>
+    </section>
+
+    <section class="conversion site-reveal" aria-labelledby="iron-next-title">
+      <span class="section-tag">04 · Five checks before conversion</span><h2 id="iron-next-title">Confirm applicability first, then touch mining software</h2>
+      <p>Only after all five checks pass should you verify download, algorithm and integrity from the official release page of the relevant project or miner. Do not buy a rig based on a single estimate.</p>
+      <div class="five-checks"><span><b>01</b>Device &amp; local rules</span><span><b>02</b>Provider terms</span><span><b>03</b>Actual electricity price</span><span><b>04</b>Pool availability</span><span><b>05</b>Official download sources</span></div>
+      <div class="flow-actions"><span class="flow-label">01 Complete the five checks →</span><a class="btn btn-primary" href="./guide.html">02 Verify official download &amp; startup boundaries</a><span class="flow-label">→</span><a class="btn" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">03 Ask on Telegram</a></div>
+    </section>
+  </main>
+
+  <footer>Historical data time: <span id="fUpd">--</span> · Snapshot is not verified receipts<br><a href="./index-en.html">Home</a> · <a href="./guide.html">Five checks</a> · <a href="./dashboard-en.html">Verified receipts</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a><br>All outputs are estimates and do not constitute investment advice or promise returns or payback; Pro payouts and self-service activation are paused.</footer>
+</div>
+
+<script src="./site.js"></script>
+<script src="./data.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const D = window.SITE_DATA || {};
+const USDCNY = D.usdCny || 7.12;
+const LOCAL_ELEC_CNY = 0.55;
+
+const fmt = (n, d=2) => (isFinite(n) ? n : 0).toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d});
+const sign = n => (n >= 0 ? '+' : '');
+
+function defaults(){
+  const hash = D.hashrate || 20.34;
+  const power = D.power || 49;
+  const netCny = D.netDayCny || 0.39;
+  const grossCny = netCny + power * 24 / 1000 * LOCAL_ELEC_CNY;
+  return {
+    price: LOCAL_ELEC_CNY / USDCNY,
+    hash: hash,
+    power: power,
+    rev: (grossCny / USDCNY) / (hash || 1)
+  };
+}
+
+function readInputs(){
+  return {
+    price: +$('i_price').value || 0,
+    hash:  +$('i_hash').value || 0,
+    power: +$('i_power').value || 0,
+    rev:   +$('i_rev').value || 0
+  };
+}
+
+// ---- 1. 盈亏判定 ----
+function calcBreak(){
+  const {price, hash, power, rev} = readInputs();
+  const gross = hash * rev;
+  const elec = power * 24 / 1000 * price;
+  const net = gross - elec;
+  const bePrice = power > 0 ? (gross * 1000) / (power * 24) : 0;
+
+  $('out1').innerHTML = `
+    <div class="r"><span>Daily gross estimate</span><b>$${fmt(gross,4)}</b></div>
+    <div class="r"><span>Daily electricity estimate</span><b>-$${fmt(elec,4)}</b></div>
+    <div class="r ${net>=0?'pos':'neg'}"><span>Daily net estimate</span><b>${sign(net)}$${fmt(net,4)}</b></div>
+    <div class="r ${net>=0?'pos':'neg'}"><span>Annual net estimate</span><b>${sign(net*365)}$${fmt(net*365,2)}</b></div>
+    <div class="r"><span>Breakeven electricity estimate</span><b>$${fmt(bePrice,4)}/kWh</b></div>
+    ${gross > 0 ? (() => {
+      const pct = Math.min(100, Math.max(0, elec / gross * 100));
+      const over = elec >= gross;
+      return `<div class="split">
+        <div class="split-bar"><i style="width:${pct}%"></i></div>
+        <div class="split-legend">
+          <span>🔌 ${over ? 'Electricity already exceeds daily gross' : 'Electricity consumes ' + fmt(pct,0) + '% of gross'}</span>
+          <span>💰 ${over ? 'Net is negative (loss)' : 'Net retained ' + fmt(Math.max(0, 100 - pct),0) + '%'}</span>
+        </div>
+      </div>`;
+    })() : ''}
+  `;
+
+  let cls, title, body;
+  if (bePrice <= 0) {
+    cls = 'bad'; title = '✗ Insufficient data';
+    body = 'Enter hashrate and per-unit gross revenue to generate an estimate.';
+  } else if (price < bePrice * 0.7) {
+    cls = 'good'; title = '✓ Current assumption is positive';
+    body = `Current electricity price $${fmt(price,3)} is below the breakeven estimate $${fmt(bePrice,3)}, a margin of about ${fmt((1 - price/bePrice)*100,0)}%. Daily net estimate is $${fmt(net,4)}; it does not reflect what happens after changes in coin price, difficulty or downtime.`;
+  } else if (price < bePrice) {
+    cls = 'edge'; title = '⚠ Near breakeven';
+    body = `Current electricity price $${fmt(price,3)} is close to the breakeven estimate $${fmt(bePrice,3)}. Daily net estimate is $${fmt(net,4)}; a small change in price, difficulty or power can turn it negative.`;
+  } else {
+    cls = 'bad'; title = '✗ Current assumption is negative';
+    body = `Current electricity price $${fmt(price,3)} is above the breakeven estimate $${fmt(bePrice,3)}, with an annual net estimate of -$${fmt(-net*365,2)}. Please check all costs and do not treat the result as buy-coin or buy-rig advice.`;
+  }
+  $('verdict1').innerHTML = `<div class="verdict ${cls}"><b>${title}</b><small>${body}</small></div>`;
+}
+
+// ---- 2. 回收期情景 ----
+function calcPayback(){
+  const {hash, rev, power, price} = readInputs();
+  const cost = +$('i_cost').value || 0;
+  const drift = (+$('i_drift').value || 0) / 100;
+  const diff = (+$('i_diff').value || 0) / 100;
+
+  const gross = hash * rev;
+  const elec = power * 24 / 1000 * price;
+  const netNow = gross - elec;
+
+  // 12 个月滚动：收入受币价漂移与难度增长双重影响
+  let cumulative = 0, paybackMonth = null;
+  const months = [];
+  for (let m = 1; m <= 36; m++) {
+    const revM = gross * Math.pow(1 + drift, m/12) / Math.pow(1 + diff, m/12);
+    const netM = revM - elec;
+    cumulative += netM * 30;
+    months.push(cumulative);
+    if (paybackMonth === null && cumulative >= cost && cost > 0) paybackMonth = m;
+  }
+
+  const paybackDays = netNow > 0 && cost > 0 ? cost / netNow : null;
+  const year1 = months[11] || 0;
+
+  $('out2').innerHTML = `
+    <div class="r ${netNow>=0?'pos':'neg'}"><span>Current daily net estimate</span><b>${sign(netNow)}$${fmt(netNow,4)}</b></div>
+    <div class="r"><span>Hardware cost</span><b>$${fmt(cost,2)}</b></div>
+    <div class="r ${paybackDays?'pos':'neg'}"><span>Static payback estimate</span><b>${paybackDays ? fmt(paybackDays,0)+' days (estimate)' : (cost>0 ? 'Not recovered under current assumptions' : 'No cost entered')}</b></div>
+    <div class="r ${paybackMonth?'pos':'neg'}"><span>Rolling payback estimate (with coin price drift &amp; difficulty growth)</span><b>${cost>0 ? (paybackMonth ? paybackMonth+' months (scenario)' : 'Not recovered within the 36-month scenario') : '—'}</b></div>
+    <div class="r ${year1>=0?'pos':'neg'}"><span>12-month cumulative net estimate</span><b>${sign(year1)}$${fmt(year1,2)}</b></div>
+  `;
+
+  let note = '';
+  if (diff > 0) note = `The rolling scenario includes ${fmt(diff*100,0)}% annual difficulty growth; this is only a parameter assumption, not a network prediction.`;
+  else if (diff === 0) note = 'Difficulty is treated as flat; this is only an assumption and does not represent the real network trend.';
+  const el = document.createElement('div');
+  el.className = 'note';
+  el.textContent = note;
+  $('out2').appendChild(el);
+}
+
+// ---- 3. 三档电价 ----
+function calcTiers(){
+  const {hash, rev} = readInputs();
+  const gross = hash * rev;
+  const power = +$('i_power').value || 0;
+  const tiers = [
+    {label:'Low-cost power', icon:'💧', price:0.05, tag:'Industrial / hydro'},
+    {label:'Residential power', icon:'🏠', price:0.09, tag:'Most homes'},
+    {label:'High-cost power', icon:'🔥', price:0.18, tag:'Commercial / peak'}
+  ].map(t => {
+    const elec = power * 24 / 1000 * t.price;
+    const net = gross - elec;
+    return {...t, elec, net, yearly: net * 365};
+  });
+
+  const maxAbs = Math.max(...tiers.map(t => Math.abs(t.net)), 1e-9);
+  const bestNet = Math.max(...tiers.map(t => t.net));
+
+  const banner = bestNet < 0
+    ? `<div class="tier-alert">⚠ Under current parameters all three electricity tiers have negative net: even the cheapest tier loses $${fmt(Math.abs(bestNet),4)}/day. Lower the electricity parameter or raise per-unit gross revenue before judging.</div>`
+    : '';
+
+  $('out3').innerHTML = banner + tiers.map(t => {
+    const w = Math.max(4, Math.round(Math.abs(t.net) / maxAbs * 100));
+    const cls = t.net >= 0 ? 'pos' : 'neg';
+    const isBest = t.net === bestNet;
+    return `<div class="tier-row">
+      <div class="tier-head">
+        <span class="tier-name">${t.icon} ${t.label}${isBest ? ' <span class="tier-badge">relative best</span>' : ''}</span>
+        <span class="tier-price">$${fmt(t.price,3)}/kWh · ${t.tag}</span>
+      </div>
+      <div class="tier-bar"><i class="${cls}" style="width:${w}%"></i></div>
+      <div class="tier-val ${cls}">${sign(t.net)}$${fmt(t.net,4)}/day <small>· ${sign(t.yearly)}$${fmt(t.yearly,0)}/year</small></div>
+    </div>`;
+  }).join('');
+}
+
+function calcAll(){ calcBreak(); calcPayback(); calcTiers(); }
+
+function resetAll(){
+  const d = defaults();
+  $('i_price').value = d.price.toFixed(4);
+  $('i_hash').value  = d.hash.toFixed(2);
+  $('i_power').value = d.power.toFixed(0);
+  $('i_rev').value   = d.rev.toFixed(4);
+  $('i_cost').value  = 0;
+  $('i_drift').value = 0;
+  $('i_diff').value  = 30;
+  if (D.updated) $('fUpd').textContent = D.updated;
+  calcAll();
+}
+
+['i_price','i_hash','i_power','i_rev','i_cost','i_drift','i_diff'].forEach(id => {
+  const el = $(id);
+  if (el) el.addEventListener('input', calcAll);
+});
+
+resetAll();
+</script>
+</body>
+</html>
