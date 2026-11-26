@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="IRON 电费、净额与回收期情景估算：输入实际电价、墙上功耗与单位毛收参数，查看盈亏平衡与 36 个月假设演算；不承诺收益或回本。">
-<meta property="og:title" content="IRON Electricity & Payback Estimates · StoneVast 石广">
+<meta property="og:title" content="电费与回收期测算（IRON）· StoneVast 石广">
 <meta property="og:description" content="所有结果均为参数估算，不是实际到账或净利润；先核对五项边界，再核验官方下载。">
 <meta property="og:type" content="website">
 <title>IRON 电费与回收期估算 · StoneVast 石广</title>
@@ -85,17 +85,35 @@
   footer a{margin:0 3px}
   @media(max-width:960px){.tool-workbench{grid-template-columns:1fr;gap:0}.tool-workbench>.tool-section+.tool-section{border-top:1px solid var(--line-strong)}.five-checks{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media(max-width:680px){.tool-hero{padding-top:38px}.stats-bar{grid-template-columns:repeat(2,minmax(0,1fr))}.five-checks{grid-template-columns:repeat(2,minmax(0,1fr))}.flow-actions{align-items:stretch;flex-direction:column}.flow-actions .btn{width:100%}.result .r{flex-wrap:wrap;gap:4px 12px}.result .r b{margin-left:auto}.tool-section{padding:22px 0 26px}}
+.tier-row{margin:16px 0;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.tier-row:last-child{border-bottom:none;padding-bottom:0}
+.tier-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;margin-bottom:9px;flex-wrap:wrap}
+.tier-name{font-weight:650;color:var(--txt)}
+.tier-price{font-family:var(--font-mono);color:var(--muted);font-size:11.5px}
+.tier-badge{display:inline-block;font-size:10px;letter-spacing:.5px;padding:2px 8px;border-radius:99px;background:rgba(255,178,107,.14);color:var(--acc);border:1px solid rgba(255,178,107,.42);font-weight:700;vertical-align:1px}
+.tier-bar{height:10px;border-radius:99px;background:#171d22;border:1px solid var(--line);overflow:hidden}
+.tier-bar i{display:block;height:100%;border-radius:99px;transition:width .55s cubic-bezier(.22,.61,.36,1)}
+.tier-bar i.pos{background:linear-gradient(90deg,#3f7f5f,#72cf9f)}
+.tier-bar i.neg{background:linear-gradient(90deg,#8a4141,#e88b81)}
+.tier-val{margin-top:8px;font-family:var(--font-mono);font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.tier-val.pos{color:var(--ok)}.tier-val.neg{color:var(--bad)}
+.tier-val small{font-weight:500;color:var(--muted)}
+.split{margin:16px 0 2px}
+.split-bar{height:8px;border-radius:99px;background:#171d22;border:1px solid var(--line);overflow:hidden}
+.split-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#e5bb72,#ffb26b);transition:width .55s cubic-bezier(.22,.61,.36,1)}
+.split-legend{display:flex;justify-content:space-between;gap:12px;font-size:11.5px;color:var(--muted);margin-top:7px;flex-wrap:wrap}
+.tier-alert{margin:0 0 16px;padding:11px 14px;border-radius:10px;border:1px solid rgba(229,187,114,.4);background:rgba(229,187,114,.09);color:var(--warn);font-size:12.5px;line-height:1.6}
 </style>
 </head>
 <body class="site-page" data-density="tool">
 <div class="wrap">
   <nav aria-label="主导航">
     <a class="logo" href="./index.html">StoneVast <b>石广</b></a>
-    <div class="links"><a class="back active" href="./calculator.html">IRON</a><a class="back" href="./kas-calculator.html">KAS</a><a class="back" href="./pearl-calculator.html">PRL</a><a class="back" href="./quantus-calculator.html">QUAN</a><a class="back" href="./dashboard.html">实际到账</a></div>
+    <div class="links"><a class="back active" href="./calculator.html">IRON</a><a class="back" href="./kas-calculator.html">KAS</a><a class="back" href="./pearl-calculator.html">PRL</a><a class="back" href="./quantus-calculator.html">QUAN</a><a class="back" href="./dashboard.html">实际到账</a><a class="back" href="./claim.html">STV 领取</a><a class="back" href="./liquidity.html">流动性</a><a class="back" href="./shop.html">周边预售</a><a class="back" href="./calculator-en.html">English</a></div>
   </nav>
 
   <header class="hero tool-hero">
-    <div class="kicker">IRON / ELECTRICITY & PAYBACK SCENARIOS</div>
+    <div class="kicker">IRON · 电费与回收期情景</div>
     <h1>先核对电费，<span>再讨论回收期</span></h1>
     <p class="lede">输入实际电价、墙上功耗与单位毛收参数，得到当前净额、盈亏平衡和回收期情景估算。所有结果都是假设演算，不是实际到账、净利润或收益承诺。</p>
     <div class="status" id="srcNote">初始参数来自历史单机快照，不是实时矿池数据</div>
@@ -106,14 +124,15 @@
 
     <div class="tool-workbench">
       <section class="tool-section site-reveal" aria-labelledby="iron-input-title">
-        <span class="section-tag">01 / INPUTS · 输入</span><h2 id="iron-input-title">设备与回收期参数</h2>
+        <span class="section-tag">01 · 输入</span><h2 id="iron-input-title">设备与回收期参数</h2>
         <h3>当前运行假设</h3>
         <div class="input-grid">
-          <div class="fld"><label for="i_price">电价参数 · USD/kWh</label><input type="number" id="i_price" step="any" value="0.077"><div class="hint">初始值由 ¥0.55/kWh 与历史换算参数生成，请改为实际电价</div></div>
+          <div class="fld"><label for="i_price">电价参数 · USD/kWh</label><input type="number" id="i_price" step="any" value="0.077"><div class="hint">初始值由历史测算默认值 ¥0.55/kWh 与历史换算参数生成，不是莲湖区账单确认值，请改为实际电价</div></div>
           <div class="fld"><label for="i_hash">算力参数 · MH/s</label><input type="number" id="i_hash" step="any" value="20.34"></div>
           <div class="fld"><label for="i_power">墙上功耗 · W</label><input type="number" id="i_power" step="any" value="49"><div class="hint">整机墙上功耗，不是显卡 TDP</div></div>
           <div class="fld"><label for="i_rev">单位毛收参数 · USD/MH/day</label><input type="number" id="i_rev" step="any" value="0.0072"><div class="hint">历史快照推算值，不是矿池实时报价</div></div>
         </div>
+        <div class="note"><b>陕西居民电价参考（不含榆林、不满 1 千伏）：</b>高峰 ¥0.5483、平段 ¥0.4983、低谷 ¥0.2983/kWh。来源：<a href="https://sndrc.shaanxi.gov.cn/zfxxgk/zc/fgwj/sfzggwwj/2023/202401/P020241106356626113535.pdf" target="_blank" rel="noopener noreferrer">陕西省发改委《陕西电网（不含榆林地区）销售电价表》 ↗</a>（2026-11-20 核对）；符合条件的用户可自愿选择居民峰谷分时电价。莲湖区实际有效电价须结合用电类别、阶梯或峰谷选择及分时电量，按“脱敏账单电费 ÷ 对应电量”复算，不能只取低谷价美化收益。</div>
         <h3>回收期情景假设</h3>
         <div class="input-grid">
           <div class="fld"><label for="i_cost">硬件投入参数 · USD</label><input type="number" id="i_cost" step="any" value="0"><div class="hint">只比较新增投入时，已有硬件可填 0</div></div>
@@ -124,7 +143,7 @@
       </section>
 
       <section class="tool-section site-reveal" aria-labelledby="iron-result-title">
-        <span class="section-tag">02 / ESTIMATES · 结果</span><h2 id="iron-result-title">净额与回收期估算</h2>
+        <span class="section-tag">02 · 结果</span><h2 id="iron-result-title">净额与回收期估算</h2>
         <h3>当前电费盈亏平衡</h3>
         <div class="result" id="out1"></div>
         <div id="verdict1"></div>
@@ -135,13 +154,13 @@
     </div>
 
     <section class="tool-section site-reveal" aria-labelledby="iron-stress-title">
-      <span class="section-tag">03 / STRESS TEST · 压力测试</span><h2 id="iron-stress-title">三档电价敏感性</h2>
-      <p class="sub">保持其他输入不变，仅比较三个预设电价参数。以下每日与每年数字均为估算，不使用固定电价区间给出买币或购机建议。</p>
+      <span class="section-tag">03 · 压力测试</span><h2 id="iron-stress-title">三档电价敏感性</h2>
+      <p class="sub">保持其他输入不变，仅比较三个预设电价参数。条形长度表示净额相对大小，绿色为正、红色为负。以下每日与每年数字均为估算，不使用固定电价区间给出买币或购机建议。</p>
       <div class="result" id="out3"></div>
     </section>
 
     <section class="conversion site-reveal" aria-labelledby="iron-next-title">
-      <span class="section-tag">04 / NEXT CHECKS · 转化前五项确认</span><h2 id="iron-next-title">先确认适用性，再接触挖矿软件</h2>
+      <span class="section-tag">04 · 转化前五项确认</span><h2 id="iron-next-title">先确认适用性，再接触挖矿软件</h2>
       <p>五项均确认后，再从对应项目或矿工的官方发布页核对下载、算法与完整性；不要根据单项估算直接购机。</p>
       <div class="five-checks"><span><b>01</b>设备与当地规则</span><span><b>02</b>服务商条款</span><span><b>03</b>实际电价</span><span><b>04</b>矿池可用性</span><span><b>05</b>官方下载来源</span></div>
       <div class="flow-actions"><span class="flow-label">01 完成五项确认 →</span><a class="btn btn-primary" href="./guide.html">02 核对官方下载与启动边界</a><span class="flow-label">→</span><a class="btn" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">03 Telegram 咨询</a></div>
@@ -193,25 +212,36 @@ function calcBreak(){
   const bePrice = power > 0 ? (gross * 1000) / (power * 24) : 0;
 
   $('out1').innerHTML = `
-    <div class="r"><span>日毛收估算 · Daily gross estimate</span><b>$${fmt(gross,4)}</b></div>
-    <div class="r"><span>日电费估算 · Daily power estimate</span><b>-$${fmt(elec,4)}</b></div>
-    <div class="r ${net>=0?'pos':'neg'}"><span>日净额估算 · Daily net estimate</span><b>${sign(net)}$${fmt(net,4)}</b></div>
-    <div class="r ${net>=0?'pos':'neg'}"><span>年净额估算 · Annual net estimate</span><b>${sign(net*365)}$${fmt(net*365,2)}</b></div>
-    <div class="r"><span>盈亏平衡电价估算 · Break-even estimate</span><b>$${fmt(bePrice,4)}/kWh</b></div>
+    <div class="r"><span>日毛收估算</span><b>$${fmt(gross,4)}</b></div>
+    <div class="r"><span>日电费估算</span><b>-$${fmt(elec,4)}</b></div>
+    <div class="r ${net>=0?'pos':'neg'}"><span>日净额估算</span><b>${sign(net)}$${fmt(net,4)}</b></div>
+    <div class="r ${net>=0?'pos':'neg'}"><span>年净额估算</span><b>${sign(net*365)}$${fmt(net*365,2)}</b></div>
+    <div class="r"><span>盈亏平衡电价估算</span><b>$${fmt(bePrice,4)}/kWh</b></div>
+    ${gross > 0 ? (() => {
+      const pct = Math.min(100, Math.max(0, elec / gross * 100));
+      const over = elec >= gross;
+      return `<div class="split">
+        <div class="split-bar"><i style="width:${pct}%"></i></div>
+        <div class="split-legend">
+          <span>🔌 ${over ? '电费已超过日毛收' : '电费吃掉毛收 ' + fmt(pct,0) + '%'}</span>
+          <span>💰 ${over ? '净额为负（亏损）' : '净额留存 ' + fmt(Math.max(0, 100 - pct),0) + '%'}</span>
+        </div>
+      </div>`;
+    })() : ''}
   `;
 
   let cls, title, body;
   if (bePrice <= 0) {
-    cls = 'bad'; title = '✗ 数据不足 · Not enough input';
+    cls = 'bad'; title = '✗ 数据不足';
     body = '请填写算力和单位毛收参数，才能生成估算。';
   } else if (price < bePrice * 0.7) {
-    cls = 'good'; title = '✓ 当前假设为正 · POSITIVE ESTIMATE';
+    cls = 'good'; title = '✓ 当前假设为正';
     body = `当前电价 $${fmt(price,3)} 低于盈亏平衡估算 $${fmt(bePrice,3)}，参数差约 ${fmt((1 - price/bePrice)*100,0)}%。日净额估算为 $${fmt(net,4)}；不代表币价、难度或停机变化后的结果。`;
   } else if (price < bePrice) {
-    cls = 'edge'; title = '⚠ 接近盈亏平衡 · MARGINAL ESTIMATE';
+    cls = 'edge'; title = '⚠ 接近盈亏平衡';
     body = `当前电价 $${fmt(price,3)} 接近盈亏平衡估算 $${fmt(bePrice,3)}。日净额估算为 $${fmt(net,4)}；价格、难度或功耗小幅变化即可转负。`;
   } else {
-    cls = 'bad'; title = '✗ 当前假设为负 · NEGATIVE ESTIMATE';
+    cls = 'bad'; title = '✗ 当前假设为负';
     body = `当前电价 $${fmt(price,3)} 高于盈亏平衡估算 $${fmt(bePrice,3)}，年净额估算为 -$${fmt(-net*365,2)}。请核对全部成本，不把结果当作买币或购机建议。`;
   }
   $('verdict1').innerHTML = `<div class="verdict ${cls}"><b>${title}</b><small>${body}</small></div>`;
@@ -243,11 +273,11 @@ function calcPayback(){
   const year1 = months[11] || 0;
 
   $('out2').innerHTML = `
-    <div class="r ${netNow>=0?'pos':'neg'}"><span>当前日净额估算 · Current daily estimate</span><b>${sign(netNow)}$${fmt(netNow,4)}</b></div>
-    <div class="r"><span>硬件投入参数 · Hardware assumption</span><b>$${fmt(cost,2)}</b></div>
-    <div class="r ${paybackDays?'pos':'neg'}"><span>静态回收期估算 · Static scenario</span><b>${paybackDays ? fmt(paybackDays,0)+' 天（估算）' : (cost>0 ? '当前假设下未回收' : '未设投入参数')}</b></div>
-    <div class="r ${paybackMonth?'pos':'neg'}"><span>滚动回收期估算 · Drift & difficulty</span><b>${cost>0 ? (paybackMonth ? paybackMonth+' 个月（情景）' : '36 个月情景内未回收') : '—'}</b></div>
-    <div class="r ${year1>=0?'pos':'neg'}"><span>12 个月累计净额估算 · Cumulative estimate</span><b>${sign(year1)}$${fmt(year1,2)}</b></div>
+    <div class="r ${netNow>=0?'pos':'neg'}"><span>当前日净额估算</span><b>${sign(netNow)}$${fmt(netNow,4)}</b></div>
+    <div class="r"><span>硬件投入参数</span><b>$${fmt(cost,2)}</b></div>
+    <div class="r ${paybackDays?'pos':'neg'}"><span>静态回收期估算</span><b>${paybackDays ? fmt(paybackDays,0)+' 天（估算）' : (cost>0 ? '当前假设下未回收' : '未设投入参数')}</b></div>
+    <div class="r ${paybackMonth?'pos':'neg'}"><span>滚动回收期估算（含币价漂移与难度增长）</span><b>${cost>0 ? (paybackMonth ? paybackMonth+' 个月（情景）' : '36 个月情景内未回收') : '—'}</b></div>
+    <div class="r ${year1>=0?'pos':'neg'}"><span>12 个月累计净额估算</span><b>${sign(year1)}$${fmt(year1,2)}</b></div>
   `;
 
   let note = '';
@@ -263,22 +293,37 @@ function calcPayback(){
 function calcTiers(){
   const {hash, rev} = readInputs();
   const gross = hash * rev;
+  const power = +$('i_power').value || 0;
   const tiers = [
-    {label:'低价电 · Cheap', price:0.05, tag:'工业/水电'},
-    {label:'居民电 · Residential', price:0.09, tag:'多数家庭'},
-    {label:'高价电 · Expensive', price:0.18, tag:'商业/峰电'}
-  ];
-  let html = '';
-  tiers.forEach(t => {
-    const power = +$('i_power').value || 0;
+    {label:'低价电', icon:'💧', price:0.05, tag:'工业 / 水电'},
+    {label:'居民电', icon:'🏠', price:0.09, tag:'多数家庭'},
+    {label:'高价电', icon:'🔥', price:0.18, tag:'商业 / 峰电'}
+  ].map(t => {
     const elec = power * 24 / 1000 * t.price;
     const net = gross - elec;
-    const yearly = net * 365;
-    html += `<div class="r ${net>=0?'pos':'neg'}">
-      <span>${t.label} · $${fmt(t.price,3)}/kWh <span style="opacity:.6">(${t.tag})</span></span>
-      <b>净额估算 ${sign(net)}$${fmt(net,4)}/日 · ${sign(yearly)}$${fmt(yearly,0)}/年</b></div>`;
+    return {...t, elec, net, yearly: net * 365};
   });
-  $('out3').innerHTML = html;
+
+  const maxAbs = Math.max(...tiers.map(t => Math.abs(t.net)), 1e-9);
+  const bestNet = Math.max(...tiers.map(t => t.net));
+
+  const banner = bestNet < 0
+    ? `<div class="tier-alert">⚠ 当前参数下三档电价均为负净额：最便宜的档位仍亏 $${fmt(Math.abs(bestNet),4)}/日。请下调电费参数或提高单位毛收后再判断。</div>`
+    : '';
+
+  $('out3').innerHTML = banner + tiers.map(t => {
+    const w = Math.max(4, Math.round(Math.abs(t.net) / maxAbs * 100));
+    const cls = t.net >= 0 ? 'pos' : 'neg';
+    const isBest = t.net === bestNet;
+    return `<div class="tier-row">
+      <div class="tier-head">
+        <span class="tier-name">${t.icon} ${t.label}${isBest ? ' <span class="tier-badge">相对最优</span>' : ''}</span>
+        <span class="tier-price">$${fmt(t.price,3)}/kWh · ${t.tag}</span>
+      </div>
+      <div class="tier-bar"><i class="${cls}" style="width:${w}%"></i></div>
+      <div class="tier-val ${cls}">${sign(t.net)}$${fmt(t.net,4)}/日 <small>· ${sign(t.yearly)}$${fmt(t.yearly,0)}/年</small></div>
+    </div>`;
+  }).join('');
 }
 
 function calcAll(){ calcBreak(); calcPayback(); calcTiers(); }
