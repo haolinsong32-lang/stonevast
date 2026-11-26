@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StoneVast Referral: unlimited multi-tier referral codes with per-tier halving rebates (Tier 1 from 5%, Tier 2 2%, halving from Tier 3 onward). Codes and promotion links are self-generated; rebates are computed from on-chain settlement engine records. No earnings promises.">
+<meta property="og:title" content="StoneVast Referral · Multi-tier rebates · Refer &amp; Earn">
+<meta property="og:description" content="Generate a referral code and promotion link, invite downstream nodes to mine, and earn multi-tier halving rebates (from 5% at Tier 1) on every settled net production. No earnings promises.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stonevast.com/referral-en.html">
+<link rel="canonical" href="https://stonevast.com/referral-en.html">
+<title>StoneVast Referral · Multi-tier rebates · Refer &amp; Earn</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./site.css">
+<style>
+  .wrap{max-width:960px;margin:0 auto;padding:0 16px 72px;}
+  .hero{text-align:center;padding:44px 0 30px;position:relative;}
+  .hero::before{content:'';position:absolute;left:50%;top:-30px;width:min(720px,100%);height:280px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%,#ffb26b1f,transparent 70%);pointer-events:none;}
+  .hero > *{position:relative;}
+  .hero h1{font-size:clamp(28px,5.6vw,44px);font-weight:800;line-height:1.22;letter-spacing:-.02em;}
+  .hero h1 span{color:var(--acc);}
+  .hero p{color:var(--sub);margin-top:12px;font-size:15px;max-width:640px;margin-left:auto;margin-right:auto;}
+  .pill{display:inline-flex;gap:8px;align-items:center;margin-top:16px;border:1px solid #ffb26b55;color:var(--acc);border-radius:999px;padding:6px 16px;font-size:12.5px;letter-spacing:.3px;}
+  .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 22px;margin-top:24px;}
+  .card h2{font-size:14px;color:var(--acc);letter-spacing:1px;margin-bottom:14px;font-weight:700;display:flex;align-items:center;gap:8px;}
+  .card h2 .no{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:var(--sub);border:1px solid var(--line-strong);border-radius:6px;padding:2px 7px;}
+  .codebox{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .codebox code{flex:1;min-width:220px;background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-size:15px;color:var(--acc-strong);word-break:break-all;font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;}
+  .btn{background:#ffb26b1a;border:1px solid #ffb26b55;color:var(--acc);border-radius:10px;padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap;}
+  .btn:hover{background:#ffb26b33;}
+  .btn.ok{background:#72cf9f22;border-color:#72cf9f66;color:var(--ok);}
+  .btn.gray{background:transparent;border-color:var(--line-strong);color:var(--sub);}
+  .btn.gray:hover{color:var(--txt);border-color:var(--acc);}
+  .hint{margin-top:10px;font-size:12.5px;color:var(--sub);line-height:1.8;min-height:16px;}
+  .hint.ok{color:var(--ok);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr;}}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px;}
+  th,td{text-align:left;vertical-align:top;padding:10px 10px;border-bottom:1px solid var(--line);}
+  th{color:var(--sub);font-size:11px;letter-spacing:.06em;font-weight:600;}
+  td b{color:var(--txt);}
+  .stat-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;}
+  .stat{flex:1;min-width:150px;background:#0d1016;border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .stat .k{font-size:11px;color:var(--sub);letter-spacing:.08em;}
+  .stat .v{font-size:22px;font-weight:800;margin-top:6px;color:var(--txt);font-variant-numeric:tabular-nums;}
+  .stat .v small{font-size:12px;color:var(--sub);font-weight:500;}
+  .steps{margin-top:10px;font-size:13.5px;color:var(--sub);line-height:1.95;}
+  .steps b{color:var(--txt);}
+  .steps .n{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;background:#ffb26b22;color:var(--acc);border-radius:50%;font-size:11.5px;font-weight:700;margin-right:6px;}
+  .steps code{background:#0d1016;border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--acc-strong);}
+  .warn{border:1px solid var(--line-strong);border-left:3px solid var(--warn);background:rgba(17,20,23,.74);border-radius:0 10px 10px 0;padding:14px 16px;margin-top:24px;font-size:12.5px;color:var(--sub);line-height:1.9;}
+  .warn b{color:var(--warn);}
+  .okline{border:1px solid var(--line-strong);border-left:3px solid var(--ok);background:rgba(17,20,23,.74);border-radius:0 10px 10px 0;padding:14px 16px;margin-top:16px;font-size:12.5px;color:var(--sub);line-height:1.9;}
+  .okline b{color:var(--ok);}
+  .foot{text-align:center;color:var(--sub);font-size:12px;margin-top:40px;line-height:2.1;}
+  .foot a{color:var(--acc);text-decoration:none;}
+  .ref-captured{display:none;}
+  .ref-captured.show{display:block;}
+</style>
+</head>
+<body class="site-page">
+<div class="wrap">
+  <nav aria-label="Primary navigation">
+    <a class="logo" href="./index-en.html">StoneVast <b>石广</b></a>
+    <button type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">MENU</button>
+    <div class="navlinks" id="primary-nav">
+      <a href="./calculator.html">Free estimate</a>
+      <a href="./dashboard.html#payout-title">Verified receipts</a>
+      <a href="./index-en.html#stv">STV</a>
+      <a href="./claim.html">Claim STV</a>
+      <a href="./liquidity.html">Liquidity</a>
+      <a href="./guide.html">Guide</a>
+      <a href="./paths.html">Participation route</a>
+      <a href="./node-docs.html">Node docs</a>
+      <a href="./referral-en.html">Referral</a>
+      <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a href="./referral.html">中文</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero site-reveal">
+      <div class="kicker">REFERRAL / MULTI-TIER · REFER &amp; EARN</div>
+      <h1>Invite downstream nodes, <span>earn multi-tier rebates</span></h1>
+      <p>Generate your own referral code and promotion link, and invite new nodes to join mining. Once downstream nodes actually produce, you earn multi-tier halving rebates on their settled net production — and nodes invited by them keep splitting upward all the way. Rules are public; no earnings are promised.</p>
+      <div class="pill"><span class="dot"></span> Unlimited tiers · Halving per tier · Overseas business</div>
+    </header>
+
+    <div class="ref-captured" id="refCaptured">
+      <div class="okline"><b>Referrer recorded:</b> you arrived via referral code <b id="capturedCode" style="color:var(--acc-strong);font-family:ui-monospace,Menlo,Consolas,monospace;"></b>. After your mining address is bound, the referrer earns rebates based on your actual net production.</div>
+    </div>
+
+    <!-- 1 My referral code -->
+    <section class="card site-reveal" id="my-code">
+      <h2><span class="no">01</span> MY CODE · My referral code</h2>
+      <div class="codebox">
+        <code id="myCode">--</code>
+        <button type="button" class="btn" id="btnNew">Regenerate</button>
+        <button type="button" class="btn gray" id="btnCopyCode">Copy code</button>
+      </div>
+      <div class="hint" id="codeHint">The referral code is generated and stored in your local browser only, used solely to identify the promotion source. It contains no private keys or fund information.</div>
+      <div class="okline" style="margin-top:14px;"><b>Official primary referral code:</b><code style="background:#0d1016;border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--acc-strong);">SV-STONEVAST</code> — used across all official channels (community, X, docs). New nodes that join and register through official channels are attributed to the official promotion pool.</div>
+    </section>
+
+    <!-- 2 Referral link -->
+    <section class="card site-reveal" id="my-link">
+      <h2><span class="no">02</span> LINK · Referral link</h2>
+      <div class="codebox">
+        <code id="myLink">--</code>
+        <button type="button" class="btn" id="btnCopyLink">Copy link</button>
+      </div>
+      <div class="hint">Send the link to new miners. When they open it, the referral code is automatically recorded in their browser; they complete the binding by registering the same referral code in their miner's worker name.</div>
+    </section>
+
+    <!-- 3 Rules -->
+    <section class="card site-reveal" id="rules">
+      <h2><span class="no">03</span> RULES · Multi-tier rebate rules (halving per tier)</h2>
+      <table>
+        <tr><th>Tier</th><th>Rebate rate</th><th>Split mechanism</th></tr>
+        <tr>
+          <td><b>Tier 1 (direct invite)</b></td>
+          <td><b style="color:var(--acc);">5%</b> · Genesis users 30% · Alpha 35%</td>
+          <td rowspan="3">Each pool settlement's net production is split by rule: every upstream tier takes the share listed above and the remainder belongs to the producing node. Tiers extend upward indefinitely along the <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;">invited_by</code> chain.</td>
+        </tr>
+        <tr>
+          <td><b>Tier 2</b></td>
+          <td><b style="color:var(--acc);">2%</b> · Alpha 3%</td>
+        </tr>
+        <tr>
+          <td><b>Tier 3 and above</b></td>
+          <td><b style="color:var(--acc);">1/(100×2^(tier−3))</b>, halving per tier, unlimited depth</td>
+        </tr>
+      </table>
+      <div class="hint">Rebates run automatically on the settlement engine <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;">infinite-halving-v2-alpha</code>: on each on-chain payout event (finality + full verification), rebate records for every tier are generated from the <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;">invited_by</code> relations registered in <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;">users.json</code>. Rebate receipts are governed by the settlement engine records and actual wallet receipts.</div>
+    </section>
+
+    <!-- 4 Stats -->
+    <section class="card site-reveal" id="stats">
+      <h2><span class="no">04</span> STATS · Rebate stats <span id="statsStatus" style="font-size:11px;color:var(--sub);margin-left:auto;font-weight:400;"></span></h2>
+      <div class="stat-row" id="statRow">
+        <div class="stat"><div class="k">NODES INVITED</div><div class="v" id="sInvited">--</div></div>
+        <div class="stat"><div class="k">NODES ACTIVE</div><div class="v" id="sActive">--</div></div>
+        <div class="stat"><div class="k">Downstream cumulative net production</div><div class="v" id="sProduced">-- <small>USDT equiv.</small></div></div>
+        <div class="stat"><div class="k">Cumulative rebates (settled / pending)</div><div class="v" id="sRebate">-- <small>USDT equiv.</small></div></div>
+      </div>
+      <table style="margin-top:14px;">
+        <tr><th>Downstream (masked)</th><th>Bound at</th><th>Status</th><th>Rebate rate</th><th>Cumulative rebate</th></tr>
+        <tbody id="entryBody"><tr><td colspan="5" style="color:var(--sub);">No downstream nodes registered yet. Invites appear here once binding is complete.</td></tr></tbody>
+      </table>
+      <div class="hint" id="statsUpdated">Updated: --</div>
+    </section>
+
+    <!-- 5 Binding -->
+    <section class="card site-reveal" id="bind">
+      <h2><span class="no">05</span> BIND · How downstream nodes bind a referral code</h2>
+      <div class="steps">
+        <div><span class="n">1</span>The downstream user opens the promotion link (recording the code), or simply notes the code down.</div>
+        <div><span class="n">2</span>Append the referral code suffix to the worker name in your mining software, e.g. <code>myrig.svref-SV-XXXXXXXX</code> (works for Pearl/IRON miners).</div>
+        <div><span class="n">3</span>Register your mining address + referral code in the official Telegram group. Rebates start once the settlement engine writes the <code>invited_by</code> relation into <code>users.json</code>.</div>
+        <div><span class="n">4</span>On each downstream pool settlement event, the system generates rebate records automatically; rebates are sent to upstream registered wallet addresses on the settlement cycle.</div>
+      </div>
+      <div class="hint">Settlement engine rule version: <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;">infinite-halving-v2-alpha</code> (unlimited multi-tier halving; the engine settles automatically along the <code>invited_by</code> chain, and binding relations are verified via Telegram registration).</div>
+    </section>
+
+    <!-- 6 Guarantee -->
+    <section class="card site-reveal" id="guarantee">
+      <h2><span class="no">06</span> GUARANTEE · Downstream keeps a positive daily net</h2>
+      <p style="margin:0;color:var(--sub);font-size:13px;line-height:1.9;">Rebates are split only from <b style="color:var(--txt);">net production actually settled by the pool</b> — <b style="color:var(--txt);">never from a node's principal, electricity cost or unsettled balance</b>. The sum of all tier shares is always below the total production, so the producing node's daily retained share is always positive — the more you produce, the more you keep.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="k">Standard chain · 100 settled</div><div class="v">Uplines share ≤9 <small>Node keeps ≥91</small></div></div>
+        <div class="stat"><div class="k">Genesis chain · 100 settled</div><div class="v">Uplines share ≤34 <small>Node keeps ≥66</small></div></div>
+        <div class="stat"><div class="k">Alpha chain · 100 settled</div><div class="v">Uplines share ≤41 <small>Node keeps ≥59</small></div></div>
+      </div>
+      <div class="hint">Math ceiling: Tier 1 5% + Tier 2 2% + infinite halving from Tier 3 sums to at most 9% (Genesis chain 34% · Alpha chain 41%). It is paid entirely from settled production and always stays below 100%, so downstream nodes never pay out of pocket.</div>
+      <div class="okline"><b>Chain top attribution:</b> the official primary code <code style="background:#0d1016;border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--acc-strong);">SV-STONEVAST</code> maps to the project's highest Alpha node — every new node joining through official channels is attached under Alpha, and all tier shares flow up to the chain top.</div>
+    </section>
+
+    <div class="warn" role="note">
+      <b>Compliance and risk notes</b><br>
+      · This module is for <b>overseas business</b> only. Please comply with local laws and provider terms.<br>
+      · Rebate rates and rules may be adjusted with the project's settlement policy; the latest announcements prevail.<br>
+      · <b>No earnings promise</b>: whether and how much downstream nodes produce depends on the market, electricity and hardware. This site guarantees no rebate amount.<br>
+      · A referral code is only a source identifier and contains no private keys. Anyone asking for your private key, mnemonic or a transfer to "activate" is a scam.
+    </div>
+
+    <!-- 7 Privacy -->
+    <section class="card site-reveal" id="privacy">
+      <h2><span class="no">07</span> PRIVACY · Privacy commitments</h2>
+      <div class="steps">
+        <div><span class="n">1</span><b>Your referral code lives only in your own browser</b> (localStorage). Generated and stored locally, it is never uploaded to any server.</div>
+        <div><span class="n">2</span><b>No personal data collection</b>: no IP logging, no tracking cookies, no device fingerprinting, no reading browser history.</div>
+        <div><span class="n">3</span><b>Mining addresses are used only for rebate settlement</b>: the sole purpose of registration is sending rebates to the corresponding wallet. Downstream lists on public pages are always masked (only first/last characters shown).</div>
+        <div><span class="n">4</span><b>Deletable anytime</b>: ask an admin in the official Telegram group to remove your registration and binding relations.</div>
+        <div><span class="n">5</span><b>Private keys are never needed</b>: the whole flow requires no private key, mnemonic or transfer "activation". Anyone asking is a scam.</div>
+      </div>
+      <div class="hint">This page's stats endpoint is <b>read-only</b> (rebate data only); no visitor information is ever written to the server.</div>
+    </section>
+
+    <footer class="foot">
+      <a href="./calculator.html">Free estimate</a> · <a href="./dashboard.html#payout-title">Verified receipts</a> · <a href="./guide.html">Guide</a> · <a href="./paths.html">Participation route</a> · <a href="./node-docs.html">Node docs</a> · <a href="./referral-en.html">Referral</a><br>
+      <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a> · <a href="https://x.com/sngholn286379" target="_blank" rel="noopener noreferrer">X</a><br>
+      StoneVast 石广 · Real numbers, no promises
+    </footer>
+  </main>
+</div>
+<script src="./site.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  function randomCode() {
+    var out = '';
+    var buf = new Uint8Array(8);
+    if (window.crypto && window.crypto.getRandomValues) {
+      window.crypto.getRandomValues(buf);
+    } else {
+      for (var i = 0; i < buf.length; i++) buf[i] = Math.random() * 256 | 0;
+    }
+    for (var j = 0; j < buf.length; j++) out += CHARS[buf[j] % CHARS.length];
+    return 'SV-' + out;
+  }
+  function normalize(code) {
+    return String(code || '').toUpperCase().replace(/[^A-Z0-9\-]/g, '').slice(0, 16);
+  }
+  function storage() {
+    try { return window.localStorage; } catch (e) { return null; }
+  }
+  var store = storage();
+
+  // My referral code
+  var myCode = '';
+  if (store) {
+    myCode = normalize(store.getItem('sv_my_ref_code'));
+    if (!myCode) {
+      myCode = randomCode();
+      try { store.setItem('sv_my_ref_code', myCode); } catch (e) {}
+    }
+  }
+  var codeEl = document.getElementById('myCode');
+  var linkEl = document.getElementById('myLink');
+  var base = 'https://stonevast.com/';
+  if (codeEl) codeEl.textContent = myCode;
+  if (linkEl) linkEl.textContent = base + '?ref=' + encodeURIComponent(myCode);
+
+  // Referrer capture display
+  var captured = '';
+  try {
+    var params = new URLSearchParams(window.location.search);
+    captured = normalize(params.get('ref') || '');
+  } catch (e) {}
+  if (!captured && store) {
+    try { captured = normalize(store.getItem('sv_ref')); } catch (e) {}
+  }
+  if (captured) {
+    var capBox = document.getElementById('refCaptured');
+    var capCode = document.getElementById('capturedCode');
+    if (capBox) capBox.classList.add('show');
+    if (capCode) capCode.textContent = captured;
+  }
+
+  function flashHint(el, text, ok) {
+    if (!el) return;
+    el.textContent = text;
+    el.classList.toggle('ok', !!ok);
+  }
+  function copyText(text, done) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+  function fallbackCopy(text, done) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
+    } catch (e) {
+      done();
+    }
+  }
+  var btnNew = document.getElementById('btnNew');
+  if (btnNew) {
+    btnNew.addEventListener('click', function () {
+      myCode = randomCode();
+      if (store) { try { store.setItem('sv_my_ref_code', myCode); } catch (e) {} }
+      if (codeEl) codeEl.textContent = myCode;
+      if (linkEl) linkEl.textContent = base + '?ref=' + encodeURIComponent(myCode);
+      flashHint(document.getElementById('codeHint'), 'New referral code generated: ' + myCode + ' (the old code is retired — share the new link)', true);
+    });
+  }
+  var btnCopyCode = document.getElementById('btnCopyCode');
+  if (btnCopyCode) {
+    btnCopyCode.addEventListener('click', function () {
+      copyText(myCode, function () {
+        flashHint(document.getElementById('codeHint'), 'Referral code copied: ' + myCode, true);
+      });
+    });
+  }
+  var btnCopyLink = document.getElementById('btnCopyLink');
+  if (btnCopyLink) {
+    btnCopyLink.addEventListener('click', function () {
+      copyText(base + '?ref=' + encodeURIComponent(myCode), function () {
+        flashHint(document.getElementById('codeHint'), 'Referral link copied — send it to new miners', true);
+      });
+    });
+  }
+
+  // Rebate stats (static JSON; replaced by a live endpoint once the backend is connected)
+  function fmt(n) {
+    var num = Number(n);
+    if (!isFinite(num)) return '--';
+    return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  }
+  function loadStats() {
+    var statusEl = document.getElementById('statsStatus');
+    if (statusEl) statusEl.textContent = 'Loading…';
+    window.fetch('./referrals-data.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data) throw new Error('unavailable');
+        var stats = data.stats || {};
+        var rule = data.rule || {};
+        function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+        set('sInvited', fmt(stats.invited));
+        set('sActive', fmt(stats.active));
+        set('sProduced', fmt(stats.totalProducedUsdt));
+        set('sRebate', fmt(stats.rebatePaidUsdt) + ' / ' + fmt(stats.rebateAccruedUsdt));
+        var body = document.getElementById('entryBody');
+        var entries = Array.isArray(data.entries) ? data.entries : [];
+        if (body && entries.length) {
+          var rows = entries.map(function (e) {
+            var tr = document.createElement('tr');
+            function cell(v) { var td = document.createElement('td'); td.textContent = v; return td; }
+            tr.appendChild(cell(e.alias || '--'));
+            tr.appendChild(cell(e.boundAt || '--'));
+            tr.appendChild(cell(e.status === 'active' ? 'Active' : '--'));
+            tr.appendChild(cell(e.rate ? (Number(e.rate) * 100).toFixed(0) + '%' : '--'));
+            tr.appendChild(cell(e.rebateUsdt != null ? fmt(e.rebateUsdt) + ' USDT' : '--'));
+            return tr;
+          });
+          body.replaceChildren.apply(body, rows);
+        }
+        set('statsUpdated', 'Updated: ' + (data.updated || '--') + ' · Rule version: ' + (rule.version || 'infinite-halving-v2-alpha') + ' · Unlimited multi-tier halving');
+        if (statusEl) statusEl.textContent = '';
+      })
+      .catch(function () {
+        if (statusEl) statusEl.textContent = 'Unavailable';
+        var body = document.getElementById('entryBody');
+        if (body) body.replaceChildren();
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.colSpan = 5;
+        td.textContent = 'Stats are temporarily unavailable. Refresh to retry.';
+        td.style.color = 'var(--sub)';
+        tr.appendChild(td);
+        if (body) body.appendChild(tr);
+      });
+  }
+  loadStats();
+}());
+</script>
+</body>
+</html>
