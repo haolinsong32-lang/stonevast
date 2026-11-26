@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StoneVast 推荐返点：无限多级推荐码与逐级减半返佣（一级 5% 起，二级 2%，三级起逐级减半）。推荐码与推广链接自助生成，返佣按结算引擎链上记录计算，不承诺收益。">
+<meta property="og:title" content="StoneVast 推荐返点 · 多级返佣 · Refer & Earn">
+<meta property="og:description" content="生成推荐码与推广链接，邀请下级节点挖矿，按每次到账净产出获得多级逐级减半返佣（一级 5% 起）。不作收益承诺。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stonevast.com/referral.html">
+<link rel="canonical" href="https://stonevast.com/referral.html">
+<title>StoneVast 推荐返点 · 多级返佣 · Refer &amp; Earn</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./site.css">
+<style>
+  .wrap{max-width:960px;margin:0 auto;padding:0 16px 72px;}
+  .hero{text-align:center;padding:44px 0 30px;position:relative;}
+  .hero::before{content:'';position:absolute;left:50%;top:-30px;width:min(720px,100%);height:280px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 0%,#ffb26b1f,transparent 70%);pointer-events:none;}
+  .hero > *{position:relative;}
+  .hero h1{font-size:clamp(28px,5.6vw,44px);font-weight:800;line-height:1.22;letter-spacing:-.02em;}
+  .hero h1 span{color:var(--acc);}
+  .hero p{color:var(--sub);margin-top:12px;font-size:15px;max-width:640px;margin-left:auto;margin-right:auto;}
+  .pill{display:inline-flex;gap:8px;align-items:center;margin-top:16px;border:1px solid #ffb26b55;color:var(--acc);border-radius:999px;padding:6px 16px;font-size:12.5px;letter-spacing:.3px;}
+  .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 22px;margin-top:24px;}
+  .card h2{font-size:14px;color:var(--acc);letter-spacing:1px;margin-bottom:14px;font-weight:700;display:flex;align-items:center;gap:8px;}
+  .card h2 .no{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:var(--sub);border:1px solid var(--line-strong);border-radius:6px;padding:2px 7px;}
+  .codebox{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .codebox code{flex:1;min-width:220px;background:#0d1016;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-size:15px;color:var(--acc-strong);word-break:break-all;font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;}
+  .btn{background:#ffb26b1a;border:1px solid #ffb26b55;color:var(--acc);border-radius:10px;padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:inherit;white-space:nowrap;}
+  .btn:hover{background:#ffb26b33;}
+  .btn.ok{background:#72cf9f22;border-color:#72cf9f66;color:var(--ok);}
+  .btn.gray{background:transparent;border-color:var(--line-strong);color:var(--sub);}
+  .btn.gray:hover{color:var(--txt);border-color:var(--acc);}
+  .hint{margin-top:10px;font-size:12.5px;color:var(--sub);line-height:1.8;min-height:16px;}
+  .hint.ok{color:var(--ok);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr;}}
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:13px;}
+  th,td{text-align:left;vertical-align:top;padding:10px 10px;border-bottom:1px solid var(--line);}
+  th{color:var(--sub);font-size:11px;letter-spacing:.06em;font-weight:600;}
+  td b{color:var(--txt);}
+  .stat-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;}
+  .stat{flex:1;min-width:150px;background:#0d1016;border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .stat .k{font-size:11px;color:var(--sub);letter-spacing:.08em;}
+  .stat .v{font-size:22px;font-weight:800;margin-top:6px;color:var(--txt);font-variant-numeric:tabular-nums;}
+  .stat .v small{font-size:12px;color:var(--sub);font-weight:500;}
+  .steps{margin-top:10px;font-size:13.5px;color:var(--sub);line-height:1.95;}
+  .steps b{color:var(--txt);}
+  .steps .n{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;background:#ffb26b22;color:var(--acc);border-radius:50%;font-size:11.5px;font-weight:700;margin-right:6px;}
+  .steps code{background:#0d1016;border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--acc-strong);}
+  .warn{border:1px solid var(--line-strong);border-left:3px solid var(--warn);background:rgba(17,20,23,.74);border-radius:0 10px 10px 0;padding:14px 16px;margin-top:24px;font-size:12.5px;color:var(--sub);line-height:1.9;}
+  .warn b{color:var(--warn);}
+  .okline{border:1px solid var(--line-strong);border-left:3px solid var(--ok);background:rgba(17,20,23,.74);border-radius:0 10px 10px 0;padding:14px 16px;margin-top:16px;font-size:12.5px;color:var(--sub);line-height:1.9;}
+  .okline b{color:var(--ok);}
+  .foot{text-align:center;color:var(--sub);font-size:12px;margin-top:40px;line-height:2.1;}
+  .foot a{color:var(--acc);text-decoration:none;}
+  .ref-captured{display:none;}
+  .ref-captured.show{display:block;}
+</style>
+</head>
+<body class="site-page">
+<div class="wrap">
+  <nav aria-label="主导航">
+    <a class="logo" href="./index.html">StoneVast <b>石广</b></a>
+    <button type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">MENU</button>
+    <div class="navlinks" id="primary-nav">
+      <a href="./calculator.html">免费测算</a>
+      <a href="./dashboard.html#payout-title">实际到账</a>
+      <a href="./index.html#stv">STV</a>
+      <a href="./claim.html">STV 领取</a>
+      <a href="./liquidity.html">流动性</a>
+      <a href="./guide.html">使用指南</a>
+      <a href="./paths.html">参与路径</a>
+      <a href="./node-docs.html">节点文档</a>
+      <a href="./referral.html">推荐返点</a>
+      <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a href="./referral-en.html">English</a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero site-reveal">
+      <div class="kicker">REFERRAL / MULTI-TIER · 推荐返点</div>
+      <h1>推荐下级节点，<span>赚多级返佣</span></h1>
+      <p>生成自己的推荐码与推广链接，邀请新节点加入挖矿。下级节点实际产出后，你按到账净产出获得多级逐级减半返佣，下级再邀请的节点也一路向上分成。规则公开、不承诺收益。</p>
+      <div class="pill"><span class="dot"></span> 无限多级 · 逐级减半 · 境外业务</div>
+    </header>
+
+    <div class="ref-captured" id="refCaptured">
+      <div class="okline"><b>推荐人已记录：</b>你是通过推荐码 <b id="capturedCode" style="color:var(--acc-strong);font-family:ui-monospace,Menlo,Consolas,monospace;"></b> 进入本站。绑定挖矿地址后，该推荐人可依据你的实际净产出获得返点。</div>
+    </div>
+
+    <!-- 1 我的推荐码 -->
+    <section class="card site-reveal" id="my-code">
+      <h2><span class="no">01</span> MY CODE · 我的推荐码</h2>
+      <div class="codebox">
+        <code id="myCode">--</code>
+        <button type="button" class="btn" id="btnNew">重新生成</button>
+        <button type="button" class="btn gray" id="btnCopyCode">复制推荐码</button>
+      </div>
+      <div class="hint" id="codeHint">推荐码在本机浏览器生成并保存，仅用于标识推广来源，不含任何私钥或资金信息。</div>
+      <div class="okline" style="margin-top:14px;"><b>官方主推荐码：</b><code style="background:#0d1016;border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--acc-strong);">SV-STONEVAST</code> — 官方渠道（社群、X、文档）统一使用该码，新节点经官方渠道加入并登记后归属官方推广池。</div>
+    </section>
+
+    <!-- 2 推广链接 -->
+    <section class="card site-reveal" id="my-link">
+      <h2><span class="no">02</span> LINK · 推广链接</h2>
+      <div class="codebox">
+        <code id="myLink">--</code>
+        <button type="button" class="btn" id="btnCopyLink">复制链接</button>
+      </div>
+      <div class="hint">把链接发给新矿工。对方打开链接后推荐码会自动记录在其浏览器中；对方在矿机 worker 名登记同一推荐码即可完成绑定。</div>
+    </section>
+
+    <!-- 3 返点规则 -->
+    <section class="card site-reveal" id="rules">
+      <h2><span class="no">03</span> RULES · 多级返佣规则（逐级减半）</h2>
+      <table>
+        <tr><th>层级</th><th>返佣比例</th><th>切分机制</th></tr>
+        <tr>
+          <td><b>一级（直属下级）</b></td>
+          <td><b style="color:var(--acc);">5%</b> · 创世用户 30% · Alpha 35%</td>
+          <td rowspan="3">每次矿池到账的净产出按规则切分：各级上级按上表比例分成，剩余部分归产出节点。层级沿 <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;">invited_by</code> 链无限向上。</td>
+        </tr>
+        <tr>
+          <td><b>二级</b></td>
+          <td><b style="color:var(--acc);">2%</b> · Alpha 3%</td>
+        </tr>
+        <tr>
+          <td><b>三级及以上</b></td>
+          <td><b style="color:var(--acc);">1/(100×2^(层级−3))</b>，逐级减半、无限向下</td>
+        </tr>
+      </table>
+      <div class="hint">返佣由结算引擎 <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;">infinite-halving-v2-alpha</code> 自动执行：每次链上到账事件（finality + 全量核验）结算时，按 <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;">users.json</code> 登记的 <code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;">invited_by</code> 关系生成各级返佣记录。返佣到账以结算引擎记录与钱包实收为准。</div>
+    </section>
+
+    <!-- 4 返点统计 -->
+    <section class="card site-reveal" id="stats">
+      <h2><span class="no">04</span> STATS · 返点统计 <span id="statsStatus" style="font-size:11px;color:var(--sub);margin-left:auto;font-weight:400;"></span></h2>
+      <div class="stat-row" id="statRow">
+        <div class="stat"><div class="k">已邀请节点 INVITED</div><div class="v" id="sInvited">--</div></div>
+        <div class="stat"><div class="k">活跃节点 ACTIVE</div><div class="v" id="sActive">--</div></div>
+        <div class="stat"><div class="k">下级累计净产出</div><div class="v" id="sProduced">-- <small>USDT 折算</small></div></div>
+        <div class="stat"><div class="k">累计返点（已结算 / 待结算）</div><div class="v" id="sRebate">-- <small>USDT 折算</small></div></div>
+      </div>
+      <table style="margin-top:14px;">
+        <tr><th>下级（脱敏）</th><th>绑定时间</th><th>状态</th><th>返点比例</th><th>累计返点</th></tr>
+        <tbody id="entryBody"><tr><td colspan="5" style="color:var(--sub);">暂无已登记的下级节点。邀请并完成绑定后在此显示。</td></tr></tbody>
+      </table>
+      <div class="hint" id="statsUpdated">数据更新：--</div>
+    </section>
+
+    <!-- 5 绑定与结算 -->
+    <section class="card site-reveal" id="bind">
+      <h2><span class="no">05</span> BIND · 下级如何绑定推荐码</h2>
+      <div class="steps">
+        <div><span class="n">1</span>下级打开推广链接（记录推荐码），或直接记下推荐码。</div>
+        <div><span class="n">2</span>在挖矿软件的 worker 名后加推荐码后缀，例如 <code>myrig.svref-SV-XXXXXXXX</code>（Pearl/IRON 矿工均可）。</div>
+        <div><span class="n">3</span>通过 Telegram 官方群登记「我的挖矿地址 + 推荐码」，结算引擎写入 <code>users.json</code> 的 <code>invited_by</code> 关系后开始计返。</div>
+        <div><span class="n">4</span>下级每次矿池到账事件结算时，系统自动生成返点记录；返点随结算周期发往上级登记的钱包地址。</div>
+      </div>
+      <div class="hint">结算引擎规则版本：<code style="font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;">infinite-halving-v2-alpha</code>（无限多级逐级减半；引擎按 <code>invited_by</code> 链自动结算，绑定关系经 Telegram 登记核验）。</div>
+    </section>
+
+    <!-- 6 每天正收益保证 -->
+    <section class="card site-reveal" id="guarantee">
+      <h2><span class="no">06</span> GUARANTEE · 下级每天正收益保证</h2>
+      <p style="margin:0;color:var(--sub);font-size:13px;line-height:1.9;">返佣只在<b style="color:var(--txt);">矿池实际到账的净产出</b>里切分，<b style="color:var(--txt);">绝不从节点本金、电费或未到账部分扣钱</b>。所有层级分成相加永远小于产出总额，产出节点每天保留的部分始终为正——产得越多、自己留得越多。</p>
+      <div class="stat-row">
+        <div class="stat"><div class="k">普通推荐链 · 到账 100</div><div class="v">上级共分 ≤9 <small>节点保留 ≥91</small></div></div>
+        <div class="stat"><div class="k">创世推荐链 · 到账 100</div><div class="v">上级共分 ≤34 <small>节点保留 ≥66</small></div></div>
+        <div class="stat"><div class="k">Alpha 推荐链 · 到账 100</div><div class="v">上级共分 ≤41 <small>节点保留 ≥59</small></div></div>
+      </div>
+      <div class="hint">数学上限：一级 5% + 二级 2% + 三级起逐级减半无限求和 = 最多 9%（创世链 34% · Alpha 链 41%），全部由到账产出支付，<b>永远小于 100%</b>，因此不存在"下级倒贴"的情况。</div>
+      <div class="okline"><b>链顶归属：</b>官方主推荐码 <code style="background:#0d1016;border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--acc-strong);">SV-STONEVAST</code> 对应项目方最高级 Alpha 节点——经官方渠道加入的新节点全部挂到 Alpha 名下，各级分成一路汇到链顶。</div>
+    </section>
+
+    <div class="warn" role="note">
+      <b>合规与风险提示</b><br>
+      · 本模块仅面向<b>境外业务</b>，请遵守所在地区法律与服务商条款。<br>
+      · 返点比例与规则可能随项目结算政策调整，以最新公告为准。<br>
+      · <b>不作收益承诺</b>：下级是否产出、产出多少均取决于市场、电价与设备，本站不保证任何返点金额。<br>
+      · 推荐码仅为来源标识，不含私钥；任何要求你提供私钥、助记词或转账「激活」的行为都是诈骗。
+    </div>
+
+    <!-- 7 隐私保护承诺 -->
+    <section class="card site-reveal" id="privacy">
+      <h2><span class="no">07</span> PRIVACY · 隐私保护承诺</h2>
+      <div class="steps">
+        <div><span class="n">1</span><b>推荐码只存在你自己的浏览器里</b>（localStorage），本机生成、本机保存，不会上传到任何服务器。</div>
+        <div><span class="n">2</span><b>不收集个人信息</b>：不记录 IP、不设追踪 Cookie、不做设备指纹、不读浏览器历史。</div>
+        <div><span class="n">3</span><b>挖矿地址仅用于返佣结算</b>：登记的唯一用途是把返点发到对应钱包；公开页面的下级列表一律脱敏显示（只显示前后几位）。</div>
+        <div><span class="n">4</span><b>可随时删除</b>：在 Telegram 官方群向管理员申请即可删除你的登记信息与绑定关系。</div>
+        <div><span class="n">5</span><b>私钥永远不需要</b>：整个流程不需要私钥、助记词或任何转账「激活」，遇到索要即为诈骗。</div>
+      </div>
+      <div class="hint">本页面的统计接口只做<b>单向读取</b>（只读返点数据），不会把浏览者的任何信息写入服务器。</div>
+    </section>
+
+    <footer class="foot">
+      <a href="./calculator.html">免费测算</a> · <a href="./dashboard.html#payout-title">实际到账</a> · <a href="./guide.html">使用指南</a> · <a href="./paths.html">参与路径</a> · <a href="./node-docs.html">节点文档</a> · <a href="./referral.html">推荐返点</a><br>
+      <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a> · <a href="https://x.com/sngholn286379" target="_blank" rel="noopener noreferrer">X</a><br>
+      StoneVast 石广 · Real numbers, no promises · 真实数字，不作承诺
+    </footer>
+  </main>
+</div>
+<script src="./site.js"></script>
+<script>
+(function () {
+  'use strict';
+  var CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  function randomCode() {
+    var out = '';
+    var buf = new Uint8Array(8);
+    if (window.crypto && window.crypto.getRandomValues) {
+      window.crypto.getRandomValues(buf);
+    } else {
+      for (var i = 0; i < buf.length; i++) buf[i] = Math.random() * 256 | 0;
+    }
+    for (var j = 0; j < buf.length; j++) out += CHARS[buf[j] % CHARS.length];
+    return 'SV-' + out;
+  }
+  function normalize(code) {
+    return String(code || '').toUpperCase().replace(/[^A-Z0-9\-]/g, '').slice(0, 16);
+  }
+  function storage() {
+    try { return window.localStorage; } catch (e) { return null; }
+  }
+  var store = storage();
+
+  // 我的推荐码
+  var myCode = '';
+  if (store) {
+    myCode = normalize(store.getItem('sv_my_ref_code'));
+    if (!myCode) {
+      myCode = randomCode();
+      try { store.setItem('sv_my_ref_code', myCode); } catch (e) {}
+    }
+  }
+  var codeEl = document.getElementById('myCode');
+  var linkEl = document.getElementById('myLink');
+  var base = 'https://stonevast.com/';
+  if (codeEl) codeEl.textContent = myCode;
+  if (linkEl) linkEl.textContent = base + '?ref=' + encodeURIComponent(myCode);
+
+  // 推荐人捕获展示
+  var captured = '';
+  try {
+    var params = new URLSearchParams(window.location.search);
+    captured = normalize(params.get('ref') || '');
+  } catch (e) {}
+  if (!captured && store) {
+    try { captured = normalize(store.getItem('sv_ref')); } catch (e) {}
+  }
+  if (captured) {
+    var capBox = document.getElementById('refCaptured');
+    var capCode = document.getElementById('capturedCode');
+    if (capBox) capBox.classList.add('show');
+    if (capCode) capCode.textContent = captured;
+  }
+
+  function flashHint(el, text, ok) {
+    if (!el) return;
+    el.textContent = text;
+    el.classList.toggle('ok', !!ok);
+  }
+  function copyText(text, done) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+  function fallbackCopy(text, done) {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
+    } catch (e) {
+      done();
+    }
+  }
+  var btnNew = document.getElementById('btnNew');
+  if (btnNew) {
+    btnNew.addEventListener('click', function () {
+      myCode = randomCode();
+      if (store) { try { store.setItem('sv_my_ref_code', myCode); } catch (e) {} }
+      if (codeEl) codeEl.textContent = myCode;
+      if (linkEl) linkEl.textContent = base + '?ref=' + encodeURIComponent(myCode);
+      flashHint(document.getElementById('codeHint'), '已生成新推荐码：' + myCode + '（旧码作废，请重新分享链接）', true);
+    });
+  }
+  var btnCopyCode = document.getElementById('btnCopyCode');
+  if (btnCopyCode) {
+    btnCopyCode.addEventListener('click', function () {
+      copyText(myCode, function () {
+        flashHint(document.getElementById('codeHint'), '推荐码已复制：' + myCode, true);
+      });
+    });
+  }
+  var btnCopyLink = document.getElementById('btnCopyLink');
+  if (btnCopyLink) {
+    btnCopyLink.addEventListener('click', function () {
+      copyText(base + '?ref=' + encodeURIComponent(myCode), function () {
+        flashHint(document.getElementById('codeHint'), '推广链接已复制，发给新矿工即可', true);
+      });
+    });
+  }
+
+  // 返点统计（静态 JSON，后端接入后替换为实时接口）
+  function fmt(n) {
+    var num = Number(n);
+    if (!isFinite(num)) return '--';
+    return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  }
+  function loadStats() {
+    var statusEl = document.getElementById('statsStatus');
+    if (statusEl) statusEl.textContent = '读取中…';
+    window.fetch('./referrals-data.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data) throw new Error('unavailable');
+        var stats = data.stats || {};
+        var rule = data.rule || {};
+        function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+        set('sInvited', fmt(stats.invited));
+        set('sActive', fmt(stats.active));
+        set('sProduced', fmt(stats.totalProducedUsdt));
+        set('sRebate', fmt(stats.rebatePaidUsdt) + ' / ' + fmt(stats.rebateAccruedUsdt));
+        var body = document.getElementById('entryBody');
+        var entries = Array.isArray(data.entries) ? data.entries : [];
+        if (body && entries.length) {
+          var rows = entries.map(function (e) {
+            var tr = document.createElement('tr');
+            function cell(v) { var td = document.createElement('td'); td.textContent = v; return td; }
+            tr.appendChild(cell(e.alias || '--'));
+            tr.appendChild(cell(e.boundAt || '--'));
+            tr.appendChild(cell(e.status === 'active' ? '活跃' : '--'));
+            tr.appendChild(cell(e.rate ? (Number(e.rate) * 100).toFixed(0) + '%' : '--'));
+            tr.appendChild(cell(e.rebateUsdt != null ? fmt(e.rebateUsdt) + ' USDT' : '--'));
+            return tr;
+          });
+          body.replaceChildren.apply(body, rows);
+        }
+        set('statsUpdated', '数据更新：' + (data.updated || '--') + ' · 规则版本：' + (rule.version || 'infinite-halving-v2-alpha') + ' · 无限多级逐级减半');
+        if (statusEl) statusEl.textContent = '';
+      })
+      .catch(function () {
+        if (statusEl) statusEl.textContent = '暂不可用';
+        var body = document.getElementById('entryBody');
+        if (body) body.replaceChildren();
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        td.colSpan = 5;
+        td.textContent = '统计数据暂不可用，请稍后刷新。';
+        td.style.color = 'var(--sub)';
+        tr.appendChild(td);
+        if (body) body.appendChild(tr);
+      });
+  }
+  loadStats();
+}());
+</script>
+</body>
+</html>
