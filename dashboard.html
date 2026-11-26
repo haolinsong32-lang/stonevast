@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="StoneVast 公开账本：实际到账、历史快照与矿池未结算严格分区，按原币展示并保留公开证据与数据状态。">
-<meta property="og:title" content="Public Ledger · StoneVast 石广">
+<meta property="og:title" content="公开账本（实际到账）· StoneVast 石广">
 <meta property="og:description" content="实际到账与历史快照分区展示；未配置不填零，缺价不按零折算。">
 <meta property="og:type" content="website">
-<title>Public Ledger · 公开账本 · StoneVast 石广</title>
+<title>公开账本 · 实际到账与快照 · StoneVast 石广</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
 <script src="./assets/chart.umd.min.js"></script>
 <style>
-  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#f0a35e;--acc2:#5b9dff;--ok:#2ecc8f;}
+  :root{--bg:#0d1016;--card:#161a22;--line:#252b38;--txt:#e9edf4;--sub:#8b93a7;--acc:#ffb26b;--acc2:#5b9dff;--ok:#2ecc8f;}
   *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;}
   body{background:var(--bg);color:var(--txt);line-height:1.6;}
   .wrap{max-width:1000px;margin:0 auto;padding:0 16px 72px;}
@@ -43,7 +43,7 @@
   .chart-card h3{font-size:13px;color:var(--acc);letter-spacing:1px;margin-bottom:14px;font-weight:700;}
   .chart-box{position:relative;height:250px;}
 
-  .cta{margin-top:24px;border:1px solid #f0a35e44;background:#f0a35e08;border-radius:14px;padding:22px;text-align:center;}
+  .cta{margin-top:24px;border:1px solid #ffb26b44;background:#ffb26b08;border-radius:14px;padding:22px;text-align:center;}
   .cta h3{font-size:15px;margin-bottom:6px;}
   .cta h3 b{color:var(--acc);}
   .cta p{font-size:12.5px;color:var(--sub);margin-bottom:14px;}
@@ -53,8 +53,6 @@
   .btn-acc{background:transparent;border:1px solid var(--acc);color:var(--acc);}
   .btn-tg{background:#29a9eb22;border:1px solid #29a9eb55;color:#29a9eb;}
 
-  footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--sub);line-height:2;text-align:center;}
-  footer a{color:var(--acc2);text-decoration:none;}
 </style>
 <link rel="stylesheet" href="./site.css">
 </head>
@@ -63,12 +61,18 @@
 
   <nav aria-label="主导航">
     <a class="logo" href="./index.html">StoneVast <b>石广</b></a>
-    <div class="links">
-      <a class="back active" href="./dashboard.html">公开账本</a>
-      <a class="back" href="./calculator.html">免费测算</a>
-      <a class="back" href="./withdrawals.html">提现证据</a>
-      <a class="back" href="./guide.html">使用说明</a>
-      <a class="back" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <button type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">MENU</button>
+    <div class="navlinks" id="primary-nav">
+      <a href="./calculator.html">免费测算</a>
+      <a href="./dashboard.html#payout-title">实际到账</a>
+      <a href="./index.html#stv">STV</a>
+      <a href="./claim.html">STV 领取</a>
+      <a href="./liquidity.html">流动性</a>
+      <a href="./guide.html">使用指南</a>
+      <a href="./paths.html">参与路径</a>
+      <a href="./node-docs.html">节点文档</a>
+      <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a href="./dashboard-en.html">English</a>
     </div>
   </nav>
 
@@ -76,6 +80,7 @@
     <div class="kicker">PUBLIC LEDGER / 公开账本</div>
     <h1>实际到账，<span>先证据后数字</span></h1>
     <p class="lede">实际到账来自公开只读接口；历史快照、矿池未结算与测算收益在下方单独保留。公开地址未配置时不显示收入金额，也不以演示数据填充。</p>
+    <div style="margin-top:16px"><button class="btn" type="button" id="shareBtn">🔗 复制链接 / 分享</button></div>
   </header>
 
   <section class="payout-panel site-reveal" data-payouts data-state="loading" aria-labelledby="payout-title">
@@ -110,6 +115,14 @@
       <table>
         <thead><tr><th>资产</th><th>今日到账</th><th>累计 · 完全核验</th><th>待确认</th><th>有限核验</th><th>USDT / CNY 参考</th><th>状态</th></tr></thead>
         <tbody data-payout-assets><tr><td colspan="7">正在读取公开资产状态。</td></tr></tbody>
+      </table>
+    </div>
+    <h3>实时矿池状态（非实际到账）</h3>
+    <p class="payout-meta">未付与未确认余额由矿池上报，不等于钱包已收款；“矿池上报已付”仅用于交叉核对，不累计到上方实际到账。算力与份额变化不代表收益承诺。</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>资产</th><th>矿池未付</th><th>矿池未确认</th><th>矿池上报已付</th><th>当前算力</th><th>24h 平均算力</th><th>最后份额 · UTC</th><th>观测时间 · UTC</th><th>来源</th></tr></thead>
+        <tbody data-payout-pools><tr><td colspan="9">正在读取矿池状态；不会据此推定实际到账。</td></tr></tbody>
       </table>
     </div>
     <h3>最近到账证据</h3>
@@ -172,8 +185,9 @@
     </div>
   </section>
 
-  <footer>
-    <a href="./index.html">首页</a> · <a href="./calculator.html">免费测算</a> · <a href="./withdrawals.html">提现证据</a> · <a href="./guide.html">使用说明</a> · <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a><br>
+  <footer class="foot">
+    <a href="./calculator.html">免费测算</a> · <a href="./dashboard.html#payout-title">实际到账</a> · <a href="./guide.html">使用指南</a> · <a href="./paths.html">参与路径</a> · <a href="./node-docs.html">节点文档</a><br>
+    <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a> · <a href="https://x.com/sngholn286379" target="_blank" rel="noopener noreferrer">X</a><br>
     实际到账状态以只读接口为准；历史快照仅作归档。Pro 收款与自助激活暂停。不构成投资建议，不承诺收益或回本。
   </footer>
 </div>
@@ -235,8 +249,32 @@
 
   new Chart($('cCum'), {
     type: 'line',
-    data: {labels, datasets: [{data: cumulative, borderColor: '#f0a35e', backgroundColor: '#f0a35e22', fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#f0a35e'}]},
+    data: {labels, datasets: [{data: cumulative, borderColor: '#ffb26b', backgroundColor: '#ffb26b22', fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#ffb26b'}]},
     options: opts
+  });
+})();
+</script>
+
+<script>
+(function () {
+  var btn = document.getElementById('shareBtn');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var done = function () { btn.textContent = '✓ 已复制链接'; };
+    var fail = function () { btn.textContent = '✗ 复制失败，请手动复制地址栏'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(location.href).then(done).catch(function () {
+        var ta = document.createElement('textarea');
+        ta.value = location.href;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) { fail(); }
+        document.body.removeChild(ta);
+      });
+    } else {
+      fail();
+    }
+    setTimeout(function () { btn.textContent = '🔗 复制链接 / 分享'; }, 2000);
   });
 })();
 </script>
