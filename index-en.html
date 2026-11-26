@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StoneVast: measure first with a free estimate, then verify device, regional &amp; provider terms, electricity, pool availability and official download sources. Historical snapshots, unpaid pool balances and verified receipts are strictly separated.">
+<meta property="og:title" content="StoneVast · Measure first. Start second.">
+<meta property="og:description" content="Free estimate, five checks, official downloads and Telegram support. No return or payback promises.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stonevast.com/index-en.html">
+<link rel="canonical" href="https://stonevast.com/index-en.html">
+<meta name="twitter:card" content="summary_large_image">
+<title>StoneVast · Measure first. Start second.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d1016'/%3E%3Ctext x='50' y='72' font-size='58' text-anchor='middle'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./site.css">
+<script src="./site.js" defer></script>
+<style>
+  body.site-page .skip-link { position: fixed; top: 8px; left: 8px; z-index: 20; padding: 8px 12px; background: var(--acc); color: #17110c; transform: translateY(-160%); }
+  body.site-page .skip-link:focus { transform: none; }
+  body.site-page [data-nav-toggle] { min-height: 40px; padding: 8px 12px; border: 1px solid var(--line-strong); background: transparent; color: var(--txt); font: 700 11px var(--font-mono); letter-spacing: .08em; cursor: pointer; }
+  body.site-page .home-hero {
+    position: relative;
+    width: 100vw;
+    min-height: calc(100svh - 82px);
+    margin-left: calc(50% - 50vw);
+    display: flex;
+    align-items: center;
+    padding: clamp(72px,10vh,116px) max(24px,calc((100vw - var(--content))/2)) 76px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: #080a0c;
+  }
+  body.site-page .home-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: auto;
+    height: auto;
+    background:
+      linear-gradient(90deg,rgba(8,10,12,.99) 0%,rgba(8,10,12,.94) 34%,rgba(8,10,12,.5) 64%,rgba(8,10,12,.34) 100%),
+      linear-gradient(0deg,#080a0c 0%,transparent 32%,rgba(8,10,12,.14) 100%);
+    transform: none;
+    pointer-events: none;
+  }
+  body.site-page .home-hero::after {
+    content: "PUBLIC PROOF / OPEN TOOLS";
+    top: auto;
+    right: max(24px,calc((100vw - var(--content))/2));
+    bottom: 24px;
+    z-index: 1;
+    color: rgba(242,239,232,.54);
+  }
+  body.site-page .home-hero-bg {
+    position: absolute;
+    inset: -6% 0;
+    z-index: -2;
+    width: 100%;
+    height: 112%;
+    filter: saturate(.86) contrast(1.08) brightness(.9);
+    transform: scale(1.06) translate3d(0,var(--parallax-y,0),0);
+    will-change: transform;
+    pointer-events: none;
+  }
+  body.site-page .home-hero-bg .fan-rotor { transform-box: fill-box; transform-origin: center; animation: heroFan 16s linear infinite; }
+  @keyframes heroFan { to { transform: rotate(360deg); } }
+  body.site-page .home-hero .hero-grid { display: block; width: 100%; max-width: var(--content); margin: 0 auto; }
+  body.site-page .home-hero .hero-copy { max-width: 760px; }
+  body.site-page .home-hero h1 { max-width: 800px; margin: 18px 0 26px; font-size: clamp(54px,8vw,104px); line-height: .9; letter-spacing: -.06em; text-shadow: 0 4px 34px rgba(0,0,0,.32); }
+  body.site-page .home-hero h1 > br { display: none; }
+  body.site-page .home-hero h1 span { display: block; max-width: 680px; margin-top: 24px; color: var(--acc-strong); font-size: clamp(32px,4.2vw,56px); line-height: 1.08; letter-spacing: -.045em; }
+  body.site-page .home-hero .kicker { color: var(--acc-strong); }
+  body.site-page .home-hero p { max-width: 610px; color: #c2c3bc; text-shadow: 0 2px 16px rgba(0,0,0,.6); }
+  body.site-page .home-hero .quixote { margin-top: 18px !important; padding-left: 14px; border-left: 1px solid rgba(255,197,130,.55); font-size: 12px !important; }
+  body.site-page .home-hero .hero-actions a:not(:first-child) { background: rgba(8,10,12,.42); backdrop-filter: blur(10px); }
+  body.site-page .hero-note { max-width: 620px; margin-top: 22px; padding-top: 14px; border-top: 1px solid rgba(242,239,232,.18); color: #a7aaa5; font: 10px/1.8 var(--font-mono); letter-spacing: .055em; }
+  .home-hero.is-visible .hero-copy > * { animation: homeEnter .72s cubic-bezier(.2,.72,.2,1) both; }
+  .home-hero.is-visible .hero-copy > *:nth-child(2) { animation-delay: .08s; }
+  .home-hero.is-visible .hero-copy > *:nth-child(3) { animation-delay: .16s; }
+  .home-hero.is-visible .hero-copy > *:nth-child(4) { animation-delay: .24s; }
+  .home-hero.is-visible .hero-copy > *:nth-child(5) { animation-delay: .32s; }
+  .home-hero.is-visible .hero-copy > *:nth-child(6) { animation-delay: .4s; }
+  @keyframes homeEnter { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  body.site-page .hero-media { overflow: hidden; }
+  body.site-page .hero-media svg { display: block; width: 100%; height: auto; background: #0d1012; }
+  body.site-page .hero-media .svg-label { fill: #a7aaa5; font: 10px Consolas, monospace; letter-spacing: 1px; }
+  body.site-page .hero-media .svg-value { fill: #f2efe8; font: 700 20px Consolas, monospace; }
+  body.site-page .hero-media .circuit { stroke-dasharray: 7 6; animation: circuit 8s linear infinite; }
+  @keyframes circuit { to { stroke-dashoffset: -104; } }
+  body.site-page .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 18px; }
+  body.site-page .section-heading h2 { margin: 0; font: 800 clamp(22px,3vw,32px)/1.15 var(--font-display); letter-spacing: -.02em; }
+  body.site-page .section-heading p { max-width: 520px; margin: 0; color: var(--sub); font-size: 12px; }
+  body.site-page .route-layout { display: grid; grid-template-columns: minmax(0,.95fr) minmax(0,1.05fr); gap: 34px; align-items: stretch; margin-top: 30px; }
+  body.site-page .route-media { width: 100%; max-width: none; height: 100%; margin: 0; display: flex; flex-direction: column; }
+  body.site-page .route-media svg { flex: 1; min-height: 0; }
+  body.site-page .route-media figcaption { margin-top: auto; }
+  body.site-page .flow-steps { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin: 0; padding: 0; border-top: 1px solid var(--line-strong); border-left: 1px solid var(--line); list-style: none; background: rgba(14,18,21,.38); }
+  body.site-page .flow-steps > li { min-height: 210px; padding: 24px 20px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  body.site-page .step-no { display: block; margin-bottom: 30px; color: var(--acc); font: 11px var(--font-mono); }
+  body.site-page .flow-steps h3 { margin: 0 0 8px; font-size: 16px; }
+  body.site-page .flow-steps p { margin: 0; color: var(--sub); font-size: 12px; }
+  body.site-page .flow-steps a { display: inline-block; margin-top: 14px; font-size: 12px; }
+  body.site-page .checklist { margin: 14px 0 0; padding: 0; list-style: none; }
+  body.site-page .checklist li { position: relative; padding: 11px 0 11px 28px; border-bottom: 1px solid var(--line); color: var(--sub); font-size: 13px; }
+  body.site-page .checklist li::before { content: "□"; position: absolute; left: 0; color: var(--acc); font-family: var(--font-mono); }
+  body.site-page table { width: 100%; }
+  body.site-page th, body.site-page td { text-align: left; vertical-align: top; }
+  body.site-page .dlgrid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+  body.site-page .dlbtn { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  body.site-page .dlbtn b, body.site-page .dlbtn small { display: block; }
+  body.site-page .dlbtn small { margin-top: 3px; }
+  body.site-page .mrow { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 12px; margin: 12px 0 6px; }
+  body.site-page .mrow label { display: block; margin-bottom: 5px; }
+  body.site-page .mrow input, body.site-page .mrow select { width: 100%; padding: 9px 11px; }
+  body.site-page .mout { display: none; }
+  body.site-page .mout.show { display: block; }
+  body.site-page .mout b { color: var(--txt); }
+  body.site-page .hint { color: var(--sub); font-size: 12px; line-height: 1.8; }
+  body.site-page .steps { color: var(--sub); font-size: 13px; line-height: 2.05; }
+  body.site-page .steps b { color: var(--txt); }
+  body.site-page .wherewrap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  body.site-page .whbox { margin-top: 0; }
+  body.site-page .whbox h3 { margin: 0 0 6px; color: var(--txt); font-size: 13px; }
+  body.site-page .tips { margin-top: 12px; }
+  body.site-page .tips b { color: var(--txt); }
+  body.site-page #estChart { display: block; width: 100%; height: 220px; margin-top: 14px; border: 1px solid var(--line); background: #0b0d0f; }
+  body.site-page .mobile-only { display: none; }
+  body.site-page .registry-fields { display: flex; gap: 10px; flex-wrap: wrap; }
+  body.site-page .registry-fields input { flex: 1; min-width: 190px; padding: 10px 12px; }
+  body.site-page .foot { text-align: left; }
+  body.site-page details { margin-top: 14px; color: var(--sub); font-size: 13px; }
+  body.site-page summary { color: var(--acc); cursor: pointer; }
+  @media (max-width: 860px) {
+    body.site-page .home-hero { min-height: calc(100svh - 76px); }
+    body.site-page .home-hero-bg { opacity: .72; }
+    body.site-page .route-layout { grid-template-columns: 1fr; }
+    body.site-page .route-media { height: auto; }
+    body.site-page .route-media svg { height: auto; }
+    body.site-page .flow-steps { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    body.site-page .section-heading { align-items: start; flex-direction: column; gap: 8px; }
+  }
+  @media (max-width: 760px) {
+    .js body.site-page [data-nav-toggle] { display: inline-flex; align-items: center; }
+    .js body.site-page #primary-nav { display: none; width: 100%; padding: 12px 0; border-top: 1px solid var(--line); }
+    .js body.site-page #primary-nav[data-open="true"] { display: flex; }
+    body.site-page #primary-nav a { min-height: 42px; }
+  }
+  @media (max-width: 680px) {
+    body.site-page .home-hero { min-height: calc(100svh - 66px); padding: 58px 20px 68px; }
+    body.site-page .home-hero::before { background: linear-gradient(90deg,rgba(8,10,12,.98),rgba(8,10,12,.82) 68%,rgba(8,10,12,.5)),linear-gradient(0deg,#080a0c,transparent 45%); }
+    body.site-page .home-hero::after { right: 20px; bottom: 18px; font-size: 8px; }
+    body.site-page .home-hero h1 { margin: 16px 0 22px; font-size: clamp(40px,12vw,56px); line-height: .94; }
+    body.site-page .home-hero h1 span { margin-top: 18px; font-size: clamp(28px,8vw,38px); line-height: 1.12; }
+    body.site-page .home-hero p { font-size: 14px; }
+    body.site-page .home-hero .hero-note { font-size: 9px; }
+    body.site-page .hero-media figcaption { flex-direction: column; gap: 2px; }
+    body.site-page .flow-steps { grid-template-columns: 1fr; }
+    body.site-page .flow-steps > li { min-height: 0; }
+    body.site-page .step-no { margin-bottom: 14px; }
+    body.site-page .wherewrap { grid-template-columns: 1fr; }
+    body.site-page .mrow { grid-template-columns: 1fr; }
+    body.site-page .mobile-only { display: block; }
+  }
+</style>
+</head>
+<body class="site-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="wrap">
+  <nav aria-label="Primary navigation">
+    <a class="logo" href="./index-en.html">StoneVast <b>石广</b></a>
+    <button type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">MENU</button>
+    <div class="navlinks" id="primary-nav">
+      <a href="./calculator.html" data-i18n="navCalc">免费测算</a>
+      <a href="./dashboard.html#payout-title" data-i18n="navPayout">实际到账</a>
+      <a href="./guide.html" data-i18n="navGuide">使用指南</a>
+      <a href="./paths.html" data-i18n="navPaths">参与路径</a>
+      <a href="./node-docs.html" data-i18n="navDocs">节点文档</a>
+      <a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <a href="./index.html">中文</a>
+      <button id="langBtn" type="button" onclick="switchLang()" aria-label="Switch language">EN</button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero home-hero site-reveal">
+      <svg class="home-hero-bg" data-parallax viewBox="0 0 1600 1000" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="heroBackdrop" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#080a0c"/>
+            <stop offset=".58" stop-color="#101518"/>
+            <stop offset="1" stop-color="#1a1c1b"/>
+          </linearGradient>
+          <radialGradient id="heroAmber" cx="76%" cy="48%" r="54%">
+            <stop offset="0" stop-color="#d88b42" stop-opacity=".2"/>
+            <stop offset=".48" stop-color="#7c4a26" stop-opacity=".07"/>
+            <stop offset="1" stop-color="#080a0c" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="heroMetal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#343b3e"/>
+            <stop offset=".22" stop-color="#151a1d"/>
+            <stop offset=".72" stop-color="#090c0e"/>
+            <stop offset="1" stop-color="#2b3133"/>
+          </linearGradient>
+          <linearGradient id="heroEdge" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#f0ad64" stop-opacity=".08"/>
+            <stop offset=".52" stop-color="#ffc582" stop-opacity=".9"/>
+            <stop offset="1" stop-color="#f0ad64" stop-opacity=".06"/>
+          </linearGradient>
+          <radialGradient id="fanWell">
+            <stop offset="0" stop-color="#1e2528"/>
+            <stop offset=".62" stop-color="#0b0e10"/>
+            <stop offset=".86" stop-color="#242b2e"/>
+            <stop offset="1" stop-color="#080a0c"/>
+          </radialGradient>
+          <pattern id="heroGrid" width="64" height="64" patternUnits="userSpaceOnUse">
+            <path d="M64 0H0V64" fill="none" stroke="#859197" stroke-opacity=".09"/>
+            <circle cx="0" cy="0" r="1.5" fill="#f0ad64" fill-opacity=".18"/>
+          </pattern>
+          <pattern id="heroFins" width="12" height="12" patternUnits="userSpaceOnUse">
+            <path d="M2 0V12M7 0V12" stroke="#657075" stroke-opacity=".28"/>
+          </pattern>
+          <filter id="heroGlow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="7" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="heroShadow" x="-30%" y="-30%" width="160%" height="180%">
+            <feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#000" flood-opacity=".64"/>
+          </filter>
+          <g id="heroFan">
+            <circle r="65" fill="#080b0d" stroke="#4b5559" stroke-width="2"/>
+            <circle r="57" fill="url(#fanWell)" stroke="#222a2d" stroke-width="5"/>
+            <g class="fan-rotor" fill="#30383b" stroke="#6b7679" stroke-opacity=".22">
+              <path d="M0-9C12-43 36-49 45-31C28-26 18-13 11 2Z"/>
+              <path d="M0-9C12-43 36-49 45-31C28-26 18-13 11 2Z" transform="rotate(60)"/>
+              <path d="M0-9C12-43 36-49 45-31C28-26 18-13 11 2Z" transform="rotate(120)"/>
+              <path d="M0-9C12-43 36-49 45-31C28-26 18-13 11 2Z" transform="rotate(180)"/>
+              <path d="M0-9C12-43 36-49 45-31C28-26 18-13 11 2Z" transform="rotate(240)"/>
+              <path d="M0-9C12-43 36-49 45-31C28-26 18-13 11 2Z" transform="rotate(300)"/>
+              <circle r="12" fill="#14191b" stroke="#7a8588" stroke-width="2"/>
+              <circle r="3" fill="#f0ad64" stroke="none"/>
+            </g>
+            <path d="M-45-45L45 45M45-45L-45 45" stroke="#7d898d" stroke-opacity=".12"/>
+            <circle r="65" fill="none" stroke="#f0ad64" stroke-opacity=".12"/>
+          </g>
+        </defs>
+        <rect width="1600" height="1000" fill="url(#heroBackdrop)"/>
+        <rect width="1600" height="1000" fill="url(#heroGrid)"/>
+        <rect width="1600" height="1000" fill="url(#heroAmber)"/>
+        <g fill="none" stroke="#809096" stroke-opacity=".1">
+          <path d="M0 814L1600 502M0 904L1600 592M0 994L1600 682"/>
+          <path d="M760 1000L1160 0M960 1000L1360 0M1160 1000L1560 0"/>
+        </g>
+        <g fill="none" stroke="#b67743" stroke-opacity=".14">
+          <path d="M0 838C188 792 250 866 420 822S694 756 842 806 1120 892 1600 746"/>
+          <path d="M0 882C188 836 250 910 420 866S694 800 842 850 1120 936 1600 790"/>
+          <path d="M0 930C188 884 250 958 420 914S694 848 842 898 1120 984 1600 838"/>
+        </g>
+        <g font-family="Consolas,monospace" fill="#a7aaa5">
+          <text x="1140" y="108" font-size="12" letter-spacing="4" opacity=".54">FIELD UNIT / 01</text>
+          <text x="1490" y="184" font-size="88" text-anchor="end" letter-spacing="-8" opacity=".08">SV</text>
+          <text x="1504" y="908" font-size="10" text-anchor="end" letter-spacing="3" opacity=".42">MEASURE / VERIFY / START</text>
+        </g>
+        <g filter="url(#heroShadow)">
+          <path d="M886 752L1438 752 1532 834 964 834Z" fill="#090c0e" stroke="#485155" stroke-width="3"/>
+          <path d="M964 834H1532V858H964Z" fill="#161c1f" stroke="#333c40"/>
+          <path d="M886 752L964 834V858L886 776Z" fill="#242b2e"/>
+          <path d="M934 742V166M1456 752V166" stroke="#525e62" stroke-width="14"/>
+          <path d="M934 166H1456" stroke="#606b6f" stroke-width="14"/>
+          <path d="M934 166L1000 112H1514L1456 166" fill="none" stroke="#333c40" stroke-width="10"/>
+          <path d="M1000 112V688M1514 112V702" stroke="#2f383b" stroke-width="8"/>
+          <path d="M938 172H1452M938 746H1452" stroke="#f0ad64" stroke-opacity=".34" stroke-width="2"/>
+          <g transform="translate(900 206)">
+            <path d="M0 0H500L548 34V158L500 138H0Z" fill="url(#heroMetal)" stroke="#505b5f" stroke-width="2"/>
+            <path d="M500 0L548 34V158L500 138Z" fill="#111619" stroke="#343e41"/>
+            <rect x="16" y="16" width="468" height="108" rx="3" fill="#080b0d" stroke="#2e373a"/>
+            <rect x="16" y="16" width="468" height="108" rx="3" fill="url(#heroFins)" opacity=".42"/>
+            <use href="#heroFan" transform="translate(92 70) scale(.78)"/>
+            <use href="#heroFan" transform="translate(250 70) scale(.78)"/>
+            <use href="#heroFan" transform="translate(408 70) scale(.78)"/>
+            <path d="M20 145H474" stroke="url(#heroEdge)" stroke-width="3" filter="url(#heroGlow)"/>
+            <path d="M522 48V124" stroke="#f0ad64" stroke-opacity=".55" stroke-width="3"/>
+          </g>
+          <g transform="translate(900 392)">
+            <path d="M0 0H500L548 34V158L500 138H0Z" fill="url(#heroMetal)" stroke="#505b5f" stroke-width="2"/>
+            <path d="M500 0L548 34V158L500 138Z" fill="#111619" stroke="#343e41"/>
+            <rect x="16" y="16" width="468" height="108" rx="3" fill="#080b0d" stroke="#2e373a"/>
+            <rect x="16" y="16" width="468" height="108" rx="3" fill="url(#heroFins)" opacity=".42"/>
+            <use href="#heroFan" transform="translate(92 70) scale(.78)"/>
+            <use href="#heroFan" transform="translate(250 70) scale(.78)"/>
+            <use href="#heroFan" transform="translate(408 70) scale(.78)"/>
+            <path d="M20 145H474" stroke="url(#heroEdge)" stroke-width="3" filter="url(#heroGlow)"/>
+            <path d="M522 48V124" stroke="#f0ad64" stroke-opacity=".55" stroke-width="3"/>
+          </g>
+          <g transform="translate(900 578)">
+            <path d="M0 0H500L548 34V158L500 138H0Z" fill="url(#heroMetal)" stroke="#505b5f" stroke-width="2"/>
+            <path d="M500 0L548 34V158L500 138Z" fill="#111619" stroke="#343e41"/>
+            <rect x="16" y="16" width="468" height="108" rx="3" fill="#080b0d" stroke="#2e373a"/>
+            <rect x="16" y="16" width="468" height="108" rx="3" fill="url(#heroFins)" opacity=".42"/>
+            <use href="#heroFan" transform="translate(92 70) scale(.78)"/>
+            <use href="#heroFan" transform="translate(250 70) scale(.78)"/>
+            <use href="#heroFan" transform="translate(408 70) scale(.78)"/>
+            <path d="M20 145H474" stroke="url(#heroEdge)" stroke-width="3" filter="url(#heroGlow)"/>
+            <path d="M522 48V124" stroke="#f0ad64" stroke-opacity=".55" stroke-width="3"/>
+          </g>
+          <path d="M978 188C852 224 940 380 832 410S904 598 820 666" fill="none" stroke="#1c2326" stroke-width="13"/>
+          <path d="M978 188C852 224 940 380 832 410S904 598 820 666" fill="none" stroke="#a9c4cd" stroke-opacity=".22" stroke-width="2"/>
+          <circle cx="1457" cy="170" r="5" fill="#ffc582" filter="url(#heroGlow)"/>
+        </g>
+        <g stroke="#f0ad64" stroke-opacity=".4" fill="none">
+          <path d="M816 182H854M835 163V201M1536 714H1574M1555 695V733"/>
+          <path d="M802 864H1538" stroke-dasharray="3 12"/>
+        </g>
+      </svg>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="kicker">STONEVAST / FIELD MANUAL 01</div>
+          <h1>StoneVast 石广<br><span data-i18n="heroTitle">先算清，再启动。</span></h1>
+          <p data-i18n="heroSub">从免费测算开始，完成五项确认，再从官方来源下载。这里不展示跳动的收益计数器，只保留可核对的历史记录与工具。</p>
+          <div class="hero-actions">
+            <a href="./calculator.html" data-i18n="heroPrimary">免费测算 →</a>
+            <a href="./dashboard.html#payout-title" data-i18n="heroSecondary">查看实际到账</a>
+          </div>
+          <p class="quixote" data-i18n="quixote">堂吉诃德式的诚实：每个数字都应说清来源、时间与口径。</p>
+          <div class="hero-note" data-i18n="heroNote">测算 ≠ 实际到账 · 矿池未结算 ≠ 实际到账 · 不承诺收益或回本</div>
+        </div>
+
+      </div>
+    </header>
+
+    <section class="card site-reveal" aria-labelledby="route-title">
+      <div class="section-heading"><h2 id="route-title" data-i18n="routeTitle">一条主路径，四次停顿</h2><p data-i18n="routeSub">每一步都可以退出。任何一项边界不清楚，就先不下载、不运行。</p></div>
+      <div class="route-layout">
+        <figure class="hero-media route-media">
+          <svg viewBox="0 0 620 470" role="img" aria-labelledby="rigTitle rigDesc">
+            <title id="rigTitle">StoneVast device verification engineering diagram</title>
+            <desc id="rigDesc">The device connects to official downloads and human support after estimation and the five checks; it does not represent live output.</desc>
+            <defs>
+              <pattern id="minorGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#1c2022" stroke-width="1"/></pattern>
+            </defs>
+            <rect width="620" height="470" fill="url(#minorGrid)"/>
+            <path d="M36 42H584M36 428H584M42 32V438M578 32V438" stroke="#3c4347" fill="none"/>
+            <path d="M42 70h12M42 100h7M42 130h12M42 160h7M42 190h12M42 220h7M42 250h12M42 280h7M42 310h12M42 340h7M42 370h12M42 400h7" stroke="#f0ad64"/>
+            <text x="64" y="66" class="svg-label">WORKFLOW / NOT A LIVE YIELD DISPLAY</text>
+            <g transform="translate(72 112)">
+              <rect x="0" y="0" width="172" height="144" fill="#111417" stroke="#f2efe8"/>
+              <rect x="18" y="20" width="136" height="70" fill="#080a0c" stroke="#3c4347"/>
+              <circle cx="57" cy="55" r="25" fill="none" stroke="#f0ad64" stroke-width="2"/>
+              <circle cx="115" cy="55" r="25" fill="none" stroke="#3c4347" stroke-width="2"/>
+              <path d="M57 30v50M32 55h50M39 37l36 36M39 73l36-36M115 30v50M90 55h50M97 37l36 36M97 73l36-36" stroke="#3c4347"/>
+              <path d="M22 112h128M32 126h78" stroke="#3c4347"/>
+              <text x="0" y="172" class="svg-value">01 / DEVICE</text>
+              <text x="0" y="192" class="svg-label">HASHRATE · POWER · HEAT</text>
+            </g>
+            <path class="circuit" d="M244 184H322V118H382" fill="none" stroke="#f0ad64" stroke-width="2"/>
+            <circle cx="244" cy="184" r="4" fill="#f0ad64"/><circle cx="382" cy="118" r="4" fill="#f0ad64"/>
+            <g transform="translate(382 92)">
+              <rect width="160" height="54" fill="#111417" stroke="#f0ad64"/>
+              <text x="16" y="23" class="svg-label">02 / MEASURE</text>
+              <text x="16" y="41" class="svg-label">COST &amp; CONSTRAINTS</text>
+            </g>
+            <path class="circuit" d="M322 184V252H382" fill="none" stroke="#f0ad64" stroke-width="2"/>
+            <g transform="translate(382 224)">
+              <rect width="160" height="54" fill="#111417" stroke="#3c4347"/>
+              <text x="16" y="23" class="svg-label">03 / VERIFY × 5</text>
+              <text x="16" y="41" class="svg-label">BEFORE DOWNLOAD</text>
+            </g>
+            <path class="circuit" d="M322 252V320H462V354" fill="none" stroke="#f0ad64" stroke-width="2"/>
+            <g transform="translate(382 354)">
+              <rect width="160" height="54" fill="#f0ad64"/>
+              <text x="16" y="23" style="fill:#17110c;font:700 10px Consolas,monospace;letter-spacing:1px">04 / OFFICIAL</text>
+              <text x="16" y="41" style="fill:#17110c;font:10px Consolas,monospace;letter-spacing:1px">DOWNLOAD + SUPPORT</text>
+            </g>
+            <text x="72" y="382" class="svg-label">NO. 001</text>
+            <text x="72" y="403" class="svg-label">VERIFY SOURCE / REGION / POOL</text>
+          </svg>
+          <figcaption><span>ENGINEERING ROUTE / VERIFICATION PATH</span><span>STATIC DIAGRAM · NOT LIVE DATA</span></figcaption>
+        </figure>
+        <ol class="flow-steps">
+        <li><span class="step-no">01 / ESTIMATE</span><h3 data-i18n="route1t">免费测算</h3><p data-i18n="route1p">填入设备算力、功耗、电价和参考币价，只看情景，不看承诺。</p><a href="./calculator.html" data-i18n="route1a">打开计算器 →</a></li>
+        <li><span class="step-no">02 / VERIFY</span><h3 data-i18n="route2t">完成五项确认</h3><p data-i18n="route2p">设备、地区与服务商条款、电价、矿池可用性、官方下载来源。</p><a href="./guide.html#checks" data-i18n="route2a">逐项检查 →</a></li>
+        <li><span class="step-no">03 / DOWNLOAD</span><h3 data-i18n="route3t">官方下载</h3><p data-i18n="route3p">只从项目官方页面获取钱包或挖矿软件，不使用陌生网盘与私发安装包。</p><a href="#download" data-i18n="route3a">核对官方来源 →</a></li>
+        <li><span class="step-no">04 / SUPPORT</span><h3>Telegram</h3><p data-i18n="route4p">仍有兼容性或网络问题，带上设备型号与报错去官方群咨询。</p><a href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer" data-i18n="route4a">进入官方群 →</a></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="card site-reveal" id="checks" aria-labelledby="checks-title">
+      <div class="section-heading"><h2 id="checks-title" data-i18n="checksTitle">五项确认与四种数据口径</h2><p data-i18n="checksSub">先分清记录来自哪里，再决定它能证明什么。</p></div>
+      <div class="wherewrap">
+        <div>
+          <ul class="checklist">
+            <li data-i18n="check1">设备：显存、功耗、散热和软件兼容性已在本机核实。</li>
+            <li data-i18n="check2">地区和服务商条款：当地规则、矿池与交易所条款允许。</li>
+            <li data-i18n="check3">电价：使用自己的真实电价，而非网页默认数值。</li>
+            <li data-i18n="check4">矿池可用性：从自己的网络测试连接、起付规则和手续费。</li>
+            <li data-i18n="check5">官方下载来源：域名、发布页和文件来源均已复核。</li>
+          </ul>
+          <a class="btn" href="./guide.html#checks" data-i18n="checksBtn">打开完整检查清单</a>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th data-i18n="thData">数据</th><th data-i18n="thMeaning">它能说明什么</th></tr></thead>
+            <tbody>
+              <tr><td data-i18n="dataActual">实际到账</td><td data-i18n="dataActualP">公开只读接口返回的已确认矿池付款；另页展示证据。</td></tr>
+              <tr><td data-i18n="dataSnapshot">历史快照</td><td data-i18n="dataSnapshotP">data.js 中固定时间的旧记录，不实时增长。</td></tr>
+              <tr><td data-i18n="dataPool">矿池未结算</td><td data-i18n="dataPoolP">矿池面板中的未付余额，不代表已经转入钱包。</td></tr>
+              <tr><td data-i18n="dataEstimate">测算</td><td data-i18n="dataEstimateP">按输入参数演算的情景，不是收益预测或承诺。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card site-reveal" id="download" aria-labelledby="download-title">
+      <h2 id="download-title" data-i18n="downloadTitle">官方下载来源</h2>
+      <p class="hint" data-i18n="downloadSub">以下链接只负责带你到官方发布页。下载前仍需核对域名、版本、系统要求和哈希信息（若官方提供）。</p>
+      <div class="dlgrid">
+        <a class="dlbtn" href="https://ironfish.network/use/node-app" target="_blank" rel="noopener noreferrer"><span><b>Iron Fish Node App ↗</b><small data-i18n="downloadWallet">官方钱包与节点应用 · 私钥和助记词只留在本机</small></span></a>
+        <a class="dlbtn" href="https://github.com/Lolliedieb/lolMiner-releases/releases" target="_blank" rel="noopener noreferrer"><span><b>lolMiner Releases ↗</b><small data-i18n="downloadMiner">官方 GitHub 发布页 · 核对系统与算法支持</small></span></a>
+      </div>
+      <div class="note" data-i18n="downloadNote">StoneVast 不重新打包这些软件，也不要求安装任何“收益补丁”。不要运行陌生人私发的可执行文件。</div>
+    </section>
+
+    <section class="card site-reveal" id="start" aria-labelledby="start-title">
+      <h2 id="start-title" data-i18n="startTitle">钱包与 start.bat 生成器</h2>
+      <div class="mobile-only box" data-i18n="mobileNote">手机可准备地址和查看步骤；生成与运行挖矿脚本需要兼容的 GPU 电脑。</div>
+      <div class="steps" data-i18n="startSteps"><b>顺序：</b>准备 IRON 地址 → 从官方发布页下载并解压 lolMiner → 生成脚本并放入软件目录 → 五项确认通过后再运行。</div>
+      <div class="mrow">
+        <div style="grid-column:1/-1">
+          <label for="mWallet" data-i18n="walletLabel">你的 IRON 钱包地址</label>
+          <input id="mWallet" placeholder="b88f8b…" spellcheck="false" autocomplete="off">
+          <div id="addrHint" class="hint">Iron Fish 地址通常以 b88f8b 开头；EVM 地址（0x…）不能接收 IRON。</div>
+          <details><summary data-i18n="walletHelp">还没有 IRON 地址？</summary><div data-i18n="walletHelpBody">可使用官方 Iron Fish Node App，或官方 CLI：npm i -g ironfish → ironfish wallet:create → ironfish wallet:address。交易所充值地址是否可用取决于地区与平台条款。</div></details>
+          <div class="btns">
+            <button class="btn" type="button" onclick="genWalletBat()" data-i18n="walletGen">生成本地钱包脚本</button>
+            <a class="btn" href="https://ironfish.network/use/node-app" target="_blank" rel="noopener noreferrer" data-i18n="walletOfficial">官方钱包页面</a>
+          </div>
+        </div>
+        <div><label for="mWorker" data-i18n="workerLabel">矿机名（可选）</label><input id="mWorker" placeholder="myrig" spellcheck="false" autocomplete="off"></div>
+      </div>
+      <div class="btns">
+        <button class="btn btn-primary" type="button" onclick="genBat()" data-i18n="batGen">生成 start-mining.bat</button>
+        <button class="btn" type="button" onclick="checkBalance()" data-i18n="poolCheck">查询矿池面板</button>
+      </div>
+      <div class="mout" id="balOut" aria-live="polite"></div>
+      <div class="note" data-i18n="poolNote">“矿池未付余额”不等于实际到账；矿池面板“已付”也应与钱包或链上记录交叉核验。StoneVast 不托管你的挖矿产出。</div>
+    </section>
+
+    <section class="card site-reveal" id="snapshot" aria-labelledby="snapshot-title">
+      <div class="section-heading"><h2 id="snapshot-title" data-i18n="snapshotTitle">历史快照 · 只作归档</h2><p data-i18n="snapshotSub">以下来自 data.js，最后更新时间固定；不据此推算实际到账，也不做每秒递增。</p></div>
+      <div class="grid">
+        <div class="stat"><div class="v" id="vHash">--</div><div class="k" data-i18n="snapHash">快照算力 · MH/s</div></div>
+        <div class="stat"><div class="v" id="vPower">--</div><div class="k" data-i18n="snapPower">快照功耗 · W</div></div>
+        <div class="stat"><div class="v" id="vPrice">--</div><div class="k" data-i18n="snapPrice">当前公开参考币价 · USD</div></div>
+        <div class="stat"><div class="v" id="vNet">--</div><div class="k" data-i18n="snapNet">历史日净估算 · CNY</div></div>
+        <div class="stat"><div class="v" id="vPaid">--</div><div class="k" data-i18n="snapPaid">快照矿池已付记录 · 非实时</div></div>
+        <div class="stat"><div class="v" id="vBal">--</div><div class="k" data-i18n="snapBal">快照矿池未结算 · 非到账</div></div>
+      </div>
+      <div class="updated" id="vUpdated">--</div>
+      <div class="btns"><a class="btn" href="./dashboard.html#snapshot-title" data-i18n="snapshotArchive">查看历史曲线</a><a class="btn" href="./dashboard.html#payout-title" data-i18n="snapshotActual">单独查看实际到账</a></div>
+    </section>
+
+    <section class="card site-reveal" id="est" aria-labelledby="est-title">
+      <h2 id="est-title" data-i18n="estTitle">情景测算 · 不是到账预测</h2>
+      <p class="hint" data-i18n="estSub">沿用历史基线 2.27 IRON/天 @ 18.17 MH/s 做线性演算。难度、币价、矿池规则和停机都会改变结果。</p>
+      <div class="mrow">
+        <div><label for="eHash" data-i18n="estHash">算力 (MH/s)</label><input id="eHash" type="number" value="18.17" step="any" min="0"></div>
+        <div><label for="ePower" data-i18n="estPower">功耗 (W)</label><input id="ePower" type="number" value="44" step="any" min="0"></div>
+        <div><label for="eElec" data-i18n="estElec">电价 (¥/kWh)</label><input id="eElec" type="number" value="0.55" step="any" min="0"></div>
+        <div><label for="ePrice" data-i18n="estPrice">IRON 参考价 (¥)</label><input id="ePrice" type="number" value="0.53" step="any" min="0"></div>
+      </div>
+      <div class="mout show" id="estOut" aria-live="polite"></div>
+      <canvas id="estChart" width="760" height="220" aria-label="12-month cumulative scenario curve extrapolated from the historical baseline"></canvas>
+      <div class="note" data-i18n="estNote">曲线仅将当前输入保持不变做数学外推，不代表未来收益、回本时间或实际可提现金额。</div>
+    </section>
+
+    <section class="card site-reveal" id="fit" aria-labelledby="fit-title">
+      <h2 id="fit-title" data-i18n="fitTitle">设备快速检查</h2>
+      <div class="mrow">
+        <div><label for="fgpu" data-i18n="fitGpu">显卡预设</label><select id="fgpu" onchange="fitPreset()">
+          <option value="4090">RTX 4090 · 24GB</option><option value="4080">RTX 4080 · 16GB</option><option value="4070L" selected>RTX 4070 Laptop · 8GB</option><option value="4060">RTX 4060 · 8GB</option><option value="3070">RTX 3070 · 8GB</option><option value="3060">RTX 3060 · 12GB</option><option value="2060">RTX 2060 · 6GB</option><option value="1660">GTX 1660 · 6GB</option><option value="1050">GTX 1050 Ti · 4GB</option><option value="7900">RX 7900 XTX · 24GB</option><option value="760">GTX 760 · 2GB</option><option value="custom" data-i18n="fitCustom">自定义</option>
+        </select></div>
+        <div><label for="fhash" data-i18n="fitHash">算力 (MH/s)</label><input id="fhash" type="number" step="any" value="18.17"></div>
+        <div><label for="fwatt" data-i18n="fitWatt">功耗 (W)</label><input id="fwatt" type="number" step="any" value="44"></div>
+        <div><label for="felec" data-i18n="fitElec">电价 (¥/kWh)</label><input id="felec" type="number" step="any" value="0.55"></div>
+        <div><label for="fprice" data-i18n="fitPrice">IRON 参考价 (USDT)</label><input id="fprice" type="number" step="any" value="0.074"></div>
+      </div>
+      <button class="btn" type="button" onclick="fitCheck()" data-i18n="fitBtn">检查这组参数</button>
+      <div class="mout" id="fitOut" aria-live="polite"></div>
+      <p class="hint" data-i18n="fitNote">预设只用于填写参考值；AMD 与商用卡兼容性、温度和稳定性必须在本机实测。完整敏感度分析请使用免费计算器。</p>
+    </section>
+
+    <section class="card site-reveal" id="registry" aria-labelledby="registry-title">
+      <h2 id="registry-title" data-i18n="registryTitle">节点登记与钱包记录</h2>
+      <p class="hint" data-i18n="registrySub">此可选功能登记节点关系、公开地址与心跳凭证。关系与分成资格不限层级；登记本身不产生收入，分账权益不等于实际付款，生产结算仍需可信链上事件映射。</p>
+      <div class="registry-fields">
+        <input id="regKey" data-i18n-ph="regKeyPh" placeholder="卡密（SV-XXXXXXXX）" spellcheck="false" autocomplete="off" aria-label="注册卡密">
+        <input id="regInvite" data-i18n-ph="regInvitePh" placeholder="邀请码（可选）" spellcheck="false" autocomplete="off" aria-label="邀请码">
+        <button class="btn" type="button" onclick="nodeRegister()" data-i18n="regBtn">登记节点</button>
+      </div>
+      <div class="mout" id="regOut" aria-live="polite"></div>
+      <div class="mout" id="regToken" aria-live="polite"></div>
+      <div id="regMy" style="display:none;margin-top:14px"></div>
+      <div class="btns"><a class="btn" href="./node-docs.html" data-i18n="regDocs">阅读接口与状态说明</a></div>
+    </section>
+
+    <section class="card site-reveal" id="ai" aria-labelledby="ai-title">
+      <h2 id="ai-title" data-i18n="aiTitle">AI 参数顾问 · 使用你自己的模型</h2>
+      <p class="hint" data-i18n="aiSub">API Key 仅保存在当前浏览器；请求直接发往你选择的模型服务商。也可只复制提示词，不发送任何 Key。</p>
+      <div class="mrow">
+        <div><label for="aiProv" data-i18n="aiProvider">服务商</label><select id="aiProv"><option value="deepseek">DeepSeek</option><option value="openai">OpenAI</option><option value="custom">Custom (OpenAI-compatible)</option></select></div>
+        <div><label for="aiKey">API Key</label><input id="aiKey" type="password" placeholder="sk-…" spellcheck="false" autocomplete="off"></div>
+        <div><label for="aiModel" data-i18n="aiModel">模型</label><input id="aiModel" placeholder="deepseek-chat" spellcheck="false" autocomplete="off"></div>
+        <div id="aiBaseWrap" style="display:none"><label for="aiBase">Base URL</label><input id="aiBase" placeholder="https://api.example.com/v1" spellcheck="false" autocomplete="off"></div>
+      </div>
+      <div class="btns"><button class="btn" type="button" onclick="aiAnalyze()" data-i18n="aiRun">分析这组参数</button><button class="btn" type="button" onclick="aiCopyPrompt()" data-i18n="aiCopy">复制提示词</button></div>
+      <div class="mout" id="aiOut" aria-live="polite"></div>
+      <div class="note" data-i18n="aiWarn">请使用只读、有限额的 Key，绝不使用带提现权限的 Key。模型输出同样需要人工复核。</div>
+    </section>
+
+    <section class="card site-reveal" aria-labelledby="final-title">
+      <div class="kicker">READY / ONLY AFTER VERIFICATION</div>
+      <h2 id="final-title" data-i18n="finalTitle">先把五项确认做完</h2>
+      <p class="hint" data-i18n="finalSub">如果设备、条款、电价、矿池或下载来源有任何一项不清楚，保持停机并先提问。</p>
+      <div class="btns"><a class="btn btn-primary" href="./guide.html#checks" data-i18n="finalPrimary">打开检查清单</a><a class="btn" href="https://t.me/+ES7qp-bOLURjM2I1" target="_blank" rel="noopener noreferrer">Telegram</a></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="./calculator.html">Free estimate</a> · <a href="./dashboard.html#payout-title">Verified receipts</a> · <a href="./guide.html">Guide</a> · <a href="./paths.html">Participation route</a> · <a href="./node-docs.html">Node docs</a><br>
+    Historical snapshots are archives only; an unpaid pool balance is not a receipt. Pro payout and self-activation are paused. Not investment advice; no return or payback promises.
+  </footer>
+</div>
+<noscript><div class="wrap"><p class="note">Key steps, official sources and the checklist are readable without JavaScript; script generation, public market data, node registration and AI features require JavaScript.</p></div></noscript>
+
+<script src="./data.js"></script>
+<script>
+let LANG = localStorage.getItem('stonevast_lang') || '';
+const langQuery = new URLSearchParams(location.search).get('lang');
+if(langQuery==='en'||langQuery==='zh') LANG=langQuery;
+if(!LANG) LANG='en';
+localStorage.setItem('stonevast_lang',LANG);
+const I18N = {
+  zh:{},
+  en:{
+    navCalc:'Free estimate',navPayout:'Verified receipts',navGuide:'Guide',navPaths:'Participation route',navDocs:'Node docs',
+    heroTitle:'Measure first. Start second.',heroSub:'Start with a free estimate, complete five checks, then download only from official sources. No ticking yield counter—only traceable records and tools.',
+    heroPrimary:'Free estimate →',heroSecondary:'View verified receipts',quixote:'Don Quixote honesty: every number needs a source, timestamp and scope.',heroNote:'Estimate ≠ receipts · Unpaid pool balance ≠ receipts · No return or payback promise',
+    routeTitle:'One route, four deliberate stops',routeSub:'You can stop at any step. If a boundary is unclear, do not download or run yet.',route1t:'Free estimate',route1p:'Enter hashrate, power, electricity and a reference price. Explore a scenario, not a promise.',route1a:'Open calculator →',route2t:'Complete five checks',route2p:'Device, regional and provider terms, electricity, pool availability and official sources.',route2a:'Check each item →',route3t:'Official downloads',route3p:'Use official project pages only. Avoid unknown mirrors and privately sent installers.',route3a:'Verify sources →',route4p:'For compatibility or network questions, bring your device model and error message to the official group.',route4a:'Open official group →',
+    checksTitle:'Five checks, four data scopes',checksSub:'Know where a record comes from before deciding what it proves.',check1:'Device: VRAM, power, cooling and software compatibility verified locally.',check2:'Region and provider terms: local rules plus pool and exchange terms permit the activity.',check3:'Electricity: use your real tariff, not a webpage default.',check4:'Pool availability: test connectivity and verify payout thresholds and fees on your network.',check5:'Official downloads: domain, release page and file provenance checked.',checksBtn:'Open full checklist',thData:'Data',thMeaning:'What it can establish',dataActual:'Verified receipts',dataActualP:'Confirmed pool payments returned by the public read-only interface; evidence is on a separate page.',dataSnapshot:'Historical snapshot',dataSnapshotP:'Fixed-time legacy records in data.js; never increments live.',dataPool:'Unpaid pool balance',dataPoolP:'A pool-dashboard balance, not a wallet receipt.',dataEstimate:'Estimate',dataEstimateP:'A scenario calculated from your inputs, not a forecast or promise.',
+    downloadTitle:'Official download sources',downloadSub:'These links lead to official release pages. Verify the domain, version, system requirements and hashes where supplied.',downloadWallet:'Official wallet and node app · keys and mnemonic stay on your machine',downloadMiner:'Official GitHub releases · verify OS and algorithm support',downloadNote:'StoneVast does not repackage this software or offer “yield patches”. Never run executables sent by strangers.',
+    startTitle:'Wallet and start.bat generator',mobileNote:'Prepare an address and review the steps on mobile; generating and running a miner requires a compatible GPU computer.',startSteps:'Order: prepare an IRON address → download and extract lolMiner from its official release page → place the generated script in that directory → run only after all five checks pass.',walletLabel:'Your IRON wallet address',walletHelp:'Need an IRON address?',walletHelpBody:'Use the official Iron Fish Node App, or the official CLI: npm i -g ironfish → ironfish wallet:create → ironfish wallet:address. Exchange deposit availability depends on your region and provider terms.',walletGen:'Generate local wallet script',walletOfficial:'Official wallet page',workerLabel:'Worker name (optional)',batGen:'Generate start-mining.bat',poolCheck:'Query pool dashboard',poolNote:'An unpaid pool balance is not a verified receipt. Pool-reported payments should also be checked against wallet or chain records. StoneVast never custodies mining proceeds.',
+    snapshotTitle:'Historical snapshot · archive only',snapshotSub:'These values come from data.js with a fixed update time. They neither infer receipts nor increment each second.',snapHash:'Snapshot hashrate · MH/s',snapPower:'Snapshot power · W',snapPrice:'Current public reference price · USD',snapNet:'Historical daily net estimate · CNY',snapPaid:'Snapshot pool-paid record · not live',snapBal:'Snapshot unpaid pool balance · not a receipt',snapshotArchive:'View archived charts',snapshotActual:'View receipts separately',
+    estTitle:'Scenario estimate · not a receipt forecast',estSub:'Uses the historical baseline 2.27 IRON/day at 18.17 MH/s for linear arithmetic. Difficulty, price, pool rules and downtime change outcomes.',estHash:'Hashrate (MH/s)',estPower:'Power (W)',estElec:'Electricity (¥/kWh)',estPrice:'IRON reference price (¥)',estNote:'The curve holds your current inputs constant for a mathematical extrapolation. It is not future income, a payback time or a withdrawable balance.',
+    fitTitle:'Quick device check',fitGpu:'GPU preset',fitCustom:'Custom',fitHash:'Hashrate (MH/s)',fitWatt:'Power (W)',fitElec:'Electricity (¥/kWh)',fitPrice:'IRON reference price (USDT)',fitBtn:'Check these inputs',fitNote:'Presets only fill reference values. Verify AMD/datacenter compatibility, temperature and stability locally. Use the free calculator for full sensitivity analysis.',
+    registryTitle:'Node registry and wallet record',registrySub:'This optional registry records node relationships, a public address and heartbeat credentials. Relationships and commission eligibility have no depth limit. Registration creates no income; accrued entitlement is not payment, and production settlement still requires trusted on-chain event mapping.',regKeyPh:'Key (SV-XXXXXXXX)',regInvitePh:'Invite code (optional)',regBtn:'Register node',regDocs:'Read interface and status notes',
+    aiTitle:'AI parameter advisor · bring your own model',aiSub:'Your API key is stored only in this browser; requests go directly to your chosen provider. You can copy the prompt instead and send no key.',aiProvider:'Provider',aiModel:'Model',aiRun:'Analyze these inputs',aiCopy:'Copy prompt',aiWarn:'Use a read-only key with a spending limit, never one with withdrawal permission. Review model output independently.',
+    finalTitle:'Complete the five checks first',finalSub:'If device, terms, electricity, pool or source is unclear, keep the rig off and ask first.',finalPrimary:'Open checklist'
+  }
+};
+const $ = id => document.getElementById(id);
+const T = key => (I18N[LANG] && I18N[LANG][key]) || document.querySelector(`[data-i18n="${key}"]`)?.textContent || key;
+function switchLang(){ LANG=LANG==='zh'?'en':'zh'; localStorage.setItem('stonevast_lang',LANG); applyLang(); }
+function applyLang(){
+  document.documentElement.lang=LANG==='en'?'en':'zh-CN';
+  document.title=LANG==='en'?'StoneVast · Measure first. Start second.':'StoneVast 石广 · 先算清，再启动';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ if(I18N[LANG] && I18N[LANG][el.dataset.i18n]) el.textContent=I18N[LANG][el.dataset.i18n]; });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ if(I18N[LANG] && I18N[LANG][el.dataset.i18nPh]) el.placeholder=I18N[LANG][el.dataset.i18nPh]; });
+  if(LANG==='zh'){
+    document.querySelectorAll('[data-i18n]').forEach(el=>{ const key=el.dataset.i18n; if(ZH_TEXT[key]) el.textContent=ZH_TEXT[key]; });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ if(ZH_PH[el.dataset.i18nPh]) el.placeholder=ZH_PH[el.dataset.i18nPh]; });
+  }
+  if($('langBtn')) $('langBtn').textContent=LANG==='en'?'中文':'EN';
+  renderData(); renderAddrHint();
+  if(_myNode) renderMyNode(_myNode);
+}
+const ZH_TEXT={};
+const ZH_PH={regKeyPh:'卡密（SV-XXXXXXXX）',regInvitePh:'邀请码（可选）'};
+document.querySelectorAll('[data-i18n]').forEach(el=>{ ZH_TEXT[el.dataset.i18n]=el.textContent; });
+function on(id,event,fn){ const el=$(id); if(el) el.addEventListener(event,fn); }
+function renderData(){
+  const D=window.SITE_DATA||{}, en=LANG==='en', rate=+D.usdCny||7.12;
+  if($('vHash')) $('vHash').textContent=(+D.hashrate||0).toFixed(2)+' MH/s';
+  if($('vPower')) $('vPower').textContent=Math.round(+D.power||0)+' W';
+  if($('vPrice')) $('vPrice').textContent='$'+(+D.priceUsd||0).toFixed(3);
+  if($('vNet')){ const net=+D.netDayCny||0; $('vNet').textContent=en?((net>=0?'+':'')+'$'+(net/rate).toFixed(2)):((net>=0?'+':'')+'¥'+net.toFixed(2)); }
+  if($('vPaid')) $('vPaid').textContent=(D.paidIron!=null&&+D.paidIron>0)?(+D.paidIron).toFixed(4)+' IRON':'--';
+  if($('vBal')) $('vBal').textContent=(D.balIron!=null)?(+D.balIron).toFixed(4)+' IRON':'--';
+  if($('vUpdated')) $('vUpdated').textContent=(en?'ARCHIVED SNAPSHOT: ':'历史快照：')+(D.updated||'--')+(en?' · NOT A LIVE RECEIPT':' · 非实时到账');
+  if(!window._estInit){ window._estInit=1; if(D.hashrate&&$('eHash')) $('eHash').value=(+D.hashrate).toFixed(2); if(D.power&&$('ePower')) $('ePower').value=Math.round(+D.power); if(D.priceUsd&&$('ePrice')) $('ePrice').value=(+D.priceUsd*rate).toFixed(3); }
+  est();
+}
+function addrCheck(w){
+  const en=LANG==='en', a=(w||'').trim();
+  if(!a) return {ok:false,msg:en?'Paste your IRON wallet address first.':'请先粘贴你的 IRON 钱包地址。'};
+  if(/^b88f8b[0-9a-f]{40,}$/i.test(a)||/^[0-9a-f]{40,}$/i.test(a)) return {ok:true,chain:'ironfish',msg:en?'Iron Fish address format detected.':'已识别为 Iron Fish 地址格式。'};
+  if(/^0x[0-9a-fA-F]{40}$/.test(a)||/^0x/i.test(a)) return {ok:false,chain:'evm',msg:en?'EVM addresses cannot receive IRON on the Iron Fish network.':'EVM 地址不能在 Iron Fish 网络接收 IRON。'};
+  if(/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(a)) return {ok:false,chain:'tron',msg:en?'TRON addresses are not compatible with IRON.':'TRON 地址与 IRON 不兼容。'};
+  if(/^(bc1[a-z0-9]{25,62}|[13][1-9A-HJ-NP-Za-km-z]{25,34})$/.test(a)) return {ok:false,chain:'btc',msg:en?'Bitcoin addresses are not compatible with IRON.':'比特币地址与 IRON 不兼容。'};
+  if(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(a)) return {ok:false,chain:'sol',msg:en?'This looks like a Solana/base58 address, not IRON.':'这看起来是 Solana/base58 地址，不是 IRON。'};
+  return {ok:false,chain:'other',msg:en?'Not a recognised IRON address format.':'不是可识别的 IRON 地址格式。'};
+}
+function downloadText(name,text){ const blob=new Blob([text],{type:'text/plain'}),a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); }
+function genWalletBat(){
+  const bat='@echo off\r\nchcp 65001 >nul\r\ntitle StoneVast - official Iron Fish CLI wallet\r\nrem Keys are generated locally by the official CLI. Nothing is sent to StoneVast.\r\nwhere ironfish >nul 2>nul\r\nif errorlevel 1 (\r\n  echo Install Node.js 18+ from https://nodejs.org then run: npm i -g ironfish\r\n  pause\r\n  exit /b 1\r\n)\r\necho Follow the prompts and write the mnemonic down OFFLINE.\r\nironfish wallet:create\r\necho === Your receiving address ===\r\nironfish wallet:address\r\necho Never share the mnemonic or private key.\r\npause\r\n';
+  downloadText('创建IRON钱包.bat',bat);
+}
+function renderAddrHint(){
+  const h=$('addrHint'); if(!h) return;
+  const v=($('mWallet').value||'').trim();
+  if(!v){ h.style.color='var(--sub)'; h.textContent=LANG==='en'?'Iron Fish addresses usually start with b88f8b. EVM (0x…) addresses cannot receive IRON.':'Iron Fish 地址通常以 b88f8b 开头；EVM 地址（0x…）不能接收 IRON。'; return; }
+  const r=addrCheck(v); h.style.color=r.ok?'var(--ok)':'var(--bad)'; h.textContent=r.msg;
+}
+function genBat(){
+  const v=($('mWallet').value||'').trim(),r=addrCheck(v);
+  if(!r.ok){ renderAddrHint(); alert(r.msg); return; }
+  const wk=(($('mWorker').value||'myrig').trim().replace(/[^\w-]/g,'')||'myrig');
+  const bat='@echo off\r\nchcp 65001 >nul\r\nrem StoneVast IRON miner script (FishHash)\r\nrem Download lolMiner only from its official release page.\r\nrem Pool: HeroMiners plain port 1145; verify reachability and terms first.\r\nset WALLET='+v+'\r\nset WORKER='+wk+'\r\nset POOL=ironfish.herominers.com:1145\r\ncd /d "%~dp0"\r\nlolMiner.exe --algo FISHHASH --pool %POOL% --user %WALLET%.%WORKER% --tls off --watchdog exit --apiport 4200\r\npause\r\n';
+  downloadText('start-mining.bat',bat);
+  if(window.svReportDownload) window.svReportDownload();
+}
+async function checkBalance(){
+  const en=LANG==='en',v=($('mWallet').value||'').trim(),out=$('balOut'),r=addrCheck(v);
+  if(!r.ok){ renderAddrHint(); alert(r.msg); return; }
+  out.className='mout show'; out.textContent=en?'Querying HeroMiners…':'正在查询 HeroMiners…';
+  try{
+    const resp=await fetch('https://ironfish.herominers.com/api/stats_address?address='+encodeURIComponent(v)); if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const j=await resp.json(),st=j.stats||{},bal=(+st.balance||0)/1e8,paid=(+st.paid||0)/1e8,hs=(+st.hashrate||0)/1e6;
+    out.innerHTML=(en?'Pool unpaid balance (not a receipt): <b>':'矿池未付余额（非实际到账）：<b>')+bal.toFixed(4)+' IRON</b><br>'+(en?'Pool-reported paid total (verify independently): <b>':'矿池面板已付记录（需独立核验）：<b>')+paid.toFixed(4)+' IRON</b><br>'+(en?'Pool-reported hashrate: <b>':'矿池面板算力：<b>')+hs.toFixed(2)+' MH/s</b><br><a target="_blank" rel="noopener noreferrer" href="https://ironfish.herominers.com/?wallet='+encodeURIComponent(v)+'">'+(en?'Verify on HeroMiners →':'在 HeroMiners 核验 →')+'</a>';
+  }catch(e){ out.innerHTML=(en?'Direct query unavailable. Open the pool dashboard: ':'浏览器直连不可用，请打开矿池面板：')+'<a target="_blank" rel="noopener noreferrer" href="https://ironfish.herominers.com/?wallet='+encodeURIComponent(v)+'">HeroMiners →</a>'; }
+}
+function est(){
+  if(!$('eHash')) return;
+  const en=LANG==='en',H=parseFloat($('eHash').value)||0,Wp=parseFloat($('ePower').value)||0,EP=parseFloat($('eElec').value)||0,PP=parseFloat($('ePrice').value)||0,out=$('estOut');
+  if(H<=0||PP<=0){ out.textContent=en?'Enter a positive hashrate and reference price.':'请输入大于零的算力和参考价。'; drawEst([]); return; }
+  const dayIron=2.27*H/18.17,elec=Wp*24/1000*EP,net=dayIron*PP-elec,ys=[]; let bal=0;
+  for(let i=0;i<365;i++){ bal+=net; ys.push(bal); }
+  out.innerHTML=(en?'Scenario output: <b>':'情景产出：<b>')+dayIron.toFixed(4)+' IRON/day</b> · '+(en?'Power cost: <b>':'电费：<b>')+'¥'+elec.toFixed(2)+'/day</b><br>'+(en?'Estimated daily net: <b>':'日净情景值：<b>')+(net>=0?'+':'')+'¥'+net.toFixed(2)+'</b> · '+(en?'30-day arithmetic: <b>':'30 天数学外推：<b>')+(net*30>=0?'+':'')+'¥'+(net*30).toFixed(2)+'</b>'+(net<=0?'<br><span class="bad">'+(en?'Negative under these inputs; keep the rig off and recheck.':'当前输入为负，请保持停机并重新核对。')+'</span>':'');
+  drawEst(ys);
+}
+function drawEst(ys){
+  const c=$('estChart'); if(!c) return; const x=c.getContext('2d'),W=c.width,H=c.height; x.clearRect(0,0,W,H); x.fillStyle='#0b0d0f'; x.fillRect(0,0,W,H);
+  x.strokeStyle='#2a2d2e'; x.beginPath(); x.moveTo(30,H-24); x.lineTo(W-10,H-24); x.stroke(); if(!ys.length) return;
+  const mn=Math.min(0,...ys),mx=Math.max(0,...ys)*1.05||1,px=i=>30+(W-48)*i/(ys.length-1),py=v=>H-24-(H-44)*(v-mn)/(mx-mn||1);
+  if(mn<0){ x.strokeStyle='#45423c'; x.setLineDash([4,4]); x.beginPath(); x.moveTo(30,py(0)); x.lineTo(W-18,py(0)); x.stroke(); x.setLineDash([]); }
+  x.strokeStyle='#e7a15e'; x.lineWidth=2; x.beginPath(); ys.forEach((v,i)=>{ i?x.lineTo(px(i),py(v)):x.moveTo(px(i),py(v)); }); x.stroke();
+  x.fillStyle='#a09f98'; x.font='11px Consolas,monospace'; x.fillText('DAY 1',30,H-8); x.fillText('DAY 365',W-72,H-8); x.fillText(LANG==='en'?'SCENARIO / NOT A FORECAST':'情景外推 / 非预测',34,18);
+}
+function fitPreset(){
+  const M={'4090':[28,80,24],'4080':[22,55,16],'4070L':[18.17,44,8],'4060':[12,35,8],'3070':[12,60,8],'3060':[10,35,12],'2060':[9,90,6],'1660':[7,80,6],'1050':[4,75,4],'7900':[30,120,24],'760':[0,0,2]},v=$('fgpu').value,m=M[v]; if(!m)return;
+  const out=$('fitOut'); if(m[2]<5){ out.className='mout show'; out.textContent=LANG==='en'?'Insufficient VRAM for the current FishHash requirement; verify official algorithm documentation.':'显存低于当前 FishHash 参考要求，请核对官方算法文档。'; return; }
+  $('fhash').value=m[0]; $('fwatt').value=m[1]; out.className='mout';
+}
+function fitCheck(){
+  const en=LANG==='en',H=parseFloat($('fhash').value)||0,W=parseFloat($('fwatt').value)||0,EP=parseFloat($('felec').value)||0,PP=parseFloat($('fprice').value)||0,out=$('fitOut'),rate=7.12;
+  out.className='mout show'; if(H<=0||W<=0||EP<0||PP<=0){ out.textContent=en?'Complete all inputs with non-negative power cost.':'请完整填写参数，电价不能为负。'; return; }
+  const ironDay=2.27*H/18.17,rev=ironDay*PP*rate,cost=W*24/1000*EP,net=rev-cost,bePrice=cost/(ironDay*rate),beElec=rev/(W*24/1000);
+  const verdict=net>0?(en?'Positive under these inputs; still verify stability and pool access.':'当前输入为正；仍需核验稳定性与矿池可达性。'):(en?'Negative under these inputs; do not run.':'当前输入为负，请勿运行。');
+  out.innerHTML=(en?'Scenario: <b>':'情景值：<b>')+ironDay.toFixed(2)+' IRON/day</b> · '+(en?'Net <b>':'日净 <b>')+(net>=0?'+':'')+'¥'+net.toFixed(2)+'</b><br>'+(en?'Break-even reference price <b>':'盈亏平衡参考币价 <b>')+'$'+bePrice.toFixed(4)+'</b> · '+(en?'electricity <b>':'电价 <b>')+'¥'+beElec.toFixed(2)+'/kWh</b><br><b class="'+(net>0?'ok':'bad')+'">'+verdict+'</b>';
+}
+const AI_PRESET={deepseek:{base:'https://api.deepseek.com',model:'deepseek-chat'},openai:{base:'https://api.openai.com/v1',model:'gpt-4o-mini'},custom:{base:'',model:''}};
+function aiProviderChange(){ const p=$('aiProv').value,pre=AI_PRESET[p]||{}; $('aiBaseWrap').style.display=p==='custom'?'block':'none'; if(pre.model)$('aiModel').value=pre.model; if(pre.base)$('aiBase').value=pre.base; aiSave(); }
+function aiSave(){ try{localStorage.setItem('sv_ai',JSON.stringify({prov:$('aiProv').value,key:$('aiKey').value,model:$('aiModel').value,base:$('aiBase').value}));}catch(e){} }
+function aiLoad(){ try{const s=JSON.parse(localStorage.getItem('sv_ai')||'{}'); if(s.prov)$('aiProv').value=s.prov; if(s.key)$('aiKey').value=s.key; if(s.model)$('aiModel').value=s.model; if(s.base)$('aiBase').value=s.base;}catch(e){} aiProviderChange(); }
+function aiPrompt(){
+  const D=window.SITE_DATA||{},en=LANG==='en';
+  return en?`Review this mining scenario without promising returns. Historical snapshot, not live output:\nHashrate ${(+D.hashrate||0).toFixed(2)} MH/s; power ${D.power||44} W; electricity ¥${parseFloat($('felec').value)||0.55}/kWh; IRON reference $${(+D.priceUsd||0).toFixed(4)}. Snapshot unpaid balance ${(+D.balIron||0).toFixed(4)} IRON is not a receipt. Snapshot pool-paid record ${(+D.paidIron||0).toFixed(4)} IRON requires independent verification.\nIn under 180 words: identify missing checks, calculate break-even electricity, list three downside scenarios, and state when not to run.`:`请在不承诺收益的前提下复核这组挖矿情景。历史快照而非实时产出：算力 ${(+D.hashrate||0).toFixed(2)} MH/s，功耗 ${D.power||44} W，电价 ¥${parseFloat($('felec').value)||0.55}/度，IRON 参考价 $${(+D.priceUsd||0).toFixed(4)}。快照矿池未结算 ${(+D.balIron||0).toFixed(4)} IRON 不是实际到账；快照矿池已付记录 ${(+D.paidIron||0).toFixed(4)} IRON 仍需独立核验。\n请用中文 180 字以内回答：还缺哪些确认、盈亏平衡电价、三个下行情景，以及什么情况下不应运行。`;
+}
+async function aiAnalyze(){
+  const en=LANG==='en',key=$('aiKey').value.trim(),out=$('aiOut'); out.className='mout show';
+  if(!key){ out.textContent=en?'Enter your API key, or copy the prompt instead.':'请输入 API Key，或改为复制提示词。'; return; }
+  aiSave(); const pre=AI_PRESET[$('aiProv').value]||{},base=($('aiBase').value.trim()||pre.base||'').replace(/\/+$/,''),model=$('aiModel').value.trim()||pre.model;
+  if(!base){ out.textContent=en?'Set a Base URL first.':'请先填写 Base URL。'; return; } out.textContent=en?'Analyzing…':'正在分析…';
+  try{ const r=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model,temperature:0.3,max_tokens:500,messages:[{role:'user',content:aiPrompt()}]})}); if(!r.ok)throw new Error('HTTP '+r.status); const j=await r.json(),txt=j.choices?.[0]?.message?.content||''; out.textContent=txt||(en?'Empty response.':'模型返回为空。'); }
+  catch(e){ out.textContent=(en?'Direct request failed; use “Copy prompt” instead. ':'直接请求失败，请改用“复制提示词”。')+String(e.message||e); }
+}
+function aiCopyPrompt(){ const out=$('aiOut'),done=()=>{out.className='mout show';out.textContent=LANG==='en'?'Prompt copied.':'提示词已复制。';}; if(navigator.clipboard?.writeText)navigator.clipboard.writeText(aiPrompt()).then(done).catch(()=>prompt('Copy:',aiPrompt()));else prompt('Copy:',aiPrompt()); }
+let _myNode=null;
+function esc(value){ return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
+function nodeRegister(){
+  const en=LANG==='en',key=$('regKey').value.trim().toUpperCase(),invite=$('regInvite').value.trim().toUpperCase(),out=$('regOut'),tokenBox=$('regToken');
+  tokenBox.className='mout'; tokenBox.textContent='';
+  if(!key){ out.className='mout show'; out.textContent=en?'Enter your key (SV-…).':'请输入卡密（SV-…）。'; return; }
+  out.className='mout show'; out.textContent=en?'Registering…':'登记中…';
+  fetch('/api/v1/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key,invite_code:invite||undefined})}).then(r=>r.json()).then(d=>{
+    if(!d.ok){out.textContent='✕ '+esc(d.err||'error');return;}
+    if(!d.user||!d.user.uid){out.textContent=en?'Invalid server response.':'服务端响应无效。';return;}
+    localStorage.setItem('sv_uid',d.user.uid);
+    out.textContent=en?'Registered. Relationships and commission eligibility are unlimited; registration creates no income and entitlement is not payment.':'登记成功。关系与分成资格不限层级；登记不产生收入，分账权益不等于实际付款。';
+    if(d.nodeToken){
+      tokenBox.innerHTML='<div class="box warn"><b>'+(en?'Save your node token now · returned only once':'请立即保存节点令牌 · 仅返回一次')+'</b><br><code id="regTokenValue" style="display:block;margin-top:8px;word-break:break-all">'+esc(d.nodeToken)+'</code><p class="hint">'+(en?'Store it in your miner configuration now. It cannot be retrieved after refresh or closing this page. If lost, an administrator must reissue it; reissue invalidates the old token. Send a heartbeat about every 60 seconds.':'请立即保存到矿工端配置；刷新或关闭后无法再次获取，丢失只能由管理员补发，补发后旧令牌失效。建议每 60 秒上报一次心跳。')+'</p></div>';
+      tokenBox.className='mout show';
+    }
+    renderMyNode(d.user);
+  }).catch(()=>{out.textContent=en?'Network error.':'网络错误。';});
+}
+function renderMyNode(u){
+  _myNode=u; const en=LANG==='en',my=$('regMy'),url=location.origin+location.pathname+'?node='+encodeURIComponent(u.invite_code||''),w=u.wallet||'';
+  my.style.display='block';
+  my.innerHTML='<div class="box"><b>'+(en?'Your node record':'你的节点记录')+'</b><br>UID: <code>'+esc(u.uid)+'</code><br>'+(en?'Invite code':'邀请码')+': <code>'+esc(u.invite_code)+'</code><br><button class="btn" type="button" onclick="copyInvite()">'+(en?'Copy registry link':'复制登记链接')+'</button><div style="margin-top:12px;border-top:1px solid var(--line);padding-top:10px">'+(en?'Public IRON wallet record (no settlement)':'IRON 公开钱包记录（不触发结算）')+': '+(w?'<code style="word-break:break-all">'+esc(w)+'</code>':'<span class="hint">'+(en?'not recorded':'未记录')+'</span>')+'<div class="registry-fields" style="margin-top:8px"><input id="walletInput" placeholder="'+(en?'Your IRON address':'你的 IRON 地址')+'" spellcheck="false" autocomplete="off"><button class="btn" type="button" onclick="bindWallet()">'+(en?'Save record':'保存记录')+'</button></div><p class="hint">'+(en?'Address only. Never submit a mnemonic or private key. No deposits, custody or automatic payouts.':'只记录公开地址。切勿提交助记词或私钥；不收款、不托管、不自动打款。')+'</p></div></div>';
+}
+function bindWallet(){
+  const en=LANG==='en',out=$('regOut'),uid=localStorage.getItem('sv_uid'),addr=(($('walletInput')||{}).value||'').trim();
+  if(!uid){out.className='mout show';out.textContent=en?'Register first.':'请先登记节点。';return;} if(!/^[0-9a-fA-F]{60,70}$/.test(addr)){out.className='mout show';out.textContent=en?'Invalid IRON address format.':'IRON 地址格式不正确。';return;}
+  out.className='mout show';out.textContent=en?'Saving…':'保存中…';
+  fetch('/api/v1/node/wallet',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uid,address:addr})}).then(r=>r.json()).then(d=>{if(!d.ok){out.textContent='✕ '+esc(d.err||'error');return;}out.textContent=en?'Wallet record saved; no settlement triggered.':'钱包记录已保存，不触发结算。';if(_myNode){_myNode.wallet=d.wallet;renderMyNode(_myNode);}}).catch(()=>{out.textContent=en?'Network error.':'网络错误。';});
+}
+function copyInvite(){
+  if(!_myNode)return; const en=LANG==='en',url=location.origin+location.pathname+'?node='+encodeURIComponent(_myNode.invite_code||''),txt=(en?'StoneVast node invitation (unlimited relationship and commission eligibility; registration creates no income and entitlement is not payment): ':'StoneVast 节点邀请（关系与分成资格不限层级；注册不产生收入，权益不等于实际付款）：')+url,out=$('regOut'),done=()=>{out.className='mout show';out.textContent=en?'Invitation link copied.':'邀请链接已复制。';};
+  if(navigator.clipboard?.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>prompt('Copy:',txt));else prompt('Copy:',txt);
+}
+function loadMyNode(uid){ fetch('/api/v1/node/my?uid='+encodeURIComponent(uid)).then(r=>r.json()).then(d=>{if(d.ok)renderMyNode(d.node);}).catch(()=>{}); }
+['eHash','ePower','eElec','ePrice'].forEach(id=>on(id,'input',est)); on('mWallet','input',renderAddrHint); on('aiProv','change',aiProviderChange); ['aiKey','aiModel','aiBase'].forEach(id=>on(id,'input',aiSave));
+applyLang(); aiLoad();
+(function(){const node=new URLSearchParams(location.search).get('node');if(node&&$('regInvite'))$('regInvite').value=node.toUpperCase();const uid=localStorage.getItem('sv_uid');if(uid)loadMyNode(uid);})();
+(function(){function pullPrice(){fetch('https://api.coingecko.com/api/v3/simple/price?ids=iron-fish&vs_currencies=usd').then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(d=>{const p=+d?.['iron-fish']?.usd;if(!p)return;if(window.SITE_DATA)window.SITE_DATA.priceUsd=p;if($('ePrice'))$('ePrice').value=(p*((window.SITE_DATA&&window.SITE_DATA.usdCny)||7.12)).toFixed(3);if($('fprice'))$('fprice').value=p.toFixed(4);renderData();}).catch(()=>{});}pullPrice();setInterval(pullPrice,60000);})();
+</script>
+</body>
+</html>
