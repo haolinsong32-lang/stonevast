@@ -1,1 +1,1 @@
-window.SITE_DATA = {"updated":"2026-11-27 06:00:02 (UTC+8)","hashrate":58.6,"power":85,"priceUsd":1.9,"usdCny":7.2,"netDayCny":6.57,"paidIron":0,"balIron":0,"savedCny":12.53,"targetCny":70000,"since":"2026-10-17"};
+window.SITE_DATA = {"updated":"2026-11-27 12:00:02 (UTC+8)","hashrate":58.66,"power":85,"priceUsd":1.84,"usdCny":7.2,"netDayCny":6.33,"paidIron":0,"balIron":0,"savedCny":12.29,"targetCny":70000,"since":"2026-10-17"};
